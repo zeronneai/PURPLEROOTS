@@ -5,1155 +5,1554 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Purple Roots — Creative Agency</title>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
-
-  <!-- Swiper -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <style>
     /* =========================================================
-       CSS VARIABLES & RESET
+       VARIABLES
     ========================================================= */
     :root {
-      --color-bg: #0a0008;
-      --color-surface: #110010;
-      --color-purple: #7B2FBE;
-      --color-purple-light: #A855F7;
-      --color-purple-glow: #C084FC;
-      --color-gold: #C9A84C;
-      --color-white: #F5F0FF;
-      --color-muted: #7C6E8A;
-      --font-display: 'Cormorant Garamond', serif;
-      --font-body: 'Montserrat', sans-serif;
-      --font-accent: 'Cinzel', serif;
-      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --black:      #1A1A2E;
+      --white:      #FEFCF8;
+      --paper:      #F2EDE3;
+      --paper-alt:  #EDE6D8;
+      --lime:       #C8E87A;
+      --lavender:   #C8B8F0;
+      --purple:     #8A5CF6;
+      --blush:      #E8A0C8;
+
+      --rule:       3px solid var(--black);
+      --rule-thin:  1.5px solid var(--black);
+
+      --shadow-sm:       4px  4px  0 var(--black);
+      --shadow-md:       7px  7px  0 var(--black);
+      --shadow-lg:      12px 12px  0 var(--black);
+      --shadow-lime:     7px  7px  0 var(--lime);
+      --shadow-lavender: 7px  7px  0 var(--lavender);
+      --shadow-purple:   7px  7px  0 var(--purple);
+      --shadow-blush:    7px  7px  0 var(--blush);
     }
 
+    /* =========================================================
+       RESET & BASE
+    ========================================================= */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--color-bg);
-      color: var(--color-white);
-      font-family: var(--font-body);
-      font-weight: 300;
-      line-height: 1.7;
+      background-color: var(--paper);
+      background-image: radial-gradient(circle, rgba(26,26,46,0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--black);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+      line-height: 1.65;
       overflow-x: hidden;
       cursor: none;
     }
 
+    ::selection { background: var(--lime); color: var(--black); }
+
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--paper); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border: 2px solid var(--paper); border-radius: 4px; }
 
     /* =========================================================
        CUSTOM CURSOR
     ========================================================= */
-    #cursor-dot {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      background: var(--color-purple-light);
+    #cursor {
+      width: 20px; height: 20px;
+      border: 2px solid var(--purple);
       border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: background 0.2s;
-    }
-
-    #cursor-ring {
       position: fixed;
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(168, 85, 247, 0.5);
-      border-radius: 50%;
       pointer-events: none;
-      z-index: 9998;
+      z-index: 99999;
+      left: -40px; top: -40px;
       transform: translate(-50%, -50%);
-      transition: transform 0.12s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
+      transition: width 0.2s, height 0.2s, background 0.2s, border-color 0.2s;
+      mix-blend-mode: multiply;
     }
-
-    body:hover #cursor-ring { border-color: var(--color-purple-glow); }
+    body.cursor-hover #cursor {
+      width: 40px; height: 40px;
+      background: var(--lime);
+      border-color: var(--black);
+    }
+    @media (hover: none) { #cursor { display: none; } body { cursor: auto; } }
 
     /* =========================================================
-       NOISE / GRAIN OVERLAY
+       TICKER
     ========================================================= */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.5;
+    .ticker {
+      background: var(--black);
+      color: var(--lime);
+      border-bottom: var(--rule);
+      padding: 11px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      z-index: 50;
     }
-
-    /* =========================================================
-       SECTION UTILITY
-    ========================================================= */
-    section { position: relative; z-index: 2; }
-
-    .section-label {
-      font-family: var(--font-accent);
-      font-size: 0.65rem;
-      letter-spacing: 0.35em;
+    .ticker-alt {
+      background: var(--lavender);
+      color: var(--black);
+      border-bottom: var(--rule);
+      padding: 9px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      z-index: 50;
+    }
+    .ticker-track {
+      display: inline-flex;
+      gap: 0;
+      animation: tickLeft 25s linear infinite;
+      will-change: transform;
+    }
+    .ticker-reverse { animation: tickRight 20s linear infinite; }
+    .ticker-track span {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 1rem;
+      padding: 0 28px;
     }
+    .ticker-track span::after {
+      content: '✱';
+      font-size: 14px;
+      margin-left: 28px;
+      color: var(--lavender);
+    }
+    .ticker-alt .ticker-track span::after { color: var(--purple); }
 
-    .section-title {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      line-height: 1.15;
-      color: var(--color-white);
-    }
-
-    .gold-line {
-      display: block;
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
-      margin: 1.5rem 0;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
+    @keyframes tickLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes tickRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
     /* =========================================================
        NAVBAR
     ========================================================= */
-    #navbar {
-      position: fixed;
+    nav {
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
       z-index: 100;
-      padding: 1.5rem 5%;
+      background: var(--paper);
+      border-bottom: var(--rule);
+      padding: 0 5%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: background var(--transition), backdrop-filter var(--transition);
-    }
-
-    #navbar.scrolled {
-      background: rgba(10, 0, 8, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(123, 47, 190, 0.15);
+      height: 64px;
     }
 
     .nav-logo {
-      font-family: var(--font-accent);
-      font-size: 1.1rem;
-      letter-spacing: 0.18em;
-      color: var(--color-white);
-      transition: color var(--transition);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-
-    .nav-logo span { color: var(--color-gold); }
+    .nav-logo .dot {
+      width: 10px; height: 10px;
+      background: var(--purple);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .nav-logo .dot.anim { animation: pulse 2s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
 
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: 2rem;
       list-style: none;
     }
-
     .nav-links a {
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--color-muted);
-      transition: color var(--transition);
-      position: relative;
+      color: var(--black);
+      opacity: 0.6;
+      transition: opacity 0.15s;
     }
+    .nav-links a:hover { opacity: 1; }
 
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -3px;
-      width: 0;
-      height: 1px;
-      background: var(--color-gold);
-      transition: width var(--transition);
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      background: var(--lime);
+      border: var(--rule-thin);
+      box-shadow: 3px 3px 0 var(--black);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--black);
+      transition: transform 0.1s, box-shadow 0.1s;
     }
+    .nav-cta:hover  { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--black); }
+    .nav-cta:active { transform: translate(2px,2px);   box-shadow: 0 0 0 var(--black); }
 
-    .nav-links a:hover { color: var(--color-white); }
-    .nav-links a:hover::after { width: 100%; }
-
-    /* Hamburger */
     .nav-hamburger {
       display: none;
       flex-direction: column;
       gap: 5px;
-      cursor: pointer;
+      cursor: none;
       padding: 4px;
+      background: none;
+      border: none;
     }
-
-    .nav-hamburger span {
-      display: block;
-      width: 24px;
-      height: 1px;
-      background: var(--color-white);
-      transition: var(--transition);
-    }
-
-    .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--black); transition: 0.3s; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .nav-mobile {
+    .mobile-menu {
       display: none;
       position: fixed;
       inset: 0;
-      top: 0;
-      background: rgba(10, 0, 8, 0.97);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: var(--paper);
       z-index: 99;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 2.5rem;
+      border-right: var(--rule);
     }
-
-    .nav-mobile.open { display: flex; }
-
-    .nav-mobile a {
-      font-family: var(--font-display);
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Archivo Black', sans-serif;
       font-size: 2rem;
-      font-weight: 300;
-      color: var(--color-white);
-      letter-spacing: 0.05em;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      transition: color 0.15s;
     }
+    .mobile-menu a:hover { color: var(--purple); }
 
-    .nav-mobile a:hover { color: var(--color-gold); }
+    /* =========================================================
+       CONTAINER
+    ========================================================= */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 5%; }
+
+    /* =========================================================
+       SECTION HEAD
+    ========================================================= */
+    .section-head { margin-bottom: 4rem; }
+    .section-num {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(4rem, 8vw, 7rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: transparent;
+      -webkit-text-stroke: 3px var(--purple);
+      margin-bottom: 0.25rem;
+      transition: color 0.2s, -webkit-text-stroke-color 0.2s;
+      display: inline-block;
+    }
+    .section-num:hover { color: var(--lavender); -webkit-text-stroke-color: var(--black); }
+    .section-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--black);
+    }
+    .section-title .y  { background: var(--lime);     padding: 0 6px; }
+    .section-title .lv { background: var(--lavender); padding: 0 6px; }
+    .section-title .bl { background: var(--blush);    padding: 0 6px; }
+    .section-title em  { font-style: italic; font-family: 'Instrument Serif', serif; color: var(--purple); }
+
+    /* =========================================================
+       BLOCK SECTION
+    ========================================================= */
+    .block { border-bottom: var(--rule); padding: 80px 0; }
+    .block:last-of-type { border-bottom: none; }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 32px;
+      background: var(--black);
+      color: var(--lime);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      border: var(--rule);
+      cursor: none;
+      position: relative;
+      box-shadow: var(--shadow-md);
+      transform: translate(0,0);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      user-select: none;
+    }
+    .btn:hover  { transform: translate(-3px,-3px); box-shadow: 10px 10px 0 var(--black); }
+    .btn:active { transform: translate(5px,5px);   box-shadow: 0 0 0 var(--black); }
+
+    .btn-lime {
+      background: var(--lime);
+      color: var(--black);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-lime:hover  { transform: translate(-3px,-3px); box-shadow: 10px 10px 0 var(--black); }
+    .btn-lime:active { transform: translate(5px,5px);   box-shadow: 0 0 0 var(--black); }
+
+    .btn-lavender {
+      background: var(--lavender);
+      color: var(--black);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-lavender:hover  { transform: translate(-3px,-3px); box-shadow: 10px 10px 0 var(--black); }
+    .btn-lavender:active { transform: translate(5px,5px);   box-shadow: 0 0 0 var(--black); }
 
     /* =========================================================
        HERO
     ========================================================= */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 10rem 5% 6rem;
-      position: relative;
+    .hero {
+      background: var(--black);
+      border-bottom: var(--rule);
+      padding: 80px 5% 0;
       overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 60% at 50% 55%, rgba(123, 47, 190, 0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 30% at 30% 70%, rgba(168, 85, 247, 0.06) 0%, transparent 60%),
-        var(--color-bg);
-      z-index: 0;
-    }
-
-    .hero-content { position: relative; z-index: 2; max-width: 900px; }
-
-    .hero-eyebrow {
-      font-family: var(--font-accent);
-      font-size: 0.6rem;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 1s 0.3s forwards;
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(3rem, 8vw, 7rem);
-      line-height: 1.05;
-      color: var(--color-white);
-      opacity: 0;
-      animation: fadeUp 1s 0.5s forwards;
-    }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--color-purple-glow);
-    }
-
-    .hero-subtitle {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: clamp(0.9rem, 2vw, 1.05rem);
-      color: var(--color-muted);
-      margin-top: 1.5rem;
-      letter-spacing: 0.06em;
-      opacity: 0;
-      animation: fadeUp 1s 0.7s forwards;
-    }
-
-    .hero-cta {
-      display: inline-block;
-      margin-top: 3rem;
-      padding: 1rem 2.8rem;
-      border: 1px solid var(--color-gold);
-      font-family: var(--font-accent);
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--color-gold);
       position: relative;
-      overflow: hidden;
-      transition: color var(--transition);
-      opacity: 0;
-      animation: fadeUp 1s 0.9s forwards;
     }
-
-    .hero-cta::before {
+    .hero::after {
       content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--color-gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform var(--transition);
-      z-index: -1;
+      display: block;
+      height: 4px;
+      background: linear-gradient(90deg, var(--lime) 0%, var(--lavender) 50%, var(--blush) 100%);
+      margin-top: 0;
     }
 
-    .hero-cta:hover { color: var(--color-bg); }
-    .hero-cta:hover::before { transform: scaleX(1); }
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: start;
+    }
 
-    .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--black);
+      color: var(--lime);
+      border: 1.5px solid var(--lime);
+      box-shadow: 3px 3px 0 var(--purple);
+      padding: 6px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      background: var(--lime);
+      border-radius: 50%;
+      animation: blink 1.6s ease infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    .hero h1 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(56px, 13vw, 180px);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+    .hero h1 .yellow { background: var(--lime);     color: var(--black); padding: 0 8px; display: inline-block; }
+    .hero h1 .purple { background: var(--lavender); color: var(--black); padding: 0 8px; display: inline-block; }
+    .hero h1 em { font-style: italic; font-family: 'Instrument Serif', serif; color: var(--purple); }
+
+    .hero-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: rgba(254,252,248,0.55);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; padding-bottom: 80px; }
+
+    .hero-side {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0;
-      animation: fadeUp 1s 1.2s forwards;
-      z-index: 2;
+      gap: 1rem;
+      padding-top: 2rem;
+      min-width: 220px;
     }
-
-    .hero-scroll span {
-      font-family: var(--font-accent);
-      font-size: 0.5rem;
-      letter-spacing: 0.3em;
-      color: var(--color-muted);
+    .hero-card {
+      border: var(--rule);
+      box-shadow: var(--shadow-md);
+      padding: 24px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      cursor: none;
     }
-
-    .scroll-line {
-      width: 1px;
-      height: 50px;
-      background: linear-gradient(to bottom, var(--color-gold), transparent);
-      animation: scrollPulse 2s infinite;
+    .hero-card:hover { transform: translate(-4px,-4px); box-shadow: 11px 11px 0 var(--black); }
+    .hero-card.lime   { background: var(--lime);     }
+    .hero-card.lav    { background: var(--lavender); }
+    .hero-card.blush  { background: var(--blush);    }
+    .hero-card-num {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--black);
     }
-
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: none; }
+    .hero-card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--black);
+      opacity: 0.7;
+      margin-top: 4px;
     }
 
     /* =========================================================
-       ABOUT
+       TRUST BAR
     ========================================================= */
-    #about {
-      padding: 8rem 5%;
+    .trust {
+      background: var(--lime);
+      border-bottom: var(--rule);
+      padding: 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .trust::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, var(--black) 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    .trust-track {
+      display: inline-flex;
+      animation: tickLeft 30s linear infinite;
+      white-space: nowrap;
+      gap: 0;
+    }
+    .client-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--black);
+      padding: 0 32px;
+      transition: color 0.15s, transform 0.15s;
+      display: inline-block;
+    }
+    .client-name:hover { color: var(--purple); transform: translateY(-3px); }
+    .client-sep { color: rgba(26,26,46,0.3); padding: 0 4px; }
+
+    /* =========================================================
+       ABOUT / VALUES
+    ========================================================= */
+    .values-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-      max-width: 1300px;
-      margin: 0 auto;
+      gap: 0;
+      border: var(--rule);
+      box-shadow: var(--shadow-lg);
     }
-
-    .about-text p {
-      font-size: 1rem;
-      color: var(--color-muted);
-      margin-top: 1.2rem;
-      line-height: 1.9;
+    .value-card {
+      padding: 48px;
+      border: var(--rule);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      cursor: default;
     }
-
-    .about-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-    }
-
-    .stat-item {
-      border-left: 1px solid rgba(201, 168, 76, 0.3);
-      padding-left: 1.5rem;
-    }
-
-    .stat-number {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 3rem;
-      color: var(--color-gold);
+    .value-card:hover { transform: translate(-4px,-4px); box-shadow: 11px 11px 0 var(--black); }
+    .value-card:nth-child(1) { background: var(--lime);     }
+    .value-card:nth-child(2) { background: var(--white);    }
+    .value-card:nth-child(3) { background: var(--white);    }
+    .value-card:nth-child(4) { background: var(--lavender); }
+    .value-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
       line-height: 1;
     }
-
-    .stat-label {
-      font-family: var(--font-body);
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--color-muted);
-      margin-top: 0.4rem;
+    .value-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+    }
+    .value-desc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--black);
+      opacity: 0.65;
+      line-height: 1.7;
     }
 
     /* =========================================================
-       SECTION DIVIDER
+       SERVICES / WORK
     ========================================================= */
-    .section-divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent 0%, rgba(123, 47, 190, 0.3) 30%, rgba(201, 168, 76, 0.4) 50%, rgba(123, 47, 190, 0.3) 70%, transparent 100%);
-      margin: 0 auto;
-    }
+    .services-section { background: var(--black); }
+    .services-section .section-title { color: var(--white); }
+    .services-section .section-num { -webkit-text-stroke-color: var(--lavender); }
+    .services-section .section-num:hover { color: var(--lavender); -webkit-text-stroke-color: var(--white); }
 
-    /* =========================================================
-       SERVICES
-    ========================================================= */
-    #services {
-      padding: 8rem 5%;
-      max-width: 1300px;
-      margin: 0 auto;
-    }
-
-    .services-header {
-      text-align: center;
-      margin-bottom: 5rem;
-    }
-
-    .services-grid {
+    .work-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
     }
-
-    .service-card {
-      background: var(--color-surface);
-      border: 1px solid rgba(123, 47, 190, 0.2);
+    .work-card {
+      border: 3px solid var(--white);
+      box-shadow: 7px 7px 0 var(--lavender);
       padding: 2.5rem 2rem;
       position: relative;
       overflow: hidden;
-      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+      transition: transform 0.12s, box-shadow 0.12s;
+      cursor: default;
     }
-
-    .service-card::before {
-      content: '';
+    .work-card:hover { transform: translate(-4px,-4px); box-shadow: 11px 11px 0 var(--lime); }
+    .work-card::before {
+      content: '▶ VIEW';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 2px;
-      height: 0;
-      background: linear-gradient(to bottom, var(--color-gold), var(--color-purple-light));
-      transition: height var(--transition);
+      inset: 0; z-index: 3;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 13px; letter-spacing: 0.12em;
+      background: rgba(200,184,240,0.9);
+      color: var(--black);
+      opacity: 0;
+      transition: opacity 0.2s;
     }
-
-    .service-card:hover {
-      border-color: var(--color-purple-light);
-      box-shadow: 0 0 30px rgba(123, 47, 190, 0.4);
-      transform: translateY(-4px);
+    .work-card:hover::before { opacity: 1; }
+    .work-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--lavender);
+      margin-bottom: 1.2rem;
     }
-
-    .service-card:hover::before { height: 100%; }
-
-    .service-number {
-      font-family: var(--font-accent);
-      font-size: 0.55rem;
-      letter-spacing: 0.3em;
-      color: var(--color-gold);
-      opacity: 0.6;
-      margin-bottom: 1.5rem;
+    .work-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
     }
-
-    .service-name {
-      font-family: var(--font-display);
-      font-weight: 400;
-      font-size: 1.6rem;
-      color: var(--color-white);
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-
-    .service-desc {
-      font-size: 0.82rem;
-      color: var(--color-muted);
+    .work-desc {
+      font-size: 0.75rem;
+      color: rgba(254,252,248,0.5);
       line-height: 1.8;
     }
 
     /* =========================================================
-       CLIENTS / CAROUSEL
+       STATS
     ========================================================= */
-    #clients {
-      padding: 8rem 0;
-      overflow: hidden;
-    }
+    .stats-section { background: var(--lavender); }
+    .stats-section .section-num { -webkit-text-stroke-color: var(--black); }
+    .stats-section .section-num:hover { color: var(--purple); -webkit-text-stroke-color: var(--black); }
 
-    .clients-header {
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      border: var(--rule);
+      box-shadow: var(--shadow-lg);
+    }
+    .stat {
+      padding: 3rem 2rem;
+      border-right: var(--rule);
       text-align: center;
-      padding: 0 5%;
-      margin-bottom: 4rem;
     }
-
-    .clients-title-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
+    .stat:last-child { border-right: none; }
+    .stat:nth-child(odd)  { background: var(--paper); }
+    .stat:nth-child(even) { background: var(--lime); }
+    .stat-num {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--purple);
+      -webkit-text-stroke: 3px var(--black);
     }
-
-    .clients-title-line {
-      flex: 1;
-      max-width: 120px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--color-gold));
-    }
-
-    .clients-title-line.right {
-      background: linear-gradient(90deg, var(--color-gold), transparent);
-    }
-
-    .clients-title {
-      font-family: var(--font-accent);
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      letter-spacing: 0.25em;
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--color-gold);
-      white-space: nowrap;
+      color: var(--black);
+      opacity: 0.6;
+      margin-top: 0.5rem;
     }
 
-    .swiper-brands {
-      width: 100%;
-      overflow: hidden;
-    }
+    /* =========================================================
+       BRANDS CAROUSEL
+    ========================================================= */
+    .brands-section { background: var(--paper-alt); }
 
-    .swiper-brands .swiper-wrapper {
-      transition-timing-function: linear !important;
-    }
+    .brands-swiper { overflow: hidden; }
+    .brands-swiper .swiper-wrapper { transition-timing-function: linear !important; }
 
-    .brand-slide {
-      width: 200px;
-      flex-shrink: 0;
-    }
-
-    .brand-card {
-      background: var(--color-surface);
-      border: 1px solid rgba(123, 47, 190, 0.2);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
-      height: 140px;
+    .brand-card-slide {
+      aspect-ratio: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.8rem;
+      gap: 10px;
+      border: var(--rule);
+      box-shadow: 6px 6px 0 var(--black);
+      padding: 20px;
+      text-align: center;
+      cursor: none;
+      transition: transform 0.12s, box-shadow 0.12s;
     }
-
-    .brand-card:hover {
-      border-color: rgba(168, 85, 247, 0.5);
-      box-shadow: 0 0 20px rgba(123, 47, 190, 0.3);
-      transform: translateY(-3px);
-    }
-
-    .brand-initials {
-      font-family: var(--font-accent);
-      font-size: 1.4rem;
-      color: var(--color-gold);
-      letter-spacing: 0.05em;
+    .brand-card-slide:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--black); }
+    .brand-init {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+      color: var(--black);
       line-height: 1;
     }
-
-    .brand-name {
-      font-family: var(--font-body);
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      color: var(--color-muted);
+    .brand-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: var(--black);
+      opacity: 0.65;
+      line-height: 1.4;
     }
 
     /* =========================================================
        VIDEO MODAL
     ========================================================= */
-    .modal-overlay {
+    #videoModal {
+      display: none;
       position: fixed;
       inset: 0;
-      background: rgba(10, 0, 8, 0.9);
+      background: rgba(26,26,46,0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      z-index: 200;
-      display: flex;
+      z-index: 9999;
       align-items: center;
       justify-content: center;
       padding: 2rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
     }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal-container {
-      position: relative;
-      background: var(--color-surface);
-      border: 1px solid rgba(201, 168, 76, 0.35);
+    #videoModal.active { display: flex; }
+    .modal-box {
+      background: var(--white);
+      border: var(--rule);
+      box-shadow: var(--shadow-lg);
+      padding: 32px;
+      max-width: 900px;
       width: 100%;
-      max-width: 820px;
-      padding: 3rem;
-      transform: scale(0.95) translateY(20px);
-      transition: transform 0.4s ease;
+      position: relative;
     }
-
-    .modal-overlay.active .modal-container {
-      transform: scale(1) translateY(0);
-    }
-
-    .modal-close {
+    .modal-close-btn {
       position: absolute;
-      top: 1.2rem;
-      right: 1.5rem;
-      background: none;
-      border: none;
-      color: var(--color-gold);
-      font-size: 1.4rem;
-      cursor: pointer;
-      font-family: var(--font-body);
-      line-height: 1;
-      transition: opacity 0.2s;
+      top: 16px; right: 16px;
+      background: var(--black);
+      color: var(--lime);
+      border: var(--rule-thin);
+      padding: 7px 14px;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      cursor: none;
+      box-shadow: 3px 3px 0 var(--purple);
+      transition: transform 0.1s, box-shadow 0.1s;
     }
-
-    .modal-close:hover { opacity: 0.6; }
-
-    .modal-brand-name {
-      font-family: var(--font-accent);
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      color: var(--color-gold);
+    .modal-close-btn:hover  { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--purple); }
+    .modal-close-btn:active { transform: translate(2px,2px);   box-shadow: 0 0 0 var(--purple); }
+    #modalBrandName {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
       text-transform: uppercase;
+      color: var(--black);
       margin-bottom: 1.5rem;
+      padding-right: 80px;
     }
-
-    .modal-media-wrapper {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      background: #000;
-      overflow: hidden;
-    }
-
-    .modal-media-wrapper iframe,
-    .modal-media-wrapper video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
+    #modalMedia { width: 100%; aspect-ratio: 16/9; background: var(--black); }
+    #modalMedia iframe,
+    #modalMedia video { width: 100%; height: 100%; border: none; display: block; }
     .modal-empty {
-      position: absolute;
-      inset: 0;
+      width: 100%;
+      aspect-ratio: 16/9;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: var(--paper);
+      border: var(--rule);
+    }
+    .modal-empty p {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--purple);
     }
 
-    .modal-empty p {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 1.3rem;
-      color: var(--color-gold);
-      opacity: 0.7;
+    /* =========================================================
+       HONEST SECTION (WE DO / WE DON'T)
+    ========================================================= */
+    .honest-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1rem;
     }
+    .honest-card {
+      border: var(--rule);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      cursor: default;
+    }
+    .honest-card:hover { transform: translate(-3px,-3px); box-shadow: 10px 10px 0 var(--black); }
+    .honest-card.no  { background: var(--lime); }
+    .honest-card.yes { background: var(--lavender); }
+    .honest-head {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .honest-head .tag {
+      background: var(--black);
+      color: var(--lime);
+      padding: 3px 8px;
+      font-size: 0.6rem;
+    }
+    .honest-card.yes .honest-head .tag {
+      background: var(--black);
+      color: var(--lavender);
+    }
+    .honest-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .honest-list li {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--black);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .honest-list li::before {
+      content: '→';
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.75rem;
+      color: var(--black);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* =========================================================
+       PROCESS
+    ========================================================= */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      border: var(--rule);
+      box-shadow: var(--shadow-lg);
+    }
+    .process-step {
+      padding: 3rem 2rem;
+      border-right: var(--rule);
+    }
+    .process-step:last-child { border-right: none; }
+    .process-step:nth-child(1) { background: var(--lime);     }
+    .process-step:nth-child(2) { background: var(--white);    }
+    .process-step:nth-child(3) { background: var(--lavender); }
+    .process-step:nth-child(4) { background: var(--blush);    }
+    .process-n {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 3rem;
+      letter-spacing: -0.04em;
+      color: var(--black);
+      opacity: 0.15;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .process-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+    }
+    .process-desc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--black);
+      opacity: 0.65;
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       TESTIMONIALS
+    ========================================================= */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .testimonial-card {
+      background: var(--black);
+      border: var(--rule);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      cursor: default;
+    }
+    .testimonial-card:hover { transform: translate(-5px,-5px); box-shadow: 17px 17px 0 var(--purple); }
+    .testimonial-quote {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.55;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-quote span { color: var(--lime); }
+    .testimonial-author {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--lavender);
+    }
+
+    /* =========================================================
+       FINAL CTA
+    ========================================================= */
+    .final-cta {
+      background: var(--black);
+      border-bottom: none;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, var(--purple) 0%, transparent 65%);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .final-cta .container { position: relative; z-index: 2; }
+    .final-cta h2 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .final-cta h2 .yellow { background: var(--lime);     color: var(--black); padding: 0 8px; display: inline-block; }
+    .final-cta h2 em { font-style: italic; font-family: 'Instrument Serif', serif; color: var(--lavender); }
+    .final-cta p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: rgba(254,252,248,0.5);
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+    }
+    .final-cta .btn-lime {
+      font-size: 15px;
+      padding: 22px 48px;
+      box-shadow: 10px 10px 0 var(--lavender);
+    }
+    .final-cta .btn-lime:hover { transform: translate(-4px,-4px); box-shadow: 14px 14px 0 var(--lavender); }
+    .final-cta .btn-lime:active { transform: translate(5px,5px); box-shadow: 0 0 0 var(--lavender); }
 
     /* =========================================================
        FOOTER
     ========================================================= */
-    #footer {
-      padding: 5rem 5% 3rem;
-      border-top: 1px solid rgba(123, 47, 190, 0.15);
-      display: flex;
-      flex-direction: column;
+    footer {
+      background: var(--black);
+      border-top: var(--rule);
+      padding: 60px 5% 40px;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      text-align: center;
       gap: 2rem;
-      position: relative;
-      z-index: 2;
     }
-
-    .footer-logo {
-      font-family: var(--font-accent);
-      font-size: 1.3rem;
-      letter-spacing: 0.2em;
-      color: var(--color-white);
-    }
-
-    .footer-logo span { color: var(--color-gold); }
-
-    .footer-tagline {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-weight: 300;
+    .footer-brand {
+      display: inline-flex;
+      padding: 12px 20px;
+      border: var(--rule);
+      border-color: var(--lavender);
+      box-shadow: var(--shadow-sm);
+      font-family: 'Archivo Black', sans-serif;
       font-size: 1rem;
-      color: var(--color-muted);
-      letter-spacing: 0.05em;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      width: fit-content;
     }
-
+    .footer-brand span { color: var(--lime); }
+    .footer-tagline {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(254,252,248,0.45);
+      text-align: center;
+    }
     .footer-socials {
       display: flex;
-      gap: 1.8rem;
+      gap: 1.2rem;
+      list-style: none;
+      justify-content: flex-end;
+    }
+    .footer-socials a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(254,252,248,0.4);
+      transition: color 0.15s;
+    }
+    .footer-socials a:hover { color: var(--lime); }
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(254,252,248,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: rgba(254,252,248,0.25);
+      letter-spacing: 0.08em;
+    }
+    .footer-nav {
+      display: flex;
+      gap: 1.5rem;
       list-style: none;
     }
-
-    .footer-socials a {
-      font-family: var(--font-accent);
-      font-size: 0.58rem;
-      letter-spacing: 0.2em;
-      color: var(--color-muted);
+    .footer-nav a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      transition: color var(--transition);
+      color: rgba(254,252,248,0.3);
+      transition: color 0.15s;
     }
+    .footer-nav a:hover { color: var(--lavender); }
 
-    .footer-socials a:hover { color: var(--color-gold); }
-
-    .footer-copy {
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      color: rgba(124, 110, 138, 0.5);
-      margin-top: 1rem;
+    /* =========================================================
+       REVEAL
+    ========================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
     }
+    .reveal.visible { opacity: 1; transform: none; }
 
     /* =========================================================
        RESPONSIVE
     ========================================================= */
     @media (max-width: 1024px) {
-      .services-grid { grid-template-columns: repeat(2, 1fr); }
-      #about { grid-template-columns: 1fr; gap: 4rem; }
+      .work-grid    { grid-template-columns: 1fr 1fr; }
+      .stats-row    { grid-template-columns: 1fr 1fr; }
+      .stat         { border-right: var(--rule); border-bottom: var(--rule); }
+      .stat:nth-child(2n) { border-right: none; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .process-step { border-bottom: var(--rule); }
+      .footer-inner { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+      .footer-socials { justify-content: center; }
     }
 
     @media (max-width: 768px) {
-      .nav-links { display: none; }
+      .nav-links, .nav-cta { display: none; }
       .nav-hamburger { display: flex; }
-      .services-grid { grid-template-columns: 1fr; }
-      #about { padding: 5rem 5%; }
-      .about-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-      .modal-container { padding: 2rem 1.5rem; }
-      #footer { gap: 1.5rem; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-side { flex-direction: row; flex-wrap: wrap; padding-top: 0; padding-bottom: 2.5rem; }
+      .hero-card { flex: 1; min-width: 140px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .work-grid { grid-template-columns: 1fr; }
+      .honest-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-inner { gap: 1.2rem; }
     }
 
     @media (max-width: 480px) {
-      .about-stats { grid-template-columns: 1fr 1fr; }
-      .hero-title { font-size: 2.8rem; }
-      .clients-title { font-size: 0.8rem; letter-spacing: 0.15em; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      #videoModal .modal-box { padding: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
   <!-- Custom Cursor -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+  <div id="cursor"></div>
+
+  <!-- ===================== TICKER 1 ===================== -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
+      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
+      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
+      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
+    </div>
+  </div>
 
   <!-- ===================== NAVBAR ===================== -->
-  <nav id="navbar">
-    <a href="#hero" class="nav-logo">PURPLE <span>ROOTS</span></a>
+  <nav>
+    <a href="#hero" class="nav-logo">
+      <span class="dot anim"></span> PURPLE ROOTS
+    </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
-      <li><a href="#clients">Clients</a></li>
+      <li><a href="#brands">Clients</a></li>
+      <li><a href="#honest">Process</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <a href="mailto:hello@purpleroots.agency" class="nav-cta">Get a Quote →</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
-    </div>
+    </button>
   </nav>
 
-  <!-- Mobile Nav -->
-  <div class="nav-mobile" id="mobileNav">
-    <a href="#about" class="mobile-link">About</a>
-    <a href="#services" class="mobile-link">Services</a>
-    <a href="#clients" class="mobile-link">Clients</a>
-    <a href="#contact" class="mobile-link">Contact</a>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about"    class="m-link">About</a>
+    <a href="#services" class="m-link">Services</a>
+    <a href="#brands"   class="m-link">Clients</a>
+    <a href="#honest"   class="m-link">Process</a>
+    <a href="#contact"  class="m-link">Contact</a>
+  </div>
+
+  <!-- ===================== TICKER 2 ===================== -->
+  <div class="ticker ticker-alt">
+    <div class="ticker-track ticker-reverse">
+      <span>Video Production</span><span>Brand Films</span><span>El Paso Texas</span>
+      <span>Social Content</span><span>Retainers Available</span>
+      <span>Video Production</span><span>Brand Films</span><span>El Paso Texas</span>
+      <span>Social Content</span><span>Retainers Available</span>
+    </div>
   </div>
 
   <!-- ===================== HERO ===================== -->
-  <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Est. 2020 &nbsp;·&nbsp; El Paso, TX</p>
-      <h1 class="hero-title">Where ideas<br/><em>become art.</em></h1>
-      <p class="hero-subtitle">A creative agency that builds brands worth remembering.</p>
-      <a href="#clients" class="hero-cta">Discover Our Work</a>
-    </div>
-    <div class="hero-scroll">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===================== ABOUT ===================== -->
-  <section id="about">
-    <div class="about-text reveal">
-      <p class="section-label">Our Story</p>
-      <h2 class="section-title">Crafted with<br/>intention.</h2>
-      <span class="gold-line"></span>
-      <p>Purple Roots is a full-service creative agency specializing in brand identity, digital content, and video production. We craft stories that resonate, campaigns that convert, and visuals that endure.</p>
-      <p>Founded in El Paso, TX, we operate across borders — collaborating with brands that believe their image is their greatest asset. We don't follow trends. We set them.</p>
-    </div>
-    <div class="about-stats reveal">
-      <div class="stat-item">
-        <div class="stat-number">30+</div>
-        <div class="stat-label">Brands</div>
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-badge"><span class="dot"></span> Now Accepting Clients — 2025</div>
+        <h1>
+          We make<br />
+          brands<br />
+          <span class="yellow">actually</span><br />
+          <em>matter.</em>
+        </h1>
+        <p class="hero-sub">
+          Purple Roots is a full-service creative agency from El Paso, TX.
+          Video. Identity. Strategy. Content. We do it all — and we do it well.
+        </p>
+        <div class="hero-actions">
+          <a href="#brands"  class="btn btn-lime">See Our Work →</a>
+          <a href="#contact" class="btn">Let's Talk ↗</a>
+        </div>
       </div>
-      <div class="stat-item">
-        <div class="stat-number">5</div>
-        <div class="stat-label">Years</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">3</div>
-        <div class="stat-label">Countries</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">100+</div>
-        <div class="stat-label">Projects</div>
+      <div class="hero-side">
+        <div class="hero-card lime">
+          <div class="hero-card-num">100+</div>
+          <div class="hero-card-label">Films Shipped Since 2023</div>
+        </div>
+        <div class="hero-card lav">
+          <div class="hero-card-num">92%</div>
+          <div class="hero-card-label">Retainer Renewal Rate</div>
+        </div>
+        <div class="hero-card blush">
+          <div class="hero-card-num">40+</div>
+          <div class="hero-card-label">Brands Worked With</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <!-- ===================== TRUST BAR ===================== -->
+  <div class="trust">
+    <div class="trust-track">
+      <span class="client-name">Jarritos</span><span class="client-sep">·</span>
+      <span class="client-name">Mercedes El Paso</span><span class="client-sep">·</span>
+      <span class="client-name">Asics</span><span class="client-sep">·</span>
+      <span class="client-name">El Paso Live</span><span class="client-sep">·</span>
+      <span class="client-name">Fashion Week</span><span class="client-sep">·</span>
+      <span class="client-name">Hoy VW</span><span class="client-sep">·</span>
+      <span class="client-name">Sangria Señorial</span><span class="client-sep">·</span>
+      <span class="client-name">Powerhouse</span><span class="client-sep">·</span>
+      <span class="client-name">Torque</span><span class="client-sep">·</span>
+      <span class="client-name">Amo Café</span><span class="client-sep">·</span>
+      <!-- duplicate for seamless loop -->
+      <span class="client-name">Jarritos</span><span class="client-sep">·</span>
+      <span class="client-name">Mercedes El Paso</span><span class="client-sep">·</span>
+      <span class="client-name">Asics</span><span class="client-sep">·</span>
+      <span class="client-name">El Paso Live</span><span class="client-sep">·</span>
+      <span class="client-name">Fashion Week</span><span class="client-sep">·</span>
+      <span class="client-name">Hoy VW</span><span class="client-sep">·</span>
+      <span class="client-name">Sangria Señorial</span><span class="client-sep">·</span>
+      <span class="client-name">Powerhouse</span><span class="client-sep">·</span>
+      <span class="client-name">Torque</span><span class="client-sep">·</span>
+      <span class="client-name">Amo Café</span><span class="client-sep">·</span>
+    </div>
+  </div>
+
+  <!-- ===================== ABOUT / VALUES ===================== -->
+  <section class="block" id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-num">01</div>
+        <h2 class="section-title">Not another<br /><span class="lv">agency.</span></h2>
+      </div>
+      <div class="values-grid reveal">
+        <div class="value-card">
+          <div class="value-icon">🎯</div>
+          <div class="value-name">Strategy First</div>
+          <p class="value-desc">Every project starts with a reason. We don't make pretty things for the sake of it — we make things that work. If it doesn't serve the brand, it doesn't ship.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🎬</div>
+          <div class="value-name">Video is Our Mother Tongue</div>
+          <p class="value-desc">From 15-second reels to full brand films, we speak video fluently. Cinematic quality. Social-first thinking. Always on time, always on budget.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🌎</div>
+          <div class="value-name">Born in El Paso, Built Global</div>
+          <p class="value-desc">We started in the borderland, where two cultures collide and make something louder than both. That energy lives in everything we create.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <div class="value-name">We Work Like Partners</div>
+          <p class="value-desc">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ===================== SERVICES ===================== -->
-  <section id="services">
-    <div class="services-header reveal">
-      <p class="section-label">What We Do</p>
-      <h2 class="section-title">Our Expertise</h2>
-    </div>
-    <div class="services-grid">
-      <div class="service-card reveal">
-        <div class="service-number">01</div>
-        <div class="service-name">Brand Identity</div>
-        <p class="service-desc">Logos, visual systems, and brand guidelines that give your company a voice before you speak a word.</p>
+  <section class="block services-section" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-num">02</div>
+        <h2 class="section-title" style="color:var(--white);">What we<br /><span class="y">actually do.</span></h2>
       </div>
-      <div class="service-card reveal">
-        <div class="service-number">02</div>
-        <div class="service-name">Digital Content</div>
-        <p class="service-desc">Photography, reels, and editorial content engineered for engagement across every platform.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-number">03</div>
-        <div class="service-name">Video Production</div>
-        <p class="service-desc">Cinematic brand films, commercials, and social-first video that stop the scroll.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-number">04</div>
-        <div class="service-name">Social Strategy</div>
-        <p class="service-desc">Data-driven content calendars, community management, and paid social campaigns that perform.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-number">05</div>
-        <div class="service-name">Web Design</div>
-        <p class="service-desc">Editorial-grade websites that balance aesthetics with conversion — built to impress and to perform.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-number">06</div>
-        <div class="service-name">Campaigns &amp; Activations</div>
-        <p class="service-desc">360° campaign concepts — from strategy and creative direction to on-ground execution and reporting.</p>
+      <div class="work-grid">
+        <div class="work-card reveal">
+          <div class="work-num">01 / SERVICE</div>
+          <div class="work-name">Brand Identity</div>
+          <p class="work-desc">Logos, visual systems, and brand guidelines that give your company a voice before you speak a word.</p>
+        </div>
+        <div class="work-card reveal">
+          <div class="work-num">02 / SERVICE</div>
+          <div class="work-name">Video Production</div>
+          <p class="work-desc">Cinematic brand films, commercials, and social-first content that stops the scroll every single time.</p>
+        </div>
+        <div class="work-card reveal">
+          <div class="work-num">03 / SERVICE</div>
+          <div class="work-name">Digital Content</div>
+          <p class="work-desc">Photography, reels, and editorial assets engineered for engagement across every platform, every format.</p>
+        </div>
+        <div class="work-card reveal">
+          <div class="work-num">04 / SERVICE</div>
+          <div class="work-name">Social Strategy</div>
+          <p class="work-desc">Data-driven calendars, community management, and paid social campaigns built to actually perform.</p>
+        </div>
+        <div class="work-card reveal">
+          <div class="work-num">05 / SERVICE</div>
+          <div class="work-name">Web Design</div>
+          <p class="work-desc">Editorial-grade sites that balance aesthetics with conversion — because looking good AND converting aren't mutually exclusive.</p>
+        </div>
+        <div class="work-card reveal">
+          <div class="work-num">06 / SERVICE</div>
+          <div class="work-name">Campaigns &amp; Activations</div>
+          <p class="work-desc">360° campaign concepts from strategy and creative direction to on-ground execution and detailed reporting.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
-
-  <!-- ===================== CLIENTS ===================== -->
-  <section id="clients">
-    <div class="clients-header reveal">
-      <p class="section-label" style="margin-bottom:1.5rem;">Portfolio</p>
-      <div class="clients-title-wrap">
-        <div class="clients-title-line"></div>
-        <h2 class="clients-title">Brands We've Worked With</h2>
-        <div class="clients-title-line right"></div>
+  <!-- ===================== STATS ===================== -->
+  <section class="block stats-section" id="stats">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-num">03</div>
+        <h2 class="section-title">Numbers<br />don't lie.</h2>
+      </div>
+      <div class="stats-row reveal">
+        <div class="stat">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Years in Business</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">40+</div>
+          <div class="stat-label">Brands Served</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Projects Shipped</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Countries Reached</div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="swiper swiper-brands">
+  <!-- ===================== BRANDS CAROUSEL ===================== -->
+  <section class="block brands-section" id="brands">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-num">04</div>
+        <h2 class="section-title">Brands we've<br /><span class="y">worked with.</span></h2>
+      </div>
+    </div>
+    <div class="swiper brands-swiper">
       <div class="swiper-wrapper" id="brandsWrapper"></div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <!-- VIDEO MODAL -->
+  <div id="videoModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="modalCloseBtn">✕ CLOSE</button>
+      <div id="modalBrandName"></div>
+      <div id="modalMedia"></div>
+    </div>
+  </div>
 
-  <!-- ===================== CONTACT ===================== -->
-  <section id="contact" style="padding: 8rem 5%; max-width: 700px; margin: 0 auto; text-align: center;">
-    <div class="reveal">
-      <p class="section-label">Get In Touch</p>
-      <h2 class="section-title">Let's build<br/>something great.</h2>
-      <span class="gold-line" style="margin: 1.5rem auto;"></span>
-      <p style="color: var(--color-muted); font-size: 0.95rem; margin-bottom: 2.5rem;">Ready to elevate your brand? We'd love to hear about your project.</p>
-      <a href="mailto:hello@purpleroots.agency" class="hero-cta" style="opacity:1; animation:none;">Start a Conversation</a>
+  <!-- ===================== HONEST SECTION ===================== -->
+  <section class="block" id="honest">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-num">05</div>
+        <h2 class="section-title">Are we the<br />right <em>fit?</em></h2>
+      </div>
+      <p class="reveal" style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; opacity:0.6; max-width:580px; margin-bottom:2.5rem;">We're going to be honest with you, because we'd rather lose a prospect than waste both our time.</p>
+      <div class="honest-grid reveal">
+        <div class="honest-card no">
+          <div class="honest-head">We're probably NOT for you if: <span class="tag">SKIP</span></div>
+          <ul class="honest-list">
+            <li>You need a logo done by tomorrow</li>
+            <li>Your budget is "we'll see what you quote"</li>
+            <li>You want to approve every single frame</li>
+            <li>You think one Instagram post = a campaign</li>
+            <li>You're not ready to commit to a vision</li>
+          </ul>
+        </div>
+        <div class="honest-card yes">
+          <div class="honest-head">We're a perfect fit if: <span class="tag">LET'S GO</span></div>
+          <ul class="honest-list">
+            <li>You value your brand as a real asset</li>
+            <li>You want a long-term creative partner</li>
+            <li>You trust the process and trust the team</li>
+            <li>You're ready to invest in quality that lasts</li>
+            <li>You want to stand out, not blend in</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESS ===================== -->
+  <section class="block" id="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-num">06</div>
+        <h2 class="section-title">How we<br />work.</h2>
+      </div>
+      <div class="process-grid reveal">
+        <div class="process-step">
+          <div class="process-n">01</div>
+          <div class="process-name">Discovery</div>
+          <p class="process-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork — we build on research.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-n">02</div>
+          <div class="process-name">Strategy</div>
+          <p class="process-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-n">03</div>
+          <div class="process-name">Production</div>
+          <p class="process-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-n">04</div>
+          <div class="process-name">Launch & Grow</div>
+          <p class="process-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIALS ===================== -->
+  <section class="block" id="testimonials" style="background: var(--paper-alt);">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-num">07</div>
+        <h2 class="section-title">Don't take<br />our <span class="bl">word for it.</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <p class="testimonial-quote">"Purple Roots didn't just shoot our content — they <span>understood our brand</span> before we even finished explaining it. The results speak for themselves."</p>
+          <div class="testimonial-author">— Marketing Director, Jarritos Campaign</div>
+        </div>
+        <div class="testimonial-card reveal">
+          <p class="testimonial-quote">"From concept to delivery, they were <span>professional, fast, and genuinely creative</span>. We've worked with agencies twice their size that delivered half the quality."</p>
+          <div class="testimonial-author">— Brand Manager, Mercedes El Paso</div>
+        </div>
+        <div class="testimonial-card reveal">
+          <p class="testimonial-quote">"Our social engagement went up <span>300% in 90 days</span>. I didn't think that was realistic. Purple Roots made it look easy."</p>
+          <div class="testimonial-author">— Founder, Badass Human</div>
+        </div>
+        <div class="testimonial-card reveal">
+          <p class="testimonial-quote">"They're the team you call when you're tired of mediocre. Honest, <span>talent-heavy</span>, and they actually give a damn about your brand."</p>
+          <div class="testimonial-author">— CEO, Desertview</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FINAL CTA ===================== -->
+  <section class="block final-cta" id="contact">
+    <div class="final-cta-glow"></div>
+    <div class="container">
+      <h2 class="reveal">
+        Ready to build<br />something <span class="yellow">real?</span>
+      </h2>
+      <p class="reveal">We have limited availability each quarter. If you're serious about your brand, let's talk before the spot is gone.</p>
+      <a href="mailto:hello@purpleroots.agency" class="btn btn-lime reveal">hello@purpleroots.agency ↗</a>
     </div>
   </section>
 
   <!-- ===================== FOOTER ===================== -->
-  <footer id="footer">
-    <div class="footer-logo">PURPLE <span>ROOTS</span></div>
-    <p class="footer-tagline">"Crafting culture, one brand at a time."</p>
-    <ul class="footer-socials">
-      <li><a href="#" target="_blank">Instagram</a></li>
-      <li><a href="#" target="_blank">TikTok</a></li>
-      <li><a href="#" target="_blank">LinkedIn</a></li>
-      <li><a href="#" target="_blank">YouTube</a></li>
-    </ul>
-    <p class="footer-copy">© 2025 Purple Roots. All rights reserved.</p>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">PURPLE <span>&nbsp;ROOTS</span></div>
+      <p class="footer-tagline">"Crafting culture, one brand at a time."</p>
+      <ul class="footer-socials">
+        <li><a href="#" target="_blank">Instagram</a></li>
+        <li><a href="#" target="_blank">TikTok</a></li>
+        <li><a href="#" target="_blank">LinkedIn</a></li>
+        <li><a href="#" target="_blank">YouTube</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Purple Roots. All rights reserved. El Paso, TX.</p>
+      <ul class="footer-nav">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#brands">Clients</a></li>
+        <li><a href="#honest">Process</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
   </footer>
 
-  <!-- ===================== VIDEO MODAL ===================== -->
-  <div id="videoModal" class="modal-overlay">
-    <div class="modal-container">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div class="modal-brand-name" id="modalBrandName"></div>
-      <div class="modal-media-wrapper" id="modalMediaWrapper"></div>
-    </div>
-  </div>
-
-  <!-- ===================== JAVASCRIPT ===================== -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
-    /* ---- BRANDS DATA ---- */
+    /* ============================================================
+       BRANDS DATA
+    ============================================================ */
     const brands = [
-      { name: "Powerhouse",             logo: null, video: "" },
-      { name: "Jarritos",               logo: null, video: "" },
-      { name: "Sideral Mundet",         logo: null, video: "" },
-      { name: "Sangria Señorial",       logo: null, video: "" },
-      { name: "Sana Sana by Jarritos",  logo: null, video: "" },
-      { name: "Leslivefit HOK",         logo: null, video: "" },
-      { name: "Kisslab",                logo: null, video: "" },
-      { name: "Badass Human",           logo: null, video: "" },
-      { name: "Desertview",             logo: null, video: "" },
-      { name: "Run For It",             logo: null, video: "" },
-      { name: "Mercedes El Paso",       logo: null, video: "" },
-      { name: "Hoy VW",                 logo: null, video: "" },
-      { name: "Chingoncuhts",           logo: null, video: "" },
-      { name: "Torque",                 logo: null, video: "" },
-      { name: "MarioYagueLaw",          logo: null, video: "" },
-      { name: "Brenda",                 logo: null, video: "" },
-      { name: "Amo Café",               logo: null, video: "" },
-      { name: "Alexboots",              logo: null, video: "" },
-      { name: "Sweet and Fancy Events", logo: null, video: "" },
-      { name: "Girls Run the 915",      logo: null, video: "" },
-      { name: "Asics",                  logo: null, video: "" },
-      { name: "One Region One Table",   logo: null, video: "" },
-      { name: "El Paso Live",           logo: null, video: "" },
-      { name: "El Paso Best",           logo: null, video: "" },
-      { name: "El Paso Oficial",        logo: null, video: "" },
-      { name: "Fashion Week",           logo: null, video: "" },
+      { name: "Powerhouse",             video: "" },
+      { name: "Jarritos",               video: "" },
+      { name: "Sideral Mundet",         video: "" },
+      { name: "Sangria Señorial",       video: "" },
+      { name: "Sana Sana by Jarritos",  video: "" },
+      { name: "Leslivefit HOK",         video: "" },
+      { name: "Kisslab",                video: "" },
+      { name: "Badass Human",           video: "" },
+      { name: "Desertview",             video: "" },
+      { name: "Run For It",             video: "" },
+      { name: "Mercedes El Paso",       video: "" },
+      { name: "Hoy VW",                 video: "" },
+      { name: "Chingoncuhts",           video: "" },
+      { name: "Torque",                 video: "" },
+      { name: "MarioYagueLaw",          video: "" },
+      { name: "Brenda",                 video: "" },
+      { name: "Amo Café",               video: "" },
+      { name: "Alexboots",              video: "" },
+      { name: "Sweet and Fancy Events", video: "" },
+      { name: "Girls Run the 915",      video: "" },
+      { name: "Asics",                  video: "" },
+      { name: "One Region One Table",   video: "" },
+      { name: "El Paso Live",           video: "" },
+      { name: "El Paso Best",           video: "" },
+      { name: "El Paso Oficial",        video: "" },
+      { name: "Fashion Week",           video: "" },
     ];
 
-    /* ---- INITIALS HELPER ---- */
+    const cardColors = ['var(--lime)', 'var(--lavender)', 'var(--blush)', 'var(--white)', 'var(--paper)'];
+
     function getInitials(name) {
       const words = name.trim().split(/\s+/);
       if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
       return (words[0][0] + words[words.length - 1][0]).toUpperCase();
     }
 
-    /* ---- BUILD CAROUSEL SLIDES ---- */
-    const wrapper = document.getElementById('brandsWrapper');
-    brands.forEach((brand, i) => {
+    /* Build carousel slides */
+    const bWrapper = document.getElementById('brandsWrapper');
+    brands.forEach((b, i) => {
+      const bg = cardColors[i % cardColors.length];
       const slide = document.createElement('div');
-      slide.className = 'swiper-slide brand-slide';
-
+      slide.className = 'swiper-slide';
       const card = document.createElement('div');
-      card.className = 'brand-card';
-      card.dataset.index = i;
-
-      const initials = document.createElement('div');
-      initials.className = 'brand-initials';
-      initials.textContent = brand.logo ? '' : getInitials(brand.name);
-
-      const nameEl = document.createElement('div');
-      nameEl.className = 'brand-name';
-      nameEl.textContent = brand.name;
-
-      card.appendChild(initials);
-      card.appendChild(nameEl);
+      card.className = 'brand-card-slide';
+      card.style.background = bg;
+      card.innerHTML = `
+        <div class="brand-init">${getInitials(b.name)}</div>
+        <div class="brand-lbl">${b.name}</div>
+      `;
+      card.addEventListener('click', () => openModal(b.name, b.video));
       slide.appendChild(card);
-      wrapper.appendChild(slide);
-
-      card.addEventListener('click', () => openModal(brand));
+      bWrapper.appendChild(slide);
     });
 
-    /* ---- SWIPER INIT ---- */
-    new Swiper('.swiper-brands', {
+    /* Init Swiper */
+    new Swiper('.brands-swiper', {
       loop: true,
-      speed: 3000,
-      autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-      },
-      freeMode: true,
+      speed: 4000,
+      autoplay: { delay: 0, disableOnInteraction: false },
+      freeMode: { enabled: true, momentum: false },
       slidesPerView: 2,
-      spaceBetween: 16,
+      spaceBetween: 0,
       breakpoints: {
-        480:  { slidesPerView: 3, spaceBetween: 16 },
-        768:  { slidesPerView: 4, spaceBetween: 20 },
-        1024: { slidesPerView: 5, spaceBetween: 20 },
-        1280: { slidesPerView: 6, spaceBetween: 24 },
+        480:  { slidesPerView: 3 },
+        768:  { slidesPerView: 4 },
+        1024: { slidesPerView: 5 },
+        1440: { slidesPerView: 6 },
       },
     });
 
-    /* ---- VIDEO MODAL ---- */
-    const modal       = document.getElementById('videoModal');
-    const modalClose  = document.getElementById('modalClose');
-    const modalName   = document.getElementById('modalBrandName');
-    const modalMedia  = document.getElementById('modalMediaWrapper');
+    /* ============================================================
+       VIDEO MODAL
+    ============================================================ */
+    function openModal(name, video) {
+      document.getElementById('modalBrandName').textContent = name;
+      const media = document.getElementById('modalMedia');
+      media.innerHTML = '';
 
-    function isYoutube(url) { return /youtube\.com|youtu\.be/.test(url); }
-    function isVimeo(url)   { return /vimeo\.com/.test(url); }
-
-    function buildYoutubeEmbed(url) {
-      let id = '';
-      const match = url.match(/(?:v=|youtu\.be\/)([^&?/]+)/);
-      if (match) id = match[1];
-      return `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
-    }
-
-    function buildVimeoEmbed(url) {
-      const match = url.match(/vimeo\.com\/(\d+)/);
-      const id = match ? match[1] : '';
-      return `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
-    }
-
-    function openModal(brand) {
-      modalName.textContent = brand.name;
-      modalMedia.innerHTML = '';
-
-      if (!brand.video) {
-        modalMedia.innerHTML = `<div class="modal-empty"><p>Content coming soon</p></div>`;
-      } else if (isYoutube(brand.video)) {
-        modalMedia.innerHTML = buildYoutubeEmbed(brand.video);
-      } else if (isVimeo(brand.video)) {
-        modalMedia.innerHTML = buildVimeoEmbed(brand.video);
+      if (!video) {
+        media.outerHTML; /* keep reference */
+        document.getElementById('modalMedia').insertAdjacentHTML('afterend',
+          '<div class="modal-empty"><p>Content coming soon.</p></div>');
+        document.getElementById('modalMedia').style.display = 'none';
+      } else if (/youtube\.com|youtu\.be/.test(video)) {
+        const m = video.match(/(?:v=|youtu\.be\/)([^&?/]+)/);
+        const id = m ? m[1] : '';
+        media.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+        media.style.display = '';
+      } else if (/vimeo\.com/.test(video)) {
+        const m = video.match(/vimeo\.com\/(\d+)/);
+        const id = m ? m[1] : '';
+        media.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+        media.style.display = '';
       } else {
-        modalMedia.innerHTML = `<video controls src="${brand.video}"></video>`;
+        media.innerHTML = `<video controls src="${video}"></video>`;
+        media.style.display = '';
       }
 
-      modal.classList.add('active');
+      document.getElementById('videoModal').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
-      modal.classList.remove('active');
+      document.getElementById('videoModal').classList.remove('active');
       document.body.style.overflow = '';
-      setTimeout(() => { modalMedia.innerHTML = ''; }, 400);
+      const media = document.getElementById('modalMedia');
+      media.innerHTML = '';
+      media.style.display = '';
+      const existing = document.querySelector('.modal-empty');
+      if (existing) existing.remove();
     }
 
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    document.getElementById('videoModal').addEventListener('click', e => {
+      if (e.target === document.getElementById('videoModal')) closeModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-    /* ---- NAVBAR SCROLL ---- */
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    }, { passive: true });
-
-    /* ---- HAMBURGER MENU ---- */
-    const hamburger  = document.getElementById('hamburger');
-    const mobileNav  = document.getElementById('mobileNav');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
+    /* ============================================================
+       NAVBAR — hamburger
+    ============================================================ */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
 
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('open');
-      mobileNav.classList.toggle('open');
-      document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
     });
 
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
+    document.querySelectorAll('.m-link').forEach(l => {
+      l.addEventListener('click', () => {
         hamburger.classList.remove('open');
-        mobileNav.classList.remove('open');
+        mobileMenu.classList.remove('open');
         document.body.style.overflow = '';
       });
     });
 
-    /* ---- SCROLL REVEAL ---- */
-    const reveals = document.querySelectorAll('.reveal');
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const delay = entry.target.closest('.services-grid, .about-stats') ? 100 : 0;
-          setTimeout(() => entry.target.classList.add('visible'), delay);
-          revealObs.unobserve(entry.target);
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
 
-    reveals.forEach(el => revealObs.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    /* ---- CUSTOM CURSOR ---- */
-    const dot  = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    let ringX = 0, ringY = 0;
-    let dotX = 0, dotY = 0;
+    /* ============================================================
+       CUSTOM CURSOR
+    ============================================================ */
+    const cursor = document.getElementById('cursor');
+    let cX = -40, cY = -40;
 
-    document.addEventListener('mousemove', (e) => {
-      dotX = e.clientX;
-      dotY = e.clientY;
-      dot.style.left = dotX + 'px';
-      dot.style.top  = dotY + 'px';
+    document.addEventListener('mousemove', e => {
+      cX = e.clientX; cY = e.clientY;
+      cursor.style.left = cX + 'px';
+      cursor.style.top  = cY + 'px';
     });
 
-    function animateRing() {
-      ringX += (dotX - ringX) * 0.12;
-      ringY += (dotY - ringY) * 0.12;
-      ring.style.left = ringX + 'px';
-      ring.style.top  = ringY + 'px';
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    document.querySelectorAll('a, button, .brand-card, .service-card').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        ring.style.width  = '56px';
-        ring.style.height = '56px';
-        ring.style.borderColor = 'rgba(201, 168, 76, 0.6)';
-      });
-      el.addEventListener('mouseleave', () => {
-        ring.style.width  = '36px';
-        ring.style.height = '36px';
-        ring.style.borderColor = 'rgba(168, 85, 247, 0.5)';
-      });
+    document.querySelectorAll('a, button, .brand-card-slide, .hero-card, .value-card, .work-card, .honest-card, .testimonial-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
   </script>
 </body>
