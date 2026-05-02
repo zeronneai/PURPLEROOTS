@@ -388,29 +388,36 @@
       margin-bottom: 3rem;
     }
 
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; padding-bottom: 80px; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; padding-bottom: 2.5rem; }
 
     /* Centered hero layout */
     .hero-inner--centered {
       grid-template-columns: 1fr;
       justify-items: center;
       text-align: center;
-      max-width: 900px;
+      max-width: 1100px;
       margin: 0 auto;
     }
     .hero-left--centered { max-width: 100%; }
     .hero-left--centered .hero-sub { margin-left: auto; margin-right: auto; }
     .hero-actions--centered { justify-content: center; }
     .hero-side--centered {
+      display: flex;
       flex-direction: row;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       padding-top: 0;
+      padding-bottom: 60px;
       min-width: 0;
       width: 100%;
-      gap: 1rem;
+      gap: 1.25rem;
     }
-    .hero-side--centered .hero-card { flex: 1; min-width: 160px; max-width: 220px; }
+    .hero-side--centered .hero-card {
+      flex: 1;
+      min-width: 0;
+      max-width: 280px;
+      text-align: left;
+    }
 
     .hero-side {
       display: flex;
@@ -1060,7 +1067,8 @@
       .hero-sub        { font-size: 0.82rem; margin-bottom: 2rem; max-width: 100%; }
       .hero-actions    { flex-direction: column; align-items: flex-start; padding-bottom: 48px; gap: 0.75rem; }
       .hero-actions .btn { width: 100%; justify-content: center; }
-      .hero-side       { flex-direction: row; flex-wrap: wrap; gap: 12px; padding-top: 0; padding-bottom: 0; min-width: 0; width: 100%; }
+      .hero-side--centered { flex-wrap: wrap; padding-bottom: 40px; }
+      .hero-side--centered .hero-card { max-width: 100%; min-width: 140px; }
       .hero-card       { flex: 1; min-width: 0; padding: 16px; }
       .hero-card-num   { font-size: 2rem; }
       .hero-card-label { font-size: 0.62rem; }
@@ -1196,10 +1204,9 @@
     <div class="hero-inner hero-inner--centered">
       <div class="hero-left hero-left--centered">
         <h1>
-          We make<br />
-          brands<br />
-          <span class="yellow">actually</span><br />
-          <em>matter.</em>
+          Your brand is<br />
+          <span class="yellow">invisible.</span><br />
+          <em>We fix that.</em>
         </h1>
         <p class="hero-sub">
           Purple Roots is a full-service creative agency from El Paso, TX.
