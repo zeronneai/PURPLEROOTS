@@ -390,6 +390,28 @@
 
     .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; padding-bottom: 80px; }
 
+    /* Centered hero layout */
+    .hero-inner--centered {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-left--centered { max-width: 100%; }
+    .hero-left--centered .hero-sub { margin-left: auto; margin-right: auto; }
+    .hero-actions--centered { justify-content: center; }
+    .hero-side--centered {
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding-top: 0;
+      min-width: 0;
+      width: 100%;
+      gap: 1rem;
+    }
+    .hero-side--centered .hero-card { flex: 1; min-width: 160px; max-width: 220px; }
+
     .hero-side {
       display: flex;
       flex-direction: column;
@@ -1144,7 +1166,7 @@
       <li><a href="#honest">Process</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="mailto:hello@purpleroots.agency" class="nav-cta">Get a Quote →</a>
+    <a href="https://wa.me/19152343655" target="_blank" class="nav-cta">Get a Quote →</a>
     <button class="nav-hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -1171,9 +1193,8 @@
 
   <!-- ===================== HERO ===================== -->
   <section class="hero" id="hero">
-    <div class="hero-inner">
-      <div class="hero-left">
-        <div class="hero-badge"><span class="dot"></span> Now Accepting Clients — 2025</div>
+    <div class="hero-inner hero-inner--centered">
+      <div class="hero-left hero-left--centered">
         <h1>
           We make<br />
           brands<br />
@@ -1184,12 +1205,12 @@
           Purple Roots is a full-service creative agency from El Paso, TX.
           Video. Identity. Strategy. Content. We do it all — and we do it well.
         </p>
-        <div class="hero-actions">
-          <a href="#brands"  class="btn btn-lime">See Our Work →</a>
-          <a href="#contact" class="btn">Let's Talk ↗</a>
+        <div class="hero-actions hero-actions--centered">
+          <a href="#brands" class="btn btn-lime">See Our Work →</a>
+          <a href="https://wa.me/19152343655" target="_blank" class="btn">Let's Talk ↗</a>
         </div>
       </div>
-      <div class="hero-side">
+      <div class="hero-side hero-side--centered">
         <div class="hero-card lime">
           <div class="hero-card-num">100+</div>
           <div class="hero-card-label">Films Shipped Since 2023</div>
@@ -1458,7 +1479,7 @@
         Ready to build<br />something <span class="yellow">real?</span>
       </h2>
       <p class="reveal">We have limited availability each quarter. If you're serious about your brand, let's talk before the spot is gone.</p>
-      <a href="mailto:hello@purpleroots.agency" class="btn btn-lime reveal">hello@purpleroots.agency ↗</a>
+      <a href="mailto:video@purpleroots.agency" class="btn btn-lime reveal">video@purpleroots.agency ↗</a>
     </div>
   </section>
 
@@ -1468,10 +1489,7 @@
       <div class="footer-brand">PURPLE <span>&nbsp;ROOTS</span></div>
       <p class="footer-tagline">"Crafting culture, one brand at a time."</p>
       <ul class="footer-socials">
-        <li><a href="#" target="_blank">Instagram</a></li>
-        <li><a href="#" target="_blank">TikTok</a></li>
-        <li><a href="#" target="_blank">LinkedIn</a></li>
-        <li><a href="#" target="_blank">YouTube</a></li>
+        <li><a href="https://instagram.com/purpleroots.agency" target="_blank">Instagram</a></li>
       </ul>
     </div>
     <div class="footer-bottom">
