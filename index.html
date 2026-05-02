@@ -623,6 +623,21 @@
       transition: transform 0.12s, box-shadow 0.12s;
     }
     .brand-card-slide:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--black); }
+    .brand-logo-img {
+      width: 75%;
+      max-width: 130px;
+      height: auto;
+      max-height: 80px;
+      object-fit: contain;
+      filter: grayscale(0%);
+      transition: filter 0.2s, transform 0.2s;
+      display: block;
+      margin: 0 auto;
+    }
+    .brand-card-slide:hover .brand-logo-img {
+      filter: grayscale(0%) brightness(1.05);
+      transform: scale(1.06);
+    }
     .brand-init {
       font-family: 'Archivo Black', sans-serif;
       font-size: 1.8rem;
@@ -1386,32 +1401,32 @@
        BRANDS DATA
     ============================================================ */
     const brands = [
-      { name: "Powerhouse",             video: "" },
-      { name: "Jarritos",               video: "" },
-      { name: "Sideral Mundet",         video: "" },
-      { name: "Sangria Señorial",       video: "" },
-      { name: "Sana Sana by Jarritos",  video: "" },
-      { name: "Leslivefit HOK",         video: "" },
-      { name: "Kisslab",                video: "" },
-      { name: "Badass Human",           video: "" },
-      { name: "Desertview",             video: "" },
-      { name: "Run For It",             video: "" },
-      { name: "Mercedes El Paso",       video: "" },
-      { name: "Hoy VW",                 video: "" },
-      { name: "Chingoncuhts",           video: "" },
-      { name: "Torque",                 video: "" },
-      { name: "MarioYagueLaw",          video: "" },
-      { name: "Brenda",                 video: "" },
-      { name: "Amo Café",               video: "" },
-      { name: "Alexboots",              video: "" },
-      { name: "Sweet and Fancy Events", video: "" },
-      { name: "Girls Run the 915",      video: "" },
-      { name: "Asics",                  video: "" },
-      { name: "One Region One Table",   video: "" },
-      { name: "El Paso Live",           video: "" },
-      { name: "El Paso Best",           video: "" },
-      { name: "El Paso Oficial",        video: "" },
-      { name: "Fashion Week",           video: "" },
+      { name: "Powerhouse",             logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/POWERHOUSE_tdmbwm.png",           video: "" },
+      { name: "Jarritos",               logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/JARRITOS_gxxbny.png",              video: "" },
+      { name: "Sideral Mundet",         logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757142/SANGRIA_bokyyv.png",               video: "" },
+      { name: "Sangria Señorial",       logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757142/SANGRIA_bokyyv.png",               video: "" },
+      { name: "Sana Sana by Jarritos",  logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757397/SANASANA_wxilfg.png",              video: "" },
+      { name: "Leslivefit HOK",         logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/HOK_yj7z0d.png",                   video: "" },
+      { name: "Kisslab",                logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/KISSLAB_jo3f4w.png",               video: "" },
+      { name: "Badass Human",           logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/BADASS_y4i81f.png",                video: "" },
+      { name: "Desertview",             logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/DESERTVIEW_tilyg0.png",            video: "" },
+      { name: "Run For It",             logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/RUNFORIT_tcfzid.png",              video: "" },
+      { name: "Mercedes El Paso",       logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/MERCESELPASO_yu4uxz.png",          video: "" },
+      { name: "Hoy VW",                 logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757142/VWHOY_sq0422.png",                 video: "" },
+      { name: "Chingoncuhts",           logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/CHINGON_fizgnc.png",               video: "" },
+      { name: "Torque",                 logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1774490841/TORQUE_hauofb.png",                video: "" },
+      { name: "MarioYagueLaw",          logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1774036245/TORO_wiossl.png",                  video: "" },
+      { name: "Brenda",                 logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/brenda_mwtrpg.png",               video: "" },
+      { name: "Amo Café",               logo: null,                                                                                              video: "" },
+      { name: "Alexboots",              logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1770659719/ChatGPT_Image_Feb_9_2026_11_54_22_AM_tc6n1w.png", video: "" },
+      { name: "Sweet and Fancy Events", logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757142/sweet_rk7tht.png",                video: "" },
+      { name: "Girls Run the 915",      logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/girls915_fqila8.png",             video: "" },
+      { name: "Asics",                  logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/asics_dj9lgl.png",                video: "" },
+      { name: "One Region One Table",   logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/oneone_p85fro.png",               video: "" },
+      { name: "El Paso Live",           logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757140/liveelpaso_o4twzx.png",           video: "" },
+      { name: "El Paso Best",           logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/elpaso_av0twh.png",               video: "" },
+      { name: "El Paso Oficial",        logo: null,                                                                                              video: "" },
+      { name: "Fashion Week",           logo: null,                                                                                              video: "" },
     ];
 
     const cardColors = ['var(--lime)', 'var(--lavender)', 'var(--blush)', 'var(--white)', 'var(--paper)'];
@@ -1431,10 +1446,11 @@
       const card = document.createElement('div');
       card.className = 'brand-card-slide';
       card.style.background = bg;
-      card.innerHTML = `
-        <div class="brand-init">${getInitials(b.name)}</div>
-        <div class="brand-lbl">${b.name}</div>
-      `;
+      const inner = b.logo
+        ? `<img src="${b.logo}" alt="${b.name}" class="brand-logo-img" />`
+        : `<div class="brand-init">${getInitials(b.name)}</div>
+           <div class="brand-lbl">${b.name}</div>`;
+      card.innerHTML = inner;
       card.addEventListener('click', () => openModal(b.name, b.video));
       slide.appendChild(card);
       bWrapper.appendChild(slide);
