@@ -684,6 +684,35 @@
       width: 100%;
     }
 
+    /* Full-bleed thumbnail card */
+    .brand-card-slide.has-thumb {
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .brand-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+      transition: transform 0.3s;
+    }
+    .brand-card-slide.has-thumb:hover .brand-thumb { transform: scale(1.04); }
+    .brand-lbl--overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin-top: 0;
+      padding: 10px 10px 10px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 10px;
+      z-index: 1;
+    }
+
     /* =========================================================
        VIDEO MODAL
     ========================================================= */
@@ -1152,16 +1181,6 @@
   <!-- Custom Cursor -->
   <div id="cursor"></div>
 
-  <!-- ===================== TICKER 1 ===================== -->
-  <div class="ticker">
-    <div class="ticker-track">
-      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
-      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
-      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
-      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
-    </div>
-  </div>
-
   <!-- ===================== NAVBAR ===================== -->
   <nav>
     <a href="#hero" class="nav-logo">
@@ -1187,16 +1206,6 @@
     <a href="#brands"   class="m-link">Clients</a>
     <a href="#honest"   class="m-link">Process</a>
     <a href="#contact"  class="m-link">Contact</a>
-  </div>
-
-  <!-- ===================== TICKER 2 ===================== -->
-  <div class="ticker ticker-alt">
-    <div class="ticker-track ticker-reverse">
-      <span>Video Production</span><span>Brand Films</span><span>El Paso Texas</span>
-      <span>Social Content</span><span>Retainers Available</span>
-      <span>Video Production</span><span>Brand Films</span><span>El Paso Texas</span>
-      <span>Social Content</span><span>Retainers Available</span>
-    </div>
   </div>
 
   <!-- ===================== HERO ===================== -->
@@ -1510,7 +1519,7 @@
       { name: "Sana Sana by Jarritos",  logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757397/SANASANA_wxilfg.png",              video: "" },
       { name: "House of Kings",          logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/HOK_yj7z0d.png",                   video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921425/BORDERLAND_TOURNAMENT_-_Trim_odkwvv.mp4" },
       { name: "Kisslab",                logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/KISSLAB_jo3f4w.png",               video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777920037/VIDEO_STEPS_b0gftl.mp4" },
-      { name: "Badass Human",           logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/BADASS_y4i81f.png",                video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922023/RECAP_BADASS-1_-_Trim_t3spql.mp4" },
+      { name: "Badass Human",           logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/BADASS_y4i81f.png",                video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922023/RECAP_BADASS-1_-_Trim_t3spql.mp4", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778251670/Vertical_3_4_sports_editorial_thumbnail._202605080844_pt9xds.jpg" },
       { name: "Desertview",             logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/DESERTVIEW_tilyg0.png",            video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921461/DVH_PHASE_2_-_HORIZONTAL_-_Trim_xxh3ny.mp4" },
       { name: "Run For It",             logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/RUNFORIT_tcfzid.png",              video: "" },
       { name: "Mercedes El Paso",       logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/MERCESELPASO_yu4uxz.png",          video: "" },
@@ -1547,11 +1556,16 @@
       slide.className = 'swiper-slide';
       const card = document.createElement('div');
       card.className = 'brand-card-slide';
-      card.style.background = bg;
-      const logoHtml = b.logo
-        ? `<img src="${b.logo}" alt="${b.name}" class="brand-logo-img" />`
-        : `<div class="brand-init">${getInitials(b.name)}</div>`;
-      card.innerHTML = `${logoHtml}<div class="brand-lbl">${b.name}</div>`;
+      if (b.thumbnail) {
+        card.classList.add('has-thumb');
+        card.innerHTML = `<img src="${b.thumbnail}" alt="${b.name}" class="brand-thumb" /><div class="brand-lbl brand-lbl--overlay">${b.name}</div>`;
+      } else {
+        card.style.background = bg;
+        const logoHtml = b.logo
+          ? `<img src="${b.logo}" alt="${b.name}" class="brand-logo-img" />`
+          : `<div class="brand-init">${getInitials(b.name)}</div>`;
+        card.innerHTML = `${logoHtml}<div class="brand-lbl">${b.name}</div>`;
+      }
       card.addEventListener('click', () => openModal(b.name, b.video));
       slide.appendChild(card);
       bWrapper.appendChild(slide);
