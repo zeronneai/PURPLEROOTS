@@ -158,14 +158,21 @@
       align-items: center;
       gap: 6px;
     }
-    .nav-logo .dot {
-      width: 10px; height: 10px;
-      background: var(--purple);
-      border-radius: 50%;
-      display: inline-block;
+    .nav-logo-img {
+      height: 36px;
+      width: auto;
+      display: block;
+      object-fit: contain;
     }
-    .nav-logo .dot.anim { animation: pulse 2s ease infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
+    .brands-click-hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-top: 6px;
+    }
 
     .nav-links {
       display: flex;
@@ -1194,7 +1201,7 @@
   <!-- ===================== NAVBAR ===================== -->
   <nav>
     <a href="#hero" class="nav-logo">
-      <span class="dot anim"></span> PURPLE ROOTS
+      <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258144/ChatGPT_Image_May_8_2026_10_33_08_AM_v91yje.png" alt="Purple Roots" class="nav-logo-img" />
     </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
@@ -1223,9 +1230,10 @@
     <div class="hero-inner hero-inner--centered">
       <div class="hero-left hero-left--centered">
         <h1>
-          Your brand is<br />
-          <span class="yellow">invisible.</span><br />
-          <em>We fix that.</em>
+          How to get a flood of<br />
+          <span class="yellow">new customers</span><br />
+          using short-form video<br />
+          <em>without lifting a camera.</em>
         </h1>
         <p class="hero-sub">
           Purple Roots is a full-service creative agency from El Paso, TX.
@@ -1374,6 +1382,7 @@
       <div class="section-head reveal">
         <div class="section-num">04</div>
         <h2 class="section-title">Brands we've<br /><span class="y">worked with.</span></h2>
+        <p class="brands-click-hint">Click to view</p>
       </div>
     </div>
     <div class="swiper brands-swiper">
@@ -1535,11 +1544,11 @@
       { name: "Mercedes El Paso",       logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/MERCESELPASO_yu4uxz.png",          video: "", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg" },
       { name: "Hoy VW",                 logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757142/VWHOY_sq0422.png",                 video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921324/HOY_FAMILY_AUTO_PROMO_-_HD_-_Trim_vfdsd6.mp4", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256727/Vertical_3_4_automotive_lifestyle_editorial_202605081008_svzvhv.jpg" },
       { name: "Chingoncuhts",           logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/CHINGON_fizgnc.png",               video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921612/CHINGON_CUHTS-1_-_Trim_abpuyh.mp4", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778254472/Vertical_3_4_cinematic_barbershop_editorial_202605080933_fkhfub.jpg" },
-      { name: "Torque",                 logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1774490841/TORQUE_hauofb.png",                video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921723/TX_TORQUE_3-1_n0b0w6.mp4" },
-      { name: "MarioYagueLaw",          logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1774036245/TORO_wiossl.png",                  video: "" },
-      { name: "Brenda",                 logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/brenda_mwtrpg.png",               video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921046/BRENDA_JAZMIN_-_SESSION_1_-_Trim_hiegjf.mp4" },
+      { name: "Torque",                 logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1774490841/TORQUE_hauofb.png",                video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921723/TX_TORQUE_3-1_n0b0w6.mp4", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258137/Vertical_3_4_elite_baseball_training_202605081033_eqlxgi.jpg" },
+      { name: "MarioYagueLaw",          logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1774036245/TORO_wiossl.png",                  video: "", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258140/OPENING_VIDEO_tvxev7.jpg" },
+      { name: "Brenda",                 logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/brenda_mwtrpg.png",               video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921046/BRENDA_JAZMIN_-_SESSION_1_-_Trim_hiegjf.mp4", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258138/Vertical_3_4_fitness_influencer_editorial_202605080934_jehqer.jpg" },
       { name: "Amo Café",               logo: null,                                                                                              video: "" },
-      { name: "Alexboots",              logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1770659719/ChatGPT_Image_Feb_9_2026_11_54_22_AM_tc6n1w.png", video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922019/MYA_AND_AREANNA_3_-_Trim_ektmw7.mp4" },
+      { name: "Alexboots",              logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1770659719/ChatGPT_Image_Feb_9_2026_11_54_22_AM_tc6n1w.png", video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922019/MYA_AND_AREANNA_3_-_Trim_ektmw7.mp4", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258258/Vertical_3_4_premium_artisan_western_202605081037_bab6w4.jpg" },
       { name: "Sweet and Fancy Events", logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757142/sweet_rk7tht.png",                video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921227/SWEET_AND_FANCY_BABY_SHOWER_-_Trim_momfa5.mp4", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256954/Vertical_3_4_luxury_event_styling_202605081014_ecbcjs.jpg" },
       { name: "Girls Run the 915",      logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/girls915_fqila8.png",             video: "" },
       { name: "Asics",                  logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/asics_dj9lgl.png",                video: "", thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256768/Vertical_3_4_premium_athletic_footwear_202605080956_vl5sbi.jpg" },
