@@ -123,10 +123,14 @@
       padding: 0 28px;
     }
     .ticker-track span::after {
-      content: '✱';
-      font-size: 14px;
+      content: '';
+      display: inline-block;
+      width: 2px;
+      height: 16px;
+      background: var(--lime);
       margin-left: 28px;
-      color: var(--lavender);
+      vertical-align: middle;
+      border-radius: 1px;
     }
     .ticker-alt .ticker-track span::after { color: var(--purple); }
 
