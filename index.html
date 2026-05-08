@@ -1001,17 +1001,17 @@
     }
     .footer-brand {
       display: inline-flex;
-      padding: 12px 20px;
-      border: var(--rule);
-      border-color: var(--lavender);
-      box-shadow: var(--shadow-sm);
-      font-family: 'Archivo Black', sans-serif;
-      font-size: 1rem;
-      letter-spacing: -0.01em;
-      color: var(--white);
+      padding: 0;
+      border: none;
+      box-shadow: none;
       width: fit-content;
     }
-    .footer-brand span { color: var(--lime); }
+    .footer-brand-img {
+      height: 56px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
     .footer-tagline {
       font-family: 'Instrument Serif', serif;
       font-style: italic;
@@ -1177,7 +1177,7 @@
       /* Footer */
       footer           { padding: 48px 16px 32px; }
       .footer-inner    { grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left; justify-items: start; }
-      .footer-inner > .footer-brand { grid-column: 1 / -1; font-size: 1.3rem; }
+      .footer-inner > .footer-brand { grid-column: 1 / -1; }
       .footer-socials  { justify-content: flex-start; flex-wrap: wrap; }
       .footer-bottom   { flex-direction: column; gap: 8px; align-items: flex-start; }
       .footer-copy,
@@ -1529,7 +1529,7 @@
   <!-- ===================== FOOTER ===================== -->
   <footer>
     <div class="footer-inner">
-      <div class="footer-brand">PURPLE <span>&nbsp;ROOTS</span></div>
+      <div class="footer-brand"><img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258144/ChatGPT_Image_May_8_2026_10_33_08_AM_v91yje.png" alt="Purple Roots" class="footer-brand-img" /></div>
       <p class="footer-tagline">"Crafting culture, one brand at a time."</p>
       <ul class="footer-socials">
         <li><a href="https://instagram.com/purpleroots.agency" target="_blank">Instagram</a></li>
