@@ -112,8 +112,8 @@
 
     /* ===== CENTRAL VIDEO ===== */
     #central-video-wrap {
-      position: absolute; left: 33%; top: 40%;
-      width: 26%; aspect-ratio: unset; height: 20%;
+      position: absolute; left: 37%; top: 38%;
+      width: 24%; height: 24%;
       z-index: 15; cursor: pointer;
       border: 2px solid rgba(26,26,46,0.5); border-radius: 3px;
       overflow: hidden;
@@ -301,13 +301,49 @@
     }
     #brand-video-close:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
 
-    /* ===== MOBILE FALLBACK ===== */
+    /* ===== MOBILE MAP LAYOUT ===== */
+    #mobile-view { display: none; }
+
     @media (max-width: 767px) {
-      #map-root { display: none; }
-      #get-started { display: none; }
-      #mobile-view { display: flex; flex-direction: column; min-height: 100vh; background: var(--paper); overflow-y: auto; }
+      /* Use vertical image on mobile */
+      #map-bg {
+        background-image: url('https://res.cloudinary.com/dsprn0ew4/image/upload/v1778541765/GENERA_LA_MISMA_IMAGEN__QUE_202605111722_lso037.jpg');
+        background-size: cover;
+        background-position: center top;
+      }
+
+      /* Room positions for vertical mobile layout */
+      .room-1 { left: 2%;  top: 2%;  width: 46%; height: 20%; }
+      .room-2 { left: 52%; top: 2%;  width: 46%; height: 20%; }
+      .room-3 { left: 2%;  top: 24%; width: 46%; height: 20%; }
+      .room-4 { left: 52%; top: 24%; width: 46%; height: 20%; }
+      .room-5 { left: 2%;  top: 68%; width: 46%; height: 22%; }
+      .room-6 { left: 52%; top: 68%; width: 46%; height: 22%; }
+
+      /* Smaller floating labels so they don't overlap */
+      .room-label { font-size: 9px; padding: 3px 7px; }
+
+      /* Central video on mobile */
+      #central-video-wrap {
+        left: 50%; top: 47%;
+        transform: translateX(-50%);
+        width: 52%; height: 16%;
+      }
+      #central-video-wrap:hover { transform: translateX(-50%) scale(1.02); }
+
+      /* Get Started button — absolute, just below the video */
+      #get-started {
+        position: absolute;
+        top: 65%;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: auto;
+        font-size: 0.78rem;
+        padding: 10px 22px;
+      }
+      #get-started:hover  { transform: translateX(-50%) translate(-2px,-2px); }
+      #get-started:active { transform: translateX(-50%) translate(3px,3px); }
     }
-    @media (min-width: 768px) { #mobile-view { display: none; } }
 
     #mobile-header {
       padding: 18px 16px; border-bottom: var(--rule); background: var(--black);
@@ -401,10 +437,10 @@
     <div class="mobile-section-header"><span class="mobile-section-num">01</span><span class="mobile-section-title">Not Another Agency</span></div>
     <div class="mobile-section-body">
       <div class="value-cards">
-        <div class="value-card"><div class="value-card-icon">🎯</div><div class="value-card-title">Strategy First</div><div class="value-card-desc">Every project starts with a reason. We don’t make pretty things for the sake of it — we make things that work. If it doesn’t serve the brand, it doesn’t ship.</div></div>
+        <div class="value-card"><div class="value-card-icon">🎯</div><div class="value-card-title">Strategy First</div><div class="value-card-desc">Every project starts with a reason. We don't make pretty things for the sake of it — we make things that work. If it doesn't serve the brand, it doesn't ship.</div></div>
         <div class="value-card"><div class="value-card-icon">🎬</div><div class="value-card-title">Video is Our Mother Tongue</div><div class="value-card-desc">From 15-second reels to full brand films, we speak video fluently. Cinematic quality. Social-first thinking. Always on time, always on budget.</div></div>
         <div class="value-card"><div class="value-card-icon">🌎</div><div class="value-card-title">Born in El Paso, Built Global</div><div class="value-card-desc">We started in the borderland, where two cultures collide and make something louder than both. That energy lives in everything we create.</div></div>
-        <div class="value-card"><div class="value-card-icon">🤝</div><div class="value-card-title">We Work Like Partners</div><div class="value-card-desc">No hand-off after onboarding. We’re in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</div></div>
+        <div class="value-card"><div class="value-card-icon">🤝</div><div class="value-card-title">We Work Like Partners</div><div class="value-card-desc">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</div></div>
       </div>
     </div>
   </div>
@@ -417,7 +453,7 @@
         <div class="service-item"><div class="service-num">02 / SERVICE</div><div class="service-name">Video Production</div><div class="service-desc">Cinematic brand films, commercials, and social-first content that stops the scroll every single time.</div></div>
         <div class="service-item"><div class="service-num">03 / SERVICE</div><div class="service-name">Digital Content</div><div class="service-desc">Photography, reels, and editorial assets engineered for engagement across every platform, every format.</div></div>
         <div class="service-item"><div class="service-num">04 / SERVICE</div><div class="service-name">Social Strategy</div><div class="service-desc">Data-driven calendars, community management, and paid social campaigns built to actually perform.</div></div>
-        <div class="service-item"><div class="service-num">05 / SERVICE</div><div class="service-name">Web Design</div><div class="service-desc">Editorial-grade sites that balance aesthetics with conversion — because looking good AND converting aren’t mutually exclusive.</div></div>
+        <div class="service-item"><div class="service-num">05 / SERVICE</div><div class="service-name">Web Design</div><div class="service-desc">Editorial-grade sites that balance aesthetics with conversion — because looking good AND converting aren't mutually exclusive.</div></div>
         <div class="service-item"><div class="service-num">06 / SERVICE</div><div class="service-name">Campaigns &amp; Activations</div><div class="service-desc">360° campaign concepts from strategy and creative direction to on-ground execution and detailed reporting.</div></div>
       </div>
     </div>
@@ -433,10 +469,10 @@
         <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Countries Reached</div></div>
       </div>
       <div class="testimonials-grid" style="margin-top:14px">
-        <div class="testi-card"><p class="testi-quote">“Purple Roots didn’t just shoot our content — they understood our brand before we even finished explaining it.”</p><div class="testi-author">— Marketing Director, Jarritos Campaign</div></div>
-        <div class="testi-card"><p class="testi-quote">“From concept to delivery, they were professional, fast, and genuinely creative.”</p><div class="testi-author">— Brand Manager, Mercedes El Paso</div></div>
-        <div class="testi-card"><p class="testi-quote">“Our social engagement went up 300% in 90 days. Purple Roots made it look easy.”</p><div class="testi-author">— Founder, Badass Human</div></div>
-        <div class="testi-card"><p class="testi-quote">“They’re the team you call when you’re tired of mediocre. Honest, talent-heavy, and they actually give a damn.”</p><div class="testi-author">— CEO, Desertview</div></div>
+        <div class="testi-card"><p class="testi-quote">"Purple Roots didn't just shoot our content — they understood our brand before we even finished explaining it."</p><div class="testi-author">— Marketing Director, Jarritos Campaign</div></div>
+        <div class="testi-card"><p class="testi-quote">"From concept to delivery, they were professional, fast, and genuinely creative."</p><div class="testi-author">— Brand Manager, Mercedes El Paso</div></div>
+        <div class="testi-card"><p class="testi-quote">"Our social engagement went up 300% in 90 days. Purple Roots made it look easy."</p><div class="testi-author">— Founder, Badass Human</div></div>
+        <div class="testi-card"><p class="testi-quote">"They're the team you call when you're tired of mediocre. Honest, talent-heavy, and they actually give a damn."</p><div class="testi-author">— CEO, Desertview</div></div>
       </div>
     </div>
   </div>
@@ -451,26 +487,26 @@
     <div class="mobile-section-body">
       <div class="fit-cols">
         <div class="fit-col not">
-          <div class="fit-col-title">We’re probably not for you if:</div>
+          <div class="fit-col-title">We're probably not for you if:</div>
           <ul>
             <li>You need a logo done by tomorrow</li>
-            <li>Your budget is “we’ll see what you quote”</li>
+            <li>Your budget is "we'll see what you quote"</li>
             <li>You want to approve every single frame</li>
             <li>You think one Instagram post = a campaign</li>
-            <li>You’re not ready to commit to a vision</li>
+            <li>You're not ready to commit to a vision</li>
           </ul>
           <span class="fit-btn">Skip</span>
         </div>
         <div class="fit-col yes">
-          <div class="fit-col-title">We’re a perfect fit if:</div>
+          <div class="fit-col-title">We're a perfect fit if:</div>
           <ul>
             <li>You value your brand as a real asset</li>
             <li>You want a long-term creative partner</li>
             <li>You trust the process and trust the team</li>
-            <li>You’re ready to invest in quality that lasts</li>
+            <li>You're ready to invest in quality that lasts</li>
             <li>You want to stand out, not blend in</li>
           </ul>
-          <a href="https://wa.me/19152343655" target="_blank" class="fit-btn">Let’s Go →</a>
+          <a href="https://wa.me/19152343655" target="_blank" class="fit-btn">Let's Go →</a>
         </div>
       </div>
     </div>
@@ -483,7 +519,7 @@
         <div class="process-step" style="background:var(--lime)"><div class="step-num">01</div><div class="step-title">Discovery</div><div class="step-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork — we build on research.</div></div>
         <div class="process-step" style="background:var(--paper)"><div class="step-num">02</div><div class="step-title">Strategy</div><div class="step-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</div></div>
         <div class="process-step" style="background:var(--lavender)"><div class="step-num">03</div><div class="step-title">Production</div><div class="step-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</div></div>
-        <div class="process-step" style="background:var(--blush)"><div class="step-num">04</div><div class="step-title">Launch &amp; Grow</div><div class="step-desc">We don’t disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</div></div>
+        <div class="process-step" style="background:var(--blush)"><div class="step-num">04</div><div class="step-title">Launch &amp; Grow</div><div class="step-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</div></div>
       </div>
     </div>
   </div>
@@ -520,10 +556,10 @@ const roomPanels = {
     render: () => `
       <p class="panel-section-label">Who We Are</p>
       <div class="value-cards">
-        <div class="value-card"><div class="value-card-icon">🎯</div><div class="value-card-title">Strategy First</div><div class="value-card-desc">Every project starts with a reason. We don’t make pretty things for the sake of it — we make things that work. If it doesn’t serve the brand, it doesn’t ship.</div></div>
+        <div class="value-card"><div class="value-card-icon">🎯</div><div class="value-card-title">Strategy First</div><div class="value-card-desc">Every project starts with a reason. We don't make pretty things for the sake of it — we make things that work. If it doesn't serve the brand, it doesn't ship.</div></div>
         <div class="value-card"><div class="value-card-icon">🎬</div><div class="value-card-title">Video is Our Mother Tongue</div><div class="value-card-desc">From 15-second reels to full brand films, we speak video fluently. Cinematic quality. Social-first thinking. Always on time, always on budget.</div></div>
         <div class="value-card"><div class="value-card-icon">🌎</div><div class="value-card-title">Born in El Paso, Built Global</div><div class="value-card-desc">We started in the borderland, where two cultures collide and make something louder than both. That energy lives in everything we create.</div></div>
-        <div class="value-card"><div class="value-card-icon">🤝</div><div class="value-card-title">We Work Like Partners</div><div class="value-card-desc">No hand-off after onboarding. We’re in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</div></div>
+        <div class="value-card"><div class="value-card-icon">🤝</div><div class="value-card-title">We Work Like Partners</div><div class="value-card-desc">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</div></div>
       </div>`
   },
   2: {
@@ -536,7 +572,7 @@ const roomPanels = {
         <div class="service-item"><div class="service-num">02 / SERVICE</div><div class="service-name">Video Production</div><div class="service-desc">Cinematic brand films, commercials, and social-first content that stops the scroll every single time.</div></div>
         <div class="service-item"><div class="service-num">03 / SERVICE</div><div class="service-name">Digital Content</div><div class="service-desc">Photography, reels, and editorial assets engineered for engagement across every platform, every format.</div></div>
         <div class="service-item"><div class="service-num">04 / SERVICE</div><div class="service-name">Social Strategy</div><div class="service-desc">Data-driven calendars, community management, and paid social campaigns built to actually perform.</div></div>
-        <div class="service-item"><div class="service-num">05 / SERVICE</div><div class="service-name">Web Design</div><div class="service-desc">Editorial-grade sites that balance aesthetics with conversion — because looking good AND converting aren’t mutually exclusive.</div></div>
+        <div class="service-item"><div class="service-num">05 / SERVICE</div><div class="service-name">Web Design</div><div class="service-desc">Editorial-grade sites that balance aesthetics with conversion — because looking good AND converting aren't mutually exclusive.</div></div>
         <div class="service-item"><div class="service-num">06 / SERVICE</div><div class="service-name">Campaigns &amp; Activations</div><div class="service-desc">360° campaign concepts from strategy and creative direction to on-ground execution and detailed reporting.</div></div>
       </div>`
   },
@@ -553,10 +589,10 @@ const roomPanels = {
       </div>
       <p class="panel-section-label" style="margin-top:18px">What Clients Say</p>
       <div class="testimonials-grid">
-        <div class="testi-card"><p class="testi-quote">“Purple Roots didn’t just shoot our content — they understood our brand before we even finished explaining it. The results speak for themselves.”</p><div class="testi-author">— Marketing Director, Jarritos Campaign</div></div>
-        <div class="testi-card"><p class="testi-quote">“From concept to delivery, they were professional, fast, and genuinely creative. We’ve worked with agencies twice their size that delivered half the quality.”</p><div class="testi-author">— Brand Manager, Mercedes El Paso</div></div>
-        <div class="testi-card"><p class="testi-quote">“Our social engagement went up 300% in 90 days. I didn’t think that was realistic. Purple Roots made it look easy.”</p><div class="testi-author">— Founder, Badass Human</div></div>
-        <div class="testi-card"><p class="testi-quote">“They’re the team you call when you’re tired of mediocre. Honest, talent-heavy, and they actually give a damn about your brand.”</p><div class="testi-author">— CEO, Desertview</div></div>
+        <div class="testi-card"><p class="testi-quote">"Purple Roots didn't just shoot our content — they understood our brand before we even finished explaining it. The results speak for themselves."</p><div class="testi-author">— Marketing Director, Jarritos Campaign</div></div>
+        <div class="testi-card"><p class="testi-quote">"From concept to delivery, they were professional, fast, and genuinely creative. We've worked with agencies twice their size that delivered half the quality."</p><div class="testi-author">— Brand Manager, Mercedes El Paso</div></div>
+        <div class="testi-card"><p class="testi-quote">"Our social engagement went up 300% in 90 days. I didn't think that was realistic. Purple Roots made it look easy."</p><div class="testi-author">— Founder, Badass Human</div></div>
+        <div class="testi-card"><p class="testi-quote">"They're the team you call when you're tired of mediocre. Honest, talent-heavy, and they actually give a damn about your brand."</p><div class="testi-author">— CEO, Desertview</div></div>
       </div>`
   },
   4: {
@@ -565,7 +601,7 @@ const roomPanels = {
     render: () => `
       <p class="panel-section-label">Click a card to watch</p>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-        ${brands.map(b => `<div class="brand-pcard" data-video="${b.video||''}" data-name="${b.name}"><img class="bp-thumb" src="${b.thumbnail}" alt="${b.name}" loading="lazy"/><div class="bp-lbl">${b.name}</div></div>`).join('')}
+        ${brands.map(b => `<div class="brand-pcard" data-video="${b.video||\'\'}" data-name="${b.name}"><img class="bp-thumb" src="${b.thumbnail}" alt="${b.name}" loading="lazy"/><div class="bp-lbl">${b.name}</div></div>`).join('')}
       </div>`
   },
   5: {
@@ -575,26 +611,26 @@ const roomPanels = {
       <p class="panel-section-label">Honest check</p>
       <div class="fit-cols">
         <div class="fit-col not">
-          <div class="fit-col-title">We’re probably not for you if:</div>
+          <div class="fit-col-title">We're probably not for you if:</div>
           <ul>
             <li>You need a logo done by tomorrow</li>
-            <li>Your budget is “we’ll see what you quote”</li>
+            <li>Your budget is "we'll see what you quote"</li>
             <li>You want to approve every single frame</li>
             <li>You think one Instagram post = a campaign</li>
-            <li>You’re not ready to commit to a vision</li>
+            <li>You're not ready to commit to a vision</li>
           </ul>
           <span class="fit-btn">Skip</span>
         </div>
         <div class="fit-col yes">
-          <div class="fit-col-title">We’re a perfect fit if:</div>
+          <div class="fit-col-title">We're a perfect fit if:</div>
           <ul>
             <li>You value your brand as a real asset</li>
             <li>You want a long-term creative partner</li>
             <li>You trust the process and trust the team</li>
-            <li>You’re ready to invest in quality that lasts</li>
+            <li>You're ready to invest in quality that lasts</li>
             <li>You want to stand out, not blend in</li>
           </ul>
-          <a href="https://wa.me/19152343655" target="_blank" class="fit-btn">Let’s Go →</a>
+          <a href="https://wa.me/19152343655" target="_blank" class="fit-btn">Let's Go →</a>
         </div>
       </div>`
   },
@@ -607,7 +643,7 @@ const roomPanels = {
         <div class="process-step" style="background:var(--lime)"><div class="step-num">01</div><div class="step-title">Discovery</div><div class="step-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork — we build on research.</div></div>
         <div class="process-step" style="background:var(--paper)"><div class="step-num">02</div><div class="step-title">Strategy</div><div class="step-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</div></div>
         <div class="process-step" style="background:var(--lavender)"><div class="step-num">03</div><div class="step-title">Production</div><div class="step-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</div></div>
-        <div class="process-step" style="background:var(--blush)"><div class="step-num">04</div><div class="step-title">Launch &amp; Grow</div><div class="step-desc">We don’t disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</div></div>
+        <div class="process-step" style="background:var(--blush)"><div class="step-num">04</div><div class="step-title">Launch &amp; Grow</div><div class="step-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</div></div>
       </div>`
   }
 };
@@ -668,7 +704,7 @@ brandModal.addEventListener('click', e => { if (e.target === brandModal) closeBr
 const mobileBrands = document.getElementById('mobile-brands-body');
 if (mobileBrands) {
   mobileBrands.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${
-    brands.map(b => `<div class="brand-pcard" style="width:100%" data-video="${b.video||''}" data-name="${b.name}"><img class="bp-thumb" src="${b.thumbnail}" alt="${b.name}" loading="lazy"/><div class="bp-lbl">${b.name}</div></div>`).join('')
+    brands.map(b => `<div class="brand-pcard" style="width:100%" data-video="${b.video||\'\'}" data-name="${b.name}"><img class="bp-thumb" src="${b.thumbnail}" alt="${b.name}" loading="lazy"/><div class="bp-lbl">${b.name}</div></div>`).join('')
   }</div>`;
   mobileBrands.querySelectorAll('.brand-pcard').forEach(c =>
     c.addEventListener('click', () => openBrandVideo(c.dataset.name, c.dataset.video))
