@@ -475,6 +475,20 @@
 </div>
 
 <script>
+/* ── DIAGNÓSTICO TEMPORAL ── */
+console.log('=== DIAGNÓSTICO ===');
+console.log('Rooms encontrados:', document.querySelectorAll('.room').length);
+console.log('Panel elemento:', document.getElementById('panel'));
+console.log('Mobile modal:', document.getElementById('mobile-modal') || document.querySelector('[id*="modal"]'));
+console.log('roomPanels:', typeof roomPanels !== 'undefined' ? Object.keys(roomPanels) : 'NO EXISTE');
+console.log('screenWrap:', document.getElementById('central-video-wrap'));
+
+document.querySelectorAll('.room').forEach((r, i) => {
+  r.style.background = 'rgba(255,0,0,0.3)';
+  console.log(`Room ${i+1}:`, r.dataset.room, r.getBoundingClientRect());
+});
+/* ── FIN DIAGNÓSTICO ── */
+
 /* ── DATA ── */
 const brands = [
   { name: "Powerhouse",             video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275936/GLOW_RECAP_-_Trim_s0s44a.mp4",                                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg" },
