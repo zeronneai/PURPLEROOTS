@@ -6,7 +6,7 @@
   <title>Purple Roots — Creative Agency</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     /* ===== TOKENS ===== */
     :root {
@@ -37,6 +37,7 @@
     #map-bg::after {
       content: ''; position: absolute; inset: 0;
       background: radial-gradient(ellipse at center, transparent 30%, rgba(26,26,46,0.4) 100%);
+      pointer-events: none;
     }
 
     /* ===== LOGO ===== */
@@ -50,7 +51,7 @@
 
     /* ===== ROOMS ===== */
     .room {
-      position: absolute; cursor: pointer; z-index: 10;
+      position: absolute; cursor: pointer; z-index: 20;
     }
     .room-hit {
       width: 100%; height: 100%;
@@ -109,31 +110,42 @@
       0%,100% { transform: translateX(-50%) translateY(0); }
       50%      { transform: translateX(-50%) translateY(-7px); }
     }
+    @keyframes floatLabelDown {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(5px); }
+    }
 
-    /* ===== CENTRAL VIDEO ===== */
+    /* ===== CENTRAL SCREEN ===== */
     #central-video-wrap {
       position: absolute; left: 37%; top: 38%;
       width: 24%; height: 24%;
       z-index: 15; cursor: pointer;
       border: 2px solid rgba(26,26,46,0.5); border-radius: 3px;
       overflow: hidden;
+      background: var(--black);
       box-shadow: 0 8px 32px rgba(0,0,0,0.55), var(--shadow-sm);
       transition: box-shadow 0.2s, transform 0.2s;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
     }
     #central-video-wrap:hover {
       transform: scale(1.02);
       box-shadow: 0 16px 48px rgba(0,0,0,0.7), var(--shadow-md);
     }
-    #central-video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
-    #video-hint {
-      position: absolute; bottom: 8px; right: 10px;
-      background: rgba(0,0,0,0.72); color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px; letter-spacing: 0.1em;
-      padding: 3px 8px; border-radius: 2px;
-      opacity: 0; transition: opacity 0.2s; pointer-events: none;
+    #screen-logo {
+      width: 55%; height: auto; display: block;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
     }
-    #central-video-wrap:hover #video-hint { opacity: 1; }
+    #screen-cta {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(10px, 1.4vw, 18px);
+      letter-spacing: 0.06em;
+      color: #f5f0e8;
+      background: rgba(26,26,46,0.72);
+      padding: 4px 12px;
+      border-radius: 2px;
+      text-align: center;
+      white-space: nowrap;
+    }
 
     /* ===== VIDEO EXPAND MODAL ===== */
     #video-expand {
@@ -312,29 +324,36 @@
         background-position: center top;
       }
 
-      /* Room positions for vertical mobile layout */
-      .room-1 { left: 2%;  top: 2%;  width: 46%; height: 20%; }
-      .room-2 { left: 52%; top: 2%;  width: 46%; height: 20%; }
-      .room-3 { left: 2%;  top: 24%; width: 46%; height: 20%; }
-      .room-4 { left: 52%; top: 24%; width: 46%; height: 20%; }
-      .room-5 { left: 2%;  top: 68%; width: 46%; height: 22%; }
-      .room-6 { left: 52%; top: 68%; width: 46%; height: 22%; }
+      /* Rooms shifted down +8% so top labels have room */
+      .room-1 { left: 2%;  top: 10%; width: 46%; height: 20%; }
+      .room-2 { left: 52%; top: 10%; width: 46%; height: 20%; }
+      .room-3 { left: 2%;  top: 32%; width: 46%; height: 20%; }
+      .room-4 { left: 52%; top: 32%; width: 46%; height: 20%; }
+      .room-5 { left: 2%;  top: 76%; width: 46%; height: 20%; }
+      .room-6 { left: 52%; top: 76%; width: 46%; height: 20%; }
 
-      /* Smaller floating labels so they don't overlap */
-      .room-label { font-size: 9px; padding: 3px 7px; }
+      /* Labels below the room on mobile */
+      .room-label {
+        font-size: 9px; padding: 3px 7px;
+        bottom: -28px;
+        top: auto;
+        animation-name: floatLabelDown;
+      }
 
-      /* Central video on mobile */
+      /* Central screen on mobile */
       #central-video-wrap {
-        left: 50%; top: 47%;
+        left: 50%; top: 55%;
         transform: translateX(-50%);
         width: 52%; height: 16%;
+        gap: 4px;
       }
       #central-video-wrap:hover { transform: translateX(-50%) scale(1.02); }
+      #screen-cta { font-size: 13px; }
 
-      /* Get Started button — absolute, just below the video */
+      /* Get Started button */
       #get-started {
         position: absolute;
-        top: 65%;
+        top: 73%;
         left: 50%;
         transform: translateX(-50%);
         bottom: auto;
@@ -343,6 +362,33 @@
       }
       #get-started:hover  { transform: translateX(-50%) translate(-2px,-2px); }
       #get-started:active { transform: translateX(-50%) translate(3px,3px); }
+
+      /* Panel slides up from bottom */
+      #panel {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        max-height: 70vh;
+        border-left: none;
+        border-top: var(--rule);
+        border-radius: 16px 16px 0 0;
+        transform: translateY(100%);
+        z-index: 999;
+      }
+      #panel.open { transform: translateY(0); }
+      #panel-body { max-height: calc(70vh - 100px); }
+      #panel-handle { display: block; }
+    }
+
+    #panel-handle {
+      display: none;
+      width: 40px; height: 4px;
+      background: #ccc; border-radius: 2px;
+      margin: 10px auto 4px;
+      flex-shrink: 0;
     }
 
     #mobile-header {
@@ -381,19 +427,17 @@
   </div>
 
   <!-- ROOMS -->
-  <div class="room room-1" data-room="1"><div class="room-hit"></div><span class="room-label">Not Another Agency</span></div>
-  <div class="room room-2" data-room="2"><div class="room-hit"></div><span class="room-label">What We Do</span></div>
-  <div class="room room-3" data-room="3"><div class="room-hit"></div><span class="room-label">Numbers + Reviews</span></div>
-  <div class="room room-4" data-room="4"><div class="room-hit"></div><span class="room-label">Our Brands</span></div>
-  <div class="room room-5" data-room="5"><div class="room-hit"></div><span class="room-label">Right Fit?</span></div>
-  <div class="room room-6" data-room="6"><div class="room-hit"></div><span class="room-label">How We Work</span></div>
+  <div class="room room-1" data-room="1" ontouchend="handleTap(event,1)"><div class="room-hit"></div><span class="room-label">Not Another Agency</span></div>
+  <div class="room room-2" data-room="2" ontouchend="handleTap(event,2)"><div class="room-hit"></div><span class="room-label">What We Do</span></div>
+  <div class="room room-3" data-room="3" ontouchend="handleTap(event,3)"><div class="room-hit"></div><span class="room-label">Numbers + Reviews</span></div>
+  <div class="room room-4" data-room="4" ontouchend="handleTap(event,4)"><div class="room-hit"></div><span class="room-label">Our Brands</span></div>
+  <div class="room room-5" data-room="5" ontouchend="handleTap(event,5)"><div class="room-hit"></div><span class="room-label">Right Fit?</span></div>
+  <div class="room room-6" data-room="6" ontouchend="handleTap(event,6)"><div class="room-hit"></div><span class="room-label">How We Work</span></div>
 
-  <!-- CENTRAL VIDEO -->
-  <div id="central-video-wrap">
-    <video autoplay muted loop playsinline>
-      <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/v1778258855/WhatsApp_Video_2026-05-08_at_10.45.53_AM_otqvm2.mp4" type="video/mp4" />
-    </video>
-    <span id="video-hint">Click to expand ↗</span>
+  <!-- CENTRAL SCREEN -->
+  <div id="central-video-wrap" ontouchend="handleScreenTap(event)">
+    <img id="screen-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" />
+    <div id="screen-cta">▶ Click para conocernos</div>
   </div>
 
   <a href="https://wa.me/19152343655" target="_blank" id="get-started">Get Started →</a>
@@ -409,6 +453,7 @@
 
 <!-- ═══════════════ SIDE PANEL ═══════════════ -->
 <div id="panel">
+  <div id="panel-handle"></div>
   <div id="panel-accent"></div>
   <div id="panel-header">
     <div id="panel-title"></div>
@@ -545,7 +590,7 @@ const brands = [
   { name: "Alexboots",              video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922019/MYA_AND_AREANNA_3_-_Trim_ektmw7.mp4",                             thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258258/Vertical_3_4_premium_artisan_western_202605081037_bab6w4.jpg" },
   { name: "Sweet and Fancy Events", video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921227/SWEET_AND_FANCY_BABY_SHOWER_-_Trim_momfa5.mp4",                   thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256954/Vertical_3_4_luxury_event_styling_202605081014_ecbcjs.jpg" },
   { name: "Girls Run the 915",      video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275855/GRT915_STANTON_-_Trim_q9wrdj.mp4",                                                   thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg" },
-  { name: "Asics",                  video: "",                                                                                                                                                    thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256768/Vertical_3_4_premium_athletic_footwear_202605080956_vl5sbi.jpg" },
+  { name: "Asics",                  video: "",                                                                                                                                                    thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256768/Vertical_3_4_premium_athletic_footwear_202605080996_vl5sbi.jpg" },
   { name: "El Paso Best",           video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921523/EL_PASO_BEST_PRESS_PLAY_2_-_Trim_koz3kq.mp4",                     thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255646/QUIERO_QUE_EL_LOGO_ESTE_202605080949_wat0j9.jpg" },
 ];
 
@@ -666,17 +711,30 @@ function openPanel(num) {
   }
 }
 
+function handleTap(e, num) {
+  e.preventDefault();
+  e.stopPropagation();
+  openPanel(num);
+}
+
 document.getElementById('panel-close').addEventListener('click', () => panel.classList.remove('open'));
 document.querySelectorAll('.room').forEach(r => r.addEventListener('click', () => openPanel(+r.dataset.room)));
 
 const videoExpand = document.getElementById('video-expand');
 const expandVid   = videoExpand.querySelector('video');
 
-document.getElementById('central-video-wrap').addEventListener('click', () => {
+function openVideoExpand() {
   videoExpand.classList.add('active');
   expandVid.muted = false;
   expandVid.play();
-});
+}
+
+function handleScreenTap(e) {
+  e.preventDefault();
+  openVideoExpand();
+}
+
+document.getElementById('central-video-wrap').addEventListener('click', openVideoExpand);
 document.getElementById('video-expand-close').addEventListener('click', closeExpand);
 videoExpand.addEventListener('click', e => { if (e.target === videoExpand) closeExpand(); });
 
