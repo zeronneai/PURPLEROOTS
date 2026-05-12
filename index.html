@@ -355,35 +355,24 @@
 
     /* ===== MOBILE OVERRIDES ===== */
     @media (max-width: 767px) {
-      /* Lock viewport */
       html, body { touch-action: none; }
-
-      /* Hide desktop panel on mobile */
       #panel { display: none !important; }
-
-      /* Vertical map background */
       #map-bg {
         background-image: url('https://res.cloudinary.com/dsprn0ew4/image/upload/v1778541765/GENERA_LA_MISMA_IMAGEN__QUE_202605111722_lso037.jpg');
         background-size: cover;
         background-position: center top;
       }
-
-      /* Mobile room positions — shifted down so labels have space */
       .room-1 { left: 2%;  top: 10%; width: 46%; height: 20%; }
       .room-2 { left: 52%; top: 10%; width: 46%; height: 20%; }
       .room-3 { left: 2%;  top: 32%; width: 46%; height: 20%; }
       .room-4 { left: 52%; top: 32%; width: 46%; height: 20%; }
       .room-5 { left: 2%;  top: 76%; width: 46%; height: 20%; }
       .room-6 { left: 52%; top: 76%; width: 46%; height: 20%; }
-
-      /* Labels below each room */
       .room-label {
         font-size: 9px; padding: 3px 7px;
         bottom: -28px; top: auto;
         animation-name: floatLabelDown;
       }
-
-      /* Central screen on mobile */
       #central-video-wrap {
         left: 50%; top: 55%;
         transform: translateX(-50%);
@@ -392,8 +381,6 @@
       #central-video-wrap:hover { transform: translateX(-50%) scale(1.02); }
       #screen-logo  { max-width: 80px; }
       #screen-cta   { font-size: 14px; margin-top: 6px; }
-
-      /* CTA button */
       #get-started {
         position: absolute;
         top: 73%; bottom: auto;
@@ -402,8 +389,6 @@
         font-size: 0.78rem; padding: 10px 22px;
       }
       #get-started:active { transform: translateX(-50%) translate(3px,3px); }
-
-      /* Mobile modal inner: single-column brand grid */
       #mm-body .services-grid,
       #mm-body .fit-cols { grid-template-columns: 1fr; }
       #mm-body .stats-grid { grid-template-columns: 1fr 1fr; }
