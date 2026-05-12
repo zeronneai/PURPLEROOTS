@@ -26,7 +26,12 @@
       --shadow-lg:8px 8px 0 #1a1a2e;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Archivo Black', sans-serif; background: var(--black); }
+    html, body {
+      width: 100%; height: 100dvh;
+      overflow: hidden;
+      font-family: 'Archivo Black', sans-serif;
+      background: var(--black);
+    }
 
     /* ===== MAP ROOT ===== */
     #map-root { position: fixed; inset: 0; }
@@ -40,19 +45,15 @@
       pointer-events: none;
     }
 
-    /* ===== LOGO ===== */
-    #map-logo {
-      position: absolute; top: 18px; left: 22px; z-index: 50;
-    }
+    /* ===== NAVBAR LOGO ===== */
+    #map-logo { position: absolute; top: 18px; left: 22px; z-index: 50; }
     #map-logo img {
       height: 38px; width: auto; display: block;
       filter: drop-shadow(0 2px 10px rgba(0,0,0,0.6));
     }
 
     /* ===== ROOMS ===== */
-    .room {
-      position: absolute; cursor: pointer; z-index: 20;
-    }
+    .room { position: absolute; cursor: pointer; z-index: 20; }
     .room-hit {
       width: 100%; height: 100%;
       border: 3px solid transparent; border-radius: 6px;
@@ -63,7 +64,7 @@
       box-shadow: 0 0 0 2px var(--black), 0 0 20px 4px rgba(26,26,46,0.3);
     }
 
-    /* Glow pulse per room */
+    /* Glow pulse */
     .room::before {
       content: ''; position: absolute; inset: -8px; border-radius: 14px;
       opacity: 0; pointer-events: none;
@@ -80,13 +81,13 @@
       38%          { opacity: 0.3; transform: scale(1.05); }
     }
 
-    /* Room positions */
-    .room-1 { left: 7%;   top: 18%; width: 17%; height: 22%; }
-    .room-2 { left: 38%;  top: 8%;  width: 23%; height: 22%; }
-    .room-3 { left: 73%;  top: 16%; width: 19%; height: 22%; }
-    .room-4 { left: 5%;   top: 57%; width: 20%; height: 25%; }
-    .room-5 { left: 38%;  top: 60%; width: 23%; height: 22%; }
-    .room-6 { left: 73%;  top: 57%; width: 19%; height: 25%; }
+    /* Desktop room positions */
+    .room-1 { left: 7%;  top: 18%; width: 17%; height: 22%; }
+    .room-2 { left: 38%; top: 8%;  width: 23%; height: 22%; }
+    .room-3 { left: 73%; top: 16%; width: 19%; height: 22%; }
+    .room-4 { left: 5%;  top: 57%; width: 20%; height: 25%; }
+    .room-5 { left: 38%; top: 60%; width: 23%; height: 22%; }
+    .room-6 { left: 73%; top: 57%; width: 19%; height: 25%; }
 
     /* ===== FLOATING LABELS ===== */
     .room-label {
@@ -122,28 +123,31 @@
       z-index: 15; cursor: pointer;
       border: 2px solid rgba(26,26,46,0.5); border-radius: 3px;
       overflow: hidden;
-      background: var(--black);
+      background: #1a1a2e;
       box-shadow: 0 8px 32px rgba(0,0,0,0.55), var(--shadow-sm);
       transition: box-shadow 0.2s, transform 0.2s;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
     }
     #central-video-wrap:hover {
       transform: scale(1.02);
       box-shadow: 0 16px 48px rgba(0,0,0,0.7), var(--shadow-md);
     }
+    #screen-inner {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center;
+      width: 90%; text-align: center;
+    }
     #screen-logo {
-      width: 55%; height: auto; display: block;
+      max-width: 120px; width: 80%; height: auto; display: block;
       filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
     }
     #screen-cta {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(10px, 1.4vw, 18px);
+      font-size: 18px;
       letter-spacing: 0.06em;
       color: #f5f0e8;
-      background: rgba(26,26,46,0.72);
-      padding: 4px 12px;
-      border-radius: 2px;
-      text-align: center;
+      margin-top: 12px;
       white-space: nowrap;
     }
 
@@ -170,7 +174,7 @@
     }
     #video-expand-close:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
 
-    /* ===== SIDE PANEL ===== */
+    /* ===== DESKTOP SIDE PANEL ===== */
     #panel {
       position: fixed; top: 0; right: 0;
       width: 420px; height: 100%;
@@ -183,8 +187,7 @@
     #panel.open { transform: translateX(0); }
     #panel-accent { height: 5px; flex-shrink: 0; }
     #panel-header {
-      padding: 24px 24px 18px;
-      border-bottom: var(--rule);
+      padding: 24px 24px 18px; border-bottom: var(--rule);
       display: flex; align-items: flex-start; justify-content: space-between;
       flex-shrink: 0;
     }
@@ -204,28 +207,66 @@
     #panel-close:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
     #panel-body { padding: 22px 24px; overflow-y: auto; flex: 1; }
 
-    /* ===== PANEL INNER COMPONENTS ===== */
+    /* ===== MOBILE FULLSCREEN MODAL ===== */
+    #mobile-modal {
+      position: fixed; inset: 0;
+      z-index: 9999;
+      background: var(--paper);
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+      visibility: hidden;
+      display: flex; flex-direction: column;
+    }
+    #mobile-modal.active {
+      transform: translateY(0);
+      pointer-events: all;
+      visibility: visible;
+    }
+    #mm-accent { height: 5px; flex-shrink: 0; }
+    #mm-header {
+      position: sticky; top: 0;
+      background: var(--paper);
+      border-bottom: var(--rule);
+      padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 1; flex-shrink: 0;
+    }
+    #mm-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.1rem; line-height: 1.2;
+      color: var(--black); flex: 1; margin-right: 12px;
+    }
+    #mm-close {
+      background: var(--black); color: var(--white);
+      border: var(--rule); min-width: 48px; height: 48px;
+      font-size: 22px; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-sm);
+      font-family: 'Archivo Black', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #mm-body { padding: 20px; flex: 1; }
+
+    /* ===== PANEL / MODAL INNER COMPONENTS ===== */
     .panel-section-label {
       font-family: 'JetBrains Mono', monospace; font-size: 9px;
       letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--purple); margin-bottom: 14px;
     }
-
-    /* Room 1 — value cards */
     .value-cards { display: flex; flex-direction: column; gap: 12px; }
     .value-card { background: var(--white); border: var(--rule); padding: 14px; box-shadow: var(--shadow-sm); }
     .value-card-icon { font-size: 1.3rem; margin-bottom: 5px; }
     .value-card-title { font-family: 'Archivo Black', sans-serif; font-size: 0.82rem; margin-bottom: 5px; color: var(--black); }
     .value-card-desc { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; line-height: 1.6; color: rgba(26,26,46,0.68); }
 
-    /* Room 2 — services */
     .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .service-item { background: var(--white); border: var(--rule); padding: 13px; box-shadow: var(--shadow-sm); }
     .service-num { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; color: var(--purple); margin-bottom: 4px; }
     .service-name { font-family: 'Archivo Black', sans-serif; font-size: 0.76rem; margin-bottom: 5px; color: var(--black); }
     .service-desc { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; line-height: 1.55; color: rgba(26,26,46,0.65); }
 
-    /* Room 3 — stats + testimonials */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
     .stat-box { background: var(--black); color: var(--white); border: var(--rule); padding: 14px 10px; text-align: center; box-shadow: var(--shadow-sm); }
     .stat-num { font-family: 'Archivo Black', sans-serif; font-size: 1.4rem; letter-spacing: -0.02em; color: var(--lime); }
@@ -235,13 +276,13 @@
     .testi-quote { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.76rem; line-height: 1.55; color: var(--black); margin-bottom: 7px; }
     .testi-author { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.08em; color: var(--purple); }
 
-    /* Room 4 — brand cards */
     .brand-pcard {
       aspect-ratio: 4/5; border: var(--rule); overflow: hidden; cursor: pointer;
       position: relative; box-shadow: var(--shadow-sm);
       transition: transform 0.12s, box-shadow 0.12s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .brand-pcard:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
+    .brand-pcard:active { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
     .brand-pcard img.bp-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
     .brand-pcard .bp-lbl {
       position: absolute; bottom: 0; left: 0; right: 0;
@@ -251,7 +292,6 @@
       padding: 5px 7px; text-align: center;
     }
 
-    /* Room 5 — fit check */
     .fit-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .fit-col { border: var(--rule); padding: 14px; box-shadow: var(--shadow-sm); }
     .fit-col.not { background: var(--lime); }
@@ -270,7 +310,6 @@
     }
     .fit-btn:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
 
-    /* Room 6 — process */
     .process-steps { display: flex; flex-direction: column; gap: 10px; }
     .process-step { border: var(--rule); padding: 14px; box-shadow: var(--shadow-sm); }
     .step-num { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; margin-bottom: 4px; color: var(--black); }
@@ -285,13 +324,14 @@
       font-family: 'Archivo Black', sans-serif; font-size: 0.88rem;
       text-decoration: none; box-shadow: var(--shadow-md);
       transition: transform 0.12s, box-shadow 0.12s; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
     }
-    #get-started:hover { transform: translateX(-50%) translate(-3px,-3px); box-shadow: var(--shadow-lg); }
+    #get-started:hover  { transform: translateX(-50%) translate(-3px,-3px); box-shadow: var(--shadow-lg); }
     #get-started:active { transform: translateX(-50%) translate(4px,4px); box-shadow: 2px 2px 0 var(--black); }
 
     /* ===== BRAND VIDEO MODAL ===== */
     #brand-video-modal {
-      position: fixed; inset: 0; z-index: 300;
+      position: fixed; inset: 0; z-index: 10000;
       display: flex; align-items: center; justify-content: center;
       background: rgba(26,26,46,0.92); backdrop-filter: blur(18px);
       opacity: 0; pointer-events: none; transition: opacity 0.3s;
@@ -313,18 +353,22 @@
     }
     #brand-video-close:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
 
-    /* ===== MOBILE MAP LAYOUT ===== */
-    #mobile-view { display: none; }
-
+    /* ===== MOBILE OVERRIDES ===== */
     @media (max-width: 767px) {
-      /* Use vertical image on mobile */
+      /* Lock viewport */
+      html, body { touch-action: none; }
+
+      /* Hide desktop panel on mobile */
+      #panel { display: none !important; }
+
+      /* Vertical map background */
       #map-bg {
         background-image: url('https://res.cloudinary.com/dsprn0ew4/image/upload/v1778541765/GENERA_LA_MISMA_IMAGEN__QUE_202605111722_lso037.jpg');
         background-size: cover;
         background-position: center top;
       }
 
-      /* Rooms shifted down +8% so top labels have room */
+      /* Mobile room positions — shifted down so labels have space */
       .room-1 { left: 2%;  top: 10%; width: 46%; height: 20%; }
       .room-2 { left: 52%; top: 10%; width: 46%; height: 20%; }
       .room-3 { left: 2%;  top: 32%; width: 46%; height: 20%; }
@@ -332,11 +376,10 @@
       .room-5 { left: 2%;  top: 76%; width: 46%; height: 20%; }
       .room-6 { left: 52%; top: 76%; width: 46%; height: 20%; }
 
-      /* Labels below the room on mobile */
+      /* Labels below each room */
       .room-label {
         font-size: 9px; padding: 3px 7px;
-        bottom: -28px;
-        top: auto;
+        bottom: -28px; top: auto;
         animation-name: floatLabelDown;
       }
 
@@ -345,75 +388,27 @@
         left: 50%; top: 55%;
         transform: translateX(-50%);
         width: 52%; height: 16%;
-        gap: 4px;
       }
       #central-video-wrap:hover { transform: translateX(-50%) scale(1.02); }
-      #screen-cta { font-size: 13px; }
+      #screen-logo  { max-width: 80px; }
+      #screen-cta   { font-size: 14px; margin-top: 6px; }
 
-      /* Get Started button */
+      /* CTA button */
       #get-started {
         position: absolute;
-        top: 73%;
+        top: 73%; bottom: auto;
         left: 50%;
         transform: translateX(-50%);
-        bottom: auto;
-        font-size: 0.78rem;
-        padding: 10px 22px;
+        font-size: 0.78rem; padding: 10px 22px;
       }
-      #get-started:hover  { transform: translateX(-50%) translate(-2px,-2px); }
       #get-started:active { transform: translateX(-50%) translate(3px,3px); }
 
-      /* Panel slides up from bottom */
-      #panel {
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: auto;
-        max-height: 70vh;
-        border-left: none;
-        border-top: var(--rule);
-        border-radius: 16px 16px 0 0;
-        transform: translateY(100%);
-        z-index: 999;
-      }
-      #panel.open { transform: translateY(0); }
-      #panel-body { max-height: calc(70vh - 100px); }
-      #panel-handle { display: block; }
+      /* Mobile modal inner: single-column brand grid */
+      #mm-body .services-grid,
+      #mm-body .fit-cols { grid-template-columns: 1fr; }
+      #mm-body .stats-grid { grid-template-columns: 1fr 1fr; }
+      #mm-body .testimonials-grid { grid-template-columns: 1fr; }
     }
-
-    #panel-handle {
-      display: none;
-      width: 40px; height: 4px;
-      background: #ccc; border-radius: 2px;
-      margin: 10px auto 4px;
-      flex-shrink: 0;
-    }
-
-    #mobile-header {
-      padding: 18px 16px; border-bottom: var(--rule); background: var(--black);
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    #mobile-header img { height: 30px; }
-    #mobile-header a {
-      background: var(--lime); color: var(--black); padding: 8px 14px;
-      font-family: 'Archivo Black', sans-serif; font-size: 11px;
-      border: var(--rule); text-decoration: none; box-shadow: var(--shadow-sm);
-    }
-    .mobile-section { border-bottom: var(--rule); }
-    .mobile-section-header {
-      padding: 18px 16px 14px; display: flex; align-items: center; gap: 10px; border-bottom: var(--rule);
-    }
-    .mobile-section-num { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: var(--purple); }
-    .mobile-section-title { font-family: 'Archivo Black', sans-serif; font-size: 0.95rem; color: var(--black); }
-    .mobile-section-1 .mobile-section-header { background: var(--lavender); }
-    .mobile-section-2 .mobile-section-header { background: var(--lime); }
-    .mobile-section-3 .mobile-section-header { background: var(--peach); }
-    .mobile-section-4 .mobile-section-header { background: var(--blush); }
-    .mobile-section-5 .mobile-section-header { background: var(--white); }
-    .mobile-section-6 .mobile-section-header { background: var(--mint); }
-    .mobile-section-body { padding: 16px; }
   </style>
 </head>
 <body>
@@ -426,18 +421,20 @@
     <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" />
   </div>
 
-  <!-- ROOMS -->
-  <div class="room room-1" data-room="1" ontouchend="handleTap(event,1)"><div class="room-hit"></div><span class="room-label">Not Another Agency</span></div>
-  <div class="room room-2" data-room="2" ontouchend="handleTap(event,2)"><div class="room-hit"></div><span class="room-label">What We Do</span></div>
-  <div class="room room-3" data-room="3" ontouchend="handleTap(event,3)"><div class="room-hit"></div><span class="room-label">Numbers + Reviews</span></div>
-  <div class="room room-4" data-room="4" ontouchend="handleTap(event,4)"><div class="room-hit"></div><span class="room-label">Our Brands</span></div>
-  <div class="room room-5" data-room="5" ontouchend="handleTap(event,5)"><div class="room-hit"></div><span class="room-label">Right Fit?</span></div>
-  <div class="room room-6" data-room="6" ontouchend="handleTap(event,6)"><div class="room-hit"></div><span class="room-label">How We Work</span></div>
+  <!-- ROOMS — no inline handlers; events added via JS -->
+  <div class="room room-1" data-room="1"><div class="room-hit"></div><span class="room-label">Not Another Agency</span></div>
+  <div class="room room-2" data-room="2"><div class="room-hit"></div><span class="room-label">What We Do</span></div>
+  <div class="room room-3" data-room="3"><div class="room-hit"></div><span class="room-label">Numbers + Reviews</span></div>
+  <div class="room room-4" data-room="4"><div class="room-hit"></div><span class="room-label">Our Brands</span></div>
+  <div class="room room-5" data-room="5"><div class="room-hit"></div><span class="room-label">Right Fit?</span></div>
+  <div class="room room-6" data-room="6"><div class="room-hit"></div><span class="room-label">How We Work</span></div>
 
   <!-- CENTRAL SCREEN -->
-  <div id="central-video-wrap" ontouchend="handleScreenTap(event)">
-    <img id="screen-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" />
-    <div id="screen-cta">▶ Click para conocernos</div>
+  <div id="central-video-wrap">
+    <div id="screen-inner">
+      <img id="screen-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" />
+      <div id="screen-cta">▶ CLICK PARA CONOCERNOS</div>
+    </div>
   </div>
 
   <a href="https://wa.me/19152343655" target="_blank" id="get-started">Get Started →</a>
@@ -451,15 +448,24 @@
   <button id="video-expand-close">✕</button>
 </div>
 
-<!-- ═══════════════ SIDE PANEL ═══════════════ -->
+<!-- ═══════════════ DESKTOP SIDE PANEL ═══════════════ -->
 <div id="panel">
-  <div id="panel-handle"></div>
   <div id="panel-accent"></div>
   <div id="panel-header">
     <div id="panel-title"></div>
     <button id="panel-close">✕</button>
   </div>
   <div id="panel-body"></div>
+</div>
+
+<!-- ═══════════════ MOBILE FULLSCREEN MODAL ═══════════════ -->
+<div id="mobile-modal">
+  <div id="mm-accent"></div>
+  <div id="mm-header">
+    <div id="mm-title"></div>
+    <button id="mm-close">✕</button>
+  </div>
+  <div id="mm-body"></div>
 </div>
 
 <!-- ═══════════════ BRAND VIDEO MODAL ═══════════════ -->
@@ -471,106 +477,8 @@
   </div>
 </div>
 
-<!-- ═══════════════ MOBILE VIEW ═══════════════ -->
-<div id="mobile-view">
-  <div id="mobile-header">
-    <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" />
-    <a href="https://wa.me/19152343655" target="_blank">Get Started →</a>
-  </div>
-
-  <div class="mobile-section mobile-section-1">
-    <div class="mobile-section-header"><span class="mobile-section-num">01</span><span class="mobile-section-title">Not Another Agency</span></div>
-    <div class="mobile-section-body">
-      <div class="value-cards">
-        <div class="value-card"><div class="value-card-icon">🎯</div><div class="value-card-title">Strategy First</div><div class="value-card-desc">Every project starts with a reason. We don't make pretty things for the sake of it — we make things that work. If it doesn't serve the brand, it doesn't ship.</div></div>
-        <div class="value-card"><div class="value-card-icon">🎬</div><div class="value-card-title">Video is Our Mother Tongue</div><div class="value-card-desc">From 15-second reels to full brand films, we speak video fluently. Cinematic quality. Social-first thinking. Always on time, always on budget.</div></div>
-        <div class="value-card"><div class="value-card-icon">🌎</div><div class="value-card-title">Born in El Paso, Built Global</div><div class="value-card-desc">We started in the borderland, where two cultures collide and make something louder than both. That energy lives in everything we create.</div></div>
-        <div class="value-card"><div class="value-card-icon">🤝</div><div class="value-card-title">We Work Like Partners</div><div class="value-card-desc">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mobile-section mobile-section-2">
-    <div class="mobile-section-header"><span class="mobile-section-num">02</span><span class="mobile-section-title">What We Do</span></div>
-    <div class="mobile-section-body">
-      <div class="services-grid">
-        <div class="service-item"><div class="service-num">01 / SERVICE</div><div class="service-name">Brand Identity</div><div class="service-desc">Logos, visual systems, and brand guidelines that give your company a voice before you speak a word.</div></div>
-        <div class="service-item"><div class="service-num">02 / SERVICE</div><div class="service-name">Video Production</div><div class="service-desc">Cinematic brand films, commercials, and social-first content that stops the scroll every single time.</div></div>
-        <div class="service-item"><div class="service-num">03 / SERVICE</div><div class="service-name">Digital Content</div><div class="service-desc">Photography, reels, and editorial assets engineered for engagement across every platform, every format.</div></div>
-        <div class="service-item"><div class="service-num">04 / SERVICE</div><div class="service-name">Social Strategy</div><div class="service-desc">Data-driven calendars, community management, and paid social campaigns built to actually perform.</div></div>
-        <div class="service-item"><div class="service-num">05 / SERVICE</div><div class="service-name">Web Design</div><div class="service-desc">Editorial-grade sites that balance aesthetics with conversion — because looking good AND converting aren't mutually exclusive.</div></div>
-        <div class="service-item"><div class="service-num">06 / SERVICE</div><div class="service-name">Campaigns &amp; Activations</div><div class="service-desc">360° campaign concepts from strategy and creative direction to on-ground execution and detailed reporting.</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mobile-section mobile-section-3">
-    <div class="mobile-section-header"><span class="mobile-section-num">03</span><span class="mobile-section-title">Numbers + Reviews</span></div>
-    <div class="mobile-section-body">
-      <div class="stats-grid">
-        <div class="stat-box"><div class="stat-num">5+</div><div class="stat-label">Years in Business</div></div>
-        <div class="stat-box"><div class="stat-num">40+</div><div class="stat-label">Brands Served</div></div>
-        <div class="stat-box"><div class="stat-num">100+</div><div class="stat-label">Projects Shipped</div></div>
-        <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Countries Reached</div></div>
-      </div>
-      <div class="testimonials-grid" style="margin-top:14px">
-        <div class="testi-card"><p class="testi-quote">"Purple Roots didn't just shoot our content — they understood our brand before we even finished explaining it."</p><div class="testi-author">— Marketing Director, Jarritos Campaign</div></div>
-        <div class="testi-card"><p class="testi-quote">"From concept to delivery, they were professional, fast, and genuinely creative."</p><div class="testi-author">— Brand Manager, Mercedes El Paso</div></div>
-        <div class="testi-card"><p class="testi-quote">"Our social engagement went up 300% in 90 days. Purple Roots made it look easy."</p><div class="testi-author">— Founder, Badass Human</div></div>
-        <div class="testi-card"><p class="testi-quote">"They're the team you call when you're tired of mediocre. Honest, talent-heavy, and they actually give a damn."</p><div class="testi-author">— CEO, Desertview</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mobile-section mobile-section-4">
-    <div class="mobile-section-header"><span class="mobile-section-num">04</span><span class="mobile-section-title">Our Brands</span></div>
-    <div class="mobile-section-body" id="mobile-brands-body"></div>
-  </div>
-
-  <div class="mobile-section mobile-section-5">
-    <div class="mobile-section-header"><span class="mobile-section-num">05</span><span class="mobile-section-title">Right Fit?</span></div>
-    <div class="mobile-section-body">
-      <div class="fit-cols">
-        <div class="fit-col not">
-          <div class="fit-col-title">We're probably not for you if:</div>
-          <ul>
-            <li>You need a logo done by tomorrow</li>
-            <li>Your budget is "we'll see what you quote"</li>
-            <li>You want to approve every single frame</li>
-            <li>You think one Instagram post = a campaign</li>
-            <li>You're not ready to commit to a vision</li>
-          </ul>
-          <span class="fit-btn">Skip</span>
-        </div>
-        <div class="fit-col yes">
-          <div class="fit-col-title">We're a perfect fit if:</div>
-          <ul>
-            <li>You value your brand as a real asset</li>
-            <li>You want a long-term creative partner</li>
-            <li>You trust the process and trust the team</li>
-            <li>You're ready to invest in quality that lasts</li>
-            <li>You want to stand out, not blend in</li>
-          </ul>
-          <a href="https://wa.me/19152343655" target="_blank" class="fit-btn">Let's Go →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mobile-section mobile-section-6">
-    <div class="mobile-section-header"><span class="mobile-section-num">06</span><span class="mobile-section-title">How We Work</span></div>
-    <div class="mobile-section-body">
-      <div class="process-steps">
-        <div class="process-step" style="background:var(--lime)"><div class="step-num">01</div><div class="step-title">Discovery</div><div class="step-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork — we build on research.</div></div>
-        <div class="process-step" style="background:var(--paper)"><div class="step-num">02</div><div class="step-title">Strategy</div><div class="step-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</div></div>
-        <div class="process-step" style="background:var(--lavender)"><div class="step-num">03</div><div class="step-title">Production</div><div class="step-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</div></div>
-        <div class="process-step" style="background:var(--blush)"><div class="step-num">04</div><div class="step-title">Launch &amp; Grow</div><div class="step-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
+/* ── DATA ── */
 const brands = [
   { name: "Powerhouse",             video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275936/GLOW_RECAP_-_Trim_s0s44a.mp4",                                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg" },
   { name: "Jarritos",               video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778276263/Purple_Roots_Reel_2025_1_edited_ihmdk4.mp4",                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274405/Vertical_3_4_vibrant_lifestyle_editorial_202605081502_hhauyz.jpg" },
@@ -590,10 +498,11 @@ const brands = [
   { name: "Alexboots",              video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922019/MYA_AND_AREANNA_3_-_Trim_ektmw7.mp4",                             thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258258/Vertical_3_4_premium_artisan_western_202605081037_bab6w4.jpg" },
   { name: "Sweet and Fancy Events", video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921227/SWEET_AND_FANCY_BABY_SHOWER_-_Trim_momfa5.mp4",                   thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256954/Vertical_3_4_luxury_event_styling_202605081014_ecbcjs.jpg" },
   { name: "Girls Run the 915",      video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275855/GRT915_STANTON_-_Trim_q9wrdj.mp4",                                                   thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg" },
-  { name: "Asics",                  video: "",                                                                                                                                                    thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256768/Vertical_3_4_premium_athletic_footwear_202605080996_vl5sbi.jpg" },
+  { name: "Asics",                  video: "",                                                                                                                                                    thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256768/Vertical_3_4_premium_athletic_footwear_202605080956_vl5sbi.jpg" },
   { name: "El Paso Best",           video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921523/EL_PASO_BEST_PRESS_PLAY_2_-_Trim_koz3kq.mp4",                     thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255646/QUIERO_QUE_EL_LOGO_ESTE_202605080949_wat0j9.jpg" },
 ];
 
+/* ── ROOM CONTENT ── */
 const roomPanels = {
   1: {
     title: 'Not Another Agency.',
@@ -644,7 +553,7 @@ const roomPanels = {
     title: "Brands We've Worked With.",
     accent: 'var(--blush)',
     render: () => `
-      <p class="panel-section-label">Click a card to watch</p>
+      <p class="panel-section-label">Tap a card to watch</p>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
         ${brands.map(b => `<div class="brand-pcard" data-video="${b.video||\'\'}" data-name="${b.name}"><img class="bp-thumb" src="${b.thumbnail}" alt="${b.name}" loading="lazy"/><div class="bp-lbl">${b.name}</div></div>`).join('')}
       </div>`
@@ -693,33 +602,81 @@ const roomPanels = {
   }
 };
 
+/* ── HELPERS ── */
+const isMobile = () => window.innerWidth < 768;
+
+function attachBrandCardEvents(container) {
+  container.querySelectorAll('.brand-pcard').forEach(c => {
+    c.addEventListener('click', () => openBrandVideo(c.dataset.name, c.dataset.video));
+    c.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      openBrandVideo(c.dataset.name, c.dataset.video);
+    });
+  });
+}
+
+/* ── DESKTOP PANEL ── */
 const panel       = document.getElementById('panel');
 const panelTitle  = document.getElementById('panel-title');
 const panelBody   = document.getElementById('panel-body');
 const panelAccent = document.getElementById('panel-accent');
 
-function openPanel(num) {
+function openDesktopPanel(num) {
   const d = roomPanels[num];
   panelTitle.textContent = d.title;
   panelAccent.style.background = d.accent;
   panelBody.innerHTML = d.render();
   panel.classList.add('open');
-  if (num === 4) {
-    panelBody.querySelectorAll('.brand-pcard').forEach(c =>
-      c.addEventListener('click', () => openBrandVideo(c.dataset.name, c.dataset.video))
-    );
-  }
-}
-
-function handleTap(e, num) {
-  e.preventDefault();
-  e.stopPropagation();
-  openPanel(num);
+  if (num === 4) attachBrandCardEvents(panelBody);
 }
 
 document.getElementById('panel-close').addEventListener('click', () => panel.classList.remove('open'));
-document.querySelectorAll('.room').forEach(r => r.addEventListener('click', () => openPanel(+r.dataset.room)));
 
+/* ── MOBILE MODAL ── */
+const mobileModal = document.getElementById('mobile-modal');
+const mmTitle     = document.getElementById('mm-title');
+const mmBody      = document.getElementById('mm-body');
+const mmAccent    = document.getElementById('mm-accent');
+
+function openMobileModal(num) {
+  const d = roomPanels[num];
+  mmTitle.textContent = d.title;
+  mmAccent.style.background = d.accent;
+  mmBody.innerHTML = d.render();
+  mobileModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  mobileModal.scrollTop = 0;
+  if (num === 4) attachBrandCardEvents(mmBody);
+}
+
+function closeMobileModal() {
+  mobileModal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('mm-close').addEventListener('click', closeMobileModal);
+
+/* ── UNIFIED openPanel ── */
+function openPanel(num) {
+  if (isMobile()) {
+    openMobileModal(num);
+  } else {
+    openDesktopPanel(num);
+  }
+}
+
+/* ── ROOM EVENT LISTENERS (click + touchend via JS, no inline handlers) ── */
+document.querySelectorAll('.room').forEach(r => {
+  const num = +r.dataset.room;
+  r.addEventListener('click', () => openPanel(num));
+  r.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openPanel(num);
+  });
+});
+
+/* ── VIDEO EXPAND ── */
 const videoExpand = document.getElementById('video-expand');
 const expandVid   = videoExpand.querySelector('video');
 
@@ -729,23 +686,27 @@ function openVideoExpand() {
   expandVid.play();
 }
 
-function handleScreenTap(e) {
-  e.preventDefault();
-  openVideoExpand();
+function closeExpand() {
+  videoExpand.classList.remove('active');
+  expandVid.pause();
+  expandVid.muted = true;
 }
 
-document.getElementById('central-video-wrap').addEventListener('click', openVideoExpand);
+const screenWrap = document.getElementById('central-video-wrap');
+screenWrap.addEventListener('click', openVideoExpand);
+screenWrap.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  openVideoExpand();
+});
+
 document.getElementById('video-expand-close').addEventListener('click', closeExpand);
 videoExpand.addEventListener('click', e => { if (e.target === videoExpand) closeExpand(); });
 
-function closeExpand() {
-  videoExpand.classList.remove('active');
-  expandVid.pause(); expandVid.muted = true;
-}
-
-const brandModal  = document.getElementById('brand-video-modal');
-const brandMedia  = document.getElementById('brand-video-media');
-const brandName   = document.getElementById('brand-video-name');
+/* ── BRAND VIDEO MODAL ── */
+const brandModal = document.getElementById('brand-video-modal');
+const brandMedia = document.getElementById('brand-video-media');
+const brandName  = document.getElementById('brand-video-name');
 
 function openBrandVideo(name, url) {
   brandName.textContent = name;
@@ -755,22 +716,22 @@ function openBrandVideo(name, url) {
   brandModal.classList.add('active');
 }
 
-function closeBrandVideo() { brandModal.classList.remove('active'); brandMedia.innerHTML = ''; }
+function closeBrandVideo() {
+  brandModal.classList.remove('active');
+  brandMedia.innerHTML = '';
+}
+
 document.getElementById('brand-video-close').addEventListener('click', closeBrandVideo);
 brandModal.addEventListener('click', e => { if (e.target === brandModal) closeBrandVideo(); });
 
-const mobileBrands = document.getElementById('mobile-brands-body');
-if (mobileBrands) {
-  mobileBrands.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${
-    brands.map(b => `<div class="brand-pcard" style="width:100%" data-video="${b.video||\'\'}" data-name="${b.name}"><img class="bp-thumb" src="${b.thumbnail}" alt="${b.name}" loading="lazy"/><div class="bp-lbl">${b.name}</div></div>`).join('')
-  }</div>`;
-  mobileBrands.querySelectorAll('.brand-pcard').forEach(c =>
-    c.addEventListener('click', () => openBrandVideo(c.dataset.name, c.dataset.video))
-  );
-}
-
+/* ── KEYBOARD ── */
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { panel.classList.remove('open'); closeExpand(); closeBrandVideo(); }
+  if (e.key === 'Escape') {
+    panel.classList.remove('open');
+    closeMobileModal();
+    closeExpand();
+    closeBrandVideo();
+  }
 });
 </script>
 </body>
