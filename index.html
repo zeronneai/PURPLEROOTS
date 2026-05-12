@@ -53,13 +53,15 @@
     }
 
     /* ===== ROOMS ===== */
-    .room { position: absolute; cursor: pointer; z-index: 20; }
-    .room-hit {
-      width: 100%; height: 100%;
-      border: 3px solid transparent; border-radius: 6px;
+    .room {
+      position: absolute; cursor: pointer; z-index: 1000;
+      background: transparent; border: 3px solid transparent; border-radius: 6px;
+      padding: 0; margin: 0;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
       transition: border-color 0.18s, box-shadow 0.18s;
     }
-    .room:hover .room-hit {
+    .room:hover {
       border-color: var(--black);
       box-shadow: 0 0 0 2px var(--black), 0 0 20px 4px rgba(26,26,46,0.3);
     }
@@ -118,7 +120,7 @@
 
     /* ===== CENTRAL SCREEN ===== */
     #central-video-wrap {
-      position: absolute; left: 37%; top: 38%;
+      position: absolute; left: 37%; top: 35%;
       width: 24%; height: 24%;
       z-index: 15; cursor: pointer;
       border: 2px solid rgba(26,26,46,0.5); border-radius: 3px;
@@ -213,16 +215,11 @@
       z-index: 9999;
       background: var(--paper);
       overflow-y: auto;
-      transform: translateY(100%);
-      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-      pointer-events: none;
-      visibility: hidden;
-      display: flex; flex-direction: column;
+      display: none;
+      flex-direction: column;
     }
     #mobile-modal.active {
-      transform: translateY(0);
-      pointer-events: all;
-      visibility: visible;
+      display: flex;
     }
     #mm-accent { height: 5px; flex-shrink: 0; }
     #mm-header {
@@ -355,32 +352,45 @@
 
     /* ===== MOBILE OVERRIDES ===== */
     @media (max-width: 767px) {
+      /* Lock viewport */
       html, body { touch-action: none; }
+
+      /* Hide desktop panel on mobile */
       #panel { display: none !important; }
+
+      /* Vertical map background */
       #map-bg {
         background-image: url('https://res.cloudinary.com/dsprn0ew4/image/upload/v1778541765/GENERA_LA_MISMA_IMAGEN__QUE_202605111722_lso037.jpg');
         background-size: cover;
         background-position: center top;
       }
+
+      /* Mobile room positions — shifted down so labels have space */
       .room-1 { left: 2%;  top: 10%; width: 46%; height: 20%; }
       .room-2 { left: 52%; top: 10%; width: 46%; height: 20%; }
       .room-3 { left: 2%;  top: 32%; width: 46%; height: 20%; }
       .room-4 { left: 52%; top: 32%; width: 46%; height: 20%; }
       .room-5 { left: 2%;  top: 76%; width: 46%; height: 20%; }
       .room-6 { left: 52%; top: 76%; width: 46%; height: 20%; }
+
+      /* Labels above each room */
       .room-label {
         font-size: 9px; padding: 3px 7px;
-        bottom: -28px; top: auto;
-        animation-name: floatLabelDown;
+        top: -28px; bottom: auto;
+        animation-name: floatLabel;
       }
+
+      /* Central screen on mobile */
       #central-video-wrap {
-        left: 50%; top: 55%;
+        left: 50%; top: 52%;
         transform: translateX(-50%);
         width: 52%; height: 16%;
       }
       #central-video-wrap:hover { transform: translateX(-50%) scale(1.02); }
       #screen-logo  { max-width: 80px; }
       #screen-cta   { font-size: 14px; margin-top: 6px; }
+
+      /* CTA button */
       #get-started {
         position: absolute;
         top: 73%; bottom: auto;
@@ -389,6 +399,8 @@
         font-size: 0.78rem; padding: 10px 22px;
       }
       #get-started:active { transform: translateX(-50%) translate(3px,3px); }
+
+      /* Mobile modal inner: single-column brand grid */
       #mm-body .services-grid,
       #mm-body .fit-cols { grid-template-columns: 1fr; }
       #mm-body .stats-grid { grid-template-columns: 1fr 1fr; }
@@ -406,13 +418,13 @@
     <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" />
   </div>
 
-  <!-- ROOMS — no inline handlers; events added via JS -->
-  <div class="room room-1" data-room="1"><div class="room-hit"></div><span class="room-label">Not Another Agency</span></div>
-  <div class="room room-2" data-room="2"><div class="room-hit"></div><span class="room-label">What We Do</span></div>
-  <div class="room room-3" data-room="3"><div class="room-hit"></div><span class="room-label">Numbers + Reviews</span></div>
-  <div class="room room-4" data-room="4"><div class="room-hit"></div><span class="room-label">Our Brands</span></div>
-  <div class="room room-5" data-room="5"><div class="room-hit"></div><span class="room-label">Right Fit?</span></div>
-  <div class="room room-6" data-room="6"><div class="room-hit"></div><span class="room-label">How We Work</span></div>
+  <!-- ROOMS — <button> for reliable tap on iOS/Android; events added via JS -->
+  <button type="button" class="room room-1" data-room="1"><span class="room-label">Not Another Agency</span></button>
+  <button type="button" class="room room-2" data-room="2"><span class="room-label">What We Do</span></button>
+  <button type="button" class="room room-3" data-room="3"><span class="room-label">Numbers + Reviews</span></button>
+  <button type="button" class="room room-4" data-room="4"><span class="room-label">Our Brands</span></button>
+  <button type="button" class="room room-5" data-room="5"><span class="room-label">Right Fit?</span></button>
+  <button type="button" class="room room-6" data-room="6"><span class="room-label">How We Work</span></button>
 
   <!-- CENTRAL SCREEN -->
   <div id="central-video-wrap">
@@ -650,15 +662,11 @@ function openPanel(num) {
   }
 }
 
-/* ── ROOM EVENT LISTENERS (click + touchend via JS, no inline handlers) ── */
+/* ── ROOM EVENT LISTENERS ── */
+/* <button> + touch-action:manipulation → native click fires instantly on tap */
 document.querySelectorAll('.room').forEach(r => {
   const num = +r.dataset.room;
   r.addEventListener('click', () => openPanel(num));
-  r.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openPanel(num);
-  });
 });
 
 /* ── VIDEO EXPAND ── */
