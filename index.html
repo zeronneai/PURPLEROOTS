@@ -36,16 +36,56 @@ html, body {
 /* ── LOGO ── */
 #logo {
   position: absolute;
-  top: 16px; left: 20px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 15px;
-  letter-spacing: 0.15em;
-  color: #1a1a2e;
-  background: rgba(245,240,232,0.9);
-  padding: 5px 12px 4px;
-  border: 1.5px solid #1a1a2e;
-  border-radius: 2px;
+  top: 12px; left: 16px;
   z-index: 50;
+}
+#logo img {
+  height: 44px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+}
+
+/* ── BRAND VIDEO MODAL ── */
+#brand-video-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,20,0.9);
+  z-index: 9500;
+  align-items: center;
+  justify-content: center;
+}
+#brand-video-modal.open { display: flex; }
+#brand-video-box {
+  position: relative;
+  width: 90vw;
+  max-width: 500px;
+  aspect-ratio: 9/16;
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+#brand-video-box video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+#brand-video-close {
+  position: absolute;
+  top: -14px; right: -14px;
+  width: 32px; height: 32px;
+  background: #1a1a2e;
+  color: #f5f0e8;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 9501;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
 }
 
 /* ── ROOM BUTTONS ── */
@@ -556,38 +596,62 @@ html, body {
   margin-top: 12px;
 }
 
+/* Brand card base (mobile-first: text only) */
 #info-body .brand-card {
   background: white;
   border: 1.5px solid #1a1a2e;
   border-radius: 4px;
-  padding: 10px;
+  padding: 10px 6px;
   text-align: center;
   cursor: pointer;
-  transition: background 0.2s;
   touch-action: manipulation;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-#info-body .brand-card:hover { background: #f0ece4; }
-
-#info-body .brand-card img {
-  width: 100%;
-  height: 60px;
-  object-fit: contain;
-  margin-bottom: 6px;
-}
-
+#info-body .brand-card.no-video { cursor: default; opacity: 0.55; }
+#info-body .brand-card .brand-card-overlay { width: 100%; }
 #info-body .brand-card .brand-name {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #1a1a2e;
 }
+#info-body .brand-card .play-hint { display: none; }
 
-#info-body .brand-card .play-hint {
-  font-size: 9px;
-  color: #9b8ec4;
-  margin-top: 2px;
+/* Desktop: thumbnail background + overlay */
+@media (min-width: 768px) {
+  #info-body .brand-card {
+    aspect-ratio: 3/4;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    align-items: flex-end;
+    transition: filter 0.15s;
+  }
+  #info-body .brand-card:hover { filter: brightness(1.12); }
+  #info-body .brand-card.no-video:hover { filter: none; }
+  #info-body .brand-card-overlay {
+    width: 100%;
+    background: linear-gradient(transparent, rgba(0,0,0,0.82));
+    padding: 24px 6px 8px;
+    text-align: center;
+  }
+  #info-body .brand-card .brand-name { color: #fff; font-size: 9px; }
+  #info-body .brand-card .play-hint {
+    display: block;
+    color: #c6f135;
+    font-size: 13px;
+    margin-top: 3px;
+  }
+  #info-body .brand-card.no-video .play-hint {
+    color: rgba(255,255,255,0.4);
+    font-size: 9px;
+  }
 }
 </style>
 </head>
@@ -596,7 +660,9 @@ html, body {
 <div id="map">
 
   <!-- Logo -->
-  <div id="logo">𝓁 PURPLE ROOTS</div>
+  <div id="logo">
+    <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258144/ChatGPT_Image_May_8_2026_10_33_08_AM_v91yje.png" alt="Purple Roots">
+  </div>
 
   <!-- Room 1: Not Another Agency (purple, top-left) -->
   <button class="room" id="r1" onclick="openInfo(1)">
@@ -631,7 +697,7 @@ html, body {
   <!-- Center Screen -->
   <div id="screen" onclick="openVideo()">
     <div id="screen-pulse"></div>
-    <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots">
+    <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258144/ChatGPT_Image_May_8_2026_10_33_08_AM_v91yje.png" alt="Purple Roots">
     <div id="screen-cta">▶ CLICK PARA CONOCERNOS</div>
   </div>
 
@@ -640,20 +706,28 @@ html, body {
 
 </div>
 
+<!-- BRAND VIDEO MODAL -->
+<div id="brand-video-modal" onclick="if(event.target===this)closeBrandVideo()">
+  <button onclick="closeBrandVideo()" style="position:fixed;top:16px;right:16px;width:40px;height:40px;background:#1a1a2e;color:#f5f0e8;border:none;border-radius:50%;font-size:20px;cursor:pointer;z-index:9999;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div id="brand-video-box">
+    <video id="brand-video" playsinline controls></video>
+  </div>
+</div>
+
 <!-- VIDEO MODAL -->
-<div id="video-modal">
+<div id="video-modal" onclick="if(event.target===this)closeVideo()">
+  <button onclick="closeVideo()" style="position:fixed;top:16px;right:16px;width:40px;height:40px;background:#1a1a2e;color:#f5f0e8;border:none;border-radius:50%;font-size:20px;cursor:pointer;z-index:9999;display:flex;align-items:center;justify-content:center;">✕</button>
   <div id="video-box">
-    <button id="video-close">✕</button>
     <video id="main-video" src="https://res.cloudinary.com/dsprn0ew4/video/upload/v1778258855/WhatsApp_Video_2026-05-08_at_10.45.53_AM_otqvm2.mp4"
       playsinline controls></video>
   </div>
 </div>
 
 <!-- INFO MODAL -->
-<div id="info-modal">
+<div id="info-modal" onclick="if(event.target===this)closeInfo()">
+  <button onclick="closeInfo()" style="position:fixed;top:16px;right:16px;width:40px;height:40px;background:#1a1a2e;color:#f5f0e8;border:none;border-radius:50%;font-size:20px;cursor:pointer;z-index:9999;display:flex;align-items:center;justify-content:center;">✕</button>
   <div id="info-box">
     <div id="info-handle"></div>
-    <button id="info-close">✕</button>
     <div id="info-num">01</div>
     <div id="info-accent"></div>
     <div id="info-sub">SECTION</div>
@@ -679,7 +753,7 @@ var rooms = {
   },
   4: {
     num: '04', title: 'Brands We\'ve Worked With', sub: 'Our Clients', accent: '#e8b8d8',
-    html: '<p>Click on any brand to watch the work.</p><div class="brands-grid"><div class="brand-card" onclick="window.open(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778274405/Vertical_3_4_vibrant_lifestyle_editorial_202605081502_hhauyz.jpg\',\'_blank\')"><div class="brand-name">Jarritos</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778274404/Vertical_3_4_vibrant_Mexican_lifestyle_202605081502_cjgxiq.jpg\',\'_blank\')"><div class="brand-name">Sidral Mundet</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg\',\'_blank\')"><div class="brand-name">Run 915</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275290/Vertical_3_4_cinematic_Mexican_nightlife_202605081512_hdyobc.jpg\',\'_blank\')"><div class="brand-name">Sangria</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'#\',\'_blank\')"><div class="brand-name">Mercedes EP</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'#\',\'_blank\')"><div class="brand-name">Powerhouse</div><div class="play-hint">▶ Ver trabajo</div></div></div>'
+    html: '<p style="margin-bottom:10px">Tap a brand to watch the work.</p><div class="brands-grid"><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275936/GLOW_RECAP_-_Trim_s0s44a.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Powerhouse</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778276263/Purple_Roots_Reel_2025_1_edited_ihmdk4.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274405/Vertical_3_4_vibrant_lifestyle_editorial_202605081502_hhauyz.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Jarritos</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778276375/Purple_Roots_Reel_2025_1_edited_2_c3mq9w.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274404/Vertical_3_4_vibrant_Mexican_lifestyle_202605081502_cjgxiq.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Sidral Mundet</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778276266/Purple_Roots_Reel_2025_1_edited_1_kx1umw.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778275290/Vertical_3_4_cinematic_Mexican_nightlife_202605081512_hdyobc.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Sangria Señorial</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921425/BORDERLAND_TOURNAMENT_-_Trim_odkwvv.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255388/Vertical_3_4_luxury_casino_editorial_202605080942_dgkq0g.jpg\')"><div class="brand-card-overlay"><div class="brand-name">House of Kings</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777920037/VIDEO_STEPS_b0gftl.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778254856/Vertical_3_4_luxury_beauty_editorial_202605080939_qfbi8n.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Kisslab</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922023/RECAP_BADASS-1_-_Trim_t3spql.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778251670/Vertical_3_4_sports_editorial_thumbnail._202605080844_pt9xds.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Badass Human</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921461/DVH_PHASE_2_-_HORIZONTAL_-_Trim_xxh3ny.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778254015/Vertical_3_4_luxury_real_estate_202605080924_qnohnw.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Desertview</div><div class="play-hint">▶</div></div></div><div class="brand-card no-video" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256760/Vertical_3_4_high-energy_running_club_202605081008_-_copia_x2jjwu.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Run For It</div><div class="play-hint">Coming soon</div></div></div><div class="brand-card no-video" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Mercedes El Paso</div><div class="play-hint">Coming soon</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921324/HOY_FAMILY_AUTO_PROMO_-_HD_-_Trim_vfdsd6.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256727/Vertical_3_4_automotive_lifestyle_editorial_202605081008_svzvhv.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Hoy VW</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921612/CHINGON_CUHTS-1_-_Trim_abpuyh.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778254472/Vertical_3_4_cinematic_barbershop_editorial_202605080933_fkhfub.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Chingoncuhts</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921723/TX_TORQUE_3-1_n0b0w6.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258137/Vertical_3_4_elite_baseball_training_202605081033_eqlxgi.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Torque</div><div class="play-hint">▶</div></div></div><div class="brand-card no-video" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258140/OPENING_VIDEO_tvxev7.jpg\')"><div class="brand-card-overlay"><div class="brand-name">MarioYagueLaw</div><div class="play-hint">Coming soon</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921046/BRENDA_JAZMIN_-_SESSION_1_-_Trim_hiegjf.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258138/Vertical_3_4_fitness_influencer_editorial_202605080934_jehqer.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Brenda</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922019/MYA_AND_AREANNA_3_-_Trim_ektmw7.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258258/Vertical_3_4_premium_artisan_western_202605081037_bab6w4.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Alexboots</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921227/SWEET_AND_FANCY_BABY_SHOWER_-_Trim_momfa5.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256954/Vertical_3_4_luxury_event_styling_202605081014_ecbcjs.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Sweet &amp; Fancy</div><div class="play-hint">▶</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275855/GRT915_STANTON_-_Trim_q9wrdj.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Girls Run 915</div><div class="play-hint">▶</div></div></div><div class="brand-card no-video" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256768/Vertical_3_4_premium_athletic_footwear_202605080956_vl5sbi.jpg\')"><div class="brand-card-overlay"><div class="brand-name">Asics</div><div class="play-hint">Coming soon</div></div></div><div class="brand-card" onclick="openBrandVideo(\'https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921523/EL_PASO_BEST_PRESS_PLAY_2_-_Trim_koz3kq.mp4\')" style="background-image:url(\'https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255646/QUIERO_QUE_EL_LOGO_ESTE_202605080949_wat0j9.jpg\')"><div class="brand-card-overlay"><div class="brand-name">El Paso Best</div><div class="play-hint">▶</div></div></div></div>'
   },
   5: {
     num: '05', title: 'Are We The Right Fit?', sub: 'Let\'s Be Honest', accent: '#f0ece4',
@@ -708,7 +782,7 @@ function closeInfo() {
   document.body.style.overflow = '';
 }
 
-// ── VIDEO MODAL ──
+// ── MAIN VIDEO MODAL ──
 function openVideo() {
   document.getElementById('video-modal').className = 'open';
   document.body.style.overflow = 'hidden';
@@ -725,29 +799,27 @@ function closeVideo() {
   v.currentTime = 0;
 }
 
-// ── WIRE UP CLOSE BUTTONS & BACKDROP CLICKS ──
-document.getElementById('info-close').addEventListener('click', function(e) {
-  e.stopPropagation();
-  closeInfo();
-});
+// ── BRAND VIDEO MODAL ──
+function openBrandVideo(url) {
+  var v = document.getElementById('brand-video');
+  v.src = url;
+  document.getElementById('brand-video-modal').className = 'open';
+  document.body.style.overflow = 'hidden';
+  v.play();
+}
 
-document.getElementById('video-close').addEventListener('click', function(e) {
-  e.stopPropagation();
-  closeVideo();
-});
+function closeBrandVideo() {
+  document.getElementById('brand-video-modal').className = '';
+  document.body.style.overflow = '';
+  var v = document.getElementById('brand-video');
+  v.pause();
+  v.src = '';
+}
 
-document.getElementById('info-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeInfo();
-});
-
-document.getElementById('video-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeVideo();
-});
-
-// ESC key
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') { closeInfo(); closeVideo(); }
-});
+// ── ESC KEY ──
+document.onkeydown = function(e) {
+  if (e.key === 'Escape') { closeInfo(); closeVideo(); closeBrandVideo(); }
+};
 </script>
 </body>
 </html>
