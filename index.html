@@ -1,743 +1,753 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Purple Roots — Creative Agency</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    /* ===== TOKENS ===== */
-    :root {
-      --black:    #1a1a2e;
-      --white:    #fefcf8;
-      --paper:    #f5f0e8;
-      --paper-alt:#ede8dc;
-      --lime:     #c6f135;
-      --lavender: #c4b5f4;
-      --purple:   #9b8ec4;
-      --blush:    #f9c5d0;
-      --mint:     #b8e8d0;
-      --peach:    #f5d5b8;
-      --rule:     2px solid #1a1a2e;
-      --shadow-sm:4px 4px 0 #1a1a2e;
-      --shadow-md:6px 6px 0 #1a1a2e;
-      --shadow-lg:8px 8px 0 #1a1a2e;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      width: 100%; height: 100dvh;
-      overflow: hidden;
-      font-family: 'Archivo Black', sans-serif;
-      background: var(--black);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purple Roots — Creative Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ===== MAP ROOT ===== */
-    #map-root { position: fixed; inset: 0; }
-    #map-bg {
-      position: absolute; inset: 0;
-      background: url('https://res.cloudinary.com/dsprn0ew4/image/upload/v1778539965/Isometric_illustration_of_a_creative_202605111648_dg6hwp.jpg') center center / cover no-repeat;
-    }
-    #map-bg::after {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at center, transparent 30%, rgba(26,26,46,0.4) 100%);
-      pointer-events: none;
-    }
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #f5f0e8;
+  font-family: 'DM Sans', sans-serif;
+}
 
-    /* ===== NAVBAR LOGO ===== */
-    #map-logo { position: absolute; top: 18px; left: 22px; z-index: 50; }
-    #map-logo img {
-      height: 38px; width: auto; display: block;
-      filter: drop-shadow(0 2px 10px rgba(0,0,0,0.6));
-    }
+/* ── MAP ── */
+#map {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('https://res.cloudinary.com/dsprn0ew4/image/upload/v1778539965/Isometric_illustration_of_a_creative_202605111648_dg6hwp.jpg');
+  background-size: cover;
+  background-position: center;
+}
 
-    /* ===== ROOMS ===== */
-    .room {
-      position: absolute; cursor: pointer; z-index: 1000;
-      background: transparent; border: 3px solid transparent; border-radius: 6px;
-      padding: 0; margin: 0;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      transition: border-color 0.18s, box-shadow 0.18s;
-    }
-    .room:hover {
-      border-color: var(--black);
-      box-shadow: 0 0 0 2px var(--black), 0 0 20px 4px rgba(26,26,46,0.3);
-    }
+/* mobile bg */
+@media (max-width: 767px) {
+  #map {
+    background-image: url('https://res.cloudinary.com/dsprn0ew4/image/upload/v1778541765/GENERA_LA_MISMA_IMAGEN__QUE_202605111722_lso037.jpg');
+    background-position: center top;
+  }
+}
 
-    /* Glow pulse */
-    .room::before {
-      content: ''; position: absolute; inset: -8px; border-radius: 14px;
-      opacity: 0; pointer-events: none;
-      animation: roomGlow 5s ease-in-out infinite;
-    }
-    .room-1::before { background: var(--lavender); animation-delay: 0s; }
-    .room-2::before { background: var(--lime);     animation-delay: 1.4s; }
-    .room-3::before { background: var(--peach);    animation-delay: 2.7s; }
-    .room-4::before { background: var(--blush);    animation-delay: 0.8s; }
-    .room-5::before { background: #fff;            animation-delay: 2.1s; }
-    .room-6::before { background: var(--mint);     animation-delay: 3.5s; }
-    @keyframes roomGlow {
-      0%,75%,100% { opacity: 0; transform: scale(1); }
-      38%          { opacity: 0.3; transform: scale(1.05); }
-    }
+/* ── LOGO ── */
+#logo {
+  position: absolute;
+  top: 16px; left: 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.15em;
+  color: #1a1a2e;
+  background: rgba(245,240,232,0.9);
+  padding: 5px 12px 4px;
+  border: 1.5px solid #1a1a2e;
+  border-radius: 2px;
+  z-index: 50;
+}
 
-    /* Desktop room positions */
-    .room-1 { left: 7%;  top: 18%; width: 17%; height: 22%; }
-    .room-2 { left: 38%; top: 8%;  width: 23%; height: 22%; }
-    .room-3 { left: 73%; top: 16%; width: 19%; height: 22%; }
-    .room-4 { left: 5%;  top: 57%; width: 20%; height: 25%; }
-    .room-5 { left: 38%; top: 60%; width: 23%; height: 22%; }
-    .room-6 { left: 73%; top: 57%; width: 19%; height: 25%; }
+/* ── ROOM BUTTONS ── */
+.room {
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+  padding: 0;
+  -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+  touch-action: manipulation;
+}
 
-    /* ===== FLOATING LABELS ===== */
-    .room-label {
-      position: absolute;
-      bottom: calc(100% + 8px); left: 50%;
-      transform: translateX(-50%);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 4px 10px; border-radius: 3px;
-      white-space: nowrap; pointer-events: none;
-      animation: floatLabel 3s ease-in-out infinite;
-      box-shadow: 2px 2px 0 rgba(26,26,46,0.25);
-    }
-    .room-1 .room-label { background: var(--lavender); color: var(--black); animation-delay: 0s; }
-    .room-2 .room-label { background: var(--lime);     color: var(--black); animation-delay: 0.5s; }
-    .room-3 .room-label { background: var(--peach);    color: var(--black); animation-delay: 1.1s; }
-    .room-4 .room-label { background: var(--blush);    color: var(--black); animation-delay: 1.6s; }
-    .room-5 .room-label { background: var(--white);    color: var(--black); border: 1px solid var(--black); animation-delay: 2.1s; }
-    .room-6 .room-label { background: var(--mint);     color: var(--black); animation-delay: 2.7s; }
-    @keyframes floatLabel {
-      0%,100% { transform: translateX(-50%) translateY(0); }
-      50%      { transform: translateX(-50%) translateY(-7px); }
-    }
-    @keyframes floatLabelDown {
-      0%,100% { transform: translateX(-50%) translateY(0); }
-      50%      { transform: translateX(-50%) translateY(5px); }
-    }
+.room:hover .label, .room:focus .label {
+  background: #1a1a2e;
+  color: #f5f0e8;
+  transform: translateX(-50%) translateY(-3px);
+}
 
-    /* ===== CENTRAL SCREEN ===== */
-    #central-video-wrap {
-      position: absolute; left: 37%; top: 35%;
-      width: 24%; height: 24%;
-      z-index: 15; cursor: pointer;
-      border: 2px solid rgba(26,26,46,0.5); border-radius: 3px;
-      overflow: hidden;
-      background: #1a1a2e;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.55), var(--shadow-sm);
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    #central-video-wrap:hover {
-      transform: scale(1.02);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.7), var(--shadow-md);
-    }
-    #screen-inner {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex; flex-direction: column; align-items: center;
-      width: 90%; text-align: center;
-    }
-    #screen-logo {
-      max-width: 120px; width: 80%; height: auto; display: block;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-    }
-    #screen-cta {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
-      letter-spacing: 0.06em;
-      color: #f5f0e8;
-      margin-top: 12px;
-      white-space: nowrap;
-    }
+.label {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f5f0e8;
+  color: #1a1a2e;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(9px, 1vw, 13px);
+  letter-spacing: 0.12em;
+  padding: 4px 10px 3px;
+  border-radius: 3px;
+  white-space: nowrap;
+  border: 1.5px solid #1a1a2e;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  animation: labelFloat 3s ease-in-out infinite;
+}
 
-    /* ===== VIDEO EXPAND MODAL ===== */
-    #video-expand {
-      position: fixed; inset: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(26,26,46,0.88); backdrop-filter: blur(14px);
-      opacity: 0; pointer-events: none; transition: opacity 0.3s;
-    }
-    #video-expand.active { opacity: 1; pointer-events: all; }
-    #video-expand video {
-      width: min(88vw, 1100px); height: auto; max-height: 84vh;
-      border: var(--rule); box-shadow: var(--shadow-lg);
-    }
-    #video-expand-close {
-      position: absolute; top: 22px; right: 26px;
-      background: var(--black); color: var(--white);
-      border: var(--rule); width: 44px; height: 44px;
-      font-size: 18px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Archivo Black', sans-serif;
-      box-shadow: var(--shadow-sm); transition: transform 0.1s, box-shadow 0.1s;
-    }
-    #video-expand-close:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
+.label::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #1a1a2e;
+}
 
-    /* ===== DESKTOP SIDE PANEL ===== */
-    #panel {
-      position: fixed; top: 0; right: 0;
-      width: 420px; height: 100%;
-      background: var(--paper); border-left: var(--rule);
-      z-index: 100;
-      transform: translateX(100%);
-      transition: transform 0.32s cubic-bezier(0.22,1,0.36,1);
-      display: flex; flex-direction: column; overflow: hidden;
-    }
-    #panel.open { transform: translateX(0); }
-    #panel-accent { height: 5px; flex-shrink: 0; }
-    #panel-header {
-      padding: 24px 24px 18px; border-bottom: var(--rule);
-      display: flex; align-items: flex-start; justify-content: space-between;
-      flex-shrink: 0;
-    }
-    #panel-title {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: 1.25rem; line-height: 1.15;
-      color: var(--black); max-width: 300px;
-    }
-    #panel-close {
-      background: var(--black); color: var(--white);
-      border: var(--rule); width: 40px; height: 40px;
-      font-size: 16px; cursor: pointer; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow-sm); transition: transform 0.1s, box-shadow 0.1s;
-      font-family: 'Archivo Black', sans-serif;
-    }
-    #panel-close:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
-    #panel-body { padding: 22px 24px; overflow-y: auto; flex: 1; }
+@keyframes labelFloat {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-4px); }
+}
 
-    /* ===== MOBILE FULLSCREEN MODAL ===== */
-    #mobile-modal {
-      position: fixed; inset: 0;
-      z-index: 9999;
-      background: var(--paper);
-      overflow-y: auto;
-      display: none;
-      flex-direction: column;
-    }
-    #mobile-modal.active {
-      display: flex;
-    }
-    #mm-accent { height: 5px; flex-shrink: 0; }
-    #mm-header {
-      position: sticky; top: 0;
-      background: var(--paper);
-      border-bottom: var(--rule);
-      padding: 16px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      z-index: 1; flex-shrink: 0;
-    }
-    #mm-title {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: 1.1rem; line-height: 1.2;
-      color: var(--black); flex: 1; margin-right: 12px;
-    }
-    #mm-close {
-      background: var(--black); color: var(--white);
-      border: var(--rule); min-width: 48px; height: 48px;
-      font-size: 22px; cursor: pointer; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow-sm);
-      font-family: 'Archivo Black', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-    #mm-body { padding: 20px; flex: 1; }
+/* stagger floats */
+.room:nth-child(2) .label { animation-delay: 0.4s; }
+.room:nth-child(3) .label { animation-delay: 0.8s; }
+.room:nth-child(4) .label { animation-delay: 1.2s; }
+.room:nth-child(5) .label { animation-delay: 1.6s; }
+.room:nth-child(6) .label { animation-delay: 2.0s; }
 
-    /* ===== PANEL / MODAL INNER COMPONENTS ===== */
-    .panel-section-label {
-      font-family: 'JetBrains Mono', monospace; font-size: 9px;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--purple); margin-bottom: 14px;
-    }
-    .value-cards { display: flex; flex-direction: column; gap: 12px; }
-    .value-card { background: var(--white); border: var(--rule); padding: 14px; box-shadow: var(--shadow-sm); }
-    .value-card-icon { font-size: 1.3rem; margin-bottom: 5px; }
-    .value-card-title { font-family: 'Archivo Black', sans-serif; font-size: 0.82rem; margin-bottom: 5px; color: var(--black); }
-    .value-card-desc { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; line-height: 1.6; color: rgba(26,26,46,0.68); }
+/* DESKTOP room positions */
+#r1 { top: 7%;  left: 1%;  width: 29%; height: 37%; }
+#r2 { top: 1%;  left: 34%; width: 27%; height: 35%; }
+#r3 { top: 4%;  left: 63%; width: 36%; height: 40%; }
+#r4 { top: 48%; left: 1%;  width: 29%; height: 38%; }
+#r5 { top: 55%; left: 28%; width: 36%; height: 38%; }
+#r6 { top: 50%; left: 64%; width: 35%; height: 40%; }
 
-    .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .service-item { background: var(--white); border: var(--rule); padding: 13px; box-shadow: var(--shadow-sm); }
-    .service-num { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.15em; color: var(--purple); margin-bottom: 4px; }
-    .service-name { font-family: 'Archivo Black', sans-serif; font-size: 0.76rem; margin-bottom: 5px; color: var(--black); }
-    .service-desc { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; line-height: 1.55; color: rgba(26,26,46,0.65); }
+/* MOBILE room positions */
+@media (max-width: 767px) {
+  #r1 { top: 3%;  left: 1%;  width: 47%; height: 20%; }
+  #r2 { top: 3%;  left: 51%; width: 47%; height: 20%; }
+  #r3 { top: 25%; left: 1%;  width: 47%; height: 20%; }
+  #r4 { top: 25%; left: 51%; width: 47%; height: 20%; }
+  #r5 { top: 67%; left: 1%;  width: 47%; height: 20%; }
+  #r6 { top: 67%; left: 51%; width: 47%; height: 20%; }
+  .label { font-size: 8px; padding: 3px 7px 2px; }
+}
 
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-    .stat-box { background: var(--black); color: var(--white); border: var(--rule); padding: 14px 10px; text-align: center; box-shadow: var(--shadow-sm); }
-    .stat-num { font-family: 'Archivo Black', sans-serif; font-size: 1.4rem; letter-spacing: -0.02em; color: var(--lime); }
-    .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; color: rgba(255,255,255,0.6); }
-    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .testi-card { background: var(--white); border: var(--rule); padding: 13px; box-shadow: var(--shadow-sm); }
-    .testi-quote { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.76rem; line-height: 1.55; color: var(--black); margin-bottom: 7px; }
-    .testi-author { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; letter-spacing: 0.08em; color: var(--purple); }
+/* ── CENTER SCREEN ── */
+#screen {
+  position: absolute;
+  top: 37%; left: 36%;
+  width: 26%; height: 22%;
+  z-index: 90;
+  cursor: pointer;
+  background: #0d0d1a;
+  border: 2px solid #1a1a2e;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+}
 
-    .brand-pcard {
-      aspect-ratio: 4/5; border: var(--rule); overflow: hidden; cursor: pointer;
-      position: relative; box-shadow: var(--shadow-sm);
-      transition: transform 0.12s, box-shadow 0.12s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .brand-pcard:active { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
-    .brand-pcard img.bp-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .brand-pcard .bp-lbl {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.6); color: #fff;
-      font-family: 'Archivo Black', sans-serif; font-size: 8px;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 5px 7px; text-align: center;
-    }
+#screen:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.7); }
 
-    .fit-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .fit-col { border: var(--rule); padding: 14px; box-shadow: var(--shadow-sm); }
-    .fit-col.not { background: var(--lime); }
-    .fit-col.yes { background: var(--lavender); }
-    .fit-col-title { font-family: 'Archivo Black', sans-serif; font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 10px; line-height: 1.3; }
-    .fit-col ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-    .fit-col ul li { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; line-height: 1.5; color: var(--black); padding-left: 12px; position: relative; }
-    .fit-col ul li::before { content: '—'; position: absolute; left: 0; }
-    .fit-btn {
-      display: inline-block; margin-top: 12px; padding: 7px 12px;
-      font-family: 'Archivo Black', sans-serif; font-size: 9px;
-      letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
-      border: var(--rule); box-shadow: var(--shadow-sm); cursor: pointer;
-      background: var(--black); color: var(--white);
-      transition: transform 0.1s, box-shadow 0.1s;
-    }
-    .fit-btn:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
+#screen img {
+  width: 50px;
+  opacity: 0.9;
+  margin-bottom: 10px;
+  pointer-events: none;
+}
 
-    .process-steps { display: flex; flex-direction: column; gap: 10px; }
-    .process-step { border: var(--rule); padding: 14px; box-shadow: var(--shadow-sm); }
-    .step-num { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; margin-bottom: 4px; color: var(--black); }
-    .step-title { font-family: 'Archivo Black', sans-serif; font-size: 0.88rem; margin-bottom: 5px; color: var(--black); }
-    .step-desc { font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.6; color: rgba(26,26,46,0.68); }
+#screen-cta {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(10px, 1.2vw, 15px);
+  letter-spacing: 0.15em;
+  color: #f5f0e8;
+  text-align: center;
+  pointer-events: none;
+}
 
-    /* ===== GET STARTED CTA ===== */
-    #get-started {
-      position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%);
-      z-index: 50; background: var(--lime); color: var(--black);
-      border: var(--rule); padding: 13px 30px;
-      font-family: 'Archivo Black', sans-serif; font-size: 0.88rem;
-      text-decoration: none; box-shadow: var(--shadow-md);
-      transition: transform 0.12s, box-shadow 0.12s; white-space: nowrap;
-      -webkit-tap-highlight-color: transparent;
-    }
-    #get-started:hover  { transform: translateX(-50%) translate(-3px,-3px); box-shadow: var(--shadow-lg); }
-    #get-started:active { transform: translateX(-50%) translate(4px,4px); box-shadow: 2px 2px 0 var(--black); }
+#screen-pulse {
+  position: absolute;
+  inset: -6px;
+  border: 1.5px solid rgba(196,181,244,0.5);
+  border-radius: 6px;
+  animation: pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
 
-    /* ===== BRAND VIDEO MODAL ===== */
-    #brand-video-modal {
-      position: fixed; inset: 0; z-index: 10000;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(26,26,46,0.92); backdrop-filter: blur(18px);
-      opacity: 0; pointer-events: none; transition: opacity 0.3s;
-    }
-    #brand-video-modal.active { opacity: 1; pointer-events: all; }
-    #brand-video-inner {
-      background: var(--paper); border: var(--rule);
-      box-shadow: var(--shadow-lg); padding: 22px;
-      max-width: 620px; width: 90vw;
-    }
-    #brand-video-name { font-family: 'Archivo Black', sans-serif; font-size: 1rem; margin-bottom: 14px; color: var(--black); }
-    #brand-video-media { width: 100%; aspect-ratio: 16/9; background: var(--black); }
-    #brand-video-media iframe, #brand-video-media video { width: 100%; height: 100%; border: none; display: block; }
-    #brand-video-close {
-      display: block; margin-top: 12px;
-      background: var(--black); color: var(--white); border: var(--rule);
-      padding: 9px 18px; font-family: 'Archivo Black', sans-serif; font-size: 11px;
-      cursor: pointer; box-shadow: var(--shadow-sm); transition: transform 0.1s, box-shadow 0.1s; width: 100%;
-    }
-    #brand-video-close:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-md); }
+@keyframes pulse {
+  0%,100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
 
-    /* ===== MOBILE OVERRIDES ===== */
-    @media (max-width: 767px) {
-      /* Lock viewport */
-      html, body { touch-action: none; }
+@media (max-width: 767px) {
+  #screen {
+    top: 46%; left: 50%;
+    transform: translateX(-50%);
+    width: 50%; height: 15%;
+  }
+  #screen img { width: 32px; margin-bottom: 6px; }
+}
 
-      /* Hide desktop panel on mobile */
-      #panel { display: none !important; }
+/* ── GET STARTED ── */
+#cta {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 110;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #c6f135;
+  color: #1a1a2e;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.2em;
+  padding: 13px 32px 11px;
+  border-radius: 3px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+}
 
-      /* Vertical map background */
-      #map-bg {
-        background-image: url('https://res.cloudinary.com/dsprn0ew4/image/upload/v1778541765/GENERA_LA_MISMA_IMAGEN__QUE_202605111722_lso037.jpg');
-        background-size: cover;
-        background-position: center top;
-      }
+#cta:hover {
+  transform: translateX(-50%) translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
 
-      /* Mobile room positions — shifted down so labels have space */
-      .room-1 { left: 2%;  top: 10%; width: 46%; height: 20%; }
-      .room-2 { left: 52%; top: 10%; width: 46%; height: 20%; }
-      .room-3 { left: 2%;  top: 32%; width: 46%; height: 20%; }
-      .room-4 { left: 52%; top: 32%; width: 46%; height: 20%; }
-      .room-5 { left: 2%;  top: 76%; width: 46%; height: 20%; }
-      .room-6 { left: 52%; top: 76%; width: 46%; height: 20%; }
+@media (max-width: 767px) {
+  #cta {
+    top: 62%;
+    bottom: auto;
+    font-size: 15px;
+    padding: 10px 24px 9px;
+  }
+}
 
-      /* Labels above each room */
-      .room-label {
-        font-size: 9px; padding: 3px 7px;
-        top: -28px; bottom: auto;
-        animation-name: floatLabel;
-      }
+/* ── VIDEO MODAL ── */
+#video-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,20,0.85);
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+}
 
-      /* Central screen on mobile */
-      #central-video-wrap {
-        left: 50%; top: 52%;
-        transform: translateX(-50%);
-        width: 52%; height: 16%;
-      }
-      #central-video-wrap:hover { transform: translateX(-50%) scale(1.02); }
-      #screen-logo  { max-width: 80px; }
-      #screen-cta   { font-size: 14px; margin-top: 6px; }
+#video-modal.open { display: flex; }
 
-      /* CTA button */
-      #get-started {
-        position: absolute;
-        top: 73%; bottom: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.78rem; padding: 10px 22px;
-      }
-      #get-started:active { transform: translateX(-50%) translate(3px,3px); }
+#video-box {
+  position: relative;
+  width: 90vw;
+  max-width: 900px;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
 
-      /* Mobile modal inner: single-column brand grid */
-      #mm-body .services-grid,
-      #mm-body .fit-cols { grid-template-columns: 1fr; }
-      #mm-body .stats-grid { grid-template-columns: 1fr 1fr; }
-      #mm-body .testimonials-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+#video-box video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+#video-close {
+  position: absolute;
+  top: -14px; right: -14px;
+  width: 32px; height: 32px;
+  background: #1a1a2e;
+  color: #f5f0e8;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 9001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+/* ── INFO MODAL ── */
+#info-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,46,0.6);
+  z-index: 8000;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  #info-modal {
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+#info-modal.open { display: flex; }
+
+#info-box {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #f5f0e8;
+  border: 2px solid #1a1a2e;
+  border-radius: 8px 8px 0 0;
+  padding: 36px 28px 32px;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.2);
+  animation: slideUp 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  #info-box {
+    border-radius: 8px;
+    margin-right: 24px;
+    animation: slideIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(60px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+#info-handle {
+  width: 40px; height: 4px;
+  background: #ccc;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+@media (min-width: 768px) { #info-handle { display: none; } }
+
+#info-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: #1a1a2e;
+  color: #f5f0e8;
+  border: none;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+#info-accent {
+  width: 36px; height: 4px;
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+
+#info-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  color: #1a1a2e;
+  opacity: 0.07;
+  position: absolute;
+  top: 10px; right: 20px;
+  line-height: 1;
+}
+
+#info-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 34px;
+  letter-spacing: 0.05em;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+  line-height: 1.1;
+}
+
+#info-sub {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9b8ec4;
+  margin-bottom: 14px;
+}
+
+#info-body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #333;
+}
+
+/* Content styles inside panels */
+#info-body .cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#info-body .card {
+  background: white;
+  border: 1.5px solid #1a1a2e;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+#info-body .card-icon { font-size: 20px; margin-bottom: 6px; }
+#info-body .card-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; color: #1a1a2e; }
+#info-body .card-desc { font-size: 12px; color: #555; line-height: 1.5; }
+
+#info-body .services {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#info-body .service {
+  border: 1.5px solid #1a1a2e;
+  border-radius: 4px;
+  padding: 12px;
+  background: white;
+}
+
+#info-body .svc-num {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #9b8ec4;
+  margin-bottom: 4px;
+}
+
+#info-body .svc-title { font-weight: 700; font-size: 13px; color: #1a1a2e; margin-bottom: 4px; }
+#info-body .svc-desc { font-size: 11px; color: #555; line-height: 1.5; }
+
+#info-body .stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+#info-body .stat {
+  background: #c6f135;
+  border: 1.5px solid #1a1a2e;
+  border-radius: 4px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+#info-body .stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: #1a1a2e;
+  line-height: 1;
+}
+
+#info-body .stat-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1a1a2e;
+  margin-top: 2px;
+}
+
+#info-body .testimonials {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#info-body .testi {
+  background: #1a1a2e;
+  border-radius: 4px;
+  padding: 14px;
+  color: #f5f0e8;
+  font-size: 12px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+#info-body .testi-source {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c6f135;
+  margin-top: 6px;
+}
+
+#info-body .fit-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#info-body .fit-col {
+  border-radius: 4px;
+  border: 1.5px solid #1a1a2e;
+  padding: 14px;
+}
+
+#info-body .fit-col.no { background: #c6f135; }
+#info-body .fit-col.yes { background: #c4b5f4; }
+
+#info-body .fit-head {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+}
+
+#info-body .fit-list {
+  list-style: none;
+  font-size: 11px;
+  color: #1a1a2e;
+  line-height: 1.7;
+}
+
+#info-body .fit-list li::before { content: '→ '; }
+
+#info-body .steps {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+#info-body .step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: white;
+  border: 1.5px solid #1a1a2e;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+#info-body .step-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: #c4b5f4;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+#info-body .step-title { font-weight: 700; font-size: 13px; color: #1a1a2e; margin-bottom: 3px; }
+#info-body .step-desc { font-size: 12px; color: #555; line-height: 1.5; }
+
+#info-body .brands-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#info-body .brand-card {
+  background: white;
+  border: 1.5px solid #1a1a2e;
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  touch-action: manipulation;
+}
+
+#info-body .brand-card:hover { background: #f0ece4; }
+
+#info-body .brand-card img {
+  width: 100%;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 6px;
+}
+
+#info-body .brand-card .brand-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a2e;
+}
+
+#info-body .brand-card .play-hint {
+  font-size: 9px;
+  color: #9b8ec4;
+  margin-top: 2px;
+}
+</style>
 </head>
 <body>
 
-<!-- ═══════════════ MAP ROOT ═══════════════ -->
-<div id="map-root">
-  <div id="map-bg"></div>
+<div id="map">
 
-  <div id="map-logo">
-    <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" />
+  <!-- Logo -->
+  <div id="logo">𝓁 PURPLE ROOTS</div>
+
+  <!-- Room 1: Not Another Agency (purple, top-left) -->
+  <button class="room" id="r1" onclick="openInfo(1)">
+    <span class="label">NOT ANOTHER AGENCY</span>
+  </button>
+
+  <!-- Room 2: What We Do (lime, top-center) -->
+  <button class="room" id="r2" onclick="openInfo(2)">
+    <span class="label">WHAT WE DO</span>
+  </button>
+
+  <!-- Room 3: Numbers + Reviews (peach, top-right) -->
+  <button class="room" id="r3" onclick="openInfo(3)">
+    <span class="label">NUMBERS + REVIEWS</span>
+  </button>
+
+  <!-- Room 4: Our Brands (pink, bottom-left) -->
+  <button class="room" id="r4" onclick="openInfo(4)">
+    <span class="label">OUR BRANDS</span>
+  </button>
+
+  <!-- Room 5: Right Fit (white, bottom-center) -->
+  <button class="room" id="r5" onclick="openInfo(5)">
+    <span class="label">RIGHT FIT?</span>
+  </button>
+
+  <!-- Room 6: How We Work (mint, bottom-right) -->
+  <button class="room" id="r6" onclick="openInfo(6)">
+    <span class="label">HOW WE WORK</span>
+  </button>
+
+  <!-- Center Screen -->
+  <div id="screen" onclick="openVideo()">
+    <div id="screen-pulse"></div>
+    <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots">
+    <div id="screen-cta">▶ CLICK PARA CONOCERNOS</div>
   </div>
 
-  <!-- ROOMS — <button> for reliable tap on iOS/Android; events added via JS -->
-  <button type="button" class="room room-1" data-room="1"><span class="room-label">Not Another Agency</span></button>
-  <button type="button" class="room room-2" data-room="2"><span class="room-label">What We Do</span></button>
-  <button type="button" class="room room-3" data-room="3"><span class="room-label">Numbers + Reviews</span></button>
-  <button type="button" class="room room-4" data-room="4"><span class="room-label">Our Brands</span></button>
-  <button type="button" class="room room-5" data-room="5"><span class="room-label">Right Fit?</span></button>
-  <button type="button" class="room room-6" data-room="6"><span class="room-label">How We Work</span></button>
+  <!-- Get Started -->
+  <a id="cta" href="https://wa.me/19152343655" target="_blank">Get Started →</a>
 
-  <!-- CENTRAL SCREEN -->
-  <div id="central-video-wrap">
-    <div id="screen-inner">
-      <img id="screen-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" />
-      <div id="screen-cta">▶ CLICK PARA CONOCERNOS</div>
-    </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div id="video-modal">
+  <div id="video-box">
+    <button id="video-close">✕</button>
+    <video id="main-video" src="https://res.cloudinary.com/dsprn0ew4/video/upload/v1778258855/WhatsApp_Video_2026-05-08_at_10.45.53_AM_otqvm2.mp4"
+      playsinline controls></video>
   </div>
-
-  <a href="https://wa.me/19152343655" target="_blank" id="get-started">Get Started →</a>
 </div>
 
-<!-- ═══════════════ VIDEO EXPAND ═══════════════ -->
-<div id="video-expand">
-  <video loop playsinline controls>
-    <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/v1778258855/WhatsApp_Video_2026-05-08_at_10.45.53_AM_otqvm2.mp4" type="video/mp4" />
-  </video>
-  <button id="video-expand-close">✕</button>
-</div>
-
-<!-- ═══════════════ DESKTOP SIDE PANEL ═══════════════ -->
-<div id="panel">
-  <div id="panel-accent"></div>
-  <div id="panel-header">
-    <div id="panel-title"></div>
-    <button id="panel-close">✕</button>
-  </div>
-  <div id="panel-body"></div>
-</div>
-
-<!-- ═══════════════ MOBILE FULLSCREEN MODAL ═══════════════ -->
-<div id="mobile-modal">
-  <div id="mm-accent"></div>
-  <div id="mm-header">
-    <div id="mm-title"></div>
-    <button id="mm-close">✕</button>
-  </div>
-  <div id="mm-body"></div>
-</div>
-
-<!-- ═══════════════ BRAND VIDEO MODAL ═══════════════ -->
-<div id="brand-video-modal">
-  <div id="brand-video-inner">
-    <div id="brand-video-name"></div>
-    <div id="brand-video-media"></div>
-    <button id="brand-video-close">Close ✕</button>
+<!-- INFO MODAL -->
+<div id="info-modal">
+  <div id="info-box">
+    <div id="info-handle"></div>
+    <button id="info-close">✕</button>
+    <div id="info-num">01</div>
+    <div id="info-accent"></div>
+    <div id="info-sub">SECTION</div>
+    <div id="info-title">Title</div>
+    <div id="info-body"></div>
   </div>
 </div>
 
 <script>
-/* ── DIAGNÓSTICO TEMPORAL ── */
-console.log('=== DIAGNÓSTICO ===');
-console.log('Rooms encontrados:', document.querySelectorAll('.room').length);
-console.log('Panel elemento:', document.getElementById('panel'));
-console.log('Mobile modal:', document.getElementById('mobile-modal') || document.querySelector('[id*="modal"]'));
-console.log('roomPanels:', typeof roomPanels !== 'undefined' ? Object.keys(roomPanels) : 'NO EXISTE');
-console.log('screenWrap:', document.getElementById('central-video-wrap'));
-
-document.querySelectorAll('.room').forEach((r, i) => {
-  r.style.background = 'rgba(255,0,0,0.3)';
-  console.log(`Room ${i+1}:`, r.dataset.room, r.getBoundingClientRect());
-});
-/* ── FIN DIAGNÓSTICO ── */
-
-/* ── DATA ── */
-const brands = [
-  { name: "Powerhouse",             video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275936/GLOW_RECAP_-_Trim_s0s44a.mp4",                                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg" },
-  { name: "Jarritos",               video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778276263/Purple_Roots_Reel_2025_1_edited_ihmdk4.mp4",                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274405/Vertical_3_4_vibrant_lifestyle_editorial_202605081502_hhauyz.jpg" },
-  { name: "Sidral Mundet",          video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778276375/Purple_Roots_Reel_2025_1_edited_2_c3mq9w.mp4",                                       thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274404/Vertical_3_4_vibrant_Mexican_lifestyle_202605081502_cjgxiq.jpg" },
-  { name: "Sangria Señorial",       video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778276266/Purple_Roots_Reel_2025_1_edited_1_kx1umw.mp4",                                       thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778275290/Vertical_3_4_cinematic_Mexican_nightlife_202605081512_hdyobc.jpg" },
-  { name: "House of Kings",         video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921425/BORDERLAND_TOURNAMENT_-_Trim_odkwvv.mp4",                       thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255388/Vertical_3_4_luxury_casino_editorial_202605080942_dgkq0g.jpg" },
-  { name: "Kisslab",                video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777920037/VIDEO_STEPS_b0gftl.mp4",                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778254856/Vertical_3_4_luxury_beauty_editorial_202605080939_qfbi8n.jpg" },
-  { name: "Badass Human",           video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922023/RECAP_BADASS-1_-_Trim_t3spql.mp4",                               thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778251670/Vertical_3_4_sports_editorial_thumbnail._202605080844_pt9xds.jpg" },
-  { name: "Desertview",             video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921461/DVH_PHASE_2_-_HORIZONTAL_-_Trim_xxh3ny.mp4",                     thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778254015/Vertical_3_4_luxury_real_estate_202605080924_qnohnw.jpg" },
-  { name: "Run For It",             video: "",                                                                                                                                                    thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256760/Vertical_3_4_high-energy_running_club_202605081008_-_copia_x2jjwu.jpg" },
-  { name: "Mercedes El Paso",       video: "",                                                                                                                                                    thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg" },
-  { name: "Hoy VW",                 video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921324/HOY_FAMILY_AUTO_PROMO_-_HD_-_Trim_vfdsd6.mp4",                   thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256727/Vertical_3_4_automotive_lifestyle_editorial_202605081008_svzvhv.jpg" },
-  { name: "Chingoncuhts",           video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921612/CHINGON_CUHTS-1_-_Trim_abpuyh.mp4",                               thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778254472/Vertical_3_4_cinematic_barbershop_editorial_202605080933_fkhfub.jpg" },
-  { name: "Torque",                 video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921723/TX_TORQUE_3-1_n0b0w6.mp4",                                       thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258137/Vertical_3_4_elite_baseball_training_202605081033_eqlxgi.jpg" },
-  { name: "MarioYagueLaw",          video: "",                                                                                                                                                    thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258140/OPENING_VIDEO_tvxev7.jpg" },
-  { name: "Brenda",                 video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921046/BRENDA_JAZMIN_-_SESSION_1_-_Trim_hiegjf.mp4",                     thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258138/Vertical_3_4_fitness_influencer_editorial_202605080934_jehqer.jpg" },
-  { name: "Alexboots",              video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777922019/MYA_AND_AREANNA_3_-_Trim_ektmw7.mp4",                             thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258258/Vertical_3_4_premium_artisan_western_202605081037_bab6w4.jpg" },
-  { name: "Sweet and Fancy Events", video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921227/SWEET_AND_FANCY_BABY_SHOWER_-_Trim_momfa5.mp4",                   thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256954/Vertical_3_4_luxury_event_styling_202605081014_ecbcjs.jpg" },
-  { name: "Girls Run the 915",      video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275855/GRT915_STANTON_-_Trim_q9wrdj.mp4",                                                   thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg" },
-  { name: "Asics",                  video: "",                                                                                                                                                    thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778256768/Vertical_3_4_premium_athletic_footwear_202605080956_vl5sbi.jpg" },
-  { name: "El Paso Best",           video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921523/EL_PASO_BEST_PRESS_PLAY_2_-_Trim_koz3kq.mp4",                     thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255646/QUIERO_QUE_EL_LOGO_ESTE_202605080949_wat0j9.jpg" },
-];
-
-/* ── ROOM CONTENT ── */
-const roomPanels = {
+// ── DATA ──
+var rooms = {
   1: {
-    title: 'Not Another Agency.',
-    accent: 'var(--lavender)',
-    render: () => `
-      <p class="panel-section-label">Who We Are</p>
-      <div class="value-cards">
-        <div class="value-card"><div class="value-card-icon">🎯</div><div class="value-card-title">Strategy First</div><div class="value-card-desc">Every project starts with a reason. We don't make pretty things for the sake of it — we make things that work. If it doesn't serve the brand, it doesn't ship.</div></div>
-        <div class="value-card"><div class="value-card-icon">🎬</div><div class="value-card-title">Video is Our Mother Tongue</div><div class="value-card-desc">From 15-second reels to full brand films, we speak video fluently. Cinematic quality. Social-first thinking. Always on time, always on budget.</div></div>
-        <div class="value-card"><div class="value-card-icon">🌎</div><div class="value-card-title">Born in El Paso, Built Global</div><div class="value-card-desc">We started in the borderland, where two cultures collide and make something louder than both. That energy lives in everything we create.</div></div>
-        <div class="value-card"><div class="value-card-icon">🤝</div><div class="value-card-title">We Work Like Partners</div><div class="value-card-desc">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</div></div>
-      </div>`
+    num: '01', title: 'Not Another Agency', sub: 'Who We Are', accent: '#c4b5f4',
+    html: '<p>We don\'t make pretty things for the sake of it — we make things that work.</p><div class="cards"><div class="card"><div class="card-icon">🎯</div><div class="card-title">Strategy First</div><div class="card-desc">Every project starts with a reason. If it doesn\'t serve the brand, it doesn\'t ship.</div></div><div class="card"><div class="card-icon">🎬</div><div class="card-title">Video is Our Mother Tongue</div><div class="card-desc">Cinematic quality. Social-first thinking. Always on time, always on budget.</div></div><div class="card"><div class="card-icon">🌎</div><div class="card-title">Born in El Paso, Built Global</div><div class="card-desc">We started in the borderland, where two cultures collide and make something louder than both.</div></div><div class="card"><div class="card-icon">🤝</div><div class="card-title">We Work Like Partners</div><div class="card-desc">No hand-off after onboarding. Your brand is our brand until the job is done.</div></div></div>'
   },
   2: {
-    title: 'What We Actually Do.',
-    accent: 'var(--lime)',
-    render: () => `
-      <p class="panel-section-label">Services</p>
-      <div class="services-grid">
-        <div class="service-item"><div class="service-num">01 / SERVICE</div><div class="service-name">Brand Identity</div><div class="service-desc">Logos, visual systems, and brand guidelines that give your company a voice before you speak a word.</div></div>
-        <div class="service-item"><div class="service-num">02 / SERVICE</div><div class="service-name">Video Production</div><div class="service-desc">Cinematic brand films, commercials, and social-first content that stops the scroll every single time.</div></div>
-        <div class="service-item"><div class="service-num">03 / SERVICE</div><div class="service-name">Digital Content</div><div class="service-desc">Photography, reels, and editorial assets engineered for engagement across every platform, every format.</div></div>
-        <div class="service-item"><div class="service-num">04 / SERVICE</div><div class="service-name">Social Strategy</div><div class="service-desc">Data-driven calendars, community management, and paid social campaigns built to actually perform.</div></div>
-        <div class="service-item"><div class="service-num">05 / SERVICE</div><div class="service-name">Web Design</div><div class="service-desc">Editorial-grade sites that balance aesthetics with conversion — because looking good AND converting aren't mutually exclusive.</div></div>
-        <div class="service-item"><div class="service-num">06 / SERVICE</div><div class="service-name">Campaigns &amp; Activations</div><div class="service-desc">360° campaign concepts from strategy and creative direction to on-ground execution and detailed reporting.</div></div>
-      </div>`
+    num: '02', title: 'What We Actually Do', sub: 'Our Services', accent: '#c6f135',
+    html: '<p>Six services. One focused team.</p><div class="services"><div class="service"><div class="svc-num">01 / SERVICE</div><div class="svc-title">Brand Identity</div><div class="svc-desc">Logos, visual systems, and brand guidelines that give your company a voice.</div></div><div class="service"><div class="svc-num">02 / SERVICE</div><div class="svc-title">Video Production</div><div class="svc-desc">Cinematic brand films, commercials, and social-first content that stops the scroll.</div></div><div class="service"><div class="svc-num">03 / SERVICE</div><div class="svc-title">Digital Content</div><div class="svc-desc">Photography, reels, and editorial assets engineered for every platform.</div></div><div class="service"><div class="svc-num">04 / SERVICE</div><div class="svc-title">Social Strategy</div><div class="svc-desc">Data-driven calendars, community management, and paid social campaigns.</div></div><div class="service"><div class="svc-num">05 / SERVICE</div><div class="svc-title">Web Design</div><div class="svc-desc">Editorial-grade sites that balance aesthetics with conversion.</div></div><div class="service"><div class="svc-num">06 / SERVICE</div><div class="svc-title">Campaigns &amp; Activations</div><div class="svc-desc">360° campaign concepts from strategy to on-ground execution.</div></div></div>'
   },
   3: {
-    title: "Numbers Don't Lie.",
-    accent: 'var(--peach)',
-    render: () => `
-      <p class="panel-section-label">Stats &amp; Testimonials</p>
-      <div class="stats-grid">
-        <div class="stat-box"><div class="stat-num">5+</div><div class="stat-label">Years in Business</div></div>
-        <div class="stat-box"><div class="stat-num">40+</div><div class="stat-label">Brands Served</div></div>
-        <div class="stat-box"><div class="stat-num">100+</div><div class="stat-label">Projects Shipped</div></div>
-        <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Countries Reached</div></div>
-      </div>
-      <p class="panel-section-label" style="margin-top:18px">What Clients Say</p>
-      <div class="testimonials-grid">
-        <div class="testi-card"><p class="testi-quote">"Purple Roots didn't just shoot our content — they understood our brand before we even finished explaining it. The results speak for themselves."</p><div class="testi-author">— Marketing Director, Jarritos Campaign</div></div>
-        <div class="testi-card"><p class="testi-quote">"From concept to delivery, they were professional, fast, and genuinely creative. We've worked with agencies twice their size that delivered half the quality."</p><div class="testi-author">— Brand Manager, Mercedes El Paso</div></div>
-        <div class="testi-card"><p class="testi-quote">"Our social engagement went up 300% in 90 days. I didn't think that was realistic. Purple Roots made it look easy."</p><div class="testi-author">— Founder, Badass Human</div></div>
-        <div class="testi-card"><p class="testi-quote">"They're the team you call when you're tired of mediocre. Honest, talent-heavy, and they actually give a damn about your brand."</p><div class="testi-author">— CEO, Desertview</div></div>
-      </div>`
+    num: '03', title: 'Numbers Don\'t Lie', sub: 'Results &amp; Reviews', accent: '#f5d5b8',
+    html: '<div class="stats"><div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years in Business</div></div><div class="stat"><div class="stat-num">40+</div><div class="stat-label">Brands Served</div></div><div class="stat"><div class="stat-num">100+</div><div class="stat-label">Projects Shipped</div></div><div class="stat"><div class="stat-num">3</div><div class="stat-label">Countries Reached</div></div></div><div class="testimonials"><div class="testi">“Purple Roots didn\'t just shoot our content — they understood our brand before we even finished explaining it.”<div class="testi-source">— Marketing Director, Jarritos Campaign</div></div><div class="testi">“From concept to delivery, they were professional, fast, and genuinely creative.”<div class="testi-source">— Brand Manager, Mercedes El Paso</div></div><div class="testi">“Our social engagement went up 300% in 90 days. Purple Roots made it look easy.”<div class="testi-source">— Founder, Badass Human</div></div><div class="testi">“They\'re the team you call when you\'re tired of mediocre. Honest, talent-heavy.”<div class="testi-source">— CEO, Desertview</div></div></div>'
   },
   4: {
-    title: "Brands We've Worked With.",
-    accent: 'var(--blush)',
-    render: () => `
-      <p class="panel-section-label">Tap a card to watch</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-        ${brands.map(b => `<div class="brand-pcard" data-video="${b.video||\'\'}" data-name="${b.name}"><img class="bp-thumb" src="${b.thumbnail}" alt="${b.name}" loading="lazy"/><div class="bp-lbl">${b.name}</div></div>`).join('')}
-      </div>`
+    num: '04', title: 'Brands We\'ve Worked With', sub: 'Our Clients', accent: '#e8b8d8',
+    html: '<p>Click on any brand to watch the work.</p><div class="brands-grid"><div class="brand-card" onclick="window.open(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778274405/Vertical_3_4_vibrant_lifestyle_editorial_202605081502_hhauyz.jpg\',\'_blank\')"><div class="brand-name">Jarritos</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778274404/Vertical_3_4_vibrant_Mexican_lifestyle_202605081502_cjgxiq.jpg\',\'_blank\')"><div class="brand-name">Sidral Mundet</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg\',\'_blank\')"><div class="brand-name">Run 915</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275290/Vertical_3_4_cinematic_Mexican_nightlife_202605081512_hdyobc.jpg\',\'_blank\')"><div class="brand-name">Sangria</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'#\',\'_blank\')"><div class="brand-name">Mercedes EP</div><div class="play-hint">▶ Ver trabajo</div></div><div class="brand-card" onclick="window.open(\'#\',\'_blank\')"><div class="brand-name">Powerhouse</div><div class="play-hint">▶ Ver trabajo</div></div></div>'
   },
   5: {
-    title: 'Are We The Right Fit?',
-    accent: 'var(--white)',
-    render: () => `
-      <p class="panel-section-label">Honest check</p>
-      <div class="fit-cols">
-        <div class="fit-col not">
-          <div class="fit-col-title">We're probably not for you if:</div>
-          <ul>
-            <li>You need a logo done by tomorrow</li>
-            <li>Your budget is "we'll see what you quote"</li>
-            <li>You want to approve every single frame</li>
-            <li>You think one Instagram post = a campaign</li>
-            <li>You're not ready to commit to a vision</li>
-          </ul>
-          <span class="fit-btn">Skip</span>
-        </div>
-        <div class="fit-col yes">
-          <div class="fit-col-title">We're a perfect fit if:</div>
-          <ul>
-            <li>You value your brand as a real asset</li>
-            <li>You want a long-term creative partner</li>
-            <li>You trust the process and trust the team</li>
-            <li>You're ready to invest in quality that lasts</li>
-            <li>You want to stand out, not blend in</li>
-          </ul>
-          <a href="https://wa.me/19152343655" target="_blank" class="fit-btn">Let's Go →</a>
-        </div>
-      </div>`
+    num: '05', title: 'Are We The Right Fit?', sub: 'Let\'s Be Honest', accent: '#f0ece4',
+    html: '<p>We\'d rather lose a prospect than waste both our time.</p><div class="fit-cols"><div class="fit-col no"><div class="fit-head">❌ Not For You If:</div><ul class="fit-list"><li>You need a logo by tomorrow</li><li>Budget is “we\'ll see”</li><li>You approve every frame</li><li>One post = a campaign</li><li>Not ready to commit</li></ul></div><div class="fit-col yes"><div class="fit-head">✅ Perfect Fit If:</div><ul class="fit-list"><li>Brand is a real asset</li><li>Want long-term partner</li><li>You trust the process</li><li>Invest in quality</li><li>Want to stand out</li></ul></div></div>'
   },
   6: {
-    title: 'How We Work.',
-    accent: 'var(--mint)',
-    render: () => `
-      <p class="panel-section-label">Our Process</p>
-      <div class="process-steps">
-        <div class="process-step" style="background:var(--lime)"><div class="step-num">01</div><div class="step-title">Discovery</div><div class="step-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork — we build on research.</div></div>
-        <div class="process-step" style="background:var(--paper)"><div class="step-num">02</div><div class="step-title">Strategy</div><div class="step-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</div></div>
-        <div class="process-step" style="background:var(--lavender)"><div class="step-num">03</div><div class="step-title">Production</div><div class="step-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</div></div>
-        <div class="process-step" style="background:var(--blush)"><div class="step-num">04</div><div class="step-title">Launch &amp; Grow</div><div class="step-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</div></div>
-      </div>`
+    num: '06', title: 'How We Work', sub: 'Our Process', accent: '#b8e8d0',
+    html: '<p>Four steps. No shortcuts.</p><div class="steps"><div class="step"><div class="step-num">01</div><div><div class="step-title">Discovery</div><div class="step-desc">We dig into your brand, audience, goals, and competitors. No guesswork.</div></div></div><div class="step"><div class="step-num">02</div><div><div class="step-title">Strategy</div><div class="step-desc">Clear creative direction and content roadmap before a single frame is shot.</div></div></div><div class="step"><div class="step-num">03</div><div><div class="step-title">Production</div><div class="step-desc">We execute with precision and obsessive attention to quality.</div></div></div><div class="step"><div class="step-num">04</div><div><div class="step-title">Launch &amp; Grow</div><div class="step-desc">We don\'t disappear at delivery. We monitor, optimize, and iterate.</div></div></div></div>'
   }
 };
 
-/* ── HELPERS ── */
-const isMobile = () => window.innerWidth < 768;
-
-function attachBrandCardEvents(container) {
-  container.querySelectorAll('.brand-pcard').forEach(c => {
-    c.addEventListener('click', () => openBrandVideo(c.dataset.name, c.dataset.video));
-    c.addEventListener('touchend', (e) => {
-      e.preventDefault();
-      openBrandVideo(c.dataset.name, c.dataset.video);
-    });
-  });
-}
-
-/* ── DESKTOP PANEL ── */
-const panel       = document.getElementById('panel');
-const panelTitle  = document.getElementById('panel-title');
-const panelBody   = document.getElementById('panel-body');
-const panelAccent = document.getElementById('panel-accent');
-
-function openDesktopPanel(num) {
-  const d = roomPanels[num];
-  panelTitle.textContent = d.title;
-  panelAccent.style.background = d.accent;
-  panelBody.innerHTML = d.render();
-  panel.classList.add('open');
-  if (num === 4) attachBrandCardEvents(panelBody);
-}
-
-document.getElementById('panel-close').addEventListener('click', () => panel.classList.remove('open'));
-
-/* ── MOBILE MODAL ── */
-const mobileModal = document.getElementById('mobile-modal');
-const mmTitle     = document.getElementById('mm-title');
-const mmBody      = document.getElementById('mm-body');
-const mmAccent    = document.getElementById('mm-accent');
-
-function openMobileModal(num) {
-  const d = roomPanels[num];
-  mmTitle.textContent = d.title;
-  mmAccent.style.background = d.accent;
-  mmBody.innerHTML = d.render();
-  mobileModal.classList.add('active');
+// ── INFO MODAL ──
+function openInfo(n) {
+  var r = rooms[n];
+  document.getElementById('info-num').textContent = r.num;
+  document.getElementById('info-title').textContent = r.title;
+  document.getElementById('info-sub').textContent = r.sub;
+  document.getElementById('info-accent').style.background = r.accent;
+  document.getElementById('info-body').innerHTML = r.html;
+  document.getElementById('info-modal').className = 'open';
   document.body.style.overflow = 'hidden';
-  mobileModal.scrollTop = 0;
-  if (num === 4) attachBrandCardEvents(mmBody);
 }
 
-function closeMobileModal() {
-  mobileModal.classList.remove('active');
+function closeInfo() {
+  document.getElementById('info-modal').className = '';
   document.body.style.overflow = '';
 }
 
-document.getElementById('mm-close').addEventListener('click', closeMobileModal);
-
-/* ── UNIFIED openPanel ── */
-function openPanel(num) {
-  if (isMobile()) {
-    openMobileModal(num);
-  } else {
-    openDesktopPanel(num);
-  }
+// ── VIDEO MODAL ──
+function openVideo() {
+  document.getElementById('video-modal').className = 'open';
+  document.body.style.overflow = 'hidden';
+  var v = document.getElementById('main-video');
+  v.muted = false;
+  v.play();
 }
 
-/* ── ROOM EVENT LISTENERS ── */
-/* <button> + touch-action:manipulation → native click fires instantly on tap */
-document.querySelectorAll('.room').forEach(r => {
-  const num = +r.dataset.room;
-  r.addEventListener('click', () => openPanel(num));
-});
-
-/* ── VIDEO EXPAND ── */
-const videoExpand = document.getElementById('video-expand');
-const expandVid   = videoExpand.querySelector('video');
-
-function openVideoExpand() {
-  videoExpand.classList.add('active');
-  expandVid.muted = false;
-  expandVid.play();
+function closeVideo() {
+  document.getElementById('video-modal').className = '';
+  document.body.style.overflow = '';
+  var v = document.getElementById('main-video');
+  v.pause();
+  v.currentTime = 0;
 }
 
-function closeExpand() {
-  videoExpand.classList.remove('active');
-  expandVid.pause();
-  expandVid.muted = true;
-}
-
-const screenWrap = document.getElementById('central-video-wrap');
-screenWrap.addEventListener('click', openVideoExpand);
-screenWrap.addEventListener('touchend', (e) => {
-  e.preventDefault();
+// ── WIRE UP CLOSE BUTTONS & BACKDROP CLICKS ──
+document.getElementById('info-close').addEventListener('click', function(e) {
   e.stopPropagation();
-  openVideoExpand();
+  closeInfo();
 });
 
-document.getElementById('video-expand-close').addEventListener('click', closeExpand);
-videoExpand.addEventListener('click', e => { if (e.target === videoExpand) closeExpand(); });
+document.getElementById('video-close').addEventListener('click', function(e) {
+  e.stopPropagation();
+  closeVideo();
+});
 
-/* ── BRAND VIDEO MODAL ── */
-const brandModal = document.getElementById('brand-video-modal');
-const brandMedia = document.getElementById('brand-video-media');
-const brandName  = document.getElementById('brand-video-name');
+document.getElementById('info-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeInfo();
+});
 
-function openBrandVideo(name, url) {
-  brandName.textContent = name;
-  brandMedia.innerHTML = url
-    ? `<video autoplay muted playsinline controls preload="none" src="${url}"></video>`
-    : `<p style="color:var(--white);padding:20px;font-family:'JetBrains Mono',monospace;font-size:12px">Content coming soon.</p>`;
-  brandModal.classList.add('active');
-}
+document.getElementById('video-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeVideo();
+});
 
-function closeBrandVideo() {
-  brandModal.classList.remove('active');
-  brandMedia.innerHTML = '';
-}
-
-document.getElementById('brand-video-close').addEventListener('click', closeBrandVideo);
-brandModal.addEventListener('click', e => { if (e.target === brandModal) closeBrandVideo(); });
-
-/* ── KEYBOARD ── */
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    panel.classList.remove('open');
-    closeMobileModal();
-    closeExpand();
-    closeBrandVideo();
-  }
+// ESC key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeInfo(); closeVideo(); }
 });
 </script>
+</body>
+</html>
