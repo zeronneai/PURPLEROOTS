@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <style>
@@ -28,11 +28,23 @@
       --line:       rgba(26,26,46,0.12);
       --line-dark:  rgba(255,255,255,0.14);
 
+      --ink:        #1A1A2E;
+      --ink-70:     rgba(26,26,46,0.7);
+      --ink-50:     rgba(26,26,46,0.5);
+
+      --font-display: 'Archivo Black', sans-serif;
+      --font-body:    'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif:   'Instrument Serif', serif;
+
       --rule:       1px solid var(--line);
       --rule-thin:  1px solid var(--line);
 
       --ease:       cubic-bezier(0.22, 1, 0.36, 1);
       --dur:        700ms;
+
+      /* Variable vertical rhythm */
+      --pad-major:  112px;   /* before a major section change */
+      --pad-tight:  60px;    /* between related blocks */
     }
 
     /* =========================================================
@@ -43,12 +55,15 @@
 
     body {
       background-color: var(--paper);
-      color: var(--black);
-      font-family: 'JetBrains Mono', monospace;
+      color: var(--ink-70);
+      font-family: var(--font-body);
       font-weight: 400;
+      font-size: 16px;
       line-height: 1.6;
+      letter-spacing: 0;
       overflow-x: hidden;
       cursor: none;
+      -webkit-font-smoothing: antialiased;
     }
 
     ::selection { background: var(--accent); color: var(--white); }
@@ -100,7 +115,7 @@
     }
     .ticker-reverse { animation: tickRight 20s linear infinite; }
     .ticker-track span {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 11px;
       letter-spacing: 0.24em;
       text-transform: uppercase;
@@ -152,7 +167,7 @@
     }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
     .brands-click-hint {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -166,7 +181,7 @@
       list-style: none;
     }
     .nav-links a {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.7rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -183,7 +198,7 @@
       background: var(--black);
       color: var(--paper);
       border-radius: 2px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-weight: 700;
       font-size: 11px;
       letter-spacing: 0.08em;
@@ -238,7 +253,7 @@
     ========================================================= */
     .section-head { margin-bottom: 5rem; }
     .section-num {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-weight: 700;
       font-size: 0.75rem;
       line-height: 1;
@@ -249,21 +264,57 @@
     }
     .section-num::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); vertical-align: middle; margin-right: 12px; }
     .section-title {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: clamp(2.75rem, 6vw, 5.5rem);
-      letter-spacing: -0.035em;
-      line-height: 1.02;
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      letter-spacing: -0.045em;
+      line-height: 0.98;
       color: var(--black);
     }
     .section-title .y,
     .section-title .lv,
     .section-title .bl { color: var(--accent); }
-    .section-title em  { font-style: italic; font-family: 'Instrument Serif', serif; color: var(--accent); }
+    .section-title em  { font-style: italic; font-family: var(--font-serif); color: var(--accent); letter-spacing: -0.02em; }
+    /* word-reveal scaffolding (JS injects .word) */
+    .section-title .word { display: inline-block; overflow: hidden; vertical-align: top; }
+    .section-title .word > span { display: inline-block; will-change: transform; }
 
     /* =========================================================
-       BLOCK SECTION
+       BLOCK SECTION + ASYMMETRY
     ========================================================= */
-    .block { padding: 160px 0; }
+    .block { padding: var(--pad-major) 0; }
+    .block--tight  { padding: var(--pad-tight) 0; }
+    .block--flush-top { padding-top: 0; }
+
+    /* Asymmetric column helpers — nothing centered by default */
+    .col-60      { max-width: 60%; }
+    .col-narrow  { max-width: 30rem; }
+    .offset-right { margin-left: auto; max-width: 62%; }
+    .container--wide { max-width: 1480px; }
+
+    /* Full-bleed media band */
+    .media-band {
+      position: relative;
+      width: 100%;
+      height: 70vh;
+      min-height: 440px;
+      overflow: hidden;
+      background: var(--black);
+    }
+    .media-band-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      will-change: transform;
+    }
+    .media-band-caption {
+      position: absolute; left: 5%; bottom: 44px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(254,252,248,0.85);
+      z-index: 2;
+    }
+    .media-band-caption span { color: var(--accent); }
 
     /* =========================================================
        BUTTONS
@@ -273,10 +324,10 @@
       align-items: center;
       gap: 10px;
       padding: 18px 34px;
-      background: var(--black);
-      color: var(--paper);
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 600;
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -300,7 +351,7 @@
     .btn-ghost:hover { background: none; color: var(--accent); opacity: 1; }
 
     .btn-lime,
-    .btn-lavender { background: var(--black); color: var(--paper); }
+    .btn-lavender { background: var(--paper); color: var(--ink); }
     .btn-lime:hover,
     .btn-lavender:hover { background: var(--accent); color: var(--white); }
 
@@ -309,7 +360,10 @@
     ========================================================= */
     .hero {
       background: var(--black);
-      padding: 140px 5% 120px;
+      padding: 140px 5% 72px;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
       overflow: hidden;
       position: relative;
     }
@@ -340,38 +394,41 @@
     }
 
     .hero h1 {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: clamp(60px, 13vw, 190px);
+      font-family: var(--font-display);
+      font-size: clamp(52px, 9vw, 132px);
       line-height: 0.92;
       letter-spacing: -0.045em;
       color: var(--white);
-      margin-bottom: 2.5rem;
+      margin-bottom: 2.25rem;
+      max-width: 15ch;
     }
+    .hero h1 .line { display: block; overflow: hidden; }
+    .hero h1 .line > span { display: block; will-change: transform; }
     .hero h1 .yellow { color: var(--accent); }
     .hero h1 .purple { color: var(--accent); }
-    .hero h1 em { font-style: italic; font-family: 'Instrument Serif', serif; color: var(--accent); }
+    .hero h1 em { font-style: italic; font-family: var(--font-serif); color: var(--accent); letter-spacing: -0.02em; }
 
     .hero-sub {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      color: rgba(254,252,248,0.6);
-      max-width: 500px;
-      line-height: 1.75;
-      margin-bottom: 3rem;
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      color: rgba(254,252,248,0.62);
+      max-width: 42ch;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
     }
 
     .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; padding-bottom: 2.5rem; }
 
     .hero-inner--centered {
       grid-template-columns: 1fr;
-      justify-items: center;
-      text-align: center;
-      max-width: 1100px;
+      justify-items: start;
+      text-align: left;
+      max-width: 1480px;
+      width: 100%;
       margin: 0 auto;
     }
     .hero-left--centered { max-width: 100%; }
-    .hero-left--centered .hero-sub { margin-left: auto; margin-right: auto; }
-    .hero-actions--centered { justify-content: center; }
+    .hero-actions--centered { justify-content: flex-start; }
     .hero-side--centered {
       display: flex;
       flex-direction: row;
@@ -413,7 +470,7 @@
       color: var(--black);
     }
     .hero-card-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.68rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -455,33 +512,43 @@
     /* =========================================================
        ABOUT / VALUES
     ========================================================= */
-    .values-grid {
+    /* Editorial numbered list (replaces 2x2 value grid) */
+    .story-list { border-top: 1px solid var(--line); }
+    .story-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--line);
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 1.5rem 5%;
+      align-items: start;
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--line);
     }
-    .value-card {
-      padding: 56px 48px;
-      background: var(--paper);
-      cursor: default;
+    .story-num {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 9vw, 9rem);
+      line-height: 0.8;
+      letter-spacing: -0.05em;
+      color: var(--ink);
+      will-change: transform;
     }
-    .value-icon { color: var(--accent); margin-bottom: 1.75rem; line-height: 1; }
-    .value-icon svg { width: 28px; height: 28px; display: block; }
-    .value-name {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: 1.3rem;
-      letter-spacing: -0.02em;
-      color: var(--black);
-      margin-bottom: 1rem;
+    .story-head {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      color: var(--ink);
+      align-self: center;
     }
-    .value-desc {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--black);
-      opacity: 0.6;
-      line-height: 1.75;
+    .story-body {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--ink-70);
+      max-width: 36ch;
+      align-self: center;
     }
+    /* Alternate alignment row to row */
+    .story-row:nth-child(even) .story-num  { order: 3; text-align: right; }
+    .story-row:nth-child(even) .story-head { order: 1; }
+    .story-row:nth-child(even) .story-body { order: 2; }
 
     /* =========================================================
        SERVICES / WORK
@@ -504,7 +571,7 @@
       cursor: default;
     }
     .work-num {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.6rem;
       letter-spacing: 0.24em;
       color: var(--accent);
@@ -542,7 +609,7 @@
     }
     .stat-num::after { content: ''; display: block; width: 32px; height: 2px; background: var(--accent); margin-top: 1.25rem; }
     .stat-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.62rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -663,7 +730,7 @@
       border: none;
       border-radius: 2px;
       padding: 8px 15px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-weight: 700;
       font-size: 11px;
       letter-spacing: 0.08em;
@@ -735,7 +802,7 @@
     .honest-card.yes .honest-head .tag { color: var(--accent); border-color: var(--accent); }
     .honest-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
     .honest-list li {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.8rem;
       color: var(--black);
       opacity: 0.75;
@@ -755,33 +822,56 @@
     /* =========================================================
        PROCESS
     ========================================================= */
-    .process-grid {
+    /* Pinned process stepper */
+    .process-pin-inner {
       display: grid;
-      grid-template-columns: repeat(4,1fr);
-      border-top: 1px solid var(--line);
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 7%;
+      align-items: start;
     }
-    .process-step { padding: 2.5rem 2rem 0 0; }
+    .process-left { position: relative; }
+    .process-stage { position: relative; }
+    .process-panel { padding-top: 2rem; border-top: 1px solid var(--line); }
+    .process-panel + .process-panel { margin-top: 2rem; }
+    .is-pinned .process-stage { min-height: 48vh; }
+    .is-pinned .process-panel {
+      position: absolute; inset: 0;
+      border-top: none; margin: 0; padding: 0;
+      opacity: 0; transform: translateY(22px);
+      transition: opacity .5s var(--ease), transform .5s var(--ease);
+      pointer-events: none;
+    }
+    .is-pinned .process-panel.active { opacity: 1; transform: none; }
     .process-n {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: -0.04em;
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 6rem);
+      letter-spacing: -0.045em;
       color: var(--accent);
-      line-height: 1;
+      line-height: 0.9;
       margin-bottom: 1.5rem;
     }
+    .process-progress { display: flex; gap: 1.25rem; margin-top: 2.5rem; }
+    .process-progress span {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 11px; letter-spacing: 0.14em;
+      color: var(--ink-50);
+      transition: color .4s var(--ease);
+    }
+    .process-progress span.on { color: var(--accent); }
     .process-name {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: 1.1rem;
-      letter-spacing: -0.01em;
-      color: var(--black);
-      margin-bottom: 0.75rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 1rem;
     }
     .process-desc {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--black);
-      opacity: 0.65;
-      line-height: 1.7;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--ink-70);
+      line-height: 1.6;
+      max-width: 42ch;
     }
 
     /* =========================================================
@@ -803,7 +893,7 @@
     }
     .testimonial-quote span { color: var(--accent); font-style: normal; }
     .testimonial-author {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.66rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -817,28 +907,29 @@
     .final-cta {
       background: var(--black);
       border-bottom: none;
-      text-align: center;
+      text-align: left;
       position: relative;
       overflow: hidden;
     }
     .final-cta .container { position: relative; z-index: 2; }
     .final-cta h2 {
-      font-family: 'Archivo Black', sans-serif;
-      font-size: clamp(3rem, 7vw, 6rem);
-      letter-spacing: -0.04em;
-      line-height: 1.0;
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 7rem);
+      letter-spacing: -0.05em;
+      line-height: 0.95;
       color: var(--white);
       margin-bottom: 2rem;
+      max-width: 16ch;
     }
     .final-cta h2 .yellow { color: var(--accent); }
-    .final-cta h2 em { font-style: italic; font-family: 'Instrument Serif', serif; color: var(--accent); }
+    .final-cta h2 em { font-style: italic; font-family: var(--font-serif); color: var(--accent); }
     .final-cta p {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      color: rgba(254,252,248,0.5);
-      max-width: 460px;
-      margin: 0 auto 3rem;
-      line-height: 1.75;
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      color: rgba(254,252,248,0.55);
+      max-width: 44ch;
+      margin: 0 0 3rem;
+      line-height: 1.6;
     }
     .final-cta .btn-lime { font-size: 13px; padding: 22px 48px; }
     .final-cta .btn-lime:hover { background: var(--accent); color: var(--white); }
@@ -865,7 +956,7 @@
     }
     .footer-socials { display: flex; gap: 1.2rem; list-style: none; justify-content: flex-end; }
     .footer-socials a {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.62rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -880,14 +971,14 @@
       display: flex; align-items: center; justify-content: space-between;
     }
     .footer-copy {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.62rem;
       color: rgba(254,252,248,0.25);
       letter-spacing: 0.08em;
     }
     .footer-nav { display: flex; gap: 1.5rem; list-style: none; }
     .footer-nav a {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-body);
       font-size: 0.62rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -897,10 +988,26 @@
     .footer-nav a:hover { color: var(--accent); }
 
     /* =========================================================
+       INTERACTIONS — underline wipe + magnetic
+    ========================================================= */
+    .nav-links a, .footer-nav a, .footer-socials a { position: relative; }
+    .nav-links a::after, .footer-nav a::after, .footer-socials a::after {
+      content: ''; position: absolute; left: 0; bottom: -3px;
+      height: 1px; width: 100%;
+      background: var(--accent);
+      transform: scaleX(0); transform-origin: left center;
+      transition: transform .5s var(--ease);
+    }
+    .nav-links a:hover::after, .footer-nav a:hover::after, .footer-socials a:hover::after { transform: scaleX(1); }
+    [data-magnetic] { will-change: transform; }
+
+    /* =========================================================
        REVEAL
     ========================================================= */
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
     .reveal.visible { opacity: 1; transform: none; }
+    /* When JS-driven (GSAP) motion is active, GSAP owns opacity/transform inline; kill CSS transition to avoid double-animation */
+    html.gsap-ready .reveal { transition: none; }
     @media (prefers-reduced-motion: reduce) { .reveal { transition: none; opacity: 1; transform: none; } }
 
     @media (max-width: 1024px) {
@@ -913,9 +1020,12 @@
 
     @media (max-width: 768px) {
       .container       { padding: 0 16px; }
-      .block           { padding: 104px 0; }
+      .block           { padding: 84px 0; }
+      .block--tight    { padding: 52px 0; }
       #cursor          { display: none; }
       body             { cursor: auto; }
+      /* Neutralize asymmetry on mobile */
+      .col-60, .offset-right { max-width: 100%; margin-left: 0; }
       .ticker-track span { font-size: 11px; padding: 0 24px; }
       nav              { padding: 0 16px; }
       .nav-logo        { font-size: 1rem; }
@@ -923,17 +1033,23 @@
       .nav-cta         { display: none; }
       .nav-hamburger   { display: flex; }
       .mobile-menu a   { font-size: 2.25rem; }
-      .hero            { padding: 96px 16px 80px; }
+      .hero            { padding: 110px 16px 64px; min-height: auto; }
       .hero-inner      { grid-template-columns: 1fr; gap: 2rem; }
-      .hero h1         { font-size: clamp(48px, 14vw, 84px); }
-      .hero-sub        { font-size: 0.82rem; margin-bottom: 2rem; max-width: 100%; }
-      .hero-actions    { flex-direction: column; align-items: flex-start; padding-bottom: 8px; gap: 0.75rem; }
+      .hero h1         { font-size: clamp(46px, 13vw, 84px); max-width: 100%; }
+      .hero-sub        { font-size: 1rem; margin-bottom: 2rem; max-width: 100%; }
+      .hero-actions    { flex-direction: column; align-items: stretch; padding-bottom: 8px; gap: 0.75rem; }
       .hero-actions .btn { width: 100%; justify-content: center; }
+      .hero-actions .btn-ghost { justify-content: flex-start; padding-left: 0; }
       .section-head    { margin-bottom: 3rem; }
       .section-title   { font-size: clamp(34px, 10vw, 54px); }
-      .values-grid     { grid-template-columns: 1fr; }
-      .value-card      { padding: 40px 28px; }
-      .value-name      { font-size: clamp(22px, 6vw, 30px); }
+      /* Story list stacks; numeral back to natural order */
+      .story-row       { grid-template-columns: 1fr; gap: 0.5rem; padding: 2.5rem 0; }
+      .story-row .story-num,
+      .story-row:nth-child(even) .story-num  { order: 0; text-align: left; font-size: 3.25rem; }
+      .story-row:nth-child(even) .story-head { order: 0; }
+      .story-row:nth-child(even) .story-body { order: 0; }
+      .story-head, .story-body { align-self: start; }
+      .media-band      { height: 52vh; min-height: 300px; }
       .work-grid       { grid-template-columns: 1fr; }
       .work-card       { padding: 2.25rem 1.75rem 2.75rem; }
       .work-name       { font-size: 1.3rem; }
@@ -945,9 +1061,12 @@
       .honest-card     { padding: 2.5rem 0 0; }
       .honest-head     { font-size: 0.7rem; flex-wrap: wrap; }
       .honest-list li  { font-size: 0.78rem; }
-      .process-grid    { grid-template-columns: 1fr; }
-      .process-step    { padding: 2.5rem 0 0; }
-      .process-n       { font-size: 2.25rem; }
+      /* Process: no pin on mobile — natural stacked list */
+      .process-pin-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .is-pinned .process-stage { min-height: 0; }
+      .is-pinned .process-panel { position: static; opacity: 1; transform: none; border-top: 1px solid var(--line); margin: 0; padding: 2rem 0 0; }
+      .is-pinned .process-panel + .process-panel { margin-top: 2rem; }
+      .process-progress { display: none; }
       .testimonials-grid  { grid-template-columns: 1fr; }
       .testimonial-card   { padding: 2.5rem 0; }
       .testimonial-quote  { font-size: clamp(20px, 5vw, 28px); }
@@ -1018,18 +1137,18 @@
     <div class="hero-video-overlay"></div>
     <div class="hero-inner hero-inner--centered">
       <div class="hero-left hero-left--centered">
-        <h1>
-          How to get a flood of<br />
-          <span class="yellow">new customers</span><br />
-          using short-form video<br />
-          <em>without lifting a camera.</em>
+        <h1 id="heroTitle">
+          <span class="line"><span>How to get a flood of</span></span>
+          <span class="line"><span><span class="yellow">new customers</span></span></span>
+          <span class="line"><span>using short-form video</span></span>
+          <span class="line"><span><em>without lifting a camera.</em></span></span>
         </h1>
         <p class="hero-sub">
           Purple Roots is a full-service creative agency from El Paso, TX.
           Video. Identity. Strategy. Content. We do it all — and we do it well.
         </p>
         <div class="hero-actions hero-actions--centered">
-          <a href="#brands" class="btn btn-lime">See Our Work →</a>
+          <a href="#brands" class="btn btn-lime" data-magnetic>See Our Work →</a>
           <a href="https://wa.me/19152343655" target="_blank" class="btn btn-ghost">Let's Talk ↗</a>
         </div>
       </div>
@@ -1074,24 +1193,35 @@
     </div>
   </section>
 
-  <section class="block" id="about">
+  <section class="block block--tight" id="about">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal offset-right">
         <div class="section-num">02</div>
         <h2 class="section-title">Not another<br /><span class="lv">agency.</span></h2>
       </div>
-      <div class="values-grid reveal">
-        <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></div><div class="value-name">Strategy First</div><p class="value-desc">Every project starts with a reason. We don't make pretty things for the sake of it — we make things that work. If it doesn't serve the brand, it doesn't ship.</p></div>
-        <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/></svg></div><div class="value-name">Video is Our Mother Tongue</div><p class="value-desc">From 15-second reels to full brand films, we speak video fluently. Cinematic quality. Social-first thinking. Always on time, always on budget.</p></div>
-        <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/></svg></div><div class="value-name">Born in El Paso, Built Global</div><p class="value-desc">We started in the borderland, where two cultures collide and make something louder than both. That energy lives in everything we create.</p></div>
-        <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a3 3 0 0 1 3-3h3a3 3 0 0 1 0 6h-1.5"/><path d="M15 12a3 3 0 0 1-3 3H9a3 3 0 0 1 0-6h1.5"/></svg></div><div class="value-name">We Work Like Partners</div><p class="value-desc">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</p></div>
+    </div>
+    <div class="container container--wide">
+      <div class="story-list">
+        <div class="story-row reveal"><div class="story-num">01</div><h3 class="story-head">Strategy First</h3><p class="story-body">Every project starts with a reason. We don't make pretty things for the sake of it — we make things that work. If it doesn't serve the brand, it doesn't ship.</p></div>
+        <div class="story-row reveal"><div class="story-num">02</div><h3 class="story-head">Video is Our Mother Tongue</h3><p class="story-body">From 15-second reels to full brand films, we speak video fluently. Cinematic quality. Social-first thinking. Always on time, always on budget.</p></div>
+        <div class="story-row reveal"><div class="story-num">03</div><h3 class="story-head">Born in El Paso, Built Global</h3><p class="story-body">We started in the borderland, where two cultures collide and make something louder than both. That energy lives in everything we create.</p></div>
+        <div class="story-row reveal"><div class="story-num">04</div><h3 class="story-head">We Work Like Partners</h3><p class="story-body">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</p></div>
       </div>
     </div>
   </section>
 
+  <!-- FULL-BLEED MEDIA BAND -->
+  <section class="media-band" id="mediaBand">
+    <video class="media-band-video" autoplay muted loop playsinline preload="none">
+      <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_webm,vc_vp9,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.webm" type="video/webm" />
+      <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.mp4" type="video/mp4" />
+    </video>
+    <div class="media-band-caption"><span>El Paso, TX</span> — creative that moves.</div>
+  </section>
+
   <section class="block services-section" id="services">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal col-60">
         <div class="section-num">03</div>
         <h2 class="section-title" style="color:var(--white);">What we<br /><span class="y">actually do.</span></h2>
       </div>
@@ -1106,9 +1236,9 @@
     </div>
   </section>
 
-  <section class="block stats-section" id="stats">
+  <section class="block block--tight stats-section" id="stats">
     <div class="container">
-      <div class="section-head reveal"><div class="section-num">04</div><h2 class="section-title">Numbers<br />don't lie.</h2></div>
+      <div class="section-head reveal offset-right"><div class="section-num">04</div><h2 class="section-title">Numbers<br />don't lie.</h2></div>
       <div class="stats-row reveal">
         <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years in Business</div></div>
         <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Brands Served</div></div>
@@ -1129,7 +1259,7 @@
   <section class="block" id="honest">
     <div class="container">
       <div class="section-head reveal"><div class="section-num">05</div><h2 class="section-title">Are we the<br />right <em>fit?</em></h2></div>
-      <p class="reveal" style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; opacity:0.6; max-width:580px; margin-bottom:2.5rem;">We're going to be honest with you, because we'd rather lose a prospect than waste both our time.</p>
+      <p class="reveal" style="font-family:var(--font-body); font-size:0.85rem; opacity:0.6; max-width:580px; margin-bottom:2.5rem;">We're going to be honest with you, because we'd rather lose a prospect than waste both our time.</p>
       <div class="honest-grid reveal">
         <div class="honest-card no"><div class="honest-head">We're probably NOT for you if: <span class="tag">SKIP</span></div><ul class="honest-list"><li>You need a logo done by tomorrow</li><li>Your budget is "we'll see what you quote"</li><li>You want to approve every single frame</li><li>You think one Instagram post = a campaign</li><li>You're not ready to commit to a vision</li></ul></div>
         <div class="honest-card yes"><div class="honest-head">We're a perfect fit if: <span class="tag">LET'S GO</span></div><ul class="honest-list"><li>You value your brand as a real asset</li><li>You want a long-term creative partner</li><li>You trust the process and trust the team</li><li>You're ready to invest in quality that lasts</li><li>You want to stand out, not blend in</li></ul></div>
@@ -1137,21 +1267,24 @@
     </div>
   </section>
 
-  <section class="block" id="process">
-    <div class="container">
-      <div class="section-head reveal"><div class="section-num">06</div><h2 class="section-title">How we<br />work.</h2></div>
-      <div class="process-grid reveal">
-        <div class="process-step"><div class="process-n">01</div><div class="process-name">Discovery</div><p class="process-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork — we build on research.</p></div>
-        <div class="process-step"><div class="process-n">02</div><div class="process-name">Strategy</div><p class="process-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</p></div>
-        <div class="process-step"><div class="process-n">03</div><div class="process-name">Production</div><p class="process-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</p></div>
-        <div class="process-step"><div class="process-n">04</div><div class="process-name">Launch &amp; Grow</div><p class="process-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</p></div>
+  <section class="block process-pin" id="process">
+    <div class="container process-pin-inner">
+      <div class="process-left">
+        <div class="section-num reveal">06</div>
+        <h2 class="section-title reveal">How we<br />work.</h2>
+      </div>
+      <div class="process-stage" id="processStage">
+        <div class="process-panel active" data-step="0"><div class="process-n">01</div><div class="process-name">Discovery</div><p class="process-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork — we build on research.</p><div class="process-progress"><span class="on">01</span><span>02</span><span>03</span><span>04</span></div></div>
+        <div class="process-panel" data-step="1"><div class="process-n">02</div><div class="process-name">Strategy</div><p class="process-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</p><div class="process-progress"><span>01</span><span class="on">02</span><span>03</span><span>04</span></div></div>
+        <div class="process-panel" data-step="2"><div class="process-n">03</div><div class="process-name">Production</div><p class="process-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</p><div class="process-progress"><span>01</span><span>02</span><span class="on">03</span><span>04</span></div></div>
+        <div class="process-panel" data-step="3"><div class="process-n">04</div><div class="process-name">Launch &amp; Grow</div><p class="process-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</p><div class="process-progress"><span>01</span><span>02</span><span>03</span><span class="on">04</span></div></div>
       </div>
     </div>
   </section>
 
-  <section class="block" id="testimonials" style="background: var(--paper-alt);">
+  <section class="block block--tight" id="testimonials" style="background: var(--paper-alt);">
     <div class="container">
-      <div class="section-head reveal"><div class="section-num">07</div><h2 class="section-title">Don't take<br />our <span class="bl">word for it.</span></h2></div>
+      <div class="section-head reveal offset-right"><div class="section-num">07</div><h2 class="section-title">Don't take<br />our <span class="bl">word for it.</span></h2></div>
       <div class="testimonials-grid">
         <div class="testimonial-card reveal"><p class="testimonial-quote">"Purple Roots didn't just shoot our content — they <span>understood our brand</span> before we even finished explaining it. The results speak for themselves."</p><div class="testimonial-author">— Marketing Director, Jarritos Campaign</div></div>
         <div class="testimonial-card reveal"><p class="testimonial-quote">"From concept to delivery, they were <span>professional, fast, and genuinely creative</span>. We've worked with agencies twice their size that delivered half the quality."</p><div class="testimonial-author">— Brand Manager, Mercedes El Paso</div></div>
@@ -1165,7 +1298,7 @@
     <div class="container">
       <h2 class="reveal">Ready to build<br />something <span class="yellow">real?</span></h2>
       <p class="reveal">We have limited availability each quarter. If you're serious about your brand, let's talk before the spot is gone.</p>
-      <a href="mailto:video@purpleroots.agency" class="btn btn-lime reveal">video@purpleroots.agency ↗</a>
+      <a href="mailto:p.rootsagency@gmail.com" class="btn btn-lime reveal" data-magnetic>Get in Touch →</a>
     </div>
   </section>
 
@@ -1186,6 +1319,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <script>
     const brands = [
       { name: "Powerhouse",             logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/POWERHOUSE_tdmbwm.png",           video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275936/GLOW_RECAP_-_Trim_s0s44a.mp4",                                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg" },
@@ -1311,24 +1447,171 @@
       });
     });
 
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach(el => {
-      const sibs = Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal'));
-      const i = Math.max(0, sibs.indexOf(el));
-      el.style.transitionDelay = Math.min(i, 8) * 70 + 'ms';
-      obs.observe(el);
-    });
+    /* ============================================================
+       MOTION
+    ============================================================ */
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouch      = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    const isDesktop    = window.matchMedia('(min-width: 769px)').matches;
+    const hasGSAP      = !!(window.gsap && window.ScrollTrigger);
+    const EASE = 'power3.out';
 
+    /* Simple entrance fades — fallback for mobile, missing libs */
+    function fallbackReveal() {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      document.querySelectorAll('.reveal').forEach(el => {
+        const sibs = Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal'));
+        el.style.transitionDelay = Math.min(Math.max(0, sibs.indexOf(el)), 8) * 70 + 'ms';
+        obs.observe(el);
+      });
+    }
+
+    /* Split a headline into word units, preserving inner markup (.y/.lv/.bl/em) and <br> */
+    function splitWords(el) {
+      const nodes = Array.from(el.childNodes);
+      el.innerHTML = '';
+      nodes.forEach(node => {
+        if (node.nodeType === 3) {
+          node.textContent.split(/(\s+)/).forEach(part => {
+            if (part === '') return;
+            if (!part.trim()) { el.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span'); w.className = 'word';
+            const inner = document.createElement('span'); inner.textContent = part;
+            w.appendChild(inner); el.appendChild(w);
+          });
+        } else if (node.nodeName === 'BR') {
+          el.appendChild(node);
+        } else {
+          const w = document.createElement('span'); w.className = 'word';
+          const inner = document.createElement('span'); inner.appendChild(node);
+          w.appendChild(inner); el.appendChild(w);
+        }
+      });
+    }
+
+    function richMotion() {
+      document.documentElement.classList.add('gsap-ready');
+      gsap.registerPlugin(ScrollTrigger);
+
+      /* Lenis smooth scroll — desktop / non-touch only */
+      if (!isTouch) {
+        const lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((t) => lenis.raf(t * 1000));
+        gsap.ticker.lagSmoothing(0);
+      }
+
+      /* Hero — per-line mask reveal */
+      const heroLines = document.querySelectorAll('#heroTitle .line > span');
+      gsap.set(heroLines, { yPercent: 115 });
+      gsap.to(heroLines, { yPercent: 0, duration: 0.9, ease: EASE, stagger: 0.08, delay: 0.15 });
+      gsap.from('.hero-sub, .hero-actions', { opacity: 0, y: 20, duration: 0.8, ease: EASE, stagger: 0.1, delay: 0.55 });
+
+      /* Hero background — slower parallax + scale */
+      gsap.to('.hero-video-bg', {
+        yPercent: 16, scale: 1.12, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+
+      /* Section titles — word stagger on enter */
+      document.querySelectorAll('.section-title').forEach(title => {
+        splitWords(title);
+        const words = title.querySelectorAll('.word > span');
+        gsap.set(words, { yPercent: 115 });
+        ScrollTrigger.create({
+          trigger: title, start: 'top 88%', once: true,
+          onEnter: () => gsap.to(words, { yPercent: 0, duration: 0.7, ease: EASE, stagger: 0.055 })
+        });
+      });
+
+      /* Generic reveals — cards, rows, paragraphs */
+      gsap.utils.toArray('.reveal').forEach(el => {
+        if (el.matches('.section-title') || el.querySelector('.section-title')) { gsap.set(el, { opacity: 1, y: 0 }); return; }
+        gsap.set(el, { opacity: 0, y: 24 });
+        ScrollTrigger.create({
+          trigger: el, start: 'top 90%', once: true,
+          onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: EASE })
+        });
+      });
+
+      /* Story-list — numeral parallaxes against its text */
+      gsap.utils.toArray('.story-row').forEach(row => {
+        gsap.to(row.querySelector('.story-num'), {
+          yPercent: -20, ease: 'none',
+          scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: true }
+        });
+      });
+
+      /* Media band — clip-path wipe + slow inner scale */
+      ScrollTrigger.create({
+        trigger: '.media-band', start: 'top 82%', once: true,
+        onEnter: () => {
+          gsap.fromTo('.media-band', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: EASE });
+          gsap.fromTo('.media-band-video', { scale: 1.08 }, { scale: 1.0, duration: 1.4, ease: EASE });
+        }
+      });
+      gsap.set('.media-band-caption', { opacity: 0, y: 16 });
+      ScrollTrigger.create({
+        trigger: '.media-band', start: 'top 55%', once: true,
+        onEnter: () => gsap.to('.media-band-caption', { opacity: 1, y: 0, duration: 0.8, ease: EASE, delay: 0.25 })
+      });
+
+      /* Brand thumbnails — clip wipe + inner scale as they enter */
+      gsap.utils.toArray('.brand-card-slide.has-thumb .brand-thumb').forEach(img => {
+        gsap.fromTo(img, { scale: 1.08 }, {
+          scale: 1, ease: 'none',
+          scrollTrigger: { trigger: img, start: 'top bottom', end: 'top 40%', scrub: true }
+        });
+      });
+
+      /* Pinned process — content changes in place (desktop only) */
+      if (isDesktop) {
+        const pinSection = document.querySelector('.process-pin');
+        const panels = gsap.utils.toArray('#processStage .process-panel');
+        pinSection.classList.add('is-pinned');
+        ScrollTrigger.create({
+          trigger: pinSection,
+          start: 'top top',
+          end: '+=' + (panels.length * 62) + '%',
+          pin: true, scrub: 0.4,
+          onUpdate: self => {
+            const idx = Math.min(panels.length - 1, Math.floor(self.progress * panels.length));
+            panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+          }
+        });
+      }
+
+      /* Magnetic hover on primary CTAs */
+      document.querySelectorAll('[data-magnetic]').forEach(btn => {
+        btn.addEventListener('mousemove', e => {
+          const r = btn.getBoundingClientRect();
+          gsap.to(btn, { x: (e.clientX - (r.left + r.width / 2)) * 0.3, y: (e.clientY - (r.top + r.height / 2)) * 0.4, duration: 0.4, ease: 'power2.out' });
+        });
+        btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: EASE }));
+      });
+
+      ScrollTrigger.refresh();
+    }
+
+    if (reduceMotion) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    } else if (!hasGSAP || !isDesktop) {
+      fallbackReveal();
+    } else {
+      richMotion();
+    }
+
+    /* Custom cursor (desktop pointer only; hidden via CSS on touch) */
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top  = e.clientY + 'px';
     });
-    document.querySelectorAll('a, button, .brand-card-slide, .hero-card, .value-card, .work-card, .honest-card, .testimonial-card').forEach(el => {
+    document.querySelectorAll('a, button, .brand-card-slide, .work-card, .story-row, .honest-card, .testimonial-card').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
