@@ -988,6 +988,121 @@
     .footer-nav a:hover { color: var(--accent); }
 
     /* =========================================================
+       CASE STUDIES — animated results report
+    ========================================================= */
+    .cs-section { background: var(--paper); }
+    .cs-intro { padding: var(--pad-major) 5% 24px; }
+    .cs-intro-sub { font-size: 1.0625rem; color: var(--ink-70); max-width: 42ch; margin-top: 1.5rem; line-height: 1.6; }
+
+    .cs-panel {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 120px 0;
+    }
+    .cs-panel.dark  { background: var(--black); color: rgba(254,252,248,0.68); }
+    .cs-panel.light { background: var(--paper); color: var(--ink-70); }
+    .cs-panel.dark  .cs-name, .cs-panel.dark  .cs-out-value, .cs-panel.dark  .cs-metric-value { color: var(--white); }
+    .cs-panel.light .cs-name, .cs-panel.light .cs-out-value, .cs-panel.light .cs-metric-value { color: var(--ink); }
+
+    /* Oversized index numeral as graphic element behind content */
+    .cs-num {
+      position: absolute;
+      font-family: var(--font-display);
+      font-size: clamp(11rem, 30vw, 30rem);
+      line-height: 0.68;
+      letter-spacing: -0.06em;
+      color: var(--accent);
+      opacity: 0.13;
+      top: -0.06em; right: 1%;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+    }
+    .cs-panel--horizontal .cs-num { right: auto; left: -0.04em; top: -0.08em; }
+
+    .cs-panel-inner { position: relative; z-index: 1; width: 100%; max-width: 1480px; margin: 0 auto; padding: 0 5%; }
+    .cs-panel--vertical .cs-panel-inner { display: grid; grid-template-columns: 55fr 45fr; gap: 5%; align-items: center; }
+    .cs-panel--horizontal .cs-panel-inner { display: flex; flex-direction: column; gap: 3.25rem; }
+    .cs-top { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem 6%; align-items: end; }
+
+    .cs-kicker { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 1rem; }
+    .cs-name { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 4rem); letter-spacing: -0.035em; line-height: 0.98; }
+    .cs-name .word { display: inline-block; overflow: hidden; vertical-align: top; }
+    .cs-name .word > span { display: inline-block; will-change: transform; }
+
+    /* IN / OUT paired unit */
+    .cs-inout { display: flex; align-items: flex-end; gap: 1.75rem; flex-wrap: wrap; margin: 2.25rem 0 1.5rem; }
+    .cs-label { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.6; }
+    .cs-in-value { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.4rem); letter-spacing: -0.03em; margin-top: 0.5rem; line-height: 1; }
+    .cs-in-organic { font-family: var(--font-display); font-size: clamp(1.6rem, 3.4vw, 2.6rem); letter-spacing: -0.03em; color: var(--accent); margin-top: 0.5rem; line-height: 1; }
+    .cs-in-sub { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-top: 0.4rem; }
+    .cs-arrow { font-size: 1.4rem; opacity: 0.35; align-self: center; padding-bottom: 0.4rem; }
+    .cs-out-value { font-family: var(--font-display); font-size: clamp(3.25rem, 9vw, 8rem); line-height: 0.85; letter-spacing: -0.05em; }
+    .cs-out-label { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-top: 0.75rem; }
+    .cs-mult { font-family: var(--font-display); font-size: clamp(2.25rem, 5.5vw, 4.5rem); color: var(--accent); letter-spacing: -0.045em; line-height: 0.9; margin-left: auto; }
+
+    .cs-metrics { display: flex; gap: 2.5rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+    .cs-panel.dark .cs-metrics { border-top-color: var(--line-dark); }
+    .cs-metric-value { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: -0.02em; line-height: 1; }
+    .cs-metric-label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; margin-top: 0.4rem; max-width: 20ch; }
+
+    .cs-chart { margin-top: 2rem; }
+    .cs-chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .cs-chart svg + svg { margin-top: 1rem; }
+    .cs-svg-bar { height: 40px; }
+    .cs-chart-cap { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.5; margin-top: 0.85rem; }
+    .cs-media--single .cs-video { max-width: 920px; }
+    .cs-dot  { opacity: 0; }
+    .cs-unit { opacity: 0; }
+    .cs-summary { font-size: 0.95rem; opacity: 0.75; max-width: 46ch; margin-top: 1.5rem; line-height: 1.6; }
+    .cs-links { margin-top: 1.5rem; }
+    .cs-links a { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+    .cs-links a::after { content: ''; }
+
+    /* Video component */
+    .cs-media { width: 100%; }
+    .cs-media--grid2, .cs-media--grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .cs-col--media { display: flex; justify-content: flex-end; }
+    .cs-col--media .cs-video { width: 100%; max-width: 400px; }
+    .cs-video { position: relative; }
+    .cs-video-inner { position: relative; width: 100%; overflow: hidden; border-radius: 4px; background: #0e0e17; }
+    .cs-video[data-aspect="16:9"] .cs-video-inner { aspect-ratio: 16 / 9; }
+    .cs-video[data-aspect="9:16"] .cs-video-inner { aspect-ratio: 9 / 16; }
+    .cs-video-el, .cs-video-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cs-video-el { z-index: 2; opacity: 0; background: transparent; transition: opacity .5s var(--ease); }
+    .cs-video-el.is-playing { opacity: 1; }
+    .cs-video-poster { z-index: 1; }
+    .cs-video-ph { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; background: #12121c; }
+    .cs-play { width: 58px; height: 58px; border: 1px solid rgba(255,255,255,0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; padding-left: 3px; }
+    .cs-video--fallback .cs-video-el { display: none; }
+    .cs-video--fallback .cs-video-ph, .cs-video--fallback .cs-play { cursor: none; }
+    .cs-unmute {
+      position: absolute; bottom: 12px; right: 12px; z-index: 3;
+      background: rgba(0,0,0,0.55); color: #fff;
+      border: 1px solid rgba(255,255,255,0.3); border-radius: 2px;
+      padding: 6px 10px; font-family: var(--font-body); font-weight: 600;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: none;
+    }
+    .cs-unmute:hover { border-color: var(--accent); color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .cs-intro { padding: 84px 16px 8px; }
+      .cs-panel { min-height: auto; padding: 72px 0; }
+      .cs-panel-inner { padding: 0 16px; }
+      .cs-panel--vertical .cs-panel-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .cs-top { grid-template-columns: 1fr; gap: 1.75rem; }
+      .cs-num { font-size: clamp(7rem, 34vw, 12rem); opacity: 0.1; }
+      .cs-media--grid2, .cs-media--grid4 { grid-template-columns: 1fr; }
+      .cs-col--media { justify-content: center; }
+      .cs-col--media .cs-video { max-width: 320px; }
+      .cs-inout { gap: 1.25rem; }
+      .cs-mult { margin-left: 0; }
+    }
+
+    /* =========================================================
        INTERACTIONS — underline wipe + magnetic
     ========================================================= */
     .nav-links a, .footer-nav a, .footer-socials a { position: relative; }
@@ -1113,6 +1228,7 @@
       <li><a href="#services">Services</a></li>
       <li><a href="#brands">Clients</a></li>
       <li><a href="#honest">Process</a></li>
+      <li><a href="#case-studies">Results</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="https://wa.me/19152343655" target="_blank" class="nav-cta">Get a Quote →</a>
@@ -1126,6 +1242,7 @@
     <a href="#services" class="m-link">Services</a>
     <a href="#brands"   class="m-link">Clients</a>
     <a href="#honest"   class="m-link">Process</a>
+    <a href="#case-studies" class="m-link">Results</a>
     <a href="#contact"  class="m-link">Contact</a>
   </div>
 
@@ -1294,6 +1411,16 @@
     </div>
   </section>
 
+  <!-- ===================== CASE STUDIES ===================== -->
+  <section class="cs-section" id="case-studies">
+    <div class="cs-intro container">
+      <div class="section-num reveal">08</div>
+      <h2 class="section-title reveal">The <span class="y">results.</span></h2>
+      <p class="cs-intro-sub reveal">Real budgets in. Real numbers out. Four case studies, no rounding in our favor — all figures in USD.</p>
+    </div>
+    <div id="csTrack"></div>
+  </section>
+
   <section class="block final-cta" id="contact">
     <div class="container">
       <h2 class="reveal">Ready to build<br />something <span class="yellow">real?</span></h2>
@@ -1323,6 +1450,165 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <script>
+    /* ============================================================
+       CASE STUDIES — data + renderers (add a case here, no markup edits)
+    ============================================================ */
+    const CASES = [
+      {
+        id: '01', index: '01', client: 'Mark Davis', industry: 'Personal Brand',
+        investment: { amount: 6780, label: 'Ad Investment' },
+        outcome: { value: 557000, label: 'Views' },
+        metrics: [ { value: '402', label: 'Inbound Calls' }, { value: '1', label: 'Commercial Produced' } ],
+        chart: { type: 'dotgrid', count: 402 },
+        videos: [
+          { src: 'assets/case-studies/01/1.mp4', poster: 'assets/case-studies/01/1.jpg', aspect: '16:9' },
+          { src: 'assets/case-studies/01/2.mp4', poster: 'assets/case-studies/01/2.jpg', aspect: '16:9' }
+        ],
+        instagramUrl: null,
+        summary: 'A focused paid campaign turned a modest budget into massive reach — and, more importantly, 402 real inbound calls and a produced commercial.'
+      },
+      {
+        id: '02', index: '02', client: "Chingón Cuh'ts", industry: 'Barbershop',
+        investment: { amount: 100, label: 'Ad Spend' },
+        outcome: { value: 500000, label: 'Views' },
+        metrics: [ { value: 'Record', label: 'Walk-ins — most in company history' }, { value: 'Record', label: 'Appointments Booked' } ],
+        chart: { type: 'ratiobar' },
+        videos: [ { src: 'assets/case-studies/02/1.mp4', poster: 'assets/case-studies/02/1.jpg', aspect: '9:16' } ],
+        instagramUrl: 'https://www.instagram.com/chingoncuhts/',
+        summary: "One hundred dollars of ad spend. Half a million views. Record-breaking walk-ins and appointments in the shop's history."
+      },
+      {
+        id: '03', index: '03', client: 'Mario Yague', industry: 'Personal Injury Attorney · El Toro Law',
+        investment: null,
+        outcome: { value: 700000, prefix: '$', suffix: '+', label: 'Client Incoming Revenue' },
+        metrics: [ { value: 'Full', label: 'Rebrand' }, { value: '4 mo', label: 'Organic Social' } ],
+        chart: { type: 'timeline', points: [0.04, 0.2, 0.52, 1], caption: '4 months · organic · $0 paid' },
+        videos: [
+          { src: 'assets/case-studies/03/1.mp4', poster: 'assets/case-studies/03/1.jpg', aspect: '16:9' },
+          { src: 'assets/case-studies/03/2.mp4', poster: 'assets/case-studies/03/2.jpg', aspect: '16:9' },
+          { src: 'assets/case-studies/03/3.mp4', poster: 'assets/case-studies/03/3.jpg', aspect: '16:9' },
+          { src: 'assets/case-studies/03/4.mp4', poster: 'assets/case-studies/03/4.jpg', aspect: '16:9' }
+        ],
+        instagramUrl: 'https://www.instagram.com/yaguelaw/',
+        summary: 'No paid spend at all. A full rebrand and four months of organic social drove more than $700,000 in incoming client revenue.'
+      },
+      {
+        id: '04', index: '04', client: 'Powerhouse Gym', industry: 'Fitness · El Paso',
+        investment: { amount: 1500, label: 'Paid Ads' },
+        outcome: { value: 70000, prefix: '$', label: 'Membership Revenue' },
+        metrics: [ { value: '80', label: 'Memberships Sold' }, { value: '1', label: 'Commercial Produced' } ],
+        chart: { type: 'ratiobar', units: 80, unitLabel: 'memberships' },
+        videos: [ { src: 'assets/case-studies/04/1.mp4', poster: 'assets/case-studies/04/1.jpg', aspect: '9:16' } ],
+        instagramUrl: 'https://www.instagram.com/powerhouseeptx/',
+        summary: 'Fifteen hundred in ads returned $70,000 in membership contracts — 80 new members and a commercial in the can.'
+      }
+    ];
+
+    const csFmt = (n) => Number(n).toLocaleString('en-US');
+    const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    function csChartDotGrid(count, cls) {
+      const cols = Math.ceil(Math.sqrt(count * 1.9));
+      const rows = Math.ceil(count / cols);
+      const gap = 10, r = 2.4, W = cols * gap, H = rows * gap;
+      let dots = '';
+      for (let k = 0; k < count; k++) {
+        const cx = (k % cols) * gap + gap / 2;
+        const cy = Math.floor(k / cols) * gap + gap / 2;
+        dots += '<circle class="' + cls + '" cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="currentColor" />';
+      }
+      return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + count + ' units">' + dots + '</svg>';
+    }
+    function csChartRatioBar(inv, out) {
+      const sliver = Math.max(0.6, (inv / out) * 100);
+      return '<svg class="cs-svg-bar" viewBox="0 0 100 16" preserveAspectRatio="none" role="img" aria-label="investment vs outcome">'
+        + '<rect x="0" y="4" width="100" height="8" fill="currentColor" opacity="0.14" />'
+        + '<rect class="cs-bar-out" x="0" y="4" width="0" height="8" fill="currentColor" opacity="0.5" />'
+        + '<rect class="cs-bar-in" x="0" y="4" width="' + sliver.toFixed(2) + '" height="8" fill="var(--accent)" />'
+        + '</svg>';
+    }
+    function csChartTimeline(points) {
+      const H = 60, n = points.length;
+      const xs = points.map((p, i) => n === 1 ? 0 : (i / (n - 1)) * 100);
+      const ys = points.map(p => (H - 2) - p * (H - 10));
+      const d = 'M' + xs.map((x, i) => x.toFixed(2) + ' ' + ys[i].toFixed(2)).join(' L');
+      let ticks = '';
+      xs.forEach(x => { ticks += '<line x1="' + x.toFixed(2) + '" y1="' + (H - 2) + '" x2="' + x.toFixed(2) + '" y2="' + H + '" stroke="currentColor" opacity="0.4" stroke-width="0.5" vector-effect="non-scaling-stroke" />'; });
+      return '<svg viewBox="0 0 100 ' + (H + 6) + '" role="img" aria-label="revenue over 4 months">'
+        + '<path class="cs-line" d="' + d + '" fill="none" stroke="var(--accent)" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" />'
+        + '<circle class="cs-line-dot" cx="' + xs[n-1].toFixed(2) + '" cy="' + ys[n-1].toFixed(2) + '" r="2.2" fill="var(--accent)" style="opacity:0" />'
+        + ticks + '</svg>';
+    }
+    function csRenderChart(c) {
+      const t = c.chart.type; let svg = '', cap = '';
+      if (t === 'dotgrid') { svg = csChartDotGrid(c.chart.count, 'cs-dot'); cap = c.chart.count + ' inbound calls'; }
+      else if (t === 'ratiobar') {
+        svg = csChartRatioBar(c.investment ? c.investment.amount : 0, c.outcome.value);
+        if (c.chart.units) { svg += csChartDotGrid(c.chart.units, 'cs-unit'); cap = c.chart.units + ' ' + (c.chart.unitLabel || 'units'); }
+      } else if (t === 'timeline') { svg = csChartTimeline(c.chart.points); cap = c.chart.caption || ''; }
+      return '<div class="cs-chart" data-chart="' + t + '">' + svg + (cap ? '<div class="cs-chart-cap">' + esc(cap) + '</div>' : '') + '</div>';
+    }
+    function csRenderInOut(c) {
+      let inHTML;
+      if (!c.investment) {
+        inHTML = '<div class="cs-in cs-in--organic"><div class="cs-label">Investment</div><div class="cs-in-organic">ORGANIC</div><div class="cs-in-sub">$0 Paid Spend</div></div>';
+      } else {
+        inHTML = '<div class="cs-in"><div class="cs-label">' + esc(c.investment.label) + '</div>'
+          + '<div class="cs-in-value" data-count data-to="' + c.investment.amount + '" data-prefix="$">$0</div></div>';
+      }
+      const o = c.outcome, pre = o.prefix || '', suf = o.suffix || '';
+      const outHTML = '<div class="cs-out"><div class="cs-out-value" data-count data-slow data-to="' + o.value + '" data-prefix="' + pre + '" data-suffix="' + suf + '">' + pre + '0' + suf + '</div>'
+        + '<div class="cs-out-label">' + esc(o.label) + '</div></div>';
+      let multHTML = '';
+      if (c.investment) {
+        const m = Math.floor(o.value / c.investment.amount);
+        if (m >= 2) multHTML = '<div class="cs-mult">' + csFmt(m) + '×</div>';
+      }
+      return '<div class="cs-inout">' + inHTML + '<div class="cs-arrow">→</div>' + outHTML + multHTML + '</div>';
+    }
+    function csRenderMetrics(c) {
+      return '<div class="cs-metrics">' + c.metrics.map(m =>
+        '<div class="cs-metric"><div class="cs-metric-value">' + esc(m.value) + '</div><div class="cs-metric-label">' + esc(m.label) + '</div></div>'
+      ).join('') + '</div>';
+    }
+    function csRenderVideo(v, c) {
+      return '<figure class="cs-video" data-aspect="' + v.aspect + '"><div class="cs-video-inner">'
+        + '<video class="cs-video-el" muted loop playsinline preload="none" poster="' + v.poster + '"><source src="' + v.src + '" type="video/mp4" /></video>'
+        + '<img class="cs-video-poster" src="' + v.poster + '" alt="' + esc(c.client) + '" loading="lazy" />'
+        + '<div class="cs-video-ph"><span class="cs-play">▶</span></div>'
+        + '<button class="cs-unmute" type="button">Sound Off</button>'
+        + '</div></figure>';
+    }
+    function csRenderLinks(c) {
+      return c.instagramUrl ? '<div class="cs-links"><a href="' + c.instagramUrl + '" target="_blank" rel="noopener">View on Instagram →</a></div>' : '';
+    }
+    function csRenderPanel(c, i) {
+      const vertical = c.videos[0].aspect === '9:16';
+      const bg = (i % 2 === 0) ? 'dark' : 'light';
+      const kicker = '<span class="cs-kicker">Case ' + c.index + ' · ' + esc(c.industry) + '</span>';
+      const name = '<h3 class="cs-name" data-splitwords>' + esc(c.client) + '</h3>';
+      const inout = csRenderInOut(c), metrics = csRenderMetrics(c), chart = csRenderChart(c), links = csRenderLinks(c);
+      const summary = '<p class="cs-summary">' + esc(c.summary) + '</p>';
+      const num = '<div class="cs-num" aria-hidden="true">' + c.index + '</div>';
+      if (vertical) {
+        const video = csRenderVideo(c.videos[0], c);
+        return '<article class="cs-panel cs-panel--vertical ' + bg + '" id="case-' + c.id + '">' + num
+          + '<div class="cs-panel-inner"><div class="cs-col cs-col--data">' + kicker + name + inout + metrics + chart + links + summary + '</div>'
+          + '<div class="cs-col cs-col--media">' + video + '</div></div></article>';
+      }
+      const n = c.videos.length;
+      const mediaClass = n >= 4 ? 'cs-media--grid4' : (n === 2 ? 'cs-media--grid2' : 'cs-media--single');
+      const videos = c.videos.map(v => csRenderVideo(v, c)).join('');
+      return '<article class="cs-panel cs-panel--horizontal ' + bg + '" id="case-' + c.id + '">' + num
+        + '<div class="cs-panel-inner"><div class="cs-top"><div class="cs-top-l">' + kicker + name + metrics + '</div>'
+        + '<div class="cs-top-r">' + inout + chart + links + '</div></div>'
+        + '<div class="cs-media ' + mediaClass + '">' + videos + '</div>' + summary + '</div></article>';
+    }
+    (function buildCases() {
+      const track = document.getElementById('csTrack');
+      if (track) track.innerHTML = CASES.map(csRenderPanel).join('');
+    })();
+
     const brands = [
       { name: "Powerhouse",             logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757141/POWERHOUSE_tdmbwm.png",           video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778275936/GLOW_RECAP_-_Trim_s0s44a.mp4",                                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg" },
       { name: "Jarritos",               logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/JARRITOS_gxxbny.png",              video: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1778276263/Purple_Roots_Reel_2025_1_edited_ihmdk4.mp4",                                         thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778274405/Vertical_3_4_vibrant_lifestyle_editorial_202605081502_hhauyz.jpg" },
@@ -1615,6 +1901,131 @@
       el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
+
+    /* ============================================================
+       CASE STUDIES — behaviour + motion
+    ============================================================ */
+    function csOnEnterOnce(el, cb, start) {
+      if (hasGSAP && window.ScrollTrigger) {
+        ScrollTrigger.create({ trigger: el, start: start || 'top 72%', once: true, onEnter: cb });
+      } else {
+        const io = new IntersectionObserver((es, o) => {
+          es.forEach(x => { if (x.isIntersecting) { cb(); o.disconnect(); } });
+        }, { threshold: 0.25 });
+        io.observe(el);
+      }
+    }
+
+    function csCountUp(el) {
+      const to = parseFloat(el.dataset.to);
+      const prefix = el.dataset.prefix || '', suffix = el.dataset.suffix || '';
+      const slow = el.hasAttribute('data-slow');
+      if (reduceMotion) { el.textContent = prefix + csFmt(to) + suffix; return; }
+      const dur = slow ? 2100 : 1200;
+      let startT = null;
+      function tick(now) {
+        if (startT === null) startT = now;
+        const p = Math.min(1, (now - startT) / dur);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = prefix + csFmt(Math.round(to * e)) + suffix;
+        if (p < 1) requestAnimationFrame(tick); else el.textContent = prefix + csFmt(to) + suffix;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function csAnimateChart(el) {
+      const fast = !isDesktop;
+      const canGsap = hasGSAP && !reduceMotion;
+      const marks = el.querySelectorAll('.cs-dot, .cs-unit');
+      if (marks.length) {
+        if (canGsap) gsap.to(marks, { opacity: 1, duration: fast ? 0.25 : 0.4, ease: 'power3.out', stagger: fast ? 0.003 : 0.006 });
+        else marks.forEach(m => { m.style.opacity = 1; });
+      }
+      const barOut = el.querySelector('.cs-bar-out');
+      if (barOut) {
+        if (canGsap) gsap.fromTo(barOut, { attr: { width: 0 } }, { attr: { width: 100 }, duration: fast ? 0.7 : 1.1, ease: 'power3.out' });
+        else barOut.setAttribute('width', 100);
+      }
+      const line = el.querySelector('.cs-line');
+      if (line) {
+        const len = line.getTotalLength();
+        line.style.strokeDasharray = len;
+        if (canGsap) { line.style.strokeDashoffset = len; gsap.to(line, { strokeDashoffset: 0, duration: fast ? 0.9 : 1.5, ease: 'power3.out' }); }
+        else line.style.strokeDashoffset = 0;
+        const ldot = el.querySelector('.cs-line-dot');
+        if (ldot) { if (canGsap) gsap.to(ldot, { opacity: 1, duration: 0.4, delay: fast ? 0.6 : 1.1, ease: 'power3.out' }); else ldot.style.opacity = 1; }
+      }
+    }
+
+    function initCaseVideos() {
+      let current = null;
+      document.querySelectorAll('.cs-video').forEach(fig => {
+        const video = fig.querySelector('.cs-video-el');
+        const posterImg = fig.querySelector('.cs-video-poster');
+        const ph = fig.querySelector('.cs-video-ph');
+        const unmute = fig.querySelector('.cs-unmute');
+        let failed = false;
+        posterImg.addEventListener('error', () => { posterImg.style.display = 'none'; });
+        video.addEventListener('playing', () => video.classList.add('is-playing'));
+        video.addEventListener('error', () => { failed = true; fig.classList.add('cs-video--fallback'); });
+        function play() {
+          if (failed) return;
+          if (current && current !== video) { try { current.pause(); } catch (e) {} }
+          current = video;
+          const pr = video.play();
+          if (pr && pr.catch) pr.catch(() => {});
+        }
+        function pause() { try { video.pause(); } catch (e) {} }
+        ph.addEventListener('click', () => { if (!failed) play(); });
+        unmute.addEventListener('click', (e) => {
+          e.stopPropagation();
+          video.muted = !video.muted;
+          unmute.textContent = video.muted ? 'Sound Off' : 'Sound On';
+          if (!video.muted) play();
+        });
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(en => {
+            if (en.isIntersecting) { if (!reduceMotion) play(); }
+            else { pause(); if (current === video) current = null; }
+          });
+        }, { threshold: 0.55 });
+        io.observe(fig);
+      });
+    }
+
+    function setupCasePanel(panel) {
+      const rich = hasGSAP && !reduceMotion && isDesktop;
+      const name = panel.querySelector('.cs-name[data-splitwords]');
+      if (name && rich) splitWords(name);
+      csOnEnterOnce(panel, () => {
+        panel.querySelectorAll('[data-count]').forEach(csCountUp);
+        panel.querySelectorAll('.cs-chart').forEach(csAnimateChart);
+        if (name && rich) {
+          const words = name.querySelectorAll('.word > span');
+          gsap.set(words, { yPercent: 115 });
+          gsap.to(words, { yPercent: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06 });
+        }
+        if (rich) {
+          panel.querySelectorAll('.cs-video-inner').forEach((vi, idx) => {
+            gsap.fromTo(vi, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.9, ease: 'power3.out', delay: idx * 0.08 });
+            gsap.fromTo(vi.querySelectorAll('.cs-video-el, .cs-video-poster'), { scale: 1.06 }, { scale: 1, duration: 1.2, ease: 'power3.out', delay: idx * 0.08 });
+          });
+        }
+      }, 'top 70%');
+      if (rich) {
+        const num = panel.querySelector('.cs-num');
+        if (num) gsap.to(num, { yPercent: -14, ease: 'none', scrollTrigger: { trigger: panel, start: 'top bottom', end: 'bottom top', scrub: true } });
+      }
+    }
+
+    function initCaseStudies() {
+      if (!document.getElementById('csTrack')) return;
+      if (hasGSAP && window.ScrollTrigger) { try { gsap.registerPlugin(ScrollTrigger); } catch (e) {} }
+      initCaseVideos();
+      document.querySelectorAll('.cs-panel').forEach(setupCasePanel);
+      if (hasGSAP && window.ScrollTrigger) ScrollTrigger.refresh();
+    }
+    initCaseStudies();
   </script>
 </body>
 </html>
