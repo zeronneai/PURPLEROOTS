@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..460&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <style>
@@ -15,36 +15,35 @@
        VARIABLES
     ========================================================= */
     :root {
-      --black:      #1A1A2E;
-      --white:      #FEFCF8;
-      --paper:      #F2EDE3;
-      --paper-alt:  #EDE6D8;
-      --lime:       #C8E87A;
-      --lavender:   #C8B8F0;
-      --purple:     #8A5CF6;
-      --blush:      #E8A0C8;
+      /* Editorial-lux palette — bone + warm near-black + ONE saffron accent.
+         No purple anywhere. Accent is used with extreme restraint. */
+      --black:      #1A1815;   /* warm near-black ink (backgrounds) */
+      --white:      #FCFAF5;   /* soft white */
+      --paper:      #F4F1E8;   /* bone paper (not pure #fff) */
+      --paper-alt:  #ECE7DB;   /* slightly deeper bone */
 
-      --accent:     var(--purple);
-      --line:       rgba(26,26,46,0.12);
-      --line-dark:  rgba(255,255,255,0.14);
+      --accent:     #E8571E;   /* saffron-orange — single electric hit, used rarely */
 
-      --ink:        #1A1A2E;
-      --ink-70:     rgba(26,26,46,0.7);
-      --ink-50:     rgba(26,26,46,0.5);
+      --ink:        #1A1815;
+      --ink-70:     rgba(26,24,21,0.7);
+      --ink-50:     rgba(26,24,21,0.5);
 
-      --font-display: 'Archivo Black', sans-serif;
+      --line:       rgba(26,24,21,0.12);
+      --line-dark:  rgba(252,250,245,0.16);
+
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
       --font-body:    'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-serif:   'Instrument Serif', serif;
+      --font-serif:   'Fraunces', Georgia, serif;
 
       --rule:       1px solid var(--line);
       --rule-thin:  1px solid var(--line);
 
       --ease:       cubic-bezier(0.22, 1, 0.36, 1);
-      --dur:        700ms;
+      --dur:        1000ms;   /* calmer, unhurried reveals */
 
       /* Variable vertical rhythm */
-      --pad-major:  112px;   /* before a major section change */
-      --pad-tight:  60px;    /* between related blocks */
+      --pad-major:  128px;
+      --pad-tight:  64px;
     }
 
     /* =========================================================
@@ -64,6 +63,7 @@
       overflow-x: hidden;
       cursor: none;
       -webkit-font-smoothing: antialiased;
+      font-optical-sizing: auto;
     }
 
     ::selection { background: var(--accent); color: var(--white); }
@@ -151,7 +151,7 @@
     }
 
     .nav-logo {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 1rem;
       letter-spacing: -0.01em;
       color: var(--black);
@@ -171,7 +171,7 @@
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--purple);
+      color: var(--accent);
       margin-top: 6px;
     }
 
@@ -235,13 +235,13 @@
     }
     .mobile-menu.open { display: flex; }
     .mobile-menu a {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 2rem;
       letter-spacing: -0.02em;
       color: var(--black);
       transition: color 0.15s;
     }
-    .mobile-menu a:hover { color: var(--purple); }
+    .mobile-menu a:hover { color: var(--accent); }
 
     /* =========================================================
        CONTAINER
@@ -374,14 +374,26 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
-      opacity: 0.45;
+      opacity: 0.82;   /* let the footage be the star */
+      will-change: transform;
     }
     .hero-video-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.65) 100%);
+      /* subtle scrim — dark enough to read the copy at the bottom, light up top */
+      background: linear-gradient(to bottom, rgba(20,18,16,0.28) 0%, rgba(20,18,16,0.12) 42%, rgba(20,18,16,0.72) 100%);
       z-index: 1;
     }
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(252,250,245,0.72);
+      margin-bottom: 1.75rem;
+    }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 26px; height: 1px; background: var(--accent); vertical-align: middle; margin-right: 14px; }
     .hero-inner {
       position: relative;
       z-index: 2;
@@ -395,12 +407,12 @@
 
     .hero h1 {
       font-family: var(--font-display);
-      font-size: clamp(52px, 9vw, 132px);
-      line-height: 0.92;
-      letter-spacing: -0.045em;
+      font-size: clamp(52px, 8.5vw, 116px);
+      line-height: 1.0;
+      letter-spacing: -0.015em;
       color: var(--white);
-      margin-bottom: 2.25rem;
-      max-width: 15ch;
+      margin-bottom: 2.75rem;
+      max-width: 18ch;
     }
     .hero h1 .line { display: block; overflow: hidden; }
     .hero h1 .line > span { display: block; will-change: transform; }
@@ -463,7 +475,7 @@
     .hero-card.lav,
     .hero-card.blush { background: none; }
     .hero-card-num {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 2.4rem;
       letter-spacing: -0.03em;
       line-height: 1;
@@ -497,7 +509,7 @@
       gap: 0;
     }
     .client-name {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.8rem;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -578,7 +590,7 @@
       margin-bottom: 2rem;
     }
     .work-name {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 1.5rem;
       letter-spacing: -0.02em;
       color: var(--white);
@@ -601,7 +613,7 @@
     }
     .stat { padding: 3rem 2rem 3rem 0; border-bottom: 1px solid var(--line); }
     .stat-num {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(3.5rem, 6vw, 6rem);
       letter-spacing: -0.05em;
       line-height: 1;
@@ -652,14 +664,14 @@
     }
     .brand-card-slide:hover .brand-logo-img { transform: scale(1.04); }
     .brand-init {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 1.8rem;
       letter-spacing: -0.02em;
       color: var(--black);
       line-height: 1;
     }
     .brand-lbl {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -739,7 +751,7 @@
     }
     .modal-close-btn:hover { background: var(--accent); }
     #modalBrandName {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 1.3rem;
       letter-spacing: -0.02em;
       text-transform: uppercase;
@@ -760,10 +772,10 @@
       border: 1px solid var(--line);
     }
     .modal-empty p {
-      font-family: 'Instrument Serif', serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-size: 1.4rem;
-      color: var(--purple);
+      color: var(--accent);
     }
 
     /* =========================================================
@@ -781,7 +793,7 @@
       cursor: default;
     }
     .honest-head {
-      font-family: 'Archivo Black', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.75rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -884,7 +896,7 @@
       cursor: default;
     }
     .testimonial-quote {
-      font-family: 'Instrument Serif', serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-size: 1.6rem;
       line-height: 1.45;
@@ -948,7 +960,7 @@
     .footer-brand { display: inline-flex; padding: 0; border: none; box-shadow: none; width: fit-content; }
     .footer-brand-img { height: 56px; width: auto; display: block; object-fit: contain; }
     .footer-tagline {
-      font-family: 'Instrument Serif', serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-size: 0.95rem;
       color: rgba(254,252,248,0.45);
@@ -1125,6 +1137,20 @@
     html.gsap-ready .reveal { transition: none; }
     @media (prefers-reduced-motion: reduce) { .reveal { transition: none; opacity: 1; transform: none; } }
 
+    /* Editorial-lux display override — fine, light-weight serif (wins over
+       per-element weight/tracking above; media queries below still set size). */
+    .hero h1, .section-title, .section-title em, .story-num, .story-head,
+    .cs-num, .cs-name, .cs-out-value, .cs-in-value, .cs-in-organic, .cs-mult,
+    .process-n, .process-name, .stat-num, .work-name, .brand-init,
+    .final-cta h2, .final-cta h2 em, .testimonial-quote, .footer-tagline {
+      font-weight: 350;
+      letter-spacing: -0.01em;
+      font-optical-sizing: auto;
+    }
+    .hero h1 { font-weight: 330; letter-spacing: -0.015em; }
+    .cs-out-value, .story-num, .cs-num, .stat-num, .process-n, .cs-mult { font-weight: 370; }
+    .section-title em, .final-cta h2 em, .hero h1 em, .testimonial-quote { font-style: italic; }
+
     @media (max-width: 1024px) {
       .work-grid         { grid-template-columns: 1fr 1fr; }
       .stats-row         { grid-template-columns: 1fr 1fr; }
@@ -1223,13 +1249,23 @@
     <a href="#hero" class="nav-logo">
       <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" class="nav-logo-img" />
     </a>
+    <!-- ============================================================
+         SECTION LABEL MAPPING (editorial-lux) — approve / tweak before final:
+           About     → ETHOS         (#about)
+           Services  → CAPABILITIES  (#services)
+           Clients   → PARTNERS      (#brands)
+           Process   → METHOD        (#process)   [re-pointed to the real process section]
+           Results   → PROOF         (#case-studies)
+           Contact   → INQUIRE       (#contact)
+         Anchors/ids unchanged except METHOD now targets #process.
+         ============================================================ -->
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#brands">Clients</a></li>
-      <li><a href="#honest">Process</a></li>
-      <li><a href="#case-studies">Results</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about">Ethos</a></li>
+      <li><a href="#services">Capabilities</a></li>
+      <li><a href="#brands">Partners</a></li>
+      <li><a href="#process">Method</a></li>
+      <li><a href="#case-studies">Proof</a></li>
+      <li><a href="#contact">Inquire</a></li>
     </ul>
     <a href="https://wa.me/19152343655" target="_blank" class="nav-cta">Get a Quote →</a>
     <button class="nav-hamburger" id="hamburger" aria-label="Menu">
@@ -1238,12 +1274,12 @@
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#about"    class="m-link">About</a>
-    <a href="#services" class="m-link">Services</a>
-    <a href="#brands"   class="m-link">Clients</a>
-    <a href="#honest"   class="m-link">Process</a>
-    <a href="#case-studies" class="m-link">Results</a>
-    <a href="#contact"  class="m-link">Contact</a>
+    <a href="#about"    class="m-link">Ethos</a>
+    <a href="#services" class="m-link">Capabilities</a>
+    <a href="#brands"   class="m-link">Partners</a>
+    <a href="#process"  class="m-link">Method</a>
+    <a href="#case-studies" class="m-link">Proof</a>
+    <a href="#contact"  class="m-link">Inquire</a>
   </div>
 
   <section class="hero" id="hero">
@@ -1254,19 +1290,18 @@
     <div class="hero-video-overlay"></div>
     <div class="hero-inner hero-inner--centered">
       <div class="hero-left hero-left--centered">
+        <div class="hero-eyebrow">Creative Agency · El Paso, TX</div>
+        <!-- ========================================================
+             HERO LINE — pick one (leave one active, comment the rest):
+               A) Culture, on <em>camera.</em>
+               B) We make brands <em>move.</em>
+               C) Attention, by <em>design.</em>
+             ======================================================== -->
         <h1 id="heroTitle">
-          <span class="line"><span>How to get a flood of</span></span>
-          <span class="line"><span><span class="yellow">new customers</span></span></span>
-          <span class="line"><span>using short-form video</span></span>
-          <span class="line"><span><em>without lifting a camera.</em></span></span>
+          <span class="line"><span>Culture, on <em>camera.</em></span></span>
         </h1>
-        <p class="hero-sub">
-          Purple Roots is a full-service creative agency from El Paso, TX.
-          Video. Identity. Strategy. Content. We do it all — and we do it well.
-        </p>
         <div class="hero-actions hero-actions--centered">
-          <a href="#brands" class="btn btn-lime" data-magnetic>See Our Work →</a>
-          <a href="https://wa.me/19152343655" target="_blank" class="btn btn-ghost">Let's Talk ↗</a>
+          <a href="#case-studies" class="btn btn-lime" data-magnetic>See the proof →</a>
         </div>
       </div>
     </div>
@@ -1632,7 +1667,7 @@
       { name: "El Paso Best",           logo: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1777757139/elpaso_av0twh.png",               video: "https://res.cloudinary.com/dsprn0ew4/video/upload/q_auto,f_auto,w_960/v1777921523/EL_PASO_BEST_PRESS_PLAY_2_-_Trim_koz3kq.mp4",                       thumbnail: "https://res.cloudinary.com/dsprn0ew4/image/upload/v1778255646/QUIERO_QUE_EL_LOGO_ESTE_202605080949_wat0j9.jpg" },
     ];
 
-    const cardColors = ['var(--lime)', 'var(--lavender)', 'var(--blush)', 'var(--white)', 'var(--paper)'];
+    const cardColors = ['var(--paper-alt)', 'var(--paper)', 'var(--paper-alt)', 'var(--paper)', 'var(--paper-alt)'];
 
     function getInitials(name) {
       const words = name.trim().split(/\s+/);
@@ -1794,8 +1829,8 @@
       /* Hero — per-line mask reveal */
       const heroLines = document.querySelectorAll('#heroTitle .line > span');
       gsap.set(heroLines, { yPercent: 115 });
-      gsap.to(heroLines, { yPercent: 0, duration: 0.9, ease: EASE, stagger: 0.08, delay: 0.15 });
-      gsap.from('.hero-sub, .hero-actions', { opacity: 0, y: 20, duration: 0.8, ease: EASE, stagger: 0.1, delay: 0.55 });
+      gsap.to(heroLines, { yPercent: 0, duration: 1.15, ease: EASE, stagger: 0.1, delay: 0.2 });
+      gsap.from('.hero-eyebrow, .hero-actions', { opacity: 0, y: 18, duration: 1.0, ease: EASE, stagger: 0.16, delay: 0.75 });
 
       /* Hero background — slower parallax + scale */
       gsap.to('.hero-video-bg', {
@@ -1810,7 +1845,7 @@
         gsap.set(words, { yPercent: 115 });
         ScrollTrigger.create({
           trigger: title, start: 'top 88%', once: true,
-          onEnter: () => gsap.to(words, { yPercent: 0, duration: 0.7, ease: EASE, stagger: 0.055 })
+          onEnter: () => gsap.to(words, { yPercent: 0, duration: 0.95, ease: EASE, stagger: 0.09 })
         });
       });
 
@@ -1820,7 +1855,7 @@
         gsap.set(el, { opacity: 0, y: 24 });
         ScrollTrigger.create({
           trigger: el, start: 'top 90%', once: true,
-          onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: EASE })
+          onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 1.0, ease: EASE })
         });
       });
 
@@ -1836,8 +1871,8 @@
       ScrollTrigger.create({
         trigger: '.media-band', start: 'top 82%', once: true,
         onEnter: () => {
-          gsap.fromTo('.media-band', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.0, ease: EASE });
-          gsap.fromTo('.media-band-video', { scale: 1.08 }, { scale: 1.0, duration: 1.4, ease: EASE });
+          gsap.fromTo('.media-band', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: EASE });
+          gsap.fromTo('.media-band-video', { scale: 1.08 }, { scale: 1.0, duration: 1.7, ease: EASE });
         }
       });
       gsap.set('.media-band-caption', { opacity: 0, y: 16 });
@@ -1921,7 +1956,7 @@
       const prefix = el.dataset.prefix || '', suffix = el.dataset.suffix || '';
       const slow = el.hasAttribute('data-slow');
       if (reduceMotion) { el.textContent = prefix + csFmt(to) + suffix; return; }
-      const dur = slow ? 2100 : 1200;
+      const dur = slow ? 2500 : 1300;
       let startT = null;
       function tick(now) {
         if (startT === null) startT = now;
@@ -2003,12 +2038,12 @@
         if (name && rich) {
           const words = name.querySelectorAll('.word > span');
           gsap.set(words, { yPercent: 115 });
-          gsap.to(words, { yPercent: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06 });
+          gsap.to(words, { yPercent: 0, duration: 0.95, ease: 'power3.out', stagger: 0.09 });
         }
         if (rich) {
           panel.querySelectorAll('.cs-video-inner').forEach((vi, idx) => {
-            gsap.fromTo(vi, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.9, ease: 'power3.out', delay: idx * 0.08 });
-            gsap.fromTo(vi.querySelectorAll('.cs-video-el, .cs-video-poster'), { scale: 1.06 }, { scale: 1, duration: 1.2, ease: 'power3.out', delay: idx * 0.08 });
+            gsap.fromTo(vi, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.05, ease: 'power3.out', delay: idx * 0.12 });
+            gsap.fromTo(vi.querySelectorAll('.cs-video-el, .cs-video-poster'), { scale: 1.06 }, { scale: 1, duration: 1.4, ease: 'power3.out', delay: idx * 0.12 });
           });
         }
       }, 'top 70%');
