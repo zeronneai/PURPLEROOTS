@@ -167,10 +167,15 @@
       display: block;
       object-fit: contain;
     }
-    /* Logo swaps to the menu artwork while the mobile menu is open */
-    .nav-logo-img--menu { display: none; }
-    body.menu-open .nav-logo-img--default { display: none; }
-    body.menu-open .nav-logo-img--menu { display: block; }
+    /* Mobile-only centered nav mark. On mobile it becomes a flex:1 item that
+       fills the gap between logo and hamburger; object-fit centres the art in
+       that space at a fixed height (no distortion, no crowding). Desktop: hidden. */
+    .nav-center-mark {
+      display: none;
+      height: 22px; width: auto;
+      object-fit: contain;
+      pointer-events: none;
+    }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
     .brands-click-hint {
       font-family: var(--font-body);
@@ -1281,7 +1286,9 @@
       .col-60, .offset-right { max-width: 100%; margin-left: 0; }
       .ticker-track span { font-size: 11px; padding: 0 24px; }
       nav              { padding: 0 16px; }
-      .nav-logo        { font-size: 1rem; }
+      .nav-logo        { font-size: 1rem; flex: 0 0 auto; }
+      .nav-hamburger   { flex: 0 0 auto; }
+      .nav-center-mark { display: block; flex: 1 1 auto; min-width: 0; margin: 0 16px; height: 24px; }   /* mobile only: centred in the gap */
       .nav-links       { display: none; }
       .nav-cta         { display: none; }
       .nav-hamburger   { display: flex; }
@@ -1363,9 +1370,10 @@
 
   <nav>
     <a href="#hero" class="nav-logo">
-      <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" class="nav-logo-img nav-logo-img--default" />
-      <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" alt="Purple Roots" class="nav-logo-img nav-logo-img--menu" />
+      <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" alt="Purple Roots" class="nav-logo-img" />
     </a>
+    <!-- Mobile-only centered mark (black via Cloudinary e_colorize,co_black) -->
+    <img class="nav-center-mark" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_black/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="" aria-hidden="true" />
     <!-- ============================================================
          SECTION LABEL MAPPING (editorial-lux) - approve / tweak before final:
            About     → ETHOS         (#about)
