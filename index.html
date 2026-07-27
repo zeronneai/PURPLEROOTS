@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Purple Roots — Creative Agency</title>
+  <title>Purple Roots · Creative Agency</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,14 +15,14 @@
        VARIABLES
     ========================================================= */
     :root {
-      /* Editorial-lux palette — bone + warm near-black + ONE saffron accent.
+      /* Editorial-lux palette - bone + warm near-black + ONE saffron accent.
          No purple anywhere. Accent is used with extreme restraint. */
       --black:      #1A1815;   /* warm near-black ink (backgrounds) */
       --white:      #FCFAF5;   /* soft white */
       --paper:      #F4F1E8;   /* bone paper (not pure #fff) */
       --paper-alt:  #ECE7DB;   /* slightly deeper bone */
 
-      --accent:     #E8571E;   /* saffron-orange — single electric hit, used rarely */
+      --accent:     #E8571E;   /* saffron-orange - single electric hit, used rarely */
 
       --ink:        #1A1815;
       --ink-70:     rgba(26,24,21,0.7);
@@ -164,6 +164,10 @@
       display: block;
       object-fit: contain;
     }
+    /* Logo swaps to the menu artwork while the mobile menu is open */
+    .nav-logo-img--menu { display: none; }
+    body.menu-open .nav-logo-img--default { display: none; }
+    body.menu-open .nav-logo-img--menu { display: block; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
     .brands-click-hint {
       font-family: var(--font-body);
@@ -293,7 +297,7 @@
     .block--tight  { padding: var(--pad-tight) 0; }
     .block--flush-top { padding-top: 0; }
 
-    /* Asymmetric column helpers — nothing centered by default */
+    /* Asymmetric column helpers - nothing centered by default */
     .col-60      { max-width: 60%; }
     .col-narrow  { max-width: 30rem; }
     .offset-right { margin-left: auto; max-width: 62%; }
@@ -1010,7 +1014,7 @@
     .footer-nav a:hover { color: var(--accent); }
 
     /* =========================================================
-       CASE STUDIES — animated results report
+       CASE STUDIES - animated results report
     ========================================================= */
     .cs-section { background: var(--paper); }
     .cs-intro { padding: var(--pad-major) 5% 24px; }
@@ -1106,7 +1110,7 @@
     .cs-video-hit { position: absolute; inset: 0; z-index: 3; background: none; border: none; cursor: none; }
     .cs-video-hit:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
 
-    /* Custom control bar — matches variant (no browser chrome) */
+    /* Custom control bar - matches variant (no browser chrome) */
     .cs-controls {
       position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
       display: flex; align-items: center; gap: 10px;
@@ -1146,7 +1150,7 @@
     }
 
     /* =========================================================
-       INTERACTIONS — underline wipe + magnetic
+       INTERACTIONS - underline wipe + magnetic
     ========================================================= */
     .nav-links a, .footer-nav a, .footer-socials a { position: relative; }
     .nav-links a::after, .footer-nav a::after, .footer-socials a::after {
@@ -1168,7 +1172,7 @@
     html.gsap-ready .reveal { transition: none; }
     @media (prefers-reduced-motion: reduce) { .reveal { transition: none; opacity: 1; transform: none; } }
 
-    /* Disruptive display override — heavy condensed grotesque at brutal scale.
+    /* Disruptive display override - heavy condensed grotesque at brutal scale.
        Uppercase, tight leading (lines overlap slightly), tight tracking, no italic. */
     .hero h1, .section-title, .story-num, .story-head,
     .cs-num, .cs-name, .cs-out-value, .cs-in-value, .cs-in-organic, .cs-mult,
@@ -1236,7 +1240,7 @@
       .honest-card     { padding: 2.5rem 0 0; }
       .honest-head     { font-size: 0.7rem; flex-wrap: wrap; }
       .honest-list li  { font-size: 0.78rem; }
-      /* Process: no pin on mobile — natural stacked list */
+      /* Process: no pin on mobile - natural stacked list */
       .process-pin-inner { grid-template-columns: 1fr; gap: 2rem; }
       .is-pinned .process-stage { min-height: 0; }
       .is-pinned .process-panel { position: static; opacity: 1; transform: none; border-top: 1px solid var(--line); margin: 0; padding: 2rem 0 0; }
@@ -1281,10 +1285,11 @@
 
   <nav>
     <a href="#hero" class="nav-logo">
-      <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" class="nav-logo-img" />
+      <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778260022/ChatGPT_Image_May_8_2026_10_27_10_AM_lxyez3.png" alt="Purple Roots" class="nav-logo-img nav-logo-img--default" />
+      <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" alt="Purple Roots" class="nav-logo-img nav-logo-img--menu" />
     </a>
     <!-- ============================================================
-         SECTION LABEL MAPPING (editorial-lux) — approve / tweak before final:
+         SECTION LABEL MAPPING (editorial-lux) - approve / tweak before final:
            About     → ETHOS         (#about)
            Services  → CAPABILITIES  (#services)
            Clients   → PARTNERS      (#brands)
@@ -1323,12 +1328,12 @@
     </video>
     <div class="hero-video-overlay"></div>
     <!-- ============================================================
-         HERO MEDIA — chosen: video full-bleed BEHIND the oversized type
+         HERO MEDIA - chosen: video full-bleed BEHIND the oversized type
          (giant letterforms sit over the footage; strong + reliable).
          Alt A (footage THROUGH letterforms): wrap the H1 text in an SVG
            <mask><text> and paint a bone <rect> masked by it over the video,
            so the video only shows inside the letters. More fragile to size
-           responsively — commented for now.
+           responsively - commented for now.
          Alt B (hard-edged block beside): drop hero to a 60/40 grid, type left
            overflowing, a hard-edged <video> block right. Swap in if preferred.
          ============================================================ -->
@@ -1336,7 +1341,7 @@
       <div class="hero-left hero-left--centered">
         <div class="hero-eyebrow">Creative Agency · El Paso, TX</div>
         <!-- ========================================================
-             HERO STATEMENT — pick one (leave one active, comment the rest):
+             HERO STATEMENT - pick one (leave one active, comment the rest):
                A) WE MAKE / BRANDS / IMPOSSIBLE / TO IGNORE   (active)
                B) ATTENTION / IS THE / WHOLE / GAME
                C) LOUD / ON / PURPOSE
@@ -1402,10 +1407,10 @@
     </div>
     <div class="container container--wide">
       <div class="story-list">
-        <div class="story-row reveal"><div class="story-num">01</div><h3 class="story-head">Strategy First</h3><p class="story-body">Every project starts with a reason. We don't make pretty things for the sake of it — we make things that work. If it doesn't serve the brand, it doesn't ship.</p></div>
+        <div class="story-row reveal"><div class="story-num">01</div><h3 class="story-head">Strategy First</h3><p class="story-body">Every project starts with a reason. We don't make pretty things for the sake of it. We make things that work. If it doesn't serve the brand, it doesn't ship.</p></div>
         <div class="story-row reveal"><div class="story-num">02</div><h3 class="story-head">Video is Our Mother Tongue</h3><p class="story-body">From 15-second reels to full brand films, we speak video fluently. Cinematic quality. Social-first thinking. Always on time, always on budget.</p></div>
         <div class="story-row reveal"><div class="story-num">03</div><h3 class="story-head">Born in El Paso, Built Global</h3><p class="story-body">We started in the borderland, where two cultures collide and make something louder than both. That energy lives in everything we create.</p></div>
-        <div class="story-row reveal"><div class="story-num">04</div><h3 class="story-head">We Work Like Partners</h3><p class="story-body">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done — and after.</p></div>
+        <div class="story-row reveal"><div class="story-num">04</div><h3 class="story-head">We Work Like Partners</h3><p class="story-body">No hand-off after onboarding. We're in the Slack, on the calls, at the events. Your brand is our brand until the job is done, and after.</p></div>
       </div>
     </div>
   </section>
@@ -1416,7 +1421,7 @@
       <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_webm,vc_vp9,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.webm" type="video/webm" />
       <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.mp4" type="video/mp4" />
     </video>
-    <div class="media-band-caption"><span>El Paso, TX</span> — creative that moves.</div>
+    <div class="media-band-caption"><span>El Paso, TX</span>. Creative that moves.</div>
   </section>
 
   <section class="block services-section" id="services">
@@ -1430,7 +1435,7 @@
         <div class="work-card reveal"><div class="work-num">02 / SERVICE</div><div class="work-name">Video Production</div><p class="work-desc">Cinematic brand films, commercials, and social-first content that stops the scroll every single time.</p></div>
         <div class="work-card reveal"><div class="work-num">03 / SERVICE</div><div class="work-name">Digital Content</div><p class="work-desc">Photography, reels, and editorial assets engineered for engagement across every platform, every format.</p></div>
         <div class="work-card reveal"><div class="work-num">04 / SERVICE</div><div class="work-name">Social Strategy</div><p class="work-desc">Data-driven calendars, community management, and paid social campaigns built to actually perform.</p></div>
-        <div class="work-card reveal"><div class="work-num">05 / SERVICE</div><div class="work-name">Web Design</div><p class="work-desc">Editorial-grade sites that balance aesthetics with conversion — because looking good AND converting aren't mutually exclusive.</p></div>
+        <div class="work-card reveal"><div class="work-num">05 / SERVICE</div><div class="work-name">Web Design</div><p class="work-desc">Editorial-grade sites that balance aesthetics with conversion, because looking good AND converting aren't mutually exclusive.</p></div>
         <div class="work-card reveal"><div class="work-num">06 / SERVICE</div><div class="work-name">Campaigns &amp; Activations</div><p class="work-desc">360° campaign concepts from strategy and creative direction to on-ground execution and detailed reporting.</p></div>
       </div>
     </div>
@@ -1474,7 +1479,7 @@
         <h2 class="section-title reveal">How we<br />work.</h2>
       </div>
       <div class="process-stage" id="processStage">
-        <div class="process-panel active" data-step="0"><div class="process-n">01</div><div class="process-name">Discovery</div><p class="process-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork — we build on research.</p><div class="process-progress"><span class="on">01</span><span>02</span><span>03</span><span>04</span></div></div>
+        <div class="process-panel active" data-step="0"><div class="process-n">01</div><div class="process-name">Discovery</div><p class="process-desc">We dig into your brand, your audience, your goals, and your competitors. No guesswork. We build on research.</p><div class="process-progress"><span class="on">01</span><span>02</span><span>03</span><span>04</span></div></div>
         <div class="process-panel" data-step="1"><div class="process-n">02</div><div class="process-name">Strategy</div><p class="process-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</p><div class="process-progress"><span>01</span><span class="on">02</span><span>03</span><span>04</span></div></div>
         <div class="process-panel" data-step="2"><div class="process-n">03</div><div class="process-name">Production</div><p class="process-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</p><div class="process-progress"><span>01</span><span>02</span><span class="on">03</span><span>04</span></div></div>
         <div class="process-panel" data-step="3"><div class="process-n">04</div><div class="process-name">Launch &amp; Grow</div><p class="process-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</p><div class="process-progress"><span>01</span><span>02</span><span>03</span><span class="on">04</span></div></div>
@@ -1486,10 +1491,10 @@
     <div class="container">
       <div class="section-head reveal offset-right"><div class="section-num">07</div><h2 class="section-title">Don't take<br />our <span class="bl">word for it.</span></h2></div>
       <div class="testimonials-grid">
-        <div class="testimonial-card reveal"><p class="testimonial-quote">"Purple Roots didn't just shoot our content — they <span>understood our brand</span> before we even finished explaining it. The results speak for themselves."</p><div class="testimonial-author">— Marketing Director, Jarritos Campaign</div></div>
-        <div class="testimonial-card reveal"><p class="testimonial-quote">"From concept to delivery, they were <span>professional, fast, and genuinely creative</span>. We've worked with agencies twice their size that delivered half the quality."</p><div class="testimonial-author">— Brand Manager, Mercedes El Paso</div></div>
-        <div class="testimonial-card reveal"><p class="testimonial-quote">"Our social engagement went up <span>300% in 90 days</span>. I didn't think that was realistic. Purple Roots made it look easy."</p><div class="testimonial-author">— Founder, Badass Human</div></div>
-        <div class="testimonial-card reveal"><p class="testimonial-quote">"They're the team you call when you're tired of mediocre. Honest, <span>talent-heavy</span>, and they actually give a damn about your brand."</p><div class="testimonial-author">— CEO, Desertview</div></div>
+        <div class="testimonial-card reveal"><p class="testimonial-quote">"Purple Roots didn't just shoot our content, they <span>understood our brand</span> before we even finished explaining it. The results speak for themselves."</p><div class="testimonial-author">Marketing Director, Jarritos Campaign</div></div>
+        <div class="testimonial-card reveal"><p class="testimonial-quote">"From concept to delivery, they were <span>professional, fast, and genuinely creative</span>. We've worked with agencies twice their size that delivered half the quality."</p><div class="testimonial-author">Brand Manager, Mercedes El Paso</div></div>
+        <div class="testimonial-card reveal"><p class="testimonial-quote">"Our social engagement went up <span>300% in 90 days</span>. I didn't think that was realistic. Purple Roots made it look easy."</p><div class="testimonial-author">Founder, Badass Human</div></div>
+        <div class="testimonial-card reveal"><p class="testimonial-quote">"They're the team you call when you're tired of mediocre. Honest, <span>talent-heavy</span>, and they actually give a damn about your brand."</p><div class="testimonial-author">CEO, Desertview</div></div>
       </div>
     </div>
   </section>
@@ -1499,7 +1504,7 @@
     <div class="cs-intro container">
       <div class="section-num reveal">08</div>
       <h2 class="section-title reveal">The <span class="y">results.</span></h2>
-      <p class="cs-intro-sub reveal">Real budgets in. Real numbers out. Four case studies, no rounding in our favor — all figures in USD.</p>
+      <p class="cs-intro-sub reveal">Real budgets in. Real numbers out. Four case studies, no rounding in our favor. All figures in USD.</p>
     </div>
     <div id="csTrack"></div>
   </section>
@@ -1534,7 +1539,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <script>
     /* ============================================================
-       CASE STUDIES — data + renderers (add a case here, no markup edits)
+       CASE STUDIES - data + renderers (add a case here, no markup edits)
     ============================================================ */
     const CASES = [
       {
@@ -1548,13 +1553,13 @@
           { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1785162611/Davis_Law_-_The_Reading_wqa5wk.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1785162611/Davis_Law_-_The_Reading_wqa5wk.jpg', aspect: '16:9' }
         ],
         instagramUrl: null,
-        summary: 'A focused paid campaign turned a modest budget into massive reach — and, more importantly, 402 real inbound calls and a produced commercial.'
+        summary: 'A focused paid campaign turned a modest budget into massive reach, and more importantly, 402 real inbound calls and a produced commercial.'
       },
       {
         id: '02', index: '02', client: "Chingón Cuh'ts", industry: 'Barbershop',
         investment: { amount: 100, label: 'Ad Spend' },
         outcome: { value: 500000, label: 'Views' },
-        metrics: [ { value: 'Record', label: 'Walk-ins — most in company history' }, { value: 'Record', label: 'Appointments Booked' } ],
+        metrics: [ { value: 'Record', label: 'Walk-ins, most in company history' }, { value: 'Record', label: 'Appointments Booked' } ],
         chart: { type: 'ratiobar' },
         videos: [ { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720/v1784932471/CHINGON_CUHTS-1_oaujpz.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1784932471/CHINGON_CUHTS-1_oaujpz.jpg', aspect: '9:16' } ],
         instagramUrl: 'https://www.instagram.com/chingoncuhts/',
@@ -1583,7 +1588,7 @@
         chart: { type: 'ratiobar', units: 80, unitLabel: 'memberships' },
         videos: [ { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720/v1785163159/Its_been_home_all_along._Dont_forget_for_a_limited_time_only_we_have_our_5_sign_up_special_nxox0w.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1785163159/Its_been_home_all_along._Dont_forget_for_a_limited_time_only_we_have_our_5_sign_up_special_nxox0w.jpg', aspect: '9:16' } ],
         instagramUrl: 'https://www.instagram.com/powerhouseeptx/',
-        summary: 'Fifteen hundred in ads returned $70,000 in membership contracts — 80 new members and a commercial in the can.'
+        summary: 'Fifteen hundred in ads returned $70,000 in membership contracts. 80 new members and a commercial in the can.'
       }
     ];
 
@@ -1824,12 +1829,15 @@
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('open');
       mobileMenu.classList.toggle('open');
-      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+      const open = mobileMenu.classList.contains('open');
+      document.body.classList.toggle('menu-open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
     });
     document.querySelectorAll('.m-link').forEach(l => {
       l.addEventListener('click', () => {
         hamburger.classList.remove('open');
         mobileMenu.classList.remove('open');
+        document.body.classList.remove('menu-open');
         document.body.style.overflow = '';
       });
     });
@@ -1843,7 +1851,7 @@
     const hasGSAP      = !!(window.gsap && window.ScrollTrigger);
     const EASE = 'power3.out';
 
-    /* Simple entrance fades — fallback for mobile, missing libs */
+    /* Simple entrance fades - fallback for mobile, missing libs */
     function fallbackReveal() {
       const obs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1884,7 +1892,7 @@
       document.documentElement.classList.add('gsap-ready');
       gsap.registerPlugin(ScrollTrigger);
 
-      /* Lenis smooth scroll — desktop / non-touch only. Slightly snappier lerp. */
+      /* Lenis smooth scroll - desktop / non-touch only. Slightly snappier lerp. */
       if (!isTouch) {
         const lenis = new Lenis({ lerp: 0.11, smoothWheel: true });
         lenis.on('scroll', ScrollTrigger.update);
@@ -1901,13 +1909,13 @@
         });
       }
 
-      /* Hero — per-line mask reveal */
+      /* Hero - per-line mask reveal */
       const heroLines = document.querySelectorAll('#heroTitle .line > span');
       gsap.set(heroLines, { yPercent: 115 });
       gsap.to(heroLines, { yPercent: 0, duration: 0.6, ease: EASE, stagger: 0.07, delay: 0.1 });
       gsap.from('.hero-eyebrow, .hero-actions', { opacity: 0, y: 16, duration: 0.6, ease: EASE, stagger: 0.08, delay: 0.4 });
 
-      /* Hero background — slower parallax + scale */
+      /* Hero background - slower parallax + scale */
       gsap.to('.hero-video-bg', {
         yPercent: 30, scale: 1.2, ease: 'none',
         scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
@@ -1918,7 +1926,7 @@
         scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
       });
 
-      /* Section titles — word stagger on enter */
+      /* Section titles - word stagger on enter */
       document.querySelectorAll('.section-title').forEach(title => {
         splitWords(title);
         const words = title.querySelectorAll('.word > span');
@@ -1929,7 +1937,7 @@
         });
       });
 
-      /* Generic reveals — cards, rows, paragraphs */
+      /* Generic reveals - cards, rows, paragraphs */
       gsap.utils.toArray('.reveal').forEach(el => {
         if (el.matches('.section-title') || el.querySelector('.section-title')) { gsap.set(el, { opacity: 1, y: 0 }); return; }
         gsap.set(el, { opacity: 0, y: 24 });
@@ -1939,7 +1947,7 @@
         });
       });
 
-      /* Story-list — numeral parallaxes against its text */
+      /* Story-list - numeral parallaxes against its text */
       gsap.utils.toArray('.story-row').forEach(row => {
         gsap.to(row.querySelector('.story-num'), {
           yPercent: -34, ease: 'none',
@@ -1947,7 +1955,7 @@
         });
       });
 
-      /* Media band — clip-path wipe + slow inner scale */
+      /* Media band - clip-path wipe + slow inner scale */
       ScrollTrigger.create({
         trigger: '.media-band', start: 'top 82%', once: true,
         onEnter: () => {
@@ -1961,7 +1969,7 @@
         onEnter: () => gsap.to('.media-band-caption', { opacity: 1, y: 0, duration: 0.8, ease: EASE, delay: 0.25 })
       });
 
-      /* Brand thumbnails — clip wipe + inner scale as they enter */
+      /* Brand thumbnails - clip wipe + inner scale as they enter */
       gsap.utils.toArray('.brand-card-slide.has-thumb .brand-thumb').forEach(img => {
         gsap.fromTo(img, { scale: 1.08 }, {
           scale: 1, ease: 'none',
@@ -1969,7 +1977,7 @@
         });
       });
 
-      /* Pinned process — content changes in place (desktop only) */
+      /* Pinned process - content changes in place (desktop only) */
       if (isDesktop) {
         const pinSection = document.querySelector('.process-pin');
         const panels = gsap.utils.toArray('#processStage .process-panel');
@@ -2018,7 +2026,7 @@
     });
 
     /* ============================================================
-       CASE STUDIES — behaviour + motion
+       CASE STUDIES - behaviour + motion
     ============================================================ */
     function csOnEnterOnce(el, cb, start) {
       if (hasGSAP && window.ScrollTrigger) {
@@ -2144,7 +2152,7 @@
         const near = new IntersectionObserver((es, o) => { es.forEach(x => { if (x.isIntersecting) { setSrc(); o.disconnect(); } }); }, { rootMargin: '500px 0px' });
         near.observe(fig);
 
-        // Autoplay-in-view (managed) — never fights a user-engaged video
+        // Autoplay-in-view (managed) - never fights a user-engaged video
         const io = new IntersectionObserver((entries) => {
           entries.forEach(en => {
             if (en.isIntersecting) {
