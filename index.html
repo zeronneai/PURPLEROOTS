@@ -310,7 +310,7 @@
       padding: 0; -webkit-box-decoration-break: initial; box-decoration-break: initial;
     }
     /* word-reveal scaffolding (JS injects .word) */
-    .section-title .word { display: inline-block; overflow: hidden; vertical-align: top; }
+    .section-title .word { display: inline-block; vertical-align: top; }
     .section-title .word > span { display: inline-block; }
 
     /* =========================================================
@@ -339,7 +339,6 @@
       position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      will-change: transform;
     }
     .media-band-caption {
       position: absolute; left: 5%; bottom: 44px;
@@ -411,7 +410,6 @@
       object-fit: cover;
       z-index: 0;
       opacity: 0.6;   /* footage behind the giant type */
-      will-change: transform;
     }
     .hero-video-overlay {
       position: absolute;
@@ -450,7 +448,7 @@
       margin: 0 0 2.25rem -0.05em;   /* bleed off the left edge */
       max-width: none;
     }
-    .hero h1 .line { display: block; overflow: hidden; }
+    .hero h1 .line { display: block; }   /* no overflow mask - reveals use opacity+translateY only */
     .hero h1 .line > span { display: block; white-space: nowrap; }
     .hero h1 .line--indent > span { padding-left: 0.5em; }   /* broken / staggered lines */
     /* .hero h1 .yellow -> accent knockout (see emphasis group above) */
@@ -576,7 +574,6 @@
       line-height: 0.8;
       letter-spacing: -0.05em;
       color: var(--ink);
-      will-change: transform;
     }
     .story-head {
       font-family: var(--font-display);
@@ -1123,7 +1120,6 @@
       top: -0.06em; right: 1%;
       pointer-events: none;
       z-index: 0;
-      will-change: transform;
     }
     .cs-panel--horizontal .cs-num { right: auto; left: -0.04em; top: -0.08em; }
 
@@ -1134,7 +1130,7 @@
 
     .cs-kicker { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 1rem; }
     .cs-name { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 4rem); letter-spacing: -0.035em; line-height: 0.98; }
-    .cs-name .word { display: inline-block; overflow: hidden; vertical-align: top; }
+    .cs-name .word { display: inline-block; vertical-align: top; }
     .cs-name .word > span { display: inline-block; }
 
     /* IN / OUT paired unit */
@@ -1295,8 +1291,7 @@
       .mobile-menu a   { font-size: 2.25rem; }
       .hero            { padding: 92px 16px 40px; min-height: 82vh; }
       .hero-inner      { grid-template-columns: 1fr; gap: 2rem; }
-      .hero h1         { font-size: clamp(46px, 13vw, 84px); max-width: 100%; line-height: 1.06; }
-      .hero h1 .line   { overflow: visible; }   /* mask reveal not used on mobile - let highlight boxes breathe */
+      .hero h1         { font-size: clamp(44px, 12.5vw, 82px); max-width: 100%; line-height: 1.16; }   /* enough leading that lines never touch, animated or not */
       .hero-sub        { font-size: 1rem; margin-bottom: 2rem; max-width: 100%; }
       .hero-actions    { flex-direction: column; align-items: stretch; padding-bottom: 8px; gap: 0.75rem; }
       .hero-actions .btn { width: 100%; justify-content: center; }
@@ -2116,82 +2111,69 @@
         gsap.ticker.add((t) => lenis.raf(t * 1000));
         gsap.ticker.lagSmoothing(0);
 
-        /* Scroll-velocity skew on the big display type (transform-only, settles to 0).
-           Scoped to a couple of elements so it can't thrash the compositor. */
-        const skewEls = gsap.utils.toArray('.section-title, #heroTitle');
-        const skewSetters = skewEls.map(el => gsap.quickTo(el, 'skewY', { duration: 0.5, ease: 'power3.out' }));
-        lenis.on('scroll', () => {
-          const s = Math.max(-3.5, Math.min(3.5, (lenis.velocity || 0) * 0.12));
-          skewSetters.forEach(set => set(s));
-        });
       }
 
-      /* Hero - per-line mask reveal */
-      const heroLines = document.querySelectorAll('#heroTitle .line > span');
-      gsap.set(heroLines, { yPercent: 115 });
-      gsap.to(heroLines, { yPercent: 0, duration: 0.6, ease: EASE, stagger: 0.07, delay: 0.1 });
-      gsap.from('.hero-eyebrow, .hero-actions', { opacity: 0, y: 16, duration: 0.6, ease: EASE, stagger: 0.08, delay: 0.4 });
+      /* --- Lightweight, scroll-TRIGGERED reveals: opacity + translateY only.
+             No clip-path, no per-line masks, no scroll-scrub. Each fires ONCE on
+             enter, runs on its own timeline, and clears will-change on complete. --- */
+      const setWC = (els) => els.forEach(e => { e.style.willChange = 'transform, opacity'; });
+      const clearWC = (els) => els.forEach(e => { e.style.willChange = 'auto'; });
 
-      /* Hero background - slower parallax + scale */
-      gsap.to('.hero-video-bg', {
-        yPercent: 30, scale: 1.2, ease: 'none',
-        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-      });
-      /* Type counter-scrolls hard against the footage */
-      gsap.to('#heroTitle', {
-        yPercent: -24, ease: 'none',
-        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-      });
+      /* Hero - lines fade + rise (transform/opacity). Blur->sharp only here (one element,
+         one-shot) and only because richMotion is desktop-only. */
+      const heroLines = gsap.utils.toArray('#heroTitle .line');
+      setWC(heroLines);
+      gsap.set(heroLines, { opacity: 0, y: 34 });
+      gsap.to(heroLines, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.075, delay: 0.12, onComplete: () => clearWC(heroLines) });
+      const heroTitleEl = document.getElementById('heroTitle');
+      if (heroTitleEl) {
+        heroTitleEl.style.willChange = 'filter';
+        gsap.fromTo(heroTitleEl, { filter: 'blur(8px)' }, { filter: 'blur(0px)', duration: 0.9, ease: 'power3.out', delay: 0.12,
+          onComplete: () => { heroTitleEl.style.filter = 'none'; heroTitleEl.style.willChange = 'auto'; } });
+      }
+      gsap.from('.hero-eyebrow, .hero-actions', { opacity: 0, y: 16, duration: 0.7, ease: 'power3.out', stagger: 0.09, delay: 0.5 });
 
-      /* Section titles - word stagger on enter */
+      /* Hero background - cheap one-shot scale-in on load (NO scroll scrub) */
+      (function () {
+        const v = document.querySelector('.hero-video-bg');
+        if (!v) return;
+        v.style.willChange = 'transform';
+        gsap.fromTo(v, { scale: 1.08 }, { scale: 1, duration: 1.6, ease: 'power3.out', onComplete: () => { v.style.willChange = 'auto'; } });
+      })();
+
+      /* Section titles - words fade + rise once on enter (no mask) */
       document.querySelectorAll('.section-title').forEach(title => {
         splitWords(title);
-        const words = title.querySelectorAll('.word > span');
-        gsap.set(words, { yPercent: 115 });
+        const words = gsap.utils.toArray(title.querySelectorAll('.word'));
+        gsap.set(words, { opacity: 0, y: 26 });
         ScrollTrigger.create({
-          trigger: title, start: 'top 88%', once: true,
-          onEnter: () => gsap.to(words, { yPercent: 0, duration: 0.55, ease: EASE, stagger: 0.05 })
+          trigger: title, start: 'top 85%', once: true,
+          onEnter: () => { setWC(words); gsap.to(words, { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.07, onComplete: () => clearWC(words) }); }
         });
       });
 
-      /* Generic reveals - cards, rows, paragraphs */
+      /* Generic reveals - cards, rows, paragraphs (fade + rise once) */
       gsap.utils.toArray('.reveal').forEach(el => {
         if (el.matches('.section-title') || el.querySelector('.section-title')) { gsap.set(el, { opacity: 1, y: 0 }); return; }
         gsap.set(el, { opacity: 0, y: 24 });
         ScrollTrigger.create({
           trigger: el, start: 'top 90%', once: true,
-          onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.55, ease: EASE })
+          onEnter: () => { el.style.willChange = 'transform, opacity'; gsap.to(el, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', onComplete: () => { el.style.willChange = 'auto'; } }); }
         });
       });
 
-      /* Story-list - numeral parallaxes against its text */
-      gsap.utils.toArray('.story-row').forEach(row => {
-        gsap.to(row.querySelector('.story-num'), {
-          yPercent: -34, ease: 'none',
-          scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: true }
-        });
-      });
-
-      /* Media band - clip-path wipe + slow inner scale */
+      /* Media band - one-shot inner scale + caption reveal (no clip-path, no scrub) */
       ScrollTrigger.create({
         trigger: '.media-band', start: 'top 82%', once: true,
         onEnter: () => {
-          gsap.fromTo('.media-band', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.8, ease: EASE });
-          gsap.fromTo('.media-band-video', { scale: 1.08 }, { scale: 1.0, duration: 1.1, ease: EASE });
+          const v = document.querySelector('.media-band-video');
+          if (v) { v.style.willChange = 'transform'; gsap.fromTo(v, { scale: 1.08 }, { scale: 1, duration: 1.1, ease: 'power3.out', onComplete: () => { v.style.willChange = 'auto'; } }); }
         }
       });
       gsap.set('.media-band-caption', { opacity: 0, y: 16 });
       ScrollTrigger.create({
         trigger: '.media-band', start: 'top 55%', once: true,
-        onEnter: () => gsap.to('.media-band-caption', { opacity: 1, y: 0, duration: 0.8, ease: EASE, delay: 0.25 })
-      });
-
-      /* Brand thumbnails - clip wipe + inner scale as they enter */
-      gsap.utils.toArray('.brand-card-slide.has-thumb .brand-thumb').forEach(img => {
-        gsap.fromTo(img, { scale: 1.08 }, {
-          scale: 1, ease: 'none',
-          scrollTrigger: { trigger: img, start: 'top bottom', end: 'top 40%', scrub: true }
-        });
+        onEnter: () => gsap.to('.media-band-caption', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 })
       });
 
       /* Pinned process - content changes in place (desktop only) */
@@ -2409,20 +2391,28 @@
         panel.querySelectorAll('[data-count]').forEach(csCountUp);
         panel.querySelectorAll('.cs-chart').forEach(csAnimateChart);
         if (name && rich) {
-          const words = name.querySelectorAll('.word > span');
-          gsap.set(words, { yPercent: 115 });
-          gsap.to(words, { yPercent: 0, duration: 0.55, ease: 'power3.out', stagger: 0.05 });
+          const words = gsap.utils.toArray(name.querySelectorAll('.word'));
+          words.forEach(w => { w.style.willChange = 'transform, opacity'; });
+          gsap.set(words, { opacity: 0, y: 22 });
+          gsap.to(words, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06, onComplete: () => words.forEach(w => { w.style.willChange = 'auto'; }) });
         }
         if (rich) {
           panel.querySelectorAll('.cs-video-inner').forEach((vi, idx) => {
-            gsap.fromTo(vi, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.7, ease: 'power3.out', delay: idx * 0.08 });
-            gsap.fromTo(vi.querySelectorAll('.cs-video-el, .cs-video-poster'), { scale: 1.06 }, { scale: 1, duration: 0.9, ease: 'power3.out', delay: idx * 0.08 });
+            const media = vi.querySelectorAll('.cs-video-el, .cs-video-poster');
+            media.forEach(m => { m.style.willChange = 'transform'; });
+            gsap.set(vi, { opacity: 0 });
+            gsap.to(vi, { opacity: 1, duration: 0.6, ease: 'power3.out', delay: idx * 0.08 });
+            gsap.fromTo(media, { scale: 1.06 }, { scale: 1, duration: 0.9, ease: 'power3.out', delay: idx * 0.08, onComplete: () => media.forEach(m => { m.style.willChange = 'auto'; }) });
           });
         }
-      }, 'top 70%');
+      }, 'top 75%');
+      /* Case numeral: cheap one-shot rise on enter (was a scroll-scrub parallax) */
       if (rich) {
         const num = panel.querySelector('.cs-num');
-        if (num) gsap.to(num, { yPercent: -28, ease: 'none', scrollTrigger: { trigger: panel, start: 'top bottom', end: 'bottom top', scrub: true } });
+        if (num) {
+          num.style.willChange = 'transform';
+          csOnEnterOnce(num, () => { gsap.from(num, { y: 26, duration: 0.9, ease: 'power3.out', onComplete: () => { num.style.willChange = 'auto'; } }); }, 'top 92%');
+        }
       }
     }
 
