@@ -289,6 +289,21 @@
       box-decoration-break: clone;
     }
     .section-title em  { font-family: var(--font-display); color: var(--accent); letter-spacing: -0.02em; }
+
+    /* ---------------------------------------------------------
+       PER-SECTION ACCENT LEADS — each section keeps ONE leading
+       accent (its --accent) + black/bone; copper stays structural
+       (hairlines). Hero stays orange (no override). Lagoon leads two
+       non-adjacent interior sections (#about, #case-studies); it is
+       the contrast, not a co-star. Every other section leads orange.
+    --------------------------------------------------------- */
+    #about        { --accent: var(--lagoon); }   /* lagoon lead + the ONE ink-on-lagoon inversion ("AGENCY.") */
+    #case-studies { --accent: var(--lagoon); }   /* lagoon lead: chart, kickers, multipliers, marks */
+    /* Keep only ONE lagoon fill-knockout (in #about): render the results headline word as lagoon TEXT, not a filled block. */
+    #case-studies .section-title .y {
+      background: none; color: var(--accent);
+      padding: 0; -webkit-box-decoration-break: initial; box-decoration-break: initial;
+    }
     /* word-reveal scaffolding (JS injects .word) */
     .section-title .word { display: inline-block; overflow: hidden; vertical-align: top; }
     .section-title .word > span { display: inline-block; will-change: transform; }
@@ -329,7 +344,7 @@
       color: rgba(254,252,248,0.85);
       z-index: 2;
     }
-    .media-band-caption span { color: var(--lagoon); }
+    .media-band-caption span { color: var(--accent); }
 
     /* =========================================================
        BUTTONS
@@ -409,7 +424,7 @@
       color: rgba(252,250,245,0.72);
       margin-bottom: 1.75rem;
     }
-    .hero-eyebrow::before { content: ''; display: inline-block; width: 26px; height: 1px; background: var(--lagoon); vertical-align: middle; margin-right: 14px; }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 26px; height: 1px; background: var(--accent); vertical-align: middle; margin-right: 14px; }
     .hero-inner {
       position: relative;
       z-index: 2;
