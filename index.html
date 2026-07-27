@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..460&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <style>
@@ -31,18 +31,18 @@
       --line:       rgba(26,24,21,0.12);
       --line-dark:  rgba(252,250,245,0.16);
 
-      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-display: 'Anton', 'Arial Narrow', Impact, sans-serif;
       --font-body:    'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-serif:   'Fraunces', Georgia, serif;
+      --font-serif:   'Anton', 'Arial Narrow', sans-serif;
 
       --rule:       1px solid var(--line);
       --rule-thin:  1px solid var(--line);
 
-      --ease:       cubic-bezier(0.22, 1, 0.36, 1);
-      --dur:        1000ms;   /* calmer, unhurried reveals */
+      --ease:       cubic-bezier(0.16, 1, 0.3, 1);   /* snappier power curve, no overshoot */
+      --dur:        480ms;   /* kinetic, fast reveals */
 
       /* Variable vertical rhythm */
-      --pad-major:  128px;
+      --pad-major:  120px;
       --pad-tight:  64px;
     }
 
@@ -99,9 +99,9 @@
        TICKER
     ========================================================= */
     .ticker {
-      background: var(--black);
-      color: rgba(254,252,248,0.7);
-      padding: 14px 0;
+      background: var(--accent);
+      color: var(--black);
+      padding: 12px 0;
       overflow: hidden;
       white-space: nowrap;
       position: relative;
@@ -110,25 +110,24 @@
     .ticker-track {
       display: inline-flex;
       gap: 0;
-      animation: tickLeft 25s linear infinite;
+      animation: tickLeft 16s linear infinite;
       will-change: transform;
     }
     .ticker-reverse { animation: tickRight 20s linear infinite; }
     .ticker-track span {
-      font-family: var(--font-body);
-      font-size: 11px;
-      letter-spacing: 0.24em;
+      font-family: var(--font-display);
+      font-size: 15px;
+      letter-spacing: 0.02em;
       text-transform: uppercase;
-      padding: 0 30px;
+      padding: 0 22px;
     }
     .ticker-track span::after {
-      content: '';
+      content: '✳';
       display: inline-block;
-      width: 1px;
-      height: 12px;
-      background: rgba(254,252,248,0.22);
-      margin-left: 30px;
+      font-size: 11px;
+      margin-left: 22px;
       vertical-align: middle;
+      opacity: 0.7;
     }
 
     @keyframes tickLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -270,10 +269,19 @@
       line-height: 0.98;
       color: var(--black);
     }
+    /* Disruptive: single-word emphasis knocked out of a solid accent field */
     .section-title .y,
     .section-title .lv,
-    .section-title .bl { color: var(--accent); }
-    .section-title em  { font-style: italic; font-family: var(--font-serif); color: var(--accent); letter-spacing: -0.02em; }
+    .section-title .bl,
+    .hero h1 .yellow,
+    .final-cta h2 .yellow {
+      background: var(--accent);
+      color: var(--black);
+      padding: 0 0.14em 0.05em;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+    .section-title em  { font-family: var(--font-display); color: var(--accent); letter-spacing: -0.02em; }
     /* word-reveal scaffolding (JS injects .word) */
     .section-title .word { display: inline-block; overflow: hidden; vertical-align: top; }
     .section-title .word > span { display: inline-block; will-change: transform; }
@@ -324,36 +332,37 @@
       align-items: center;
       gap: 10px;
       padding: 18px 34px;
-      background: var(--paper);
-      color: var(--ink);
+      background: var(--accent);
+      color: var(--black);
       font-family: var(--font-body);
-      font-weight: 600;
+      font-weight: 700;
       font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-decoration: none;
       border-radius: 2px;
       cursor: none;
       position: relative;
-      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+      transition: background 0.25s var(--ease), color 0.25s var(--ease);
       user-select: none;
     }
-    .btn:hover { background: var(--accent); color: var(--white); }
+    /* Bold swap on hover */
+    .btn:hover { background: var(--white); color: var(--black); }
 
-    /* Secondary: quiet text link, no fill (used on dark hero) */
+    /* Secondary: outlined, fills accent on hover */
     .btn-ghost {
       background: none;
       color: var(--paper);
-      padding: 18px 8px;
-      border-radius: 0;
-      opacity: 0.85;
+      padding: 17px 26px;
+      border: 1px solid rgba(252,250,245,0.5);
+      border-radius: 2px;
+      opacity: 1;
     }
-    .btn-ghost:hover { background: none; color: var(--accent); opacity: 1; }
+    .btn-ghost:hover { background: var(--accent); color: var(--black); border-color: var(--accent); }
 
     .btn-lime,
-    .btn-lavender { background: var(--paper); color: var(--ink); }
-    .btn-lime:hover,
-    .btn-lavender:hover { background: var(--accent); color: var(--white); }
+    .btn-lavender { background: var(--accent); color: var(--black); }
+    .btn-lime:hover, .btn-lavender:hover { background: var(--white); color: var(--black); }
 
     /* =========================================================
        HERO
@@ -374,14 +383,14 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
-      opacity: 0.82;   /* let the footage be the star */
+      opacity: 0.6;   /* footage behind the giant type */
       will-change: transform;
     }
     .hero-video-overlay {
       position: absolute;
       inset: 0;
-      /* subtle scrim — dark enough to read the copy at the bottom, light up top */
-      background: linear-gradient(to bottom, rgba(20,18,16,0.28) 0%, rgba(20,18,16,0.12) 42%, rgba(20,18,16,0.72) 100%);
+      /* stronger scrim so the oversized type reads hard over the footage */
+      background: linear-gradient(to bottom, rgba(20,18,16,0.55) 0%, rgba(20,18,16,0.4) 45%, rgba(20,18,16,0.8) 100%);
       z-index: 1;
     }
     .hero-eyebrow {
@@ -407,17 +416,18 @@
 
     .hero h1 {
       font-family: var(--font-display);
-      font-size: clamp(52px, 8.5vw, 116px);
-      line-height: 1.0;
-      letter-spacing: -0.015em;
+      font-size: clamp(68px, 16vw, 300px);
+      line-height: 0.82;
+      letter-spacing: -0.02em;
       color: var(--white);
-      margin-bottom: 2.75rem;
-      max-width: 18ch;
+      margin: 0 0 2.25rem -0.05em;   /* bleed off the left edge */
+      max-width: none;
     }
     .hero h1 .line { display: block; overflow: hidden; }
-    .hero h1 .line > span { display: block; will-change: transform; }
-    .hero h1 .yellow { color: var(--accent); }
-    .hero h1 .purple { color: var(--accent); }
+    .hero h1 .line > span { display: block; white-space: nowrap; will-change: transform; }
+    .hero h1 .line--indent > span { padding-left: 0.5em; }   /* broken / staggered lines */
+    /* .hero h1 .yellow -> accent knockout (see emphasis group above) */
+    .hero h1 .purple { background: var(--accent); color: var(--black); padding: 0 0.14em 0.05em; }
     .hero h1 em { font-style: italic; font-family: var(--font-serif); color: var(--accent); letter-spacing: -0.02em; }
 
     .hero-sub {
@@ -933,7 +943,7 @@
       margin-bottom: 2rem;
       max-width: 16ch;
     }
-    .final-cta h2 .yellow { color: var(--accent); }
+    /* .final-cta h2 .yellow -> accent knockout (see emphasis group above) */
     .final-cta h2 em { font-style: italic; font-family: var(--font-serif); color: var(--accent); }
     .final-cta p {
       font-family: var(--font-body);
@@ -1137,19 +1147,22 @@
     html.gsap-ready .reveal { transition: none; }
     @media (prefers-reduced-motion: reduce) { .reveal { transition: none; opacity: 1; transform: none; } }
 
-    /* Editorial-lux display override — fine, light-weight serif (wins over
-       per-element weight/tracking above; media queries below still set size). */
-    .hero h1, .section-title, .section-title em, .story-num, .story-head,
+    /* Disruptive display override — heavy condensed grotesque at brutal scale.
+       Uppercase, tight leading (lines overlap slightly), tight tracking, no italic. */
+    .hero h1, .section-title, .story-num, .story-head,
     .cs-num, .cs-name, .cs-out-value, .cs-in-value, .cs-in-organic, .cs-mult,
     .process-n, .process-name, .stat-num, .work-name, .brand-init,
-    .final-cta h2, .final-cta h2 em, .testimonial-quote, .footer-tagline {
-      font-weight: 350;
-      letter-spacing: -0.01em;
-      font-optical-sizing: auto;
+    .final-cta h2 {
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      font-style: normal;
+      text-transform: uppercase;
+      line-height: 0.84;
     }
-    .hero h1 { font-weight: 330; letter-spacing: -0.015em; }
-    .cs-out-value, .story-num, .cs-num, .stat-num, .process-n, .cs-mult { font-weight: 370; }
-    .section-title em, .final-cta h2 em, .hero h1 em, .testimonial-quote { font-style: italic; }
+    .section-title em, .final-cta h2 em, .hero h1 em { font-style: normal; }
+    /* Contrast: testimonial quotes + footer tagline stay in the calm body sans */
+    .testimonial-quote { font-family: var(--font-body); font-style: normal; font-weight: 500; letter-spacing: -0.01em; text-transform: none; line-height: 1.32; }
+    .footer-tagline { font-family: var(--font-body); font-style: normal; }
 
     @media (max-width: 1024px) {
       .work-grid         { grid-template-columns: 1fr 1fr; }
@@ -1288,20 +1301,34 @@
       <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.mp4" type="video/mp4" />
     </video>
     <div class="hero-video-overlay"></div>
+    <!-- ============================================================
+         HERO MEDIA — chosen: video full-bleed BEHIND the oversized type
+         (giant letterforms sit over the footage; strong + reliable).
+         Alt A (footage THROUGH letterforms): wrap the H1 text in an SVG
+           <mask><text> and paint a bone <rect> masked by it over the video,
+           so the video only shows inside the letters. More fragile to size
+           responsively — commented for now.
+         Alt B (hard-edged block beside): drop hero to a 60/40 grid, type left
+           overflowing, a hard-edged <video> block right. Swap in if preferred.
+         ============================================================ -->
     <div class="hero-inner hero-inner--centered">
       <div class="hero-left hero-left--centered">
         <div class="hero-eyebrow">Creative Agency · El Paso, TX</div>
         <!-- ========================================================
-             HERO LINE — pick one (leave one active, comment the rest):
-               A) Culture, on <em>camera.</em>
-               B) We make brands <em>move.</em>
-               C) Attention, by <em>design.</em>
+             HERO STATEMENT — pick one (leave one active, comment the rest):
+               A) WE MAKE / BRANDS / IMPOSSIBLE / TO IGNORE   (active)
+               B) ATTENTION / IS THE / WHOLE / GAME
+               C) LOUD / ON / PURPOSE
              ======================================================== -->
         <h1 id="heroTitle">
-          <span class="line"><span>Culture, on <em>camera.</em></span></span>
+          <span class="line"><span>We make</span></span>
+          <span class="line line--indent"><span>brands</span></span>
+          <span class="line"><span><span class="yellow">impossible</span></span></span>
+          <span class="line line--indent"><span>to ignore.</span></span>
         </h1>
         <div class="hero-actions hero-actions--centered">
           <a href="#case-studies" class="btn btn-lime" data-magnetic>See the proof →</a>
+          <a href="#contact" class="btn btn-ghost">Start a project ↗</a>
         </div>
       </div>
     </div>
@@ -1818,23 +1845,37 @@
       document.documentElement.classList.add('gsap-ready');
       gsap.registerPlugin(ScrollTrigger);
 
-      /* Lenis smooth scroll — desktop / non-touch only */
+      /* Lenis smooth scroll — desktop / non-touch only. Slightly snappier lerp. */
       if (!isTouch) {
-        const lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+        const lenis = new Lenis({ lerp: 0.11, smoothWheel: true });
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((t) => lenis.raf(t * 1000));
         gsap.ticker.lagSmoothing(0);
+
+        /* Disruptive: scroll-velocity SKEW on big display type (settles to 0) */
+        const skewEls = gsap.utils.toArray('.section-title, #heroTitle, .cs-name, .final-cta h2');
+        const skewSetters = skewEls.map(el => gsap.quickTo(el, 'skewY', { duration: 0.5, ease: 'power3.out' }));
+        lenis.on('scroll', (e) => {
+          const v = e && typeof e.velocity === 'number' ? e.velocity : (lenis.velocity || 0);
+          const s = Math.max(-5, Math.min(5, v * 0.18));
+          skewSetters.forEach(set => set(s));
+        });
       }
 
       /* Hero — per-line mask reveal */
       const heroLines = document.querySelectorAll('#heroTitle .line > span');
       gsap.set(heroLines, { yPercent: 115 });
-      gsap.to(heroLines, { yPercent: 0, duration: 1.15, ease: EASE, stagger: 0.1, delay: 0.2 });
-      gsap.from('.hero-eyebrow, .hero-actions', { opacity: 0, y: 18, duration: 1.0, ease: EASE, stagger: 0.16, delay: 0.75 });
+      gsap.to(heroLines, { yPercent: 0, duration: 0.6, ease: EASE, stagger: 0.07, delay: 0.1 });
+      gsap.from('.hero-eyebrow, .hero-actions', { opacity: 0, y: 16, duration: 0.6, ease: EASE, stagger: 0.08, delay: 0.4 });
 
       /* Hero background — slower parallax + scale */
       gsap.to('.hero-video-bg', {
-        yPercent: 16, scale: 1.12, ease: 'none',
+        yPercent: 30, scale: 1.2, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+      /* Type counter-scrolls hard against the footage */
+      gsap.to('#heroTitle', {
+        yPercent: -24, ease: 'none',
         scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
       });
 
@@ -1845,7 +1886,7 @@
         gsap.set(words, { yPercent: 115 });
         ScrollTrigger.create({
           trigger: title, start: 'top 88%', once: true,
-          onEnter: () => gsap.to(words, { yPercent: 0, duration: 0.95, ease: EASE, stagger: 0.09 })
+          onEnter: () => gsap.to(words, { yPercent: 0, duration: 0.55, ease: EASE, stagger: 0.05 })
         });
       });
 
@@ -1855,14 +1896,14 @@
         gsap.set(el, { opacity: 0, y: 24 });
         ScrollTrigger.create({
           trigger: el, start: 'top 90%', once: true,
-          onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 1.0, ease: EASE })
+          onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.55, ease: EASE })
         });
       });
 
       /* Story-list — numeral parallaxes against its text */
       gsap.utils.toArray('.story-row').forEach(row => {
         gsap.to(row.querySelector('.story-num'), {
-          yPercent: -20, ease: 'none',
+          yPercent: -34, ease: 'none',
           scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: true }
         });
       });
@@ -1871,8 +1912,8 @@
       ScrollTrigger.create({
         trigger: '.media-band', start: 'top 82%', once: true,
         onEnter: () => {
-          gsap.fromTo('.media-band', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: EASE });
-          gsap.fromTo('.media-band-video', { scale: 1.08 }, { scale: 1.0, duration: 1.7, ease: EASE });
+          gsap.fromTo('.media-band', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.8, ease: EASE });
+          gsap.fromTo('.media-band-video', { scale: 1.08 }, { scale: 1.0, duration: 1.1, ease: EASE });
         }
       });
       gsap.set('.media-band-caption', { opacity: 0, y: 16 });
@@ -1956,7 +1997,7 @@
       const prefix = el.dataset.prefix || '', suffix = el.dataset.suffix || '';
       const slow = el.hasAttribute('data-slow');
       if (reduceMotion) { el.textContent = prefix + csFmt(to) + suffix; return; }
-      const dur = slow ? 2500 : 1300;
+      const dur = slow ? 1700 : 900;
       let startT = null;
       function tick(now) {
         if (startT === null) startT = now;
@@ -2038,18 +2079,18 @@
         if (name && rich) {
           const words = name.querySelectorAll('.word > span');
           gsap.set(words, { yPercent: 115 });
-          gsap.to(words, { yPercent: 0, duration: 0.95, ease: 'power3.out', stagger: 0.09 });
+          gsap.to(words, { yPercent: 0, duration: 0.55, ease: 'power3.out', stagger: 0.05 });
         }
         if (rich) {
           panel.querySelectorAll('.cs-video-inner').forEach((vi, idx) => {
-            gsap.fromTo(vi, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.05, ease: 'power3.out', delay: idx * 0.12 });
-            gsap.fromTo(vi.querySelectorAll('.cs-video-el, .cs-video-poster'), { scale: 1.06 }, { scale: 1, duration: 1.4, ease: 'power3.out', delay: idx * 0.12 });
+            gsap.fromTo(vi, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.7, ease: 'power3.out', delay: idx * 0.08 });
+            gsap.fromTo(vi.querySelectorAll('.cs-video-el, .cs-video-poster'), { scale: 1.06 }, { scale: 1, duration: 0.9, ease: 'power3.out', delay: idx * 0.08 });
           });
         }
       }, 'top 70%');
       if (rich) {
         const num = panel.querySelector('.cs-num');
-        if (num) gsap.to(num, { yPercent: -14, ease: 'none', scrollTrigger: { trigger: panel, start: 'top bottom', end: 'bottom top', scrub: true } });
+        if (num) gsap.to(num, { yPercent: -28, ease: 'none', scrollTrigger: { trigger: panel, start: 'top bottom', end: 'bottom top', scrub: true } });
       }
     }
 
