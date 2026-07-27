@@ -1100,15 +1100,36 @@
     .cs-video-ph { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; background: #12121c; }
     .cs-play { width: 58px; height: 58px; border: 1px solid rgba(255,255,255,0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; padding-left: 3px; }
     .cs-video--fallback .cs-video-el { display: none; }
-    .cs-video--fallback .cs-video-ph, .cs-video--fallback .cs-play { cursor: none; }
-    .cs-unmute {
-      position: absolute; bottom: 12px; right: 12px; z-index: 3;
-      background: rgba(0,0,0,0.55); color: #fff;
-      border: 1px solid rgba(255,255,255,0.3); border-radius: 2px;
-      padding: 6px 10px; font-family: var(--font-body); font-weight: 600;
-      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: none;
+    .cs-video--fallback .cs-controls, .cs-video--fallback .cs-video-hit { display: none; }
+
+    /* Click-to-toggle hit layer (keyboard-focusable) */
+    .cs-video-hit { position: absolute; inset: 0; z-index: 3; background: none; border: none; cursor: none; }
+    .cs-video-hit:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+
+    /* Custom control bar — matches variant (no browser chrome) */
+    .cs-controls {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 12px 11px;
+      background: linear-gradient(to top, rgba(20,18,16,0.85), rgba(20,18,16,0));
+      opacity: 0; transform: translateY(6px);
+      transition: opacity .3s var(--ease), transform .3s var(--ease);
+      pointer-events: none;
     }
-    .cs-unmute:hover { border-color: var(--accent); color: var(--accent); }
+    .cs-video-inner:hover .cs-controls,
+    .cs-video-inner.show-controls .cs-controls { opacity: 1; transform: none; pointer-events: auto; }
+    .cs-c { background: none; border: none; color: #fff; cursor: none; display: inline-flex; align-items: center; justify-content: center; padding: 3px; transition: color .2s var(--ease); }
+    .cs-c svg { width: 20px; height: 20px; display: block; fill: currentColor; }
+    .cs-c:hover, .cs-c:focus-visible { color: var(--accent); outline: none; }
+    .cs-c-time { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.03em; color: rgba(255,255,255,0.9); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .cs-c-seek {
+      -webkit-appearance: none; appearance: none;
+      flex: 1; min-width: 40px; height: 4px; border-radius: 2px;
+      background: rgba(255,255,255,0.26); cursor: none; outline: none;
+    }
+    .cs-c-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%; background: var(--accent); border: none; cursor: none; }
+    .cs-c-seek::-moz-range-thumb { width: 13px; height: 13px; border-radius: 50%; background: var(--accent); border: none; cursor: none; }
+    .cs-c-seek:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
 
     @media (max-width: 768px) {
       .cs-intro { padding: 84px 16px 8px; }
@@ -1523,8 +1544,8 @@
         metrics: [ { value: '402', label: 'Inbound Calls' }, { value: '1', label: 'Commercial Produced' } ],
         chart: { type: 'dotgrid', count: 402 },
         videos: [
-          { src: 'assets/case-studies/01/1.mp4', poster: 'assets/case-studies/01/1.jpg', aspect: '16:9' },
-          { src: 'assets/case-studies/01/2.mp4', poster: 'assets/case-studies/01/2.jpg', aspect: '16:9' }
+          { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.jpg', aspect: '16:9' },
+          { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1785162611/Davis_Law_-_The_Reading_wqa5wk.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1785162611/Davis_Law_-_The_Reading_wqa5wk.jpg', aspect: '16:9' }
         ],
         instagramUrl: null,
         summary: 'A focused paid campaign turned a modest budget into massive reach — and, more importantly, 402 real inbound calls and a produced commercial.'
@@ -1535,7 +1556,7 @@
         outcome: { value: 500000, label: 'Views' },
         metrics: [ { value: 'Record', label: 'Walk-ins — most in company history' }, { value: 'Record', label: 'Appointments Booked' } ],
         chart: { type: 'ratiobar' },
-        videos: [ { src: 'assets/case-studies/02/1.mp4', poster: 'assets/case-studies/02/1.jpg', aspect: '9:16' } ],
+        videos: [ { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720/v1784932471/CHINGON_CUHTS-1_oaujpz.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1784932471/CHINGON_CUHTS-1_oaujpz.jpg', aspect: '9:16' } ],
         instagramUrl: 'https://www.instagram.com/chingoncuhts/',
         summary: "One hundred dollars of ad spend. Half a million views. Record-breaking walk-ins and appointments in the shop's history."
       },
@@ -1546,10 +1567,10 @@
         metrics: [ { value: 'Full', label: 'Rebrand' }, { value: '4 mo', label: 'Organic Social' } ],
         chart: { type: 'timeline', points: [0.04, 0.2, 0.52, 1], caption: '4 months · organic · $0 paid' },
         videos: [
-          { src: 'assets/case-studies/03/1.mp4', poster: 'assets/case-studies/03/1.jpg', aspect: '16:9' },
-          { src: 'assets/case-studies/03/2.mp4', poster: 'assets/case-studies/03/2.jpg', aspect: '16:9' },
-          { src: 'assets/case-studies/03/3.mp4', poster: 'assets/case-studies/03/3.jpg', aspect: '16:9' },
-          { src: 'assets/case-studies/03/4.mp4', poster: 'assets/case-studies/03/4.jpg', aspect: '16:9' }
+          { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1775164758/Mario_Yague_El_Toro_Final_ohedjn.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1775164758/Mario_Yague_El_Toro_Final_ohedjn.jpg', aspect: '16:9' },
+          { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932459/Day_in_life_El_Toro_qhtj0s.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1784932459/Day_in_life_El_Toro_qhtj0s.jpg', aspect: '16:9' },
+          { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932460/Mario_June_24_-_2_k8dzcq.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1784932460/Mario_June_24_-_2_k8dzcq.jpg', aspect: '16:9' },
+          { src: 'https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932442/OMG_ARE_U_EL_TORO_l2gxkj.mp4', poster: 'https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1784932442/OMG_ARE_U_EL_TORO_l2gxkj.jpg', aspect: '16:9' }
         ],
         instagramUrl: 'https://www.instagram.com/yaguelaw/',
         summary: 'No paid spend at all. A full rebrand and four months of organic social drove more than $700,000 in incoming client revenue.'
@@ -1560,7 +1581,8 @@
         outcome: { value: 70000, prefix: '$', label: 'Membership Revenue' },
         metrics: [ { value: '80', label: 'Memberships Sold' }, { value: '1', label: 'Commercial Produced' } ],
         chart: { type: 'ratiobar', units: 80, unitLabel: 'memberships' },
-        videos: [ { src: 'assets/case-studies/04/1.mp4', poster: 'assets/case-studies/04/1.jpg', aspect: '9:16' } ],
+        /* 04 not on Cloudinary yet — null src keeps the graceful poster/play placeholder */
+        videos: [ { src: null, poster: null, aspect: '9:16' } ],
         instagramUrl: 'https://www.instagram.com/powerhouseeptx/',
         summary: 'Fifteen hundred in ads returned $70,000 in membership contracts — 80 new members and a commercial in the can.'
       }
@@ -1633,12 +1655,30 @@
         '<div class="cs-metric"><div class="cs-metric-value">' + esc(m.value) + '</div><div class="cs-metric-label">' + esc(m.label) + '</div></div>'
       ).join('') + '</div>';
     }
+    var CS_ICON = {
+      play:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
+      pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.2v14H7zM13.8 5H17v14h-3.2z"/></svg>',
+      muted: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 9l5 6M21.5 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
+      sound: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a4.2 4.2 0 0 1 0 7M18.8 6.4a7 7 0 0 1 0 11.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
+      fs:    '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'
+    };
     function csRenderVideo(v, c) {
-      return '<figure class="cs-video" data-aspect="' + v.aspect + '"><div class="cs-video-inner">'
-        + '<video class="cs-video-el" muted loop playsinline preload="none" poster="' + v.poster + '"><source src="' + v.src + '" type="video/mp4" /></video>'
-        + '<img class="cs-video-poster" src="' + v.poster + '" alt="' + esc(c.client) + '" loading="lazy" />'
+      var aspect = v.aspect || '16:9';
+      var hasSrc = !!v.src;
+      var poster = v.poster || '';
+      var posterImg = poster ? '<img class="cs-video-poster" src="' + poster + '" alt="' + esc(c.client) + '" />' : '';
+      return '<figure class="cs-video' + (hasSrc ? '' : ' cs-video--fallback') + '" data-aspect="' + aspect + '"><div class="cs-video-inner">'
+        + '<video class="cs-video-el" muted loop playsinline preload="none"' + (poster ? ' poster="' + poster + '"' : '') + (hasSrc ? ' data-src="' + v.src + '"' : '') + '></video>'
+        + posterImg
         + '<div class="cs-video-ph"><span class="cs-play">▶</span></div>'
-        + '<button class="cs-unmute" type="button">Sound Off</button>'
+        + '<button class="cs-video-hit" type="button" aria-label="Play or pause"></button>'
+        + '<div class="cs-controls" role="group" aria-label="Video controls">'
+        +   '<button class="cs-c cs-c-play" type="button" aria-label="Play">' + CS_ICON.play + '</button>'
+        +   '<input class="cs-c-seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek" />'
+        +   '<span class="cs-c-time" aria-hidden="true">0:00&nbsp;/&nbsp;0:00</span>'
+        +   '<button class="cs-c cs-c-mute" type="button" aria-label="Unmute">' + CS_ICON.muted + '</button>'
+        +   '<button class="cs-c cs-c-fs" type="button" aria-label="Fullscreen">' + CS_ICON.fs + '</button>'
+        + '</div>'
         + '</div></figure>';
     }
     function csRenderLinks(c) {
@@ -2034,35 +2074,86 @@
     }
 
     function initCaseVideos() {
-      let current = null;
-      document.querySelectorAll('.cs-video').forEach(fig => {
+      const figs = Array.from(document.querySelectorAll('.cs-video'));
+      const allVideos = figs.map(f => f.querySelector('.cs-video-el'));
+      const engaged = new WeakSet();   // videos the user has taken control of
+      function pauseOthers(except) { allVideos.forEach(v => { if (v !== except) { try { v.pause(); } catch (e) {} } }); }
+      function engagedPlaying() { return allVideos.some(v => engaged.has(v) && !v.paused); }
+      function fmt(t) { if (!isFinite(t) || t < 0) t = 0; const m = Math.floor(t / 60), s = Math.floor(t % 60); return m + ':' + String(s).padStart(2, '0'); }
+
+      figs.forEach(fig => {
         const video = fig.querySelector('.cs-video-el');
         const posterImg = fig.querySelector('.cs-video-poster');
         const ph = fig.querySelector('.cs-video-ph');
-        const unmute = fig.querySelector('.cs-unmute');
-        let failed = false;
-        posterImg.addEventListener('error', () => { posterImg.style.display = 'none'; });
-        video.addEventListener('playing', () => video.classList.add('is-playing'));
-        video.addEventListener('error', () => { failed = true; fig.classList.add('cs-video--fallback'); });
-        function play() {
-          if (failed) return;
-          if (current && current !== video) { try { current.pause(); } catch (e) {} }
-          current = video;
-          const pr = video.play();
-          if (pr && pr.catch) pr.catch(() => {});
+        const inner = fig.querySelector('.cs-video-inner');
+        const hit = fig.querySelector('.cs-video-hit');
+        const cPlay = fig.querySelector('.cs-c-play');
+        const cSeek = fig.querySelector('.cs-c-seek');
+        const cTime = fig.querySelector('.cs-c-time');
+        const cMute = fig.querySelector('.cs-c-mute');
+        const cFs = fig.querySelector('.cs-c-fs');
+        const srcUrl = video.getAttribute('data-src');
+        let failed = !srcUrl, srcSet = false, hideTimer = null;
+
+        if (posterImg) posterImg.addEventListener('error', () => { posterImg.style.display = 'none'; });
+        if (failed) fig.classList.add('cs-video--fallback');
+
+        function setSrc() { if (srcSet || !srcUrl) return; video.src = srcUrl; srcSet = true; }
+        function engage() { engaged.add(video); setSrc(); }
+        function showControls() {
+          inner.classList.add('show-controls');
+          clearTimeout(hideTimer);
+          if (!video.paused) hideTimer = setTimeout(() => inner.classList.remove('show-controls'), 2400);
         }
+        function play() { if (failed) return; setSrc(); pauseOthers(video); const p = video.play(); if (p && p.catch) p.catch(() => {}); }
         function pause() { try { video.pause(); } catch (e) {} }
-        ph.addEventListener('click', () => { if (!failed) play(); });
-        unmute.addEventListener('click', (e) => {
+        function toggle() { if (video.paused) play(); else pause(); }
+
+        function syncSeek() {
+          const d = video.duration || 0, c = video.currentTime || 0;
+          const pct = d ? (c / d) * 100 : 0;
+          cSeek.value = d ? (c / d) * 1000 : 0;
+          cSeek.style.background = 'linear-gradient(to right, var(--accent) ' + pct + '%, rgba(255,255,255,0.26) ' + pct + '%)';
+          cTime.innerHTML = fmt(c) + '&nbsp;/&nbsp;' + fmt(d);
+        }
+
+        video.addEventListener('loadedmetadata', syncSeek);
+        video.addEventListener('timeupdate', syncSeek);
+        video.addEventListener('playing', () => { video.classList.add('is-playing'); cPlay.innerHTML = CS_ICON.pause; cPlay.setAttribute('aria-label', 'Pause'); pauseOthers(video); showControls(); });
+        video.addEventListener('pause', () => { cPlay.innerHTML = CS_ICON.play; cPlay.setAttribute('aria-label', 'Play'); inner.classList.add('show-controls'); clearTimeout(hideTimer); });
+        video.addEventListener('error', () => { failed = true; fig.classList.add('cs-video--fallback'); });
+        video.addEventListener('volumechange', () => { cMute.innerHTML = video.muted ? CS_ICON.muted : CS_ICON.sound; cMute.setAttribute('aria-label', video.muted ? 'Unmute' : 'Mute'); });
+
+        // Body click + placeholder + keyboard toggle → engage (user takes control)
+        hit.addEventListener('click', () => { engage(); toggle(); });
+        ph.addEventListener('click', () => { engage(); play(); });
+        cPlay.addEventListener('click', (e) => { e.stopPropagation(); engage(); toggle(); });
+        cMute.addEventListener('click', (e) => { e.stopPropagation(); engage(); video.muted = !video.muted; if (!video.muted && video.paused) play(); });
+        cFs.addEventListener('click', (e) => {
           e.stopPropagation();
-          video.muted = !video.muted;
-          unmute.textContent = video.muted ? 'Sound Off' : 'Sound On';
-          if (!video.muted) play();
+          const el = inner;
+          if (document.fullscreenElement || document.webkitFullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); }
+          else { (el.requestFullscreen || el.webkitRequestFullscreen || function(){}).call(el); }
         });
+        cSeek.addEventListener('pointerdown', engage);
+        cSeek.addEventListener('input', () => { engage(); if (video.duration) video.currentTime = (cSeek.value / 1000) * video.duration; showControls(); });
+
+        inner.addEventListener('mousemove', showControls);
+        inner.addEventListener('touchstart', () => { engage(); showControls(); }, { passive: true });
+
+        // Lazy-load the src when the panel approaches the viewport (preload=none → no fetch until play)
+        const near = new IntersectionObserver((es, o) => { es.forEach(x => { if (x.isIntersecting) { setSrc(); o.disconnect(); } }); }, { rootMargin: '500px 0px' });
+        near.observe(fig);
+
+        // Autoplay-in-view (managed) — never fights a user-engaged video
         const io = new IntersectionObserver((entries) => {
           entries.forEach(en => {
-            if (en.isIntersecting) { if (!reduceMotion) play(); }
-            else { pause(); if (current === video) current = null; }
+            if (en.isIntersecting) {
+              if (!reduceMotion && !engaged.has(video) && !failed && !engagedPlaying()) play();
+            } else {
+              // off-screen: pause to save resources + enforce single-play (video is no longer "on screen")
+              pause();
+            }
           });
         }, { threshold: 0.55 });
         io.observe(fig);
