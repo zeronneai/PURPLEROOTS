@@ -483,6 +483,23 @@
     }
     .hero-left--centered { max-width: 100%; }
     .hero-actions--centered { justify-content: flex-start; }
+
+    /* Desktop: center the hero horizontally + balance it vertically.
+       Only horizontal alignment changes - line-height and highlight-box
+       clearance are untouched. Mobile (<=768px) is left exactly as-is. */
+    @media (min-width: 769px) {
+      .hero { align-items: center; }
+      /* minmax(0,1fr) so the column can't grow to the widest nowrap line's min-content
+         (which was shoving everything right); text-align:center then centers each line
+         on the TRUE center, letting an oversized line bleed off both edges equally. */
+      .hero-inner--centered { grid-template-columns: minmax(0, 1fr); justify-items: stretch; text-align: center; }
+      .hero-left--centered { width: 100%; min-width: 0; }
+      .hero h1 { margin-left: 0; margin-right: 0; width: 100%; min-width: 0; text-align: center; }
+      .hero h1 .line > span { min-width: 0; }
+      .hero h1 .line--indent > span { padding-left: 0; }   /* drop the left stagger when centered */
+      .hero-eyebrow { text-align: center; }
+      .hero-actions--centered { justify-content: center; }
+    }
     .hero-side--centered {
       display: flex;
       flex-direction: row;
