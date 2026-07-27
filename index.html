@@ -289,7 +289,9 @@
     .final-cta h2 .yellow {
       background: var(--accent);
       color: var(--black);
-      padding: 0 0.14em 0.05em;
+      /* modest vertical padding - clearance comes from the heading's line-height, not padding.
+         clone => padding renders per wrapped line and never merges across the wrap. */
+      padding: 0.02em 0.14em 0.06em;
       -webkit-box-decoration-break: clone;
       box-decoration-break: clone;
     }
@@ -1257,8 +1259,14 @@
       letter-spacing: -0.02em;
       font-style: normal;
       text-transform: uppercase;
-      line-height: 0.84;
+      line-height: 0.84;   /* tight for single-line numerals (story-num, stat-num, cs-*, process-n) */
     }
+    /* Highlighted / wrapping headings need generous leading so an accent knockout box
+       on one line fully clears the text line above AND below it. Applies desktop + mobile. */
+    .section-title { line-height: 1.34; }
+    .final-cta h2  { line-height: 1.32; }
+    .hero h1       { line-height: 1.22; }
+    .story-head, .cs-name, .process-name, .work-name { line-height: 1.08; }
     .section-title em, .final-cta h2 em, .hero h1 em { font-style: normal; }
     /* Contrast: testimonial quotes + footer tagline stay in the calm body sans */
     .testimonial-quote { font-family: var(--font-body); font-style: normal; font-weight: 500; letter-spacing: -0.01em; text-transform: none; line-height: 1.32; }
@@ -1291,20 +1299,15 @@
       .mobile-menu a   { font-size: 2.25rem; }
       .hero            { padding: 92px 16px 40px; min-height: 82vh; }
       .hero-inner      { grid-template-columns: 1fr; gap: 2rem; }
-      .hero h1         { font-size: clamp(44px, 12.5vw, 82px); max-width: 100%; line-height: 1.16; }   /* enough leading that lines never touch, animated or not */
+      .hero h1         { font-size: clamp(44px, 12.5vw, 82px); max-width: 100%; }   /* line-height from base (1.14) - clears highlight boxes */
       .hero-sub        { font-size: 1rem; margin-bottom: 2rem; max-width: 100%; }
       .hero-actions    { flex-direction: column; align-items: stretch; padding-bottom: 8px; gap: 0.75rem; }
       .hero-actions .btn { width: 100%; justify-content: center; }
       .hero-actions .btn-ghost { justify-content: flex-start; padding-left: 0; }
       .section-head    { margin-bottom: 1.75rem; }
-      /* Highlight/knockout headings: extra leading on mobile so an accent box
-         never overlaps the line above; each box hugs its own line (clone). */
-      .section-title   { font-size: clamp(34px, 10vw, 54px); line-height: 1.2; }
-      .final-cta h2    { line-height: 1.16; }
-      .story-head      { line-height: 1.14; }
-      .cs-name         { line-height: 1.1; }
-      .section-title .y, .section-title .lv, .section-title .bl,
-      .hero h1 .yellow, .final-cta h2 .yellow { padding: 0.04em 0.14em 0.09em; }
+      /* Only font-size changes on mobile; line-heights (leading that clears the
+         highlight boxes) come from the unified base rules above. */
+      .section-title   { font-size: clamp(34px, 10vw, 54px); }
       /* Story list stacks; numeral back to natural order */
       .story-row       { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.5rem 0; }
       .story-row .story-num,
