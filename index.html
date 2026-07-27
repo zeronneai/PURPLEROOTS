@@ -311,7 +311,7 @@
     }
     /* word-reveal scaffolding (JS injects .word) */
     .section-title .word { display: inline-block; overflow: hidden; vertical-align: top; }
-    .section-title .word > span { display: inline-block; will-change: transform; }
+    .section-title .word > span { display: inline-block; }
 
     /* =========================================================
        BLOCK SECTION + ASYMMETRY
@@ -451,7 +451,7 @@
       max-width: none;
     }
     .hero h1 .line { display: block; overflow: hidden; }
-    .hero h1 .line > span { display: block; white-space: nowrap; will-change: transform; }
+    .hero h1 .line > span { display: block; white-space: nowrap; }
     .hero h1 .line--indent > span { padding-left: 0.5em; }   /* broken / staggered lines */
     /* .hero h1 .yellow -> accent knockout (see emphasis group above) */
     .hero h1 em { font-style: normal; font-family: var(--font-display); color: var(--accent); letter-spacing: -0.02em; }
@@ -1135,7 +1135,7 @@
     .cs-kicker { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 1rem; }
     .cs-name { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 4rem); letter-spacing: -0.035em; line-height: 0.98; }
     .cs-name .word { display: inline-block; overflow: hidden; vertical-align: top; }
-    .cs-name .word > span { display: inline-block; will-change: transform; }
+    .cs-name .word > span { display: inline-block; }
 
     /* IN / OUT paired unit */
     .cs-inout { display: flex; align-items: flex-end; gap: 1.75rem; flex-wrap: wrap; margin: 2.25rem 0 1.5rem; }
@@ -1295,13 +1295,21 @@
       .mobile-menu a   { font-size: 2.25rem; }
       .hero            { padding: 92px 16px 40px; min-height: 82vh; }
       .hero-inner      { grid-template-columns: 1fr; gap: 2rem; }
-      .hero h1         { font-size: clamp(46px, 13vw, 84px); max-width: 100%; }
+      .hero h1         { font-size: clamp(46px, 13vw, 84px); max-width: 100%; line-height: 1.06; }
+      .hero h1 .line   { overflow: visible; }   /* mask reveal not used on mobile - let highlight boxes breathe */
       .hero-sub        { font-size: 1rem; margin-bottom: 2rem; max-width: 100%; }
       .hero-actions    { flex-direction: column; align-items: stretch; padding-bottom: 8px; gap: 0.75rem; }
       .hero-actions .btn { width: 100%; justify-content: center; }
       .hero-actions .btn-ghost { justify-content: flex-start; padding-left: 0; }
       .section-head    { margin-bottom: 1.75rem; }
-      .section-title   { font-size: clamp(34px, 10vw, 54px); }
+      /* Highlight/knockout headings: extra leading on mobile so an accent box
+         never overlaps the line above; each box hugs its own line (clone). */
+      .section-title   { font-size: clamp(34px, 10vw, 54px); line-height: 1.2; }
+      .final-cta h2    { line-height: 1.16; }
+      .story-head      { line-height: 1.14; }
+      .cs-name         { line-height: 1.1; }
+      .section-title .y, .section-title .lv, .section-title .bl,
+      .hero h1 .yellow, .final-cta h2 .yellow { padding: 0.04em 0.14em 0.09em; }
       /* Story list stacks; numeral back to natural order */
       .story-row       { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.5rem 0; }
       .story-row .story-num,
@@ -2099,19 +2107,21 @@
       document.documentElement.classList.add('gsap-ready');
       gsap.registerPlugin(ScrollTrigger);
 
-      /* Lenis smooth scroll - desktop / non-touch only. Slightly snappier lerp. */
+      /* Lenis smooth scroll - desktop / non-touch only.
+         ONE rAF loop: gsap.ticker drives lenis.raf; lenis.scroll drives ScrollTrigger.update.
+         lagSmoothing(0) so GSAP never "catches up" and stutters. Never run a separate rAF. */
       if (!isTouch) {
-        const lenis = new Lenis({ lerp: 0.11, smoothWheel: true });
+        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, syncTouch: false });
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((t) => lenis.raf(t * 1000));
         gsap.ticker.lagSmoothing(0);
 
-        /* Disruptive: scroll-velocity SKEW on big display type (settles to 0) */
-        const skewEls = gsap.utils.toArray('.section-title, #heroTitle, .cs-name, .final-cta h2');
+        /* Scroll-velocity skew on the big display type (transform-only, settles to 0).
+           Scoped to a couple of elements so it can't thrash the compositor. */
+        const skewEls = gsap.utils.toArray('.section-title, #heroTitle');
         const skewSetters = skewEls.map(el => gsap.quickTo(el, 'skewY', { duration: 0.5, ease: 'power3.out' }));
-        lenis.on('scroll', (e) => {
-          const v = e && typeof e.velocity === 'number' ? e.velocity : (lenis.velocity || 0);
-          const s = Math.max(-5, Math.min(5, v * 0.18));
+        lenis.on('scroll', () => {
+          const s = Math.max(-3.5, Math.min(3.5, (lenis.velocity || 0) * 0.12));
           skewSetters.forEach(set => set(s));
         });
       }
@@ -2189,14 +2199,17 @@
         const pinSection = document.querySelector('.process-pin');
         const panels = gsap.utils.toArray('#processStage .process-panel');
         pinSection.classList.add('is-pinned');
+        let pinIdx = -1;
         ScrollTrigger.create({
           trigger: pinSection,
           start: 'top top',
           end: '+=' + (panels.length * 62) + '%',
           pin: true, scrub: 0.4,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
           onUpdate: self => {
             const idx = Math.min(panels.length - 1, Math.floor(self.progress * panels.length));
-            panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+            if (idx !== pinIdx) { pinIdx = idx; panels.forEach((p, i) => p.classList.toggle('active', i === idx)); }
           }
         });
       }
@@ -2210,7 +2223,12 @@
         btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: EASE }));
       });
 
+      // Recompute pin/scrub positions once everything (fonts, video posters) has loaded,
+      // and on resize (debounced) so the pinned section never fights the scroll position.
       ScrollTrigger.refresh();
+      window.addEventListener('load', () => ScrollTrigger.refresh());
+      let _rt;
+      window.addEventListener('resize', () => { clearTimeout(_rt); _rt = setTimeout(() => ScrollTrigger.refresh(), 200); });
     }
 
     if (reduceMotion) {
