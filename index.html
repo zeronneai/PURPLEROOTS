@@ -122,12 +122,12 @@
       padding: 0 22px;
     }
     .ticker-track span::after {
-      content: '✳';
+      content: '/';
       display: inline-block;
-      font-size: 11px;
+      font-size: 13px;
       margin-left: 22px;
       vertical-align: middle;
-      opacity: 0.7;
+      opacity: 0.55;
     }
 
     @keyframes tickLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -1014,6 +1014,60 @@
     .footer-nav a:hover { color: var(--accent); }
 
     /* =========================================================
+       INQUIRE DRAWER - slide-in contact form
+    ========================================================= */
+    .inquire-backdrop {
+      position: fixed; inset: 0; z-index: 998;
+      background: rgba(20,18,16,0.55);
+      -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+      opacity: 0; transition: opacity .4s var(--ease);
+    }
+    .inquire-backdrop.open { opacity: 1; }
+    .inquire-drawer {
+      position: fixed; top: 0; right: 0; height: 100%;
+      width: min(460px, 92vw); z-index: 999;
+      background: var(--paper); color: var(--ink);
+      border-left: 1px solid var(--line);
+      transform: translateX(100%); transition: transform .5s var(--ease);
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+      cursor: auto;
+    }
+    .inquire-drawer.open { transform: none; }
+    .inquire-drawer button { cursor: pointer; }
+    .inquire-drawer input, .inquire-drawer textarea { cursor: text; }
+    body.inquire-open #cursor { display: none; }
+    .inquire-inner { padding: 84px 40px 48px; }
+    .inquire-close {
+      position: absolute; top: 20px; right: 22px;
+      background: none; border: none; color: var(--ink);
+      font-size: 18px; line-height: 1; padding: 6px; transition: color .2s var(--ease);
+    }
+    .inquire-close:hover { color: var(--accent); }
+    .inquire-eyebrow { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .inquire-title { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(28px, 6.5vw, 42px); line-height: 0.9; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.85rem; }
+    .inquire-sub { font-size: 0.92rem; color: var(--ink-70); line-height: 1.55; margin-bottom: 2rem; }
+    .inquire-form { display: flex; flex-direction: column; gap: 1.35rem; }
+    .inquire-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .inquire-field > span { font-family: var(--font-body); font-weight: 600; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-50); }
+    .inquire-field input, .inquire-field textarea {
+      font-family: var(--font-body); font-size: 1rem; color: var(--ink);
+      background: none; border: none; border-bottom: 1px solid var(--line);
+      padding: 9px 0; border-radius: 0; outline: none; resize: vertical; width: 100%;
+      transition: border-color .3s var(--ease);
+    }
+    .inquire-field input::placeholder, .inquire-field textarea::placeholder { color: rgba(26,24,21,0.34); }
+    .inquire-field input:focus, .inquire-field textarea:focus { border-bottom-color: var(--accent); }
+    .inquire-submit { margin-top: 0.75rem; width: 100%; justify-content: center; }
+    .inquire-note { font-size: 11px; color: var(--ink-50); margin-top: 1.1rem; line-height: 1.5; }
+    @media (max-width: 768px) {
+      .inquire-drawer { width: 100vw; border-left: none; }
+      .inquire-inner { padding: 74px 22px 40px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .inquire-drawer, .inquire-backdrop { transition: none; }
+    }
+
+    /* =========================================================
        CASE STUDIES - animated results report
     ========================================================= */
     .cs-section { background: var(--paper); }
@@ -1251,13 +1305,17 @@
       .testimonial-quote  { font-size: clamp(20px, 5vw, 28px); }
       .final-cta h2    { font-size: clamp(40px, 12vw, 72px); }
       .final-cta .btn-lime { width: 100%; justify-content: center; padding: 20px 24px; font-size: 13px; }
-      footer           { padding: 48px 16px 32px; }
-      .footer-inner    { grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left; justify-items: start; }
-      .footer-inner > .footer-brand { grid-column: 1 / -1; }
-      .footer-socials  { justify-content: flex-start; flex-wrap: wrap; }
-      .footer-bottom   { flex-direction: column; gap: 8px; align-items: flex-start; }
-      .footer-copy, .footer-nav a { font-size: 10px; }
-      .footer-nav      { flex-wrap: wrap; gap: 0.75rem; }
+      /* Premium, centered, ordered footer on mobile */
+      footer           { padding: 64px 22px 40px; text-align: center; }
+      .footer-inner    { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 1.5rem; }
+      .footer-brand    { margin: 0 auto; }
+      .footer-brand-img { height: 46px; }
+      .footer-tagline  { text-align: center; max-width: 24ch; margin: 0 auto; font-size: 1rem; }
+      .footer-socials  { justify-content: center; }
+      .footer-bottom   { flex-direction: column-reverse; align-items: center; text-align: center; gap: 1.25rem; margin-top: 2.5rem; padding-top: 1.75rem; }
+      .footer-nav      { justify-content: center; flex-wrap: wrap; gap: 0.9rem 1.4rem; }
+      .footer-copy     { font-size: 10px; text-align: center; line-height: 1.6; }
+      .footer-nav a    { font-size: 10px; }
       #videoModal      { padding: 12px; }
       .modal-box       { width: 95vw; padding: 20px; }
       #modalMedia      { aspect-ratio: 16/9; }
@@ -1354,7 +1412,7 @@
         </h1>
         <div class="hero-actions hero-actions--centered">
           <a href="#case-studies" class="btn btn-lime" data-magnetic>See the proof →</a>
-          <a href="#contact" class="btn btn-ghost">Start a project ↗</a>
+          <a href="#contact" class="btn btn-ghost" data-inquire>Start a project ↗</a>
         </div>
       </div>
     </div>
@@ -1513,7 +1571,7 @@
     <div class="container">
       <h2 class="reveal">Ready to build<br />something <span class="yellow">real?</span></h2>
       <p class="reveal">We have limited availability each quarter. If you're serious about your brand, let's talk before the spot is gone.</p>
-      <a href="mailto:p.rootsagency@gmail.com" class="btn btn-lime reveal" data-magnetic>Get in Touch →</a>
+      <a href="mailto:p.rootsagency@gmail.com" class="btn btn-lime reveal" data-magnetic data-inquire>Get in Touch →</a>
     </div>
   </section>
 
@@ -1532,6 +1590,26 @@
       </ul>
     </div>
   </footer>
+
+  <!-- ===================== INQUIRE DRAWER (slide-in form) ===================== -->
+  <div id="inquireBackdrop" class="inquire-backdrop" hidden></div>
+  <aside id="inquireDrawer" class="inquire-drawer" role="dialog" aria-modal="true" aria-labelledby="inquireTitle" hidden>
+    <button class="inquire-close" id="inquireClose" type="button" aria-label="Close form">✕</button>
+    <div class="inquire-inner">
+      <div class="inquire-eyebrow">Start a Project</div>
+      <h2 class="inquire-title" id="inquireTitle">Let's build something loud.</h2>
+      <p class="inquire-sub">Tell us who you are and what you want to achieve. We'll get back to you fast.</p>
+      <form id="inquireForm" class="inquire-form" novalidate>
+        <label class="inquire-field"><span>Name</span><input type="text" name="name" required autocomplete="name" placeholder="Your name" /></label>
+        <label class="inquire-field"><span>Company Name</span><input type="text" name="company" autocomplete="organization" placeholder="Company name" /></label>
+        <label class="inquire-field"><span>Phone</span><input type="tel" name="phone" autocomplete="tel" placeholder="Phone number" /></label>
+        <label class="inquire-field"><span>Email</span><input type="email" name="email" required autocomplete="email" placeholder="you@company.com" /></label>
+        <label class="inquire-field"><span>What you want to achieve</span><textarea name="goal" rows="4" placeholder="Tell us what you want to achieve"></textarea></label>
+        <button type="submit" class="btn btn-lime inquire-submit">Send inquiry →</button>
+        <p class="inquire-note">This opens your email app with the details prefilled.</p>
+      </form>
+    </div>
+  </aside>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -1841,6 +1919,82 @@
         document.body.style.overflow = '';
       });
     });
+
+    /* Logo → Home: closes the mobile menu and returns to the top (#hero) */
+    const navLogo = document.querySelector('.nav-logo');
+    if (navLogo) navLogo.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
+    });
+
+    /* ============================================================
+       INQUIRE DRAWER — slide-in contact form
+    ============================================================ */
+    (function () {
+      const drawer = document.getElementById('inquireDrawer');
+      const backdrop = document.getElementById('inquireBackdrop');
+      const closeBtn = document.getElementById('inquireClose');
+      const form = document.getElementById('inquireForm');
+      if (!drawer || !backdrop || !form) return;
+      let lastFocused = null;
+
+      function open() {
+        lastFocused = document.activeElement;
+        backdrop.hidden = false; drawer.hidden = false;
+        requestAnimationFrame(() => { backdrop.classList.add('open'); drawer.classList.add('open'); });
+        document.body.classList.add('inquire-open');
+        document.body.style.overflow = 'hidden';
+        const first = drawer.querySelector('input, textarea');
+        if (first) setTimeout(() => first.focus(), 320);
+      }
+      function close() {
+        backdrop.classList.remove('open'); drawer.classList.remove('open');
+        document.body.classList.remove('inquire-open');
+        document.body.style.overflow = '';
+        setTimeout(() => { backdrop.hidden = true; drawer.hidden = true; }, 500);
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
+      }
+
+      document.querySelectorAll('[data-inquire]').forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); open(); }));
+      closeBtn.addEventListener('click', close);
+      backdrop.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer.classList.contains('open')) close(); });
+
+      // Simple focus trap while open
+      drawer.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const f = drawer.querySelectorAll('button, input, textarea, a[href]');
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const d = new FormData(form);
+        const name = (d.get('name') || '').toString().trim();
+        const company = (d.get('company') || '').toString().trim();
+        const phone = (d.get('phone') || '').toString().trim();
+        const email = (d.get('email') || '').toString().trim();
+        const goal = (d.get('goal') || '').toString().trim();
+        if (!name) { form.elements['name'].focus(); return; }
+        if (!email) { form.elements['email'].focus(); return; }
+        const subject = 'New project inquiry' + (company ? (' from ' + company) : (' from ' + name));
+        const body = [
+          'Name: ' + name,
+          'Company: ' + company,
+          'Phone: ' + phone,
+          'Email: ' + email,
+          '',
+          'What they want to achieve:',
+          goal
+        ].join('\r\n');
+        window.location.href = 'mailto:p.rootsagency@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      });
+    })();
 
     /* ============================================================
        MOTION
