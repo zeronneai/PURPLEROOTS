@@ -15,21 +15,24 @@
        VARIABLES
     ========================================================= */
     :root {
-      /* Editorial-lux palette - bone + warm near-black + ONE saffron accent.
-         No purple anywhere. Accent is used with extreme restraint. */
+      /* Bone/black base + a 3-color accent system routed by ROLE. No purple. */
       --black:      #1A1815;   /* warm near-black ink (backgrounds) */
       --white:      #FCFAF5;   /* soft white */
       --paper:      #F4F1E8;   /* bone paper (not pure #fff) */
       --paper-alt:  #ECE7DB;   /* slightly deeper bone */
 
-      --accent:     #E8571E;   /* saffron-orange - single electric hit, used rarely */
+      /* Accent roles */
+      --orange:     #FE7E3C;   /* PRIMARY: key numbers, primary CTA, active states, the pop */
+      --copper:     #61413C;   /* SECONDARY (deep muted brown): hairline rules, secondary marks, hover - never grabs attention */
+      --lagoon:     #0E6873;   /* COOL CONTRAST: sparingly, at most ~1 element/section (e.g. revenue line) */
+      --accent:     var(--orange);   /* default accent = primary orange */
 
       --ink:        #1A1815;
       --ink-70:     rgba(26,24,21,0.7);
       --ink-50:     rgba(26,24,21,0.5);
 
-      --line:       rgba(26,24,21,0.12);
-      --line-dark:  rgba(252,250,245,0.16);
+      --line:       rgba(97,65,60,0.30);        /* copper hairline (structure) on light bg */
+      --line-dark:  rgba(252,250,245,0.16);     /* light hairline on dark bg (copper invisible there) */
 
       --font-display: 'Anton', 'Arial Narrow', Impact, sans-serif;
       --font-body:    'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -174,7 +177,7 @@
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--copper);
       margin-top: 6px;
     }
 
@@ -244,7 +247,7 @@
       color: var(--black);
       transition: color 0.15s;
     }
-    .mobile-menu a:hover { color: var(--accent); }
+    .mobile-menu a:hover { color: var(--copper); }
 
     /* =========================================================
        CONTAINER
@@ -326,7 +329,7 @@
       color: rgba(254,252,248,0.85);
       z-index: 2;
     }
-    .media-band-caption span { color: var(--accent); }
+    .media-band-caption span { color: var(--lagoon); }
 
     /* =========================================================
        BUTTONS
@@ -406,7 +409,7 @@
       color: rgba(252,250,245,0.72);
       margin-bottom: 1.75rem;
     }
-    .hero-eyebrow::before { content: ''; display: inline-block; width: 26px; height: 1px; background: var(--accent); vertical-align: middle; margin-right: 14px; }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 26px; height: 1px; background: var(--lagoon); vertical-align: middle; margin-right: 14px; }
     .hero-inner {
       position: relative;
       z-index: 2;
@@ -431,8 +434,7 @@
     .hero h1 .line > span { display: block; white-space: nowrap; will-change: transform; }
     .hero h1 .line--indent > span { padding-left: 0.5em; }   /* broken / staggered lines */
     /* .hero h1 .yellow -> accent knockout (see emphasis group above) */
-    .hero h1 .purple { background: var(--accent); color: var(--black); padding: 0 0.14em 0.05em; }
-    .hero h1 em { font-style: italic; font-family: var(--font-serif); color: var(--accent); letter-spacing: -0.02em; }
+    .hero h1 em { font-style: normal; font-family: var(--font-display); color: var(--accent); letter-spacing: -0.02em; }
 
     .hero-sub {
       font-family: var(--font-body);
@@ -532,7 +534,7 @@
       transition: color var(--dur) var(--ease);
       display: inline-block;
     }
-    .client-name:hover { color: var(--accent); }
+    .client-name:hover { color: var(--copper); }
     .client-sep { color: rgba(26,26,46,0.2); padding: 0 4px; }
 
     /* =========================================================
@@ -1192,8 +1194,8 @@
     .cs-c-seek:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
 
     @media (max-width: 768px) {
-      .cs-intro { padding: 84px 16px 8px; }
-      .cs-panel { min-height: auto; padding: 72px 0; }
+      .cs-intro { padding: 50px 16px 4px; }
+      .cs-panel { min-height: auto; padding: 44px 0; }
       .cs-panel-inner { padding: 0 16px; }
       .cs-panel--vertical .cs-panel-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .cs-top { grid-template-columns: 1fr; gap: 1.75rem; }
@@ -1212,10 +1214,11 @@
     .nav-links a::after, .footer-nav a::after, .footer-socials a::after {
       content: ''; position: absolute; left: 0; bottom: -3px;
       height: 1px; width: 100%;
-      background: var(--accent);
+      background: var(--accent);   /* footer (dark bg) keeps orange */
       transform: scaleX(0); transform-origin: left center;
       transition: transform .5s var(--ease);
     }
+    .nav-links a::after { background: var(--copper); }   /* nav on bone → copper (secondary/hover) */
     .nav-links a:hover::after, .footer-nav a:hover::after, .footer-socials a:hover::after { transform: scaleX(1); }
     [data-magnetic] { will-change: transform; }
 
@@ -1255,8 +1258,8 @@
 
     @media (max-width: 768px) {
       .container       { padding: 0 16px; }
-      .block           { padding: 84px 0; }
-      .block--tight    { padding: 52px 0; }
+      .block           { padding: 50px 0; }
+      .block--tight    { padding: 32px 0; }
       #cursor          { display: none; }
       body             { cursor: auto; }
       /* Neutralize asymmetry on mobile */
@@ -1268,42 +1271,42 @@
       .nav-cta         { display: none; }
       .nav-hamburger   { display: flex; }
       .mobile-menu a   { font-size: 2.25rem; }
-      .hero            { padding: 110px 16px 64px; min-height: auto; }
+      .hero            { padding: 92px 16px 40px; min-height: 82vh; }
       .hero-inner      { grid-template-columns: 1fr; gap: 2rem; }
       .hero h1         { font-size: clamp(46px, 13vw, 84px); max-width: 100%; }
       .hero-sub        { font-size: 1rem; margin-bottom: 2rem; max-width: 100%; }
       .hero-actions    { flex-direction: column; align-items: stretch; padding-bottom: 8px; gap: 0.75rem; }
       .hero-actions .btn { width: 100%; justify-content: center; }
       .hero-actions .btn-ghost { justify-content: flex-start; padding-left: 0; }
-      .section-head    { margin-bottom: 3rem; }
+      .section-head    { margin-bottom: 1.75rem; }
       .section-title   { font-size: clamp(34px, 10vw, 54px); }
       /* Story list stacks; numeral back to natural order */
-      .story-row       { grid-template-columns: 1fr; gap: 0.5rem; padding: 2.5rem 0; }
+      .story-row       { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.5rem 0; }
       .story-row .story-num,
       .story-row:nth-child(even) .story-num  { order: 0; text-align: left; font-size: 3.25rem; }
       .story-row:nth-child(even) .story-head { order: 0; }
       .story-row:nth-child(even) .story-body { order: 0; }
       .story-head, .story-body { align-self: start; }
-      .media-band      { height: 52vh; min-height: 300px; }
+      .media-band      { height: 40vh; min-height: 230px; }
       .work-grid       { grid-template-columns: 1fr; }
-      .work-card       { padding: 2.25rem 1.75rem 2.75rem; }
+      .work-card       { padding: 1.6rem 1.5rem 1.8rem; }
       .work-name       { font-size: 1.3rem; }
       .stats-row       { grid-template-columns: 1fr 1fr; }
-      .stat            { padding: 2rem 1rem 2rem 0; }
+      .stat            { padding: 1.4rem 1rem 1.4rem 0; }
       .stat-num        { font-size: clamp(48px, 12vw, 72px); }
       .brand-card-slide { min-height: 180px; }
       .honest-grid     { grid-template-columns: 1fr; gap: 0; }
-      .honest-card     { padding: 2.5rem 0 0; }
-      .honest-head     { font-size: 0.7rem; flex-wrap: wrap; }
+      .honest-card     { padding: 1.6rem 0 0; }
+      .honest-head     { font-size: 0.7rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
       .honest-list li  { font-size: 0.78rem; }
-      /* Process: no pin on mobile - natural stacked list */
-      .process-pin-inner { grid-template-columns: 1fr; gap: 2rem; }
+      /* Process: no pin on mobile - natural stacked list, tightened */
+      .process-pin-inner { grid-template-columns: 1fr; gap: 1.25rem; }
       .is-pinned .process-stage { min-height: 0; }
-      .is-pinned .process-panel { position: static; opacity: 1; transform: none; border-top: 1px solid var(--line); margin: 0; padding: 2rem 0 0; }
-      .is-pinned .process-panel + .process-panel { margin-top: 2rem; }
+      .is-pinned .process-panel { position: static; opacity: 1; transform: none; border-top: 1px solid var(--line); margin: 0; padding: 1.4rem 0 0; }
+      .is-pinned .process-panel + .process-panel { margin-top: 1.4rem; }
       .process-progress { display: none; }
       .testimonials-grid  { grid-template-columns: 1fr; }
-      .testimonial-card   { padding: 2.5rem 0; }
+      .testimonial-card   { padding: 1.6rem 0; }
       .testimonial-quote  { font-size: clamp(20px, 5vw, 28px); }
       .final-cta h2    { font-size: clamp(40px, 12vw, 72px); }
       .final-cta .btn-lime { width: 100%; justify-content: center; padding: 20px 24px; font-size: 13px; }
@@ -1696,16 +1699,24 @@
         + '</svg>';
     }
     function csChartTimeline(points) {
-      const H = 60, n = points.length;
-      const xs = points.map((p, i) => n === 1 ? 0 : (i / (n - 1)) * 100);
-      const ys = points.map(p => (H - 2) - p * (H - 10));
-      const d = 'M' + xs.map((x, i) => x.toFixed(2) + ' ' + ys[i].toFixed(2)).join(' L');
+      // Padded coordinate box so nothing (line, end dot, ticks) touches the edges.
+      const W = 100, H = 62, n = points.length;
+      const padX = 6, padTop = 9, padBottom = 12;
+      const innerW = W - padX * 2;
+      const baseY = H - padBottom;            // baseline (p = 0)
+      const topY = padTop;                    // p = 1
+      const xs = points.map((p, i) => padX + (n === 1 ? 0 : (i / (n - 1)) * innerW));
+      const ys = points.map(p => baseY - p * (baseY - topY));
+      // ONE continuous polyline path
+      const d = 'M ' + xs.map((x, i) => x.toFixed(2) + ' ' + ys[i].toFixed(2)).join(' L ');
       let ticks = '';
-      xs.forEach(x => { ticks += '<line x1="' + x.toFixed(2) + '" y1="' + (H - 2) + '" x2="' + x.toFixed(2) + '" y2="' + H + '" stroke="currentColor" opacity="0.4" stroke-width="0.5" vector-effect="non-scaling-stroke" />'; });
-      return '<svg viewBox="0 0 100 ' + (H + 6) + '" role="img" aria-label="revenue over 4 months">'
-        + '<path class="cs-line" d="' + d + '" fill="none" stroke="var(--accent)" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" />'
-        + '<circle class="cs-line-dot" cx="' + xs[n-1].toFixed(2) + '" cy="' + ys[n-1].toFixed(2) + '" r="2.2" fill="var(--accent)" style="opacity:0" />'
-        + ticks + '</svg>';
+      xs.forEach(x => { ticks += '<line x1="' + x.toFixed(2) + '" y1="' + baseY.toFixed(2) + '" x2="' + x.toFixed(2) + '" y2="' + (baseY + 3.5).toFixed(2) + '" stroke="currentColor" opacity="0.35" stroke-width="0.6" vector-effect="non-scaling-stroke" />'; });
+      // pathLength="100" normalises the draw length → dashoffset animation is gap-free regardless of geometry/scale.
+      return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="revenue climbing over 4 months">'
+        + ticks
+        + '<path class="cs-line" pathLength="100" d="' + d + '" fill="none" stroke="var(--lagoon)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" />'
+        + '<circle class="cs-line-dot" cx="' + xs[n - 1].toFixed(2) + '" cy="' + ys[n - 1].toFixed(2) + '" r="2.6" fill="var(--lagoon)" style="opacity:0" />'
+        + '</svg>';
     }
     function csRenderChart(c) {
       const t = c.chart.type; let svg = '', cap = '';
@@ -2244,10 +2255,19 @@
       }
       const line = el.querySelector('.cs-line');
       if (line) {
-        const len = line.getTotalLength();
-        line.style.strokeDasharray = len;
-        if (canGsap) { line.style.strokeDashoffset = len; gsap.to(line, { strokeDashoffset: 0, duration: fast ? 0.9 : 1.5, ease: 'power3.out' }); }
-        else line.style.strokeDashoffset = 0;
+        // path has pathLength="100" → dash math is normalised.
+        if (canGsap) {
+          // Animated draw: hidden (offset 100) → fully drawn (offset 0), then clear the dash so the
+          // final state is a guaranteed solid, gap-free continuous line.
+          line.style.strokeDasharray = '100';
+          line.style.strokeDashoffset = '100';
+          gsap.to(line, { strokeDashoffset: 0, duration: fast ? 0.9 : 1.5, ease: 'power3.out',
+            onComplete: () => { line.style.strokeDasharray = 'none'; line.style.strokeDashoffset = '0'; } });
+        } else {
+          // Static (reduced-motion / no GSAP): guarantee a solid continuous line, no dashes.
+          line.style.strokeDasharray = 'none';
+          line.style.strokeDashoffset = '0';
+        }
         const ldot = el.querySelector('.cs-line-dot');
         if (ldot) { if (canGsap) gsap.to(ldot, { opacity: 1, duration: 0.4, delay: fast ? 0.6 : 1.1, ease: 'power3.out' }); else ldot.style.opacity = 1; }
       }
