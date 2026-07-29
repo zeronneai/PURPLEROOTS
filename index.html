@@ -105,46 +105,9 @@
     @media (hover: none) { #cursor { display: none; } body { cursor: auto; } }
 
     /* =========================================================
-       TICKER
+       MARQUEE KEYFRAME (used by the clients trust strip)
     ========================================================= */
-    /* Kinetic divider band — lives BELOW the hero (not at the top of the page).
-       Fixed Blue Lagoon fill with bone type so it reads as the palette, never orange. */
-    .ticker {
-      background: var(--lagoon);
-      color: var(--paper);
-      padding: 14px 0;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-      z-index: 5;
-      border-top: 1px solid rgba(97,65,60,0.35);
-      border-bottom: 1px solid rgba(97,65,60,0.35);
-    }
-    .ticker-track {
-      display: inline-flex;
-      gap: 0;
-      animation: tickLeft 16s linear infinite;
-      will-change: transform;
-    }
-    .ticker-reverse { animation: tickRight 20s linear infinite; }
-    .ticker-track span {
-      font-family: var(--font-display);
-      font-size: 15px;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      padding: 0 22px;
-    }
-    .ticker-track span::after {
-      content: '/';
-      display: inline-block;
-      font-size: 13px;
-      margin-left: 22px;
-      vertical-align: middle;
-      opacity: 0.55;
-    }
-
     @keyframes tickLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    @keyframes tickRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
     /* =========================================================
        NAVBAR
@@ -1371,7 +1334,6 @@
       body             { cursor: auto; }
       /* Neutralize asymmetry on mobile */
       .col-60, .offset-right { max-width: 100%; margin-left: 0; }
-      .ticker-track span { font-size: 11px; padding: 0 24px; }
       nav              { padding: 0 16px; }
       .nav-logo        { font-size: 1rem; flex: 0 0 auto; }
       .nav-hamburger   { flex: 0 0 auto; }
@@ -1525,16 +1487,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Kinetic divider band between the hero and the clients strip (relocated from the top) -->
-  <div class="ticker">
-    <div class="ticker-track">
-      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
-      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
-      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
-      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
-    </div>
-  </div>
 
   <div class="trust">
     <div class="trust-track">
