@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <style>
@@ -21,38 +21,43 @@
        VARIABLES
     ========================================================= */
     :root {
-      /* Bone/black base + a 3-color accent system routed by ROLE. No purple. */
-      --black:      #1A1815;   /* warm near-black ink (backgrounds) */
-      --white:      #FCFAF5;   /* soft white */
-      --paper:      #F4F1E8;   /* bone paper (not pure #fff) */
-      --paper-alt:  #ECE7DB;   /* slightly deeper bone */
+      /* EDITORIAL-LUX: near-monochrome. Warm ivory paper + warm near-black ink.
+         The elegance is the ABSENCE of colour — no orange, no lagoon, no blocks.
+         Structure comes from fine serif type, hairline rules and measured space. */
+      --black:      #17140F;   /* warm near-black ink (dark backgrounds) */
+      --white:      #FBF9F3;   /* soft ivory white */
+      --paper:      #F6F3EA;   /* warm ivory paper (not pure white) */
+      --paper-alt:  #EFEBDF;   /* slightly deeper ivory */
 
-      /* Accent roles */
-      --orange:     #FE7E3C;   /* PRIMARY: key numbers, primary CTA, active states, the pop */
-      --copper:     #61413C;   /* SECONDARY (deep muted brown): hairline rules, secondary marks, hover - never grabs attention */
-      --lagoon:     #0E6873;   /* COOL CONTRAST: sparingly, at most ~1 element/section (e.g. revenue line) */
-      --accent:     var(--orange);   /* default accent = primary orange */
+      --ink:        #1A1712;   /* warm near-black text */
+      --ink-70:     rgba(26,23,18,0.72);
+      --ink-50:     rgba(26,23,18,0.5);
 
-      --ink:        #1A1815;
-      --ink-70:     rgba(26,24,21,0.7);
-      --ink-50:     rgba(26,24,21,0.5);
+      /* Legacy accent roles are neutralised to ink for this variant so any
+         residual reference renders as restrained ink, never a colour pop. */
+      --orange:     var(--ink);
+      --copper:     var(--ink);
+      --lagoon:     var(--ink);
+      --accent:     var(--ink);
+      --ink-on-accent: var(--paper);
 
-      --line:       rgba(97,65,60,0.30);        /* copper hairline (structure) on light bg */
-      --line-dark:  rgba(252,250,245,0.16);     /* light hairline on dark bg (copper invisible there) */
+      --line:       rgba(26,23,18,0.24);         /* fine ink hairline (structure) on light bg */
+      --line-faint: rgba(26,23,18,0.13);         /* barely-there ink hairline */
+      --line-dark:  rgba(251,249,243,0.20);      /* light hairline on dark bg */
 
-      --font-display: 'Anton', 'Arial Narrow', Impact, sans-serif;
-      --font-body:    'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-serif:   'Anton', 'Arial Narrow', sans-serif;
+      --font-display: 'Playfair Display', 'Times New Roman', Georgia, serif;
+      --font-body:    'EB Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+      --font-serif:   'Playfair Display', 'Times New Roman', Georgia, serif;
 
       --rule:       1px solid var(--line);
-      --rule-thin:  1px solid var(--line);
+      --rule-thin:  1px solid var(--line-faint);
 
-      --ease:       cubic-bezier(0.16, 1, 0.3, 1);   /* snappier power curve, no overshoot */
-      --dur:        480ms;   /* kinetic, fast reveals */
+      --ease:       cubic-bezier(0.33, 0, 0.15, 1);   /* gentle, unhurried ease-out, no overshoot */
+      --dur:        900ms;   /* slow, calm reveals */
 
       /* Variable vertical rhythm */
-      --pad-major:  120px;
-      --pad-tight:  64px;
+      --pad-major:  132px;
+      --pad-tight:  72px;
     }
 
     /* =========================================================
@@ -168,30 +173,31 @@
     }
     .nav-links a {
       font-family: var(--font-body);
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: var(--black);
-      opacity: 0.6;
-      transition: opacity 0.15s;
+      color: var(--ink);
+      opacity: 0.62;
+      transition: opacity 0.3s var(--ease);
     }
     .nav-links a:hover { opacity: 1; }
 
     .nav-cta {
       display: inline-flex;
       align-items: center;
-      padding: 11px 22px;
-      background: var(--black);
+      padding: 10px 22px;
+      background: var(--ink);
       color: var(--paper);
-      border-radius: 2px;
+      border: 1px solid var(--ink);
+      border-radius: 0;
       font-family: var(--font-body);
-      font-weight: 700;
+      font-weight: 500;
       font-size: 11px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
     }
-    .nav-cta:hover { background: var(--accent); color: var(--white); }
+    .nav-cta:hover { background: none; color: var(--ink); }
 
     .nav-hamburger {
       display: none;
@@ -237,66 +243,44 @@
     /* =========================================================
        SECTION HEAD
     ========================================================= */
-    .section-head { margin-bottom: 5rem; }
+    /* Section head: a numbered, wide-tracked label sitting on a full-width
+       hairline rule (echoes the agreement's "I.  SCOPE OF WORK" headers). */
+    .section-head { margin-bottom: 3.25rem; }
     .section-num {
       font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.75rem;
+      font-weight: 500;
+      font-size: 0.72rem;
       line-height: 1;
-      letter-spacing: 0.22em;
-      color: var(--accent);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink-50);
       margin-bottom: 1.5rem;
-      display: inline-block;
+      padding-bottom: 1.1rem;
+      border-bottom: 1px solid var(--line);
+      display: block;
     }
-    .section-num::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); vertical-align: middle; margin-right: 12px; }
+    .section-num::before { content: ''; display: inline-block; width: 22px; height: 1px; background: var(--ink-50); vertical-align: middle; margin-right: 14px; }
     .section-title {
       font-family: var(--font-display);
-      font-size: clamp(3rem, 7vw, 6.5rem);
-      letter-spacing: -0.045em;
-      line-height: 0.98;
-      color: var(--black);
+      font-weight: 400;
+      font-size: clamp(2.5rem, 5.4vw, 4.6rem);
+      letter-spacing: -0.005em;
+      line-height: 1.08;
+      color: var(--ink);
     }
-    /* Disruptive: single-word emphasis knocked out of a solid accent field */
+    /* Editorial emphasis: the accented word is set in fine ITALIC serif
+       (like "Simple Agreement"), never a colour-blocked knockout. */
     .section-title .y,
     .section-title .lv,
     .section-title .bl,
     .hero h1 .yellow,
-    .final-cta h2 .yellow {
-      background: var(--accent);
-      /* ink flips to white on the dark lagoon fills (set per lagoon-led section) */
-      color: var(--ink-on-accent, var(--black));
-      /* modest vertical padding - clearance comes from the heading's line-height, not padding.
-         clone => padding renders per wrapped line and never merges across the wrap. */
-      padding: 0.02em 0.14em 0.06em;
-      -webkit-box-decoration-break: clone;
-      box-decoration-break: clone;
-    }
-    .section-title em  { font-family: var(--font-display); color: var(--accent); letter-spacing: -0.02em; }
-
-    /* ---------------------------------------------------------
-       PER-SECTION ACCENT LEADS — each section keeps ONE leading
-       accent (its --accent) + black/white/bone; copper stays
-       structural (hairlines, hovers). Orange and Blue Lagoon are
-       CO-LEADS: the lead alternates section to section so neither
-       dominates the page. Lagoon-led sections flip the knockout ink
-       to white (lagoon is dark). Roughly a 50/50 split:
-         ORANGE  → #about, #stats, #process, #contact
-         LAGOON  → #hero, #brands, #services, #honest, #testimonials, #case-studies
-       The hero leads lagoon so the palette shift is felt on load.
-       Lagoon also carries: one hero CTA, the nav active/hover state,
-       the revenue chart line, and each lagoon section's leading mark.
-    --------------------------------------------------------- */
-    #hero         { --accent: var(--lagoon); --ink-on-accent: var(--white); }  /* hero leads lagoon: knockout band, eyebrow mark, ghost-hover */
-    #brands       { --accent: var(--lagoon); --ink-on-accent: var(--white); }
-    #services     { --accent: var(--lagoon); --ink-on-accent: var(--white); }
-    #honest       { --accent: var(--lagoon); --ink-on-accent: var(--white); }
-    #testimonials { --accent: var(--lagoon); --ink-on-accent: var(--white); }
-    #case-studies { --accent: var(--lagoon); --ink-on-accent: var(--white); }  /* chart, kickers, multipliers, marks */
-    /* #about, #stats, #process, #contact and the hero inherit the default orange lead. */
-    /* Render the results headline word as lagoon TEXT, not a filled block (avoids a heavy fill on the closing proof section). */
-    #case-studies .section-title .y {
-      background: none; color: var(--accent);
-      padding: 0; -webkit-box-decoration-break: initial; box-decoration-break: initial;
+    .final-cta h2 .yellow,
+    .section-title em {
+      background: none;
+      color: inherit;
+      font-style: italic;
+      font-weight: 400;
+      padding: 0;
     }
     /* word-reveal scaffolding (JS injects .word) */
     .section-title .word { display: inline-block; vertical-align: top; }
@@ -337,85 +321,70 @@
       color: rgba(254,252,248,0.85);
       z-index: 2;
     }
-    .media-band-caption span { color: var(--accent); }
+    .media-band-caption span { color: var(--white); font-style: italic; }
 
     /* =========================================================
        BUTTONS
     ========================================================= */
+    /* Buttons: quiet, wide-tracked EB Garamond caps. Sharp corners, hairline
+       borders. No colour fills — an outline that fills to ink on hover. */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 18px 34px;
-      background: var(--accent);
-      color: var(--black);
+      gap: 12px;
+      padding: 15px 30px;
+      background: none;
+      color: var(--ink);
+      border: 1px solid var(--ink);
       font-family: var(--font-body);
-      font-weight: 700;
+      font-weight: 500;
       font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.22em;
       text-decoration: none;
-      border-radius: 2px;
+      border-radius: 0;
       cursor: none;
       position: relative;
-      transition: background 0.25s var(--ease), color 0.25s var(--ease);
+      transition: background 0.5s var(--ease), color 0.5s var(--ease), border-color 0.5s var(--ease);
       user-select: none;
     }
-    /* Bold swap on hover */
-    .btn:hover { background: var(--white); color: var(--black); }
+    .btn:hover { background: var(--ink); color: var(--paper); }
 
-    /* Secondary: outlined, fills accent on hover */
+    /* Secondary on the dark hero: light hairline outline, ivory type */
     .btn-ghost {
       background: none;
       color: var(--paper);
-      padding: 17px 26px;
-      border: 1px solid rgba(252,250,245,0.5);
-      border-radius: 2px;
-      opacity: 1;
+      border: 1px solid rgba(251,249,243,0.45);
     }
-    .btn-ghost:hover { background: var(--accent); color: var(--black); border-color: var(--accent); }
+    .btn-ghost:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 
+    /* Solid ink primary (on light sections) */
     .btn-lime,
-    .btn-lavender { background: var(--accent); color: var(--black); }
-    .btn-lime:hover, .btn-lavender:hover { background: var(--white); color: var(--black); }
+    .btn-lavender { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .btn-lime:hover, .btn-lavender:hover { background: none; color: var(--ink); border-color: var(--ink); }
 
-    /* Lagoon primary CTA — the hero's lead button rides the co-lead colour (white type on dark lagoon) */
-    .btn-lagoon { background: var(--lagoon); color: var(--white); }
-    .btn-lagoon:hover { background: var(--white); color: var(--black); }
+    /* Hero primary: solid ivory on the dark video, inverts on hover */
+    .btn-lagoon { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+    .btn-lagoon:hover { background: none; color: var(--paper); border-color: rgba(251,249,243,0.6); }
 
-    /* Persistent floating CTA - fixed, always visible on scroll (opens the inquiry drawer) */
+    /* Persistent floating CTA — quiet solid-ink pill, no glow, no pulse */
     .floating-cta {
       position: fixed;
-      bottom: 42px; right: 28px;
+      bottom: 40px; right: 30px;
       z-index: 200;
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: var(--black);
-      font-family: var(--font-body); font-weight: 700;
-      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 15px 24px; border: none; border-radius: 4px;
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--ink); color: var(--paper);
+      font-family: var(--font-body); font-weight: 500;
+      font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 14px 26px; border: 1px solid var(--ink); border-radius: 0;
       cursor: none; user-select: none;
-      box-shadow: 0 0 22px 2px rgba(254,126,60,0.42);   /* static soft aura */
-      transition: background .25s var(--ease), color .25s var(--ease), opacity .25s var(--ease), transform .25s var(--ease);
+      box-shadow: 0 10px 30px -14px rgba(23,20,15,0.5);
+      transition: background .5s var(--ease), color .5s var(--ease), opacity .5s var(--ease), transform .5s var(--ease);
     }
-    /* Pulsing ring - compositor-only (transform + opacity), no per-frame repaint */
-    .floating-cta::after {
-      content: ''; position: absolute; inset: -1px; border-radius: 5px;
-      box-shadow: 0 0 0 2px rgba(254,126,60,0.55);
-      opacity: 0; pointer-events: none; will-change: transform, opacity;
-      animation: ctaRing 2.2s var(--ease) infinite;
-    }
-    @keyframes ctaRing {
-      0%   { transform: scale(1);    opacity: 0.6; }
-      70%  { transform: scale(1.3);  opacity: 0; }
-      100% { transform: scale(1.3);  opacity: 0; }
-    }
-    .floating-cta:hover, .floating-cta:focus-visible { background: var(--white); color: var(--black); outline: none; transform: translateY(-2px); }
+    .floating-cta:hover, .floating-cta:focus-visible { background: none; color: var(--ink); outline: none; transform: translateY(-2px); }
     body.inquire-open .floating-cta { opacity: 0; pointer-events: none; }
-    @media (prefers-reduced-motion: reduce) {
-      .floating-cta::after { animation: none; }
-    }
     @media (max-width: 768px) {
-      .floating-cta { bottom: 30px; right: 18px; padding: 12px 18px; font-size: 11px; letter-spacing: 0.08em; }
+      .floating-cta { bottom: 22px; right: 16px; padding: 12px 18px; font-size: 11px; letter-spacing: 0.14em; }
     }
 
     /* =========================================================
@@ -423,10 +392,10 @@
     ========================================================= */
     .hero {
       background: var(--black);
-      padding: 140px 5% 72px;
-      min-height: 100vh;
+      padding: 96px 5% 72px;
+      min-height: 88vh;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       overflow: hidden;
       position: relative;
     }
@@ -437,25 +406,24 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
-      opacity: 0.6;   /* footage behind the giant type */
+      opacity: 0.52;   /* footage sits quietly behind the serif type */
     }
     .hero-video-overlay {
       position: absolute;
       inset: 0;
-      /* stronger scrim so the oversized type reads hard over the footage */
-      background: linear-gradient(to bottom, rgba(20,18,16,0.55) 0%, rgba(20,18,16,0.4) 45%, rgba(20,18,16,0.8) 100%);
+      background: linear-gradient(to bottom, rgba(20,17,13,0.55) 0%, rgba(20,17,13,0.42) 45%, rgba(20,17,13,0.82) 100%);
       z-index: 1;
     }
     .hero-eyebrow {
       font-family: var(--font-body);
       font-weight: 500;
       font-size: 12px;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.34em;
       text-transform: uppercase;
-      color: rgba(252,250,245,0.72);
-      margin-bottom: 1.75rem;
+      color: rgba(251,249,243,0.78);
+      margin-bottom: 1.5rem;
     }
-    .hero-eyebrow::before { content: ''; display: inline-block; width: 26px; height: 1px; background: var(--accent); vertical-align: middle; margin-right: 14px; }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 26px; height: 1px; background: rgba(251,249,243,0.55); vertical-align: middle; margin-right: 14px; }
     .hero-inner {
       position: relative;
       z-index: 2;
@@ -469,29 +437,30 @@
 
     .hero h1 {
       font-family: var(--font-display);
-      font-size: clamp(68px, 16vw, 300px);
-      line-height: 0.82;
-      letter-spacing: -0.02em;
+      font-weight: 400;
+      font-size: clamp(44px, 8.4vw, 132px);
+      line-height: 1.04;
+      letter-spacing: -0.01em;
       color: var(--white);
-      margin: 0 0 2.25rem -0.05em;   /* bleed off the left edge */
+      margin: 0 0 1.75rem;
       max-width: none;
     }
     .hero h1 .line { display: block; }   /* no overflow mask - reveals use opacity+translateY only */
     .hero h1 .line > span { display: block; white-space: nowrap; }
-    .hero h1 .line--indent > span { padding-left: 0.5em; }   /* broken / staggered lines */
-    /* .hero h1 .yellow -> accent knockout (see emphasis group above) */
-    .hero h1 em { font-style: normal; font-family: var(--font-display); color: var(--accent); letter-spacing: -0.02em; }
+    .hero h1 .line--indent > span { padding-left: 0; }
+    .hero h1 em,
+    .hero h1 .yellow { font-style: italic; font-weight: 400; font-family: var(--font-display); color: inherit; letter-spacing: 0; }
 
     .hero-sub {
       font-family: var(--font-body);
-      font-size: 1.0625rem;
-      color: rgba(254,252,248,0.62);
-      max-width: 42ch;
-      line-height: 1.6;
-      margin-bottom: 2.5rem;
+      font-size: 1.15rem;
+      color: rgba(251,249,243,0.72);
+      max-width: 46ch;
+      line-height: 1.62;
+      margin: 0 auto 2.25rem;
     }
 
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; padding-bottom: 2.5rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; padding-bottom: 0; }
 
     .hero-inner--centered {
       grid-template-columns: 1fr;
@@ -645,6 +614,17 @@
     ========================================================= */
     .services-section { background: var(--black); }
     .services-section .section-title { color: var(--white); }
+    /* Section-num on dark sections: light hairline + ivory label */
+    .services-section .section-num { color: rgba(251,249,243,0.6); border-bottom-color: var(--line-dark); }
+    .services-section .section-num::before { background: rgba(251,249,243,0.6); }
+    /* Ink marks/labels sitting on DARK surfaces must render in ivory instead */
+    .services-section .work-num { color: rgba(251,249,243,0.5); }
+    .cs-panel.dark .cs-kicker,
+    .cs-panel.dark .cs-in-organic,
+    .cs-panel.dark .cs-mult { color: rgba(251,249,243,0.72); }
+    .cs-panel.dark .cs-num { color: var(--white); opacity: 0.09; }
+    .cs-panel.light .cs-num { color: var(--ink); opacity: 0.1; }
+    .footer-socials a:hover, .footer-nav a:hover { color: var(--paper); }
 
     .work-grid {
       display: grid;
@@ -1021,8 +1001,8 @@
       margin: 0 0 3rem;
       line-height: 1.6;
     }
-    .final-cta .btn-lime { font-size: 13px; padding: 22px 48px; }
-    .final-cta .btn-lime:hover { background: var(--accent); color: var(--white); }
+    .final-cta .btn-lime { font-size: 13px; padding: 20px 44px; background: var(--paper); color: var(--ink); border-color: var(--paper); }
+    .final-cta .btn-lime:hover { background: none; color: var(--paper); border-color: rgba(251,249,243,0.55); }
 
     /* =========================================================
        FOOTER
@@ -1273,16 +1253,15 @@
     ========================================================= */
     .nav-links a, .footer-nav a, .footer-socials a { position: relative; }
     .nav-links a::after, .footer-nav a::after, .footer-socials a::after {
-      content: ''; position: absolute; left: 0; bottom: -3px;
+      content: ''; position: absolute; left: 0; bottom: -4px;
       height: 1px; width: 100%;
-      background: var(--accent);   /* footer (dark bg) keeps orange */
+      background: currentColor;
       transform: scaleX(0); transform-origin: left center;
-      transition: transform .5s var(--ease);
+      transition: transform .6s var(--ease);
     }
-    .nav-links a::after { background: var(--lagoon); height: 2px; bottom: -4px; }   /* nav is part of the palette: lagoon underline-wipe */
     .nav-links a:hover::after, .footer-nav a:hover::after, .footer-socials a:hover::after { transform: scaleX(1); }
-    /* Active section link: lagoon, full-opacity, underline held open */
-    .nav-links a.active { color: var(--lagoon); opacity: 1; }
+    /* Active section link: full-opacity ink, hairline underline held open */
+    .nav-links a.active { color: var(--ink); opacity: 1; }
     .nav-links a.active::after { transform: scaleX(1); }
     [data-magnetic] { will-change: transform; }
 
@@ -1295,28 +1274,30 @@
     html.gsap-ready .reveal { transition: none; }
     @media (prefers-reduced-motion: reduce) { .reveal { transition: none; opacity: 1; transform: none; } }
 
-    /* Disruptive display override - heavy condensed grotesque at brutal scale.
-       Uppercase, tight leading (lines overlap slightly), tight tracking, no italic. */
+    /* Editorial display system — fine Playfair serif, regular weight, mixed
+       case (NO uppercase, no brutalist condensing), calm generous leading. */
     .hero h1, .section-title, .story-num, .story-head,
     .cs-num, .cs-name, .cs-out-value, .cs-in-value, .cs-in-organic, .cs-mult,
     .process-n, .process-name, .stat-num, .work-name, .brand-init,
     .final-cta h2 {
+      font-family: var(--font-display);
       font-weight: 400;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.005em;
       font-style: normal;
-      text-transform: uppercase;
-      line-height: 0.84;   /* tight for single-line numerals (story-num, stat-num, cs-*, process-n) */
+      text-transform: none;
+      line-height: 1.02;   /* single-line numerals (story-num, stat-num, cs-*, process-n) */
     }
-    /* Highlighted / wrapping headings need generous leading so an accent knockout box
-       on one line fully clears the text line above AND below it. Applies desktop + mobile. */
-    .section-title { line-height: 1.34; }
-    .final-cta h2  { line-height: 1.32; }
-    .hero h1       { line-height: 1.22; }
-    .story-head, .cs-name, .process-name, .work-name { line-height: 1.08; }
-    .section-title em, .final-cta h2 em, .hero h1 em { font-style: normal; }
-    /* Contrast: testimonial quotes + footer tagline stay in the calm body sans */
-    .testimonial-quote { font-family: var(--font-body); font-style: normal; font-weight: 500; letter-spacing: -0.01em; text-transform: none; line-height: 1.32; }
-    .footer-tagline { font-family: var(--font-body); font-style: normal; }
+    .section-title { line-height: 1.1; }
+    .final-cta h2  { line-height: 1.08; }
+    .hero h1       { line-height: 1.04; }
+    .story-head, .cs-name, .process-name, .work-name { line-height: 1.12; }
+    /* Emphasis words are italic serif across the display type */
+    .section-title em, .final-cta h2 em, .hero h1 em,
+    .section-title .y, .section-title .lv, .section-title .bl,
+    .hero h1 .yellow, .final-cta h2 .yellow, .cs-name em { font-style: italic; }
+    /* Testimonial quotes: large italic serif pull-quotes */
+    .testimonial-quote { font-family: var(--font-display); font-style: italic; font-weight: 400; letter-spacing: 0; text-transform: none; line-height: 1.34; }
+    .footer-tagline { font-family: var(--font-display); font-style: italic; }
 
     @media (max-width: 1024px) {
       .work-grid         { grid-template-columns: 1fr 1fr; }
@@ -1344,7 +1325,8 @@
       .mobile-menu a   { font-size: 2.25rem; }
       .hero            { padding: 92px 16px 40px; min-height: 82vh; }
       .hero-inner      { grid-template-columns: 1fr; gap: 2rem; }
-      .hero h1         { font-size: clamp(44px, 12.5vw, 82px); max-width: 100%; }   /* line-height from base (1.14) - clears highlight boxes */
+      .hero h1         { font-size: clamp(40px, 11vw, 72px); max-width: 100%; }
+      .hero-eyebrow    { letter-spacing: 0.2em; font-size: 10.5px; }
       .hero-sub        { font-size: 1rem; margin-bottom: 2rem; max-width: 100%; }
       .hero-actions    { flex-direction: column; align-items: stretch; padding-bottom: 8px; gap: 0.75rem; }
       .hero-actions .btn { width: 100%; justify-content: center; }
@@ -1480,6 +1462,7 @@
           <span class="line"><span><span class="yellow">impossible</span></span></span>
           <span class="line line--indent"><span>to ignore.</span></span>
         </h1>
+        <p class="hero-sub">A creative studio for brands with something to say. Strategy, film, and design, made with intention in El Paso, Texas.</p>
         <div class="hero-actions hero-actions--centered">
           <a href="#case-studies" class="btn btn-lagoon" data-magnetic>See the proof →</a>
           <a href="#contact" class="btn btn-ghost" data-inquire>Start a project ↗</a>
@@ -1847,14 +1830,17 @@
     function csRenderLinks(c) {
       return c.instagramUrl ? '<div class="cs-links"><a href="' + c.instagramUrl + '" target="_blank" rel="noopener">View on Instagram →</a></div>' : '';
     }
+    var CS_ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+    function csRoman(idx) { var n = parseInt(idx, 10); return CS_ROMAN[n] || String(idx); }
     function csRenderPanel(c, i) {
       const vertical = c.videos[0].aspect === '9:16';
       const bg = (i % 2 === 0) ? 'dark' : 'light';
-      const kicker = '<span class="cs-kicker">Case ' + c.index + ' · ' + esc(c.industry) + '</span>';
+      const roman = csRoman(c.index);
+      const kicker = '<span class="cs-kicker">Case ' + roman + ' · ' + esc(c.industry) + '</span>';
       const name = '<h3 class="cs-name" data-splitwords>' + esc(c.client) + '</h3>';
       const inout = csRenderInOut(c), metrics = csRenderMetrics(c), chart = csRenderChart(c), links = csRenderLinks(c);
       const summary = '<p class="cs-summary">' + esc(c.summary) + '</p>';
-      const num = '<div class="cs-num" aria-hidden="true">' + c.index + '</div>';
+      const num = '<div class="cs-num" aria-hidden="true">' + roman + '</div>';
       if (vertical) {
         const video = csRenderVideo(c.videos[0], c);
         return '<article class="cs-panel cs-panel--vertical ' + bg + '" id="case-' + c.id + '">' + num
@@ -2166,21 +2152,21 @@
       const heroLines = gsap.utils.toArray('#heroTitle .line');
       setWC(heroLines);
       gsap.set(heroLines, { opacity: 0, y: 34 });
-      gsap.to(heroLines, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.075, delay: 0.12, onComplete: () => clearWC(heroLines) });
+      gsap.to(heroLines, { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', stagger: 0.16, delay: 0.2, onComplete: () => clearWC(heroLines) });
       const heroTitleEl = document.getElementById('heroTitle');
       if (heroTitleEl) {
         heroTitleEl.style.willChange = 'filter';
-        gsap.fromTo(heroTitleEl, { filter: 'blur(8px)' }, { filter: 'blur(0px)', duration: 0.9, ease: 'power3.out', delay: 0.12,
+        gsap.fromTo(heroTitleEl, { filter: 'blur(8px)' }, { filter: 'blur(0px)', duration: 1.5, ease: 'power3.out', delay: 0.2,
           onComplete: () => { heroTitleEl.style.filter = 'none'; heroTitleEl.style.willChange = 'auto'; } });
       }
-      gsap.from('.hero-eyebrow, .hero-actions', { opacity: 0, y: 16, duration: 0.7, ease: 'power3.out', stagger: 0.09, delay: 0.5 });
+      gsap.from('.hero-eyebrow, .hero-sub, .hero-actions', { opacity: 0, y: 16, duration: 1.2, ease: 'power3.out', stagger: 0.2, delay: 0.75 });
 
       /* Hero background - cheap one-shot scale-in on load (NO scroll scrub) */
       (function () {
         const v = document.querySelector('.hero-video-bg');
         if (!v) return;
         v.style.willChange = 'transform';
-        gsap.fromTo(v, { scale: 1.08 }, { scale: 1, duration: 1.6, ease: 'power3.out', onComplete: () => { v.style.willChange = 'auto'; } });
+        gsap.fromTo(v, { scale: 1.06 }, { scale: 1, duration: 2.2, ease: 'power3.out', onComplete: () => { v.style.willChange = 'auto'; } });
       })();
 
       /* Section titles - words fade + rise once on enter (no mask) */
@@ -2190,7 +2176,7 @@
         gsap.set(words, { opacity: 0, y: 26 });
         ScrollTrigger.create({
           trigger: title, start: 'top 85%', once: true,
-          onEnter: () => { setWC(words); gsap.to(words, { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.07, onComplete: () => clearWC(words) }); }
+          onEnter: () => { setWC(words); gsap.to(words, { opacity: 1, y: 0, duration: 1.3, ease: 'power3.out', stagger: 0.16, onComplete: () => clearWC(words) }); }
         });
       });
 
@@ -2200,7 +2186,7 @@
         gsap.set(el, { opacity: 0, y: 24 });
         ScrollTrigger.create({
           trigger: el, start: 'top 90%', once: true,
-          onEnter: () => { el.style.willChange = 'transform, opacity'; gsap.to(el, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', onComplete: () => { el.style.willChange = 'auto'; } }); }
+          onEnter: () => { el.style.willChange = 'transform, opacity'; gsap.to(el, { opacity: 1, y: 0, duration: 1.3, ease: 'power3.out', onComplete: () => { el.style.willChange = 'auto'; } }); }
         });
       });
 
@@ -2209,13 +2195,13 @@
         trigger: '.media-band', start: 'top 82%', once: true,
         onEnter: () => {
           const v = document.querySelector('.media-band-video');
-          if (v) { v.style.willChange = 'transform'; gsap.fromTo(v, { scale: 1.08 }, { scale: 1, duration: 1.1, ease: 'power3.out', onComplete: () => { v.style.willChange = 'auto'; } }); }
+          if (v) { v.style.willChange = 'transform'; gsap.fromTo(v, { scale: 1.06 }, { scale: 1, duration: 1.6, ease: 'power3.out', onComplete: () => { v.style.willChange = 'auto'; } }); }
         }
       });
       gsap.set('.media-band-caption', { opacity: 0, y: 16 });
       ScrollTrigger.create({
         trigger: '.media-band', start: 'top 55%', once: true,
-        onEnter: () => gsap.to('.media-band-caption', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 })
+        onEnter: () => gsap.to('.media-band-caption', { opacity: 1, y: 0, duration: 1.3, ease: 'power3.out', delay: 0.25 })
       });
 
       /* Pinned process - content changes in place (desktop only) */
@@ -2436,15 +2422,15 @@
           const words = gsap.utils.toArray(name.querySelectorAll('.word'));
           words.forEach(w => { w.style.willChange = 'transform, opacity'; });
           gsap.set(words, { opacity: 0, y: 22 });
-          gsap.to(words, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06, onComplete: () => words.forEach(w => { w.style.willChange = 'auto'; }) });
+          gsap.to(words, { opacity: 1, y: 0, duration: 1.25, ease: 'power3.out', stagger: 0.14, onComplete: () => words.forEach(w => { w.style.willChange = 'auto'; }) });
         }
         if (rich) {
           panel.querySelectorAll('.cs-video-inner').forEach((vi, idx) => {
             const media = vi.querySelectorAll('.cs-video-el, .cs-video-poster');
             media.forEach(m => { m.style.willChange = 'transform'; });
             gsap.set(vi, { opacity: 0 });
-            gsap.to(vi, { opacity: 1, duration: 0.6, ease: 'power3.out', delay: idx * 0.08 });
-            gsap.fromTo(media, { scale: 1.06 }, { scale: 1, duration: 0.9, ease: 'power3.out', delay: idx * 0.08, onComplete: () => media.forEach(m => { m.style.willChange = 'auto'; }) });
+            gsap.to(vi, { opacity: 1, duration: 1.0, ease: 'power3.out', delay: idx * 0.14 });
+            gsap.fromTo(media, { scale: 1.04 }, { scale: 1, duration: 1.4, ease: 'power3.out', delay: idx * 0.14, onComplete: () => media.forEach(m => { m.style.willChange = 'auto'; }) });
           });
         }
       }, 'top 75%');
@@ -2453,7 +2439,7 @@
         const num = panel.querySelector('.cs-num');
         if (num) {
           num.style.willChange = 'transform';
-          csOnEnterOnce(num, () => { gsap.from(num, { y: 26, duration: 0.9, ease: 'power3.out', onComplete: () => { num.style.willChange = 'auto'; } }); }, 'top 92%');
+          csOnEnterOnce(num, () => { gsap.from(num, { y: 26, duration: 1.4, ease: 'power3.out', onComplete: () => { num.style.willChange = 'auto'; } }); }, 'top 92%');
         }
       }
     }
