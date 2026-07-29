@@ -107,14 +107,18 @@
     /* =========================================================
        TICKER
     ========================================================= */
+    /* Kinetic divider band — lives BELOW the hero (not at the top of the page).
+       Fixed Blue Lagoon fill with bone type so it reads as the palette, never orange. */
     .ticker {
-      background: var(--accent);
-      color: var(--black);
-      padding: 12px 0;
+      background: var(--lagoon);
+      color: var(--paper);
+      padding: 14px 0;
       overflow: hidden;
       white-space: nowrap;
       position: relative;
-      z-index: 50;
+      z-index: 5;
+      border-top: 1px solid rgba(97,65,60,0.35);
+      border-bottom: 1px solid rgba(97,65,60,0.35);
     }
     .ticker-track {
       display: inline-flex;
@@ -313,11 +317,13 @@
        CO-LEADS: the lead alternates section to section so neither
        dominates the page. Lagoon-led sections flip the knockout ink
        to white (lagoon is dark). Roughly a 50/50 split:
-         ORANGE  → hero, #about, #stats, #process, #contact
-         LAGOON  → #brands, #services, #honest, #testimonials, #case-studies
+         ORANGE  → #about, #stats, #process, #contact
+         LAGOON  → #hero, #brands, #services, #honest, #testimonials, #case-studies
+       The hero leads lagoon so the palette shift is felt on load.
        Lagoon also carries: one hero CTA, the nav active/hover state,
        the revenue chart line, and each lagoon section's leading mark.
     --------------------------------------------------------- */
+    #hero         { --accent: var(--lagoon); --ink-on-accent: var(--white); }  /* hero leads lagoon: knockout band, eyebrow mark, ghost-hover */
     #brands       { --accent: var(--lagoon); --ink-on-accent: var(--white); }
     #services     { --accent: var(--lagoon); --ink-on-accent: var(--white); }
     #honest       { --accent: var(--lagoon); --ink-on-accent: var(--white); }
@@ -1442,15 +1448,6 @@
 
   <div id="cursor"></div>
 
-  <div class="ticker">
-    <div class="ticker-track">
-      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
-      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
-      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
-      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
-    </div>
-  </div>
-
   <nav>
     <a href="#hero" class="nav-logo">
       <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" alt="Purple Roots" class="nav-logo-img" />
@@ -1528,6 +1525,16 @@
       </div>
     </div>
   </section>
+
+  <!-- Kinetic divider band between the hero and the clients strip (relocated from the top) -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
+      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
+      <span>Brand Identity</span><span>Video Production</span><span>Social Strategy</span>
+      <span>Creative Direction</span><span>Web Design</span><span>Campaigns</span>
+    </div>
+  </div>
 
   <div class="trust">
     <div class="trust-track">
