@@ -296,7 +296,8 @@
     .hero h1 .yellow,
     .final-cta h2 .yellow {
       background: var(--accent);
-      color: var(--black);
+      /* ink flips to white on the dark lagoon fills (set per lagoon-led section) */
+      color: var(--ink-on-accent, var(--black));
       /* modest vertical padding - clearance comes from the heading's line-height, not padding.
          clone => padding renders per wrapped line and never merges across the wrap. */
       padding: 0.02em 0.14em 0.06em;
@@ -307,14 +308,23 @@
 
     /* ---------------------------------------------------------
        PER-SECTION ACCENT LEADS — each section keeps ONE leading
-       accent (its --accent) + black/bone; copper stays structural
-       (hairlines). Hero stays orange (no override). Lagoon leads two
-       non-adjacent interior sections (#about, #case-studies); it is
-       the contrast, not a co-star. Every other section leads orange.
+       accent (its --accent) + black/white/bone; copper stays
+       structural (hairlines, hovers). Orange and Blue Lagoon are
+       CO-LEADS: the lead alternates section to section so neither
+       dominates the page. Lagoon-led sections flip the knockout ink
+       to white (lagoon is dark). Roughly a 50/50 split:
+         ORANGE  → hero, #about, #stats, #process, #contact
+         LAGOON  → #brands, #services, #honest, #testimonials, #case-studies
+       Lagoon also carries: one hero CTA, the nav active/hover state,
+       the revenue chart line, and each lagoon section's leading mark.
     --------------------------------------------------------- */
-    #about        { --accent: var(--lagoon); }   /* lagoon lead + the ONE ink-on-lagoon inversion ("AGENCY.") */
-    #case-studies { --accent: var(--lagoon); }   /* lagoon lead: chart, kickers, multipliers, marks */
-    /* Keep only ONE lagoon fill-knockout (in #about): render the results headline word as lagoon TEXT, not a filled block. */
+    #brands       { --accent: var(--lagoon); --ink-on-accent: var(--white); }
+    #services     { --accent: var(--lagoon); --ink-on-accent: var(--white); }
+    #honest       { --accent: var(--lagoon); --ink-on-accent: var(--white); }
+    #testimonials { --accent: var(--lagoon); --ink-on-accent: var(--white); }
+    #case-studies { --accent: var(--lagoon); --ink-on-accent: var(--white); }  /* chart, kickers, multipliers, marks */
+    /* #about, #stats, #process, #contact and the hero inherit the default orange lead. */
+    /* Render the results headline word as lagoon TEXT, not a filled block (avoids a heavy fill on the closing proof section). */
     #case-studies .section-title .y {
       background: none; color: var(--accent);
       padding: 0; -webkit-box-decoration-break: initial; box-decoration-break: initial;
@@ -399,6 +409,10 @@
     .btn-lime,
     .btn-lavender { background: var(--accent); color: var(--black); }
     .btn-lime:hover, .btn-lavender:hover { background: var(--white); color: var(--black); }
+
+    /* Lagoon primary CTA — the hero's lead button rides the co-lead colour (white type on dark lagoon) */
+    .btn-lagoon { background: var(--lagoon); color: var(--white); }
+    .btn-lagoon:hover { background: var(--white); color: var(--black); }
 
     /* Persistent floating CTA - fixed, always visible on scroll (opens the inquiry drawer) */
     .floating-cta {
@@ -1296,8 +1310,11 @@
       transform: scaleX(0); transform-origin: left center;
       transition: transform .5s var(--ease);
     }
-    .nav-links a::after { background: var(--copper); }   /* nav on bone → copper (secondary/hover) */
+    .nav-links a::after { background: var(--lagoon); height: 2px; bottom: -4px; }   /* nav is part of the palette: lagoon underline-wipe */
     .nav-links a:hover::after, .footer-nav a:hover::after, .footer-socials a:hover::after { transform: scaleX(1); }
+    /* Active section link: lagoon, full-opacity, underline held open */
+    .nav-links a.active { color: var(--lagoon); opacity: 1; }
+    .nav-links a.active::after { transform: scaleX(1); }
     [data-magnetic] { will-change: transform; }
 
     /* =========================================================
@@ -1505,7 +1522,7 @@
           <span class="line line--indent"><span>to ignore.</span></span>
         </h1>
         <div class="hero-actions hero-actions--centered">
-          <a href="#case-studies" class="btn btn-lime" data-magnetic>See the proof →</a>
+          <a href="#case-studies" class="btn btn-lagoon" data-magnetic>See the proof →</a>
           <a href="#contact" class="btn btn-ghost" data-inquire>Start a project ↗</a>
         </div>
       </div>
@@ -2504,6 +2521,38 @@
         });
       }, { threshold: 0.01 });
       vids.forEach(v => io.observe(v));
+    })();
+
+    /* Nav scrollspy: light up the current section's link in lagoon (palette active state).
+       Picks the mapped section that straddles the viewport midline. */
+    (function () {
+      const links = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+      if (!links.length) return;
+      const pairs = [];
+      links.forEach(a => {
+        const sec = document.querySelector(a.getAttribute('href'));
+        if (sec) pairs.push({ a, sec });
+      });
+      if (!pairs.length) return;
+      let current = null, ticking = false;
+      const update = () => {
+        ticking = false;
+        const mid = window.innerHeight / 2;
+        let hit = null;
+        for (const p of pairs) {
+          const r = p.sec.getBoundingClientRect();
+          if (r.top <= mid && r.bottom >= mid) { hit = p.a; }  // last straddler wins
+        }
+        if (hit !== current) {
+          if (current) current.classList.remove('active');
+          if (hit) hit.classList.add('active');
+          current = hit;
+        }
+      };
+      const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      update();
     })();
   </script>
 </body>
