@@ -398,6 +398,25 @@
     .btn-lavender { background: var(--accent); color: var(--black); }
     .btn-lime:hover, .btn-lavender:hover { background: var(--white); color: var(--black); }
 
+    /* Persistent floating CTA - fixed, always visible on scroll (opens the inquiry drawer) */
+    .floating-cta {
+      position: fixed;
+      bottom: 22px; right: 22px;
+      z-index: 200;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: var(--black);
+      font-family: var(--font-body); font-weight: 700;
+      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 15px 24px; border: none; border-radius: 4px;
+      cursor: none; user-select: none;
+      transition: background .25s var(--ease), color .25s var(--ease), opacity .25s var(--ease);
+    }
+    .floating-cta:hover, .floating-cta:focus-visible { background: var(--white); color: var(--black); outline: none; }
+    body.inquire-open .floating-cta { opacity: 0; pointer-events: none; }
+    @media (max-width: 768px) {
+      .floating-cta { bottom: 14px; right: 14px; padding: 12px 18px; font-size: 11px; letter-spacing: 0.08em; }
+    }
+
     /* =========================================================
        HERO
     ========================================================= */
@@ -1504,7 +1523,7 @@
     <div class="container">
       <div class="section-head reveal">
         <div class="section-num">01</div>
-        <h2 class="section-title">The brands that<br /><span class="y">trusted us.</span></h2>
+        <h2 class="section-title">The brands that<br /><span class="y">trust us.</span></h2>
         <p class="brands-click-hint">Click to view</p>
       </div>
     </div>
@@ -1647,6 +1666,9 @@
       </ul>
     </div>
   </footer>
+
+  <!-- Persistent CTA - always visible on scroll; opens the inquiry drawer -->
+  <button class="floating-cta" type="button" data-inquire aria-label="Get started">Get Started →</button>
 
   <!-- ===================== INQUIRE DRAWER (slide-in form) ===================== -->
   <div id="inquireBackdrop" class="inquire-backdrop" hidden></div>
