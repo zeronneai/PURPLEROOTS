@@ -2502,5 +2502,13 @@
       update();
     })();
   </script>
+
+  <!-- Vercel Web Analytics (static-site install; equivalent of @vercel/analytics).
+       Requires "Web Analytics" to be enabled in the Vercel project dashboard so
+       /_vercel/insights/script.js resolves. No cookies, privacy-friendly. -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
