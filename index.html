@@ -1325,12 +1325,14 @@
       .mobile-menu a   { font-size: 2.25rem; }
       .hero            { padding: 92px 16px 40px; min-height: 82vh; }
       .hero-inner      { grid-template-columns: 1fr; gap: 2rem; }
-      .hero h1         { font-size: clamp(40px, 11vw, 72px); max-width: 100%; }
-      .hero-eyebrow    { letter-spacing: 0.2em; font-size: 10.5px; }
-      .hero-sub        { font-size: 1rem; margin-bottom: 2rem; max-width: 100%; }
-      .hero-actions    { flex-direction: column; align-items: stretch; padding-bottom: 8px; gap: 0.75rem; }
-      .hero-actions .btn { width: 100%; justify-content: center; }
-      .hero-actions .btn-ghost { justify-content: flex-start; padding-left: 0; }
+      /* Center the whole hero on mobile: eyebrow, headline, sub and CTAs */
+      .hero-inner--centered { justify-items: center; text-align: center; }
+      .hero-left--centered { width: 100%; text-align: center; }
+      .hero h1         { font-size: clamp(40px, 11vw, 72px); max-width: 100%; text-align: center; }
+      .hero-eyebrow    { letter-spacing: 0.2em; font-size: 10.5px; text-align: center; }
+      .hero-sub        { font-size: 1rem; margin: 0 auto 2rem; max-width: 100%; }
+      .hero-actions    { flex-direction: column; align-items: center; padding-bottom: 8px; gap: 0.75rem; width: 100%; }
+      .hero-actions .btn { width: 100%; justify-content: center; padding-left: 20px; padding-right: 20px; }
       .section-head    { margin-bottom: 1.75rem; }
       /* Only font-size changes on mobile; line-heights (leading that clears the
          highlight boxes) come from the unified base rules above. */
@@ -1449,7 +1451,7 @@
          ============================================================ -->
     <div class="hero-inner hero-inner--centered">
       <div class="hero-left hero-left--centered">
-        <div class="hero-eyebrow">Creative Agency · El Paso, TX</div>
+        <div class="hero-eyebrow">Video Marketing Agency · El Paso, TX</div>
         <!-- ========================================================
              HERO STATEMENT - pick one (leave one active, comment the rest):
                A) WE MAKE / BRANDS / IMPOSSIBLE / TO IGNORE   (active)
@@ -1465,7 +1467,7 @@
         <p class="hero-sub">A creative studio for brands with something to say. Strategy, film, and design, made with intention in El Paso, Texas.</p>
         <div class="hero-actions hero-actions--centered">
           <a href="#case-studies" class="btn btn-lagoon" data-magnetic>See the proof →</a>
-          <a href="#contact" class="btn btn-ghost" data-inquire>Start a project ↗</a>
+          <a href="#contact" class="btn btn-ghost" data-inquire>Start a project →</a>
         </div>
       </div>
     </div>
