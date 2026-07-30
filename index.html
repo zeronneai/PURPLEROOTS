@@ -2503,12 +2503,14 @@
     })();
   </script>
 
-  <!-- Vercel Web Analytics (static-site install; equivalent of @vercel/analytics).
-       Requires "Web Analytics" to be enabled in the Vercel project dashboard so
-       /_vercel/insights/script.js resolves. No cookies, privacy-friendly. -->
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  <!-- Vercel Web Analytics — the @vercel/analytics package + inject() ("Other"
+       framework), loaded as an ESM module from CDN since this is a static site
+       with no bundler. inject() wires up /_vercel/insights/script.js, which
+       resolves once "Web Analytics" is enabled in the Vercel project dashboard.
+       No cookies, privacy-friendly. -->
+  <script type="module">
+    import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics@1/+esm';
+    inject();
   </script>
-  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
