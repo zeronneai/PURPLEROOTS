@@ -1430,25 +1430,88 @@
       pointer-events: none;
     }
     .intro-beat.is-active { opacity: 1; transform: none; pointer-events: auto; }
-    .intro-beat.is-leaving { opacity: 0; transform: translateY(-16px); transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
+    .intro-beat.is-leaving { opacity: 0; transform: translateY(-16px); transition: opacity 0.36s var(--ease), transform 0.36s var(--ease); }
 
-    /* Opening beat: monogram + ENTER */
-    .intro-logo {
-      height: clamp(52px, 9vw, 84px); width: auto; margin: 0 auto 2.4rem;
-      display: block; opacity: 0.96;
+    /* Small monogram, top center — visible on the opening beat, fades once started */
+    .intro-mark {
+      position: absolute; top: clamp(26px, 5vh, 46px); left: 50%; transform: translateX(-50%);
+      height: clamp(30px, 5vw, 44px); width: auto; opacity: 0.9;
+      transition: opacity 0.7s var(--ease); pointer-events: none; z-index: 2;
     }
-    .intro-enter {
-      display: inline-flex; align-items: center; gap: 12px;
-      background: none; color: var(--paper);
-      border: 1px solid rgba(251,249,243,0.5);
-      font-family: var(--font-body); font-weight: 500;
-      font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
-      padding: 15px 34px; border-radius: 0; cursor: pointer;
-      transition: background 0.5s var(--ease), color 0.5s var(--ease), border-color 0.5s var(--ease);
-    }
-    .intro-enter:hover, .intro-enter:focus-visible { background: var(--paper); color: var(--ink); border-color: var(--paper); outline: none; }
+    .intro.is-started .intro-mark { opacity: 0; }
 
-    /* Question beats: fine serif, large, centered */
+    /* Opening beat: tempting statement */
+    .intro-statement {
+      font-family: var(--font-display); font-weight: 400; font-style: normal;
+      font-size: clamp(1.7rem, 4.6vw, 3.4rem);
+      line-height: 1.18; letter-spacing: -0.005em;
+      color: var(--paper); max-width: 18ch; margin: 0 auto;
+    }
+    .intro-statement em { font-style: italic; }
+
+    /* The physical RED button — the only saturated colour on screen.
+       Deep, slightly desaturated red with real depth (sheen + inner/outer
+       shadow) and a slow pulsing invite ring (compositor-only). */
+    .intro-press {
+      position: relative;
+      width: clamp(104px, 24vw, 138px); height: clamp(104px, 24vw, 138px);
+      margin: 2.7rem auto 0;
+      border: none; padding: 0; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      color: rgba(255,247,245,0.92);
+      font-family: var(--font-body); font-weight: 600;
+      font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+      background: radial-gradient(circle at 38% 30%, #C6473A 0%, #A62C22 52%, #85201A 100%);
+      box-shadow:
+        inset 0 3px 7px rgba(255,255,255,0.28),
+        inset 0 -8px 16px rgba(0,0,0,0.5),
+        0 18px 40px -12px rgba(150,32,22,0.7),
+        0 2px 0 rgba(0,0,0,0.35);
+      transition: transform 0.22s var(--ease), box-shadow 0.3s var(--ease), filter 0.3s var(--ease);
+    }
+    .intro-press-label { position: relative; z-index: 2; }
+    .intro-press::before {   /* soft top sheen */
+      content: ''; position: absolute; left: 18%; top: 11%; width: 46%; height: 34%;
+      border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5), rgba(255,255,255,0) 70%);
+    }
+    .intro-press::after {    /* pulsing invite ring */
+      content: ''; position: absolute; inset: -6px; border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(198,71,58,0.55);
+      opacity: 0; pointer-events: none; will-change: transform, opacity;
+      animation: introPress 2.6s var(--ease) infinite;
+    }
+    @keyframes introPress {
+      0%   { transform: scale(1);    opacity: 0.55; }
+      70%  { transform: scale(1.34); opacity: 0; }
+      100% { transform: scale(1.34); opacity: 0; }
+    }
+    .intro-press:hover {
+      filter: brightness(1.08);
+      box-shadow:
+        inset 0 3px 7px rgba(255,255,255,0.3),
+        inset 0 -7px 14px rgba(0,0,0,0.5),
+        0 22px 46px -12px rgba(160,34,24,0.8);
+    }
+    .intro-press:focus-visible {
+      outline: none;
+      box-shadow:
+        inset 0 3px 7px rgba(255,255,255,0.3),
+        inset 0 -7px 14px rgba(0,0,0,0.5),
+        0 18px 40px -12px rgba(150,32,22,0.7),
+        0 0 0 3px rgba(251,249,243,0.55);
+    }
+    .intro-press.is-pressing {   /* real click: depress + darken */
+      transform: scale(0.93) translateY(2px);
+      filter: brightness(0.95);
+      box-shadow:
+        inset 0 4px 11px rgba(0,0,0,0.5),
+        inset 0 -2px 6px rgba(255,255,255,0.14),
+        0 8px 18px -10px rgba(150,32,22,0.6);
+    }
+
+    /* Question beats: fine serif question + soft secondary subtitle */
     .intro-q {
       font-family: var(--font-display); font-weight: 400; font-style: normal;
       font-size: clamp(1.9rem, 5.2vw, 4rem);
@@ -1457,6 +1520,24 @@
       max-width: 20ch; margin: 0 auto;
     }
     .intro-q em { font-style: italic; }
+    .intro-sub {
+      font-family: var(--font-body); font-style: italic; font-weight: 400;
+      font-size: clamp(0.98rem, 1.9vw, 1.2rem);
+      line-height: 1.5; letter-spacing: 0.01em;
+      color: rgba(251,249,243,0.48);
+      max-width: 34ch; margin: 1.5rem auto 0;
+    }
+
+    /* Closing beat: WELCOME TO + centered navbar logo */
+    .intro-welcome-label {
+      display: block;
+      font-family: var(--font-body); font-weight: 500;
+      font-size: 12px; letter-spacing: 0.34em; text-transform: uppercase;
+      color: rgba(251,249,243,0.6); margin-bottom: 1.6rem;
+    }
+    .intro-welcome-logo {
+      height: clamp(48px, 8.5vw, 82px); width: auto; margin: 0 auto; display: block; opacity: 0.98;
+    }
 
     /* Progress: 01 —— 04 */
     .intro-progress {
@@ -1512,16 +1593,20 @@
     body.intro-lock { overflow: hidden; height: 100vh; }
 
     @media (max-width: 768px) {
+      .intro-statement { font-size: clamp(1.6rem, 7.4vw, 2.4rem); max-width: 14ch; }
       .intro-q { font-size: clamp(1.7rem, 8vw, 2.6rem); max-width: 15ch; }
+      .intro-sub { font-size: clamp(0.95rem, 4vw, 1.05rem); max-width: 26ch; }
       .intro-track { width: 64px; }
       .intro-cue { letter-spacing: 0.22em; }
     }
 
-    /* Reduced motion: no rise/pulse/wipe — instant, calm swaps; still click-advanceable and skippable */
+    /* Reduced motion: no rise/pulse/press/wipe — instant, calm swaps; still click-advanceable and skippable */
     @media (prefers-reduced-motion: reduce) {
-      .intro, .intro-beat, .intro-beat.is-leaving, .intro-progress, .intro-track-fill, .intro-cue { transition: none !important; animation: none !important; }
+      .intro, .intro-beat, .intro-beat.is-leaving, .intro-progress, .intro-track-fill,
+      .intro-cue, .intro-press, .intro-press::after, .intro-mark { transition: none !important; animation: none !important; }
       .intro-beat { transform: none; }
-      .intro-cue { opacity: 0.7; }
+      .intro-press.is-pressing { transform: none; }
+      .intro-cue.is-on { opacity: 0.7; }
     }
   </style>
 </head>
@@ -1535,15 +1620,26 @@
   =========================================================== -->
   <noscript><style>#intro{display:none!important}</style></noscript>
   <div id="intro" class="intro" role="dialog" aria-label="Purple Roots intro" aria-modal="false" tabindex="-1">
+    <!-- small monogram, top center (opening beat) -->
+    <img class="intro-mark" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_rgb:F6F3EA,f_auto,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" alt="Purple Roots" />
     <div class="intro-stage">
-      <div class="intro-beat intro-beat--open is-active" data-beat="0">
-        <img class="intro-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_rgb:F6F3EA,f_auto,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" alt="Purple Roots" />
-        <button class="intro-enter" type="button" data-intro-enter>Enter</button>
+      <!-- Beat 0: tempting statement + physical red button -->
+      <div class="intro-beat is-active" data-beat="0">
+        <p class="intro-statement"><!-- filled from INTRO.statement --></p>
+        <button class="intro-press" type="button" data-intro-enter aria-label="Press to begin">
+          <span class="intro-press-label">Press</span>
+        </button>
       </div>
-      <div class="intro-beat" data-beat="1"><p class="intro-q">Struggling to know what content to make?</p></div>
-      <div class="intro-beat" data-beat="2"><p class="intro-q">Posting constantly with nothing to show for it?</p></div>
-      <div class="intro-beat" data-beat="3"><p class="intro-q">Your following just won't grow?</p></div>
-      <div class="intro-beat" data-beat="4"><p class="intro-q">Ready to build something people <em>actually</em> remember?</p></div>
+      <!-- Beats 1-4: question + secondary subtitle (filled from INTRO.beats) -->
+      <div class="intro-beat" data-beat="1"><p class="intro-q"></p><p class="intro-sub"></p></div>
+      <div class="intro-beat" data-beat="2"><p class="intro-q"></p><p class="intro-sub"></p></div>
+      <div class="intro-beat" data-beat="3"><p class="intro-q"></p><p class="intro-sub"></p></div>
+      <div class="intro-beat" data-beat="4"><p class="intro-q"></p><p class="intro-sub"></p></div>
+      <!-- Beat 5: WELCOME TO + centered navbar logo -->
+      <div class="intro-beat intro-beat--welcome" data-beat="5">
+        <span class="intro-welcome-label"><!-- filled from INTRO.welcomeLabel --></span>
+        <img class="intro-welcome-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_rgb:F6F3EA,f_auto,q_auto/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" />
+      </div>
     </div>
     <div class="intro-cue" aria-hidden="true">Click to continue</div>
     <div class="intro-progress" aria-hidden="true">
@@ -1555,15 +1651,33 @@
     <button class="intro-skip" type="button" data-intro-skip aria-label="Skip intro">Skip</button>
   </div>
   <script>
-    /* Early gate: if this tab session already saw the intro, hide it before
-       paint so a reload never replays it (and never flashes the overlay). */
     (function () {
+      /* =========================================================
+         INTRO COPY — edit all wording here (single source of truth).
+      ========================================================= */
+      var INTRO = {
+        statement: 'Your brand will never be the same after this.',
+        beats: [
+          { q: 'Struggling to know what content to make?',          sub: "It's normal. Don't get discouraged." },
+          { q: 'Posting constantly with nothing to show for it?',    sub: "You're already making your best decision." },
+          { q: "Your following just won't grow?",                    sub: 'The hardest part is almost behind you.' },
+          { q: 'Ready to build something people actually remember?', sub: "Then you're exactly where you need to be." }
+        ],
+        welcomeLabel: 'Welcome to'
+      };
+      /* ========================================================= */
+      window.__INTRO_COPY = INTRO;
       try {
-        if (sessionStorage.getItem('pr_intro_seen') === '1') {
-          var el = document.getElementById('intro');
-          if (el) el.classList.add('is-hidden');
+        var root = document.getElementById('intro');
+        if (root) {
+          var st = root.querySelector('.intro-statement'); if (st) st.textContent = INTRO.statement;
+          var qs = root.querySelectorAll('.intro-q'), subs = root.querySelectorAll('.intro-sub');
+          INTRO.beats.forEach(function (bt, n) { if (qs[n]) qs[n].textContent = bt.q; if (subs[n]) subs[n].textContent = bt.sub; });
+          var wl = root.querySelector('.intro-welcome-label'); if (wl) wl.textContent = INTRO.welcomeLabel;
         }
       } catch (e) {}
+      /* Session gate: hide before paint if already seen this tab session. */
+      try { if (sessionStorage.getItem('pr_intro_seen') === '1') { var el = document.getElementById('intro'); if (el) el.classList.add('is-hidden'); } } catch (e) {}
     })();
   </script>
 
@@ -2702,47 +2816,67 @@
       var countEl = intro.querySelector('.intro-count');
       var fill    = intro.querySelector('.intro-track-fill');
       var cue     = intro.querySelector('.intro-cue');
-      var enterBtn= intro.querySelector('[data-intro-enter]');
+      var pressBtn= intro.querySelector('[data-intro-enter]');   // the red button
       var skipBtn = intro.querySelector('[data-intro-skip]');
-      var last    = beats.length - 1;   // index of Q4
-      var i = 0, done = false, busy = false;
+      var WELCOME = beats.length - 1;   // index of the closing WELCOME beat (5)
+      var NQ      = WELCOME - 1;         // number of questions (4)
+      var i = 0, done = false, busy = false, welcomeTimer = null;
 
       document.body.classList.add('intro-lock');
-      if (enterBtn) { try { enterBtn.focus({ preventScroll: true }); } catch (e) {} }
+      if (pressBtn) { try { pressBtn.focus({ preventScroll: true }); } catch (e) {} }
 
       function setProgress() {
-        if (i >= 1) {
+        if (i >= 1 && i <= NQ) {
           progress.classList.add('is-on');
           cue.classList.add('is-on');
           countEl.textContent = ('0' + i).slice(-2);
-          fill.style.transform = 'scaleX(' + (i / last) + ')';
+          fill.style.transform = 'scaleX(' + (i / NQ) + ')';
         } else {
           progress.classList.remove('is-on');
           cue.classList.remove('is-on');
         }
       }
 
+      function onWelcome() {
+        progress.classList.remove('is-on');
+        cue.classList.remove('is-on');
+        var hold = reduce ? 500 : 1500;   // hold on WELCOME, then auto-unlock
+        welcomeTimer = window.setTimeout(finish, hold);
+      }
+
       function advance() {
         if (done || busy) return;
-        if (i >= last) { finish(); return; }   // final click on Q4 -> unlock
+        if (i >= WELCOME) { finish(); return; }   // click during WELCOME -> unlock now
         busy = true;
         var cur = beats[i], nxt = beats[i + 1];
         cur.classList.remove('is-active');
         cur.classList.add('is-leaving');
         i++;
-        var delay = reduce ? 0 : 120;
+        intro.classList.add('is-started');   // fade the top monogram once we begin
+        var delay = reduce ? 0 : 380;   // let the leaving beat fully fade before the next enters (one focal line at a time)
         window.setTimeout(function () {
           nxt.classList.add('is-active');
-          setProgress();
+          if (i === WELCOME) { onWelcome(); } else { setProgress(); }
           busy = false;
         }, delay);
         // move focus off the opening button so keyboard advance routes cleanly
         if (i === 1) { try { intro.focus({ preventScroll: true }); } catch (e) {} }
       }
 
+      function pressAndAdvance() {
+        if (done || busy || i !== 0) { advance(); return; }
+        if (pressBtn) pressBtn.classList.add('is-pressing');
+        var t = reduce ? 0 : 150;
+        window.setTimeout(function () {
+          if (pressBtn) pressBtn.classList.remove('is-pressing');
+          advance();
+        }, t);
+      }
+
       function finish() {
         if (done) return;
         done = true;
+        if (welcomeTimer) { clearTimeout(welcomeTimer); welcomeTimer = null; }
         try { sessionStorage.setItem('pr_intro_seen', '1'); } catch (e) {}
         cleanup();
         intro.classList.add('is-unlocking');
@@ -2759,16 +2893,23 @@
       }
 
       function onClick(e) {
-        if (skipBtn.contains(e.target)) return;   // Skip has its own handler
+        if (skipBtn.contains(e.target)) return;                 // Skip has its own handler
+        if (pressBtn && pressBtn.contains(e.target)) return;    // red button handles itself
+        if (i === 0) return;                                    // opening beat advances ONLY via the red button
         advance();
       }
+      function onPress(e) { e.stopPropagation(); pressAndAdvance(); }
       function onKey(e) {
         if (done) return;
         var k = e.key;
         if (k === 'Escape' || k === 'Esc') { e.preventDefault(); finish(); return; }
         if (k === 'Enter' || k === ' ' || k === 'Spacebar') {
-          // If a real button is focused, let its native activation fire (which bubbles to onClick / onSkip)
-          if (e.target === skipBtn || e.target === enterBtn) return;
+          if (e.target === skipBtn) return;                     // native Skip activation
+          if (i === 0) {                                        // opening: press the red button
+            if (e.target === pressBtn) return;                  // native button activation -> onPress
+            e.preventDefault(); if (pressBtn) pressBtn.click(); return;
+          }
+          if (e.target === pressBtn) return;
           e.preventDefault(); advance();
         }
       }
@@ -2778,11 +2919,13 @@
         intro.removeEventListener('click', onClick);
         document.removeEventListener('keydown', onKey);
         skipBtn.removeEventListener('click', onSkip);
+        if (pressBtn) pressBtn.removeEventListener('click', onPress);
       }
 
       intro.addEventListener('click', onClick);
       document.addEventListener('keydown', onKey);
       skipBtn.addEventListener('click', onSkip);
+      if (pressBtn) pressBtn.addEventListener('click', onPress);
     })();
   </script>
 </body>
