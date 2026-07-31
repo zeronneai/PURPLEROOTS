@@ -1387,9 +1387,185 @@
       .work-grid       { grid-template-columns: 1fr; }
       .hero-actions .btn { font-size: 11px; padding: 16px 20px; }
     }
+    /* =========================================================
+       INTRO EXPERIENCE — click-driven cinematic overlay (experiment)
+       Sits on TOP of the fully-rendered site (real content already in the
+       DOM below, for SEO + a11y). Pure type on a solid background.
+
+       Background choice: NEAR-BLACK (var(--black)) — reads more cinematic /
+       premium, a lights-down "curtain" before the site, with ivory serif
+       type. ALTERNATIVE (bone/ivory): swap .intro background to var(--paper)
+       and the text colours to var(--ink) for a brighter, gallery-white feel.
+    ========================================================= */
+    .intro {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--black);              /* ALT premium option: var(--paper) */
+      color: var(--paper);                   /* ALT: var(--ink) */
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: clamp(24px, 6vw, 64px);
+      cursor: pointer;                       /* obviously advanceable (overrides site cursor:none) */
+      overflow: hidden;
+      opacity: 1;
+      transition: opacity 0.9s var(--ease);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .intro.is-hidden { display: none; }
+    .intro.is-unlocking { pointer-events: none; }
+    .intro.is-gone { opacity: 0; }
+
+    .intro-stage {
+      position: relative;
+      width: 100%; max-width: 900px;
+      min-height: 40vh;
+      display: grid;                          /* all beats stacked, one shown at a time */
+      place-items: center;
+    }
+    .intro-beat {
+      grid-area: 1 / 1;
+      width: 100%;
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+      pointer-events: none;
+    }
+    .intro-beat.is-active { opacity: 1; transform: none; pointer-events: auto; }
+    .intro-beat.is-leaving { opacity: 0; transform: translateY(-16px); transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
+
+    /* Opening beat: monogram + ENTER */
+    .intro-logo {
+      height: clamp(52px, 9vw, 84px); width: auto; margin: 0 auto 2.4rem;
+      display: block; opacity: 0.96;
+    }
+    .intro-enter {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: none; color: var(--paper);
+      border: 1px solid rgba(251,249,243,0.5);
+      font-family: var(--font-body); font-weight: 500;
+      font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
+      padding: 15px 34px; border-radius: 0; cursor: pointer;
+      transition: background 0.5s var(--ease), color 0.5s var(--ease), border-color 0.5s var(--ease);
+    }
+    .intro-enter:hover, .intro-enter:focus-visible { background: var(--paper); color: var(--ink); border-color: var(--paper); outline: none; }
+
+    /* Question beats: fine serif, large, centered */
+    .intro-q {
+      font-family: var(--font-display); font-weight: 400; font-style: normal;
+      font-size: clamp(1.9rem, 5.2vw, 4rem);
+      line-height: 1.16; letter-spacing: -0.005em;
+      color: var(--paper);
+      max-width: 20ch; margin: 0 auto;
+    }
+    .intro-q em { font-style: italic; }
+
+    /* Progress: 01 —— 04 */
+    .intro-progress {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      bottom: clamp(30px, 7vh, 64px);
+      display: flex; align-items: center; gap: 14px;
+      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.24em;
+      color: rgba(251,249,243,0.5); text-transform: uppercase;
+      opacity: 0; transition: opacity 0.6s var(--ease);
+    }
+    .intro-progress.is-on { opacity: 1; }
+    .intro-track { width: 90px; height: 1px; background: rgba(251,249,243,0.22); position: relative; overflow: hidden; }
+    .intro-track-fill { position: absolute; inset: 0; background: rgba(251,249,243,0.85); transform: scaleX(0.25); transform-origin: left center; transition: transform 0.6s var(--ease); }
+
+    /* Click cue */
+    .intro-cue {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      bottom: clamp(74px, 13vh, 128px);
+      font-family: var(--font-body); font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(251,249,243,0.55);
+      opacity: 0; transition: opacity 0.6s var(--ease);
+    }
+    /* Pulse only once questions begin (beat 0 shows just the ENTER affordance) */
+    .intro-cue.is-on { opacity: 0.7; animation: introCue 2.4s var(--ease) infinite; }
+    @keyframes introCue { 0%,100% { opacity: 0.35; } 50% { opacity: 0.8; } }
+
+    /* Skip — discreet, bottom-right */
+    .intro-skip {
+      position: absolute; right: clamp(16px, 4vw, 34px); bottom: clamp(16px, 4vh, 30px);
+      background: none; border: none; color: rgba(251,249,243,0.55);
+      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      cursor: pointer; padding: 8px; transition: color 0.3s var(--ease); z-index: 2;
+    }
+    .intro-skip:hover, .intro-skip:focus-visible { color: var(--paper); outline: none; }
+
+    /* Unlock line-wipe: a thin ivory line sweeps across, then overlay fades */
+    .intro-wipe {
+      position: absolute; left: 0; top: 50%; height: 1px; width: 100%;
+      background: rgba(251,249,243,0.85); transform: scaleX(0); transform-origin: center;
+      opacity: 0; pointer-events: none;
+    }
+    .intro.is-unlocking .intro-wipe { animation: introWipe 0.7s var(--ease) forwards; }
+    @keyframes introWipe {
+      0%   { transform: scaleX(0); opacity: 0.9; }
+      55%  { transform: scaleX(1); opacity: 0.9; }
+      100% { transform: scaleX(1); opacity: 0; }
+    }
+    .intro.is-unlocking .intro-stage, .intro.is-unlocking .intro-progress,
+    .intro.is-unlocking .intro-cue, .intro.is-unlocking .intro-skip {
+      opacity: 0; transition: opacity 0.4s var(--ease);
+    }
+
+    body.intro-lock { overflow: hidden; height: 100vh; }
+
+    @media (max-width: 768px) {
+      .intro-q { font-size: clamp(1.7rem, 8vw, 2.6rem); max-width: 15ch; }
+      .intro-track { width: 64px; }
+      .intro-cue { letter-spacing: 0.22em; }
+    }
+
+    /* Reduced motion: no rise/pulse/wipe — instant, calm swaps; still click-advanceable and skippable */
+    @media (prefers-reduced-motion: reduce) {
+      .intro, .intro-beat, .intro-beat.is-leaving, .intro-progress, .intro-track-fill, .intro-cue { transition: none !important; animation: none !important; }
+      .intro-beat { transform: none; }
+      .intro-cue { opacity: 0.7; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ==========================================================
+       INTRO EXPERIENCE (experiment) — visual layer ONLY. The real
+       site is fully present in the DOM below this overlay, so
+       crawlers and screen readers reach everything regardless.
+       If JS is off, <noscript> hides the intro and the site shows.
+  =========================================================== -->
+  <noscript><style>#intro{display:none!important}</style></noscript>
+  <div id="intro" class="intro" role="dialog" aria-label="Purple Roots intro" aria-modal="false" tabindex="-1">
+    <div class="intro-stage">
+      <div class="intro-beat intro-beat--open is-active" data-beat="0">
+        <img class="intro-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_rgb:F6F3EA,f_auto,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" alt="Purple Roots" />
+        <button class="intro-enter" type="button" data-intro-enter>Enter</button>
+      </div>
+      <div class="intro-beat" data-beat="1"><p class="intro-q">Struggling to know what content to make?</p></div>
+      <div class="intro-beat" data-beat="2"><p class="intro-q">Posting constantly with nothing to show for it?</p></div>
+      <div class="intro-beat" data-beat="3"><p class="intro-q">Your following just won't grow?</p></div>
+      <div class="intro-beat" data-beat="4"><p class="intro-q">Ready to build something people <em>actually</em> remember?</p></div>
+    </div>
+    <div class="intro-cue" aria-hidden="true">Click to continue</div>
+    <div class="intro-progress" aria-hidden="true">
+      <span class="intro-count">01</span>
+      <span class="intro-track"><span class="intro-track-fill"></span></span>
+      <span class="intro-total">04</span>
+    </div>
+    <div class="intro-wipe" aria-hidden="true"></div>
+    <button class="intro-skip" type="button" data-intro-skip aria-label="Skip intro">Skip</button>
+  </div>
+  <script>
+    /* Early gate: if this tab session already saw the intro, hide it before
+       paint so a reload never replays it (and never flashes the overlay). */
+    (function () {
+      try {
+        if (sessionStorage.getItem('pr_intro_seen') === '1') {
+          var el = document.getElementById('intro');
+          if (el) el.classList.add('is-hidden');
+        }
+      } catch (e) {}
+    })();
+  </script>
 
   <div id="cursor"></div>
 
@@ -2510,6 +2686,104 @@
   <script type="module">
     import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics@1/+esm';
     inject();
+  </script>
+
+  <!-- INTRO EXPERIENCE controller (experiment). Self-contained; if the intro
+       was already seen this session it is inert and the site behaves normally. -->
+  <script>
+    (function () {
+      var intro = document.getElementById('intro');
+      if (!intro || intro.classList.contains('is-hidden')) return;   // already seen -> site behaves normally
+      var reduce = false;
+      try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+      var beats   = [].slice.call(intro.querySelectorAll('.intro-beat'));
+      var progress= intro.querySelector('.intro-progress');
+      var countEl = intro.querySelector('.intro-count');
+      var fill    = intro.querySelector('.intro-track-fill');
+      var cue     = intro.querySelector('.intro-cue');
+      var enterBtn= intro.querySelector('[data-intro-enter]');
+      var skipBtn = intro.querySelector('[data-intro-skip]');
+      var last    = beats.length - 1;   // index of Q4
+      var i = 0, done = false, busy = false;
+
+      document.body.classList.add('intro-lock');
+      if (enterBtn) { try { enterBtn.focus({ preventScroll: true }); } catch (e) {} }
+
+      function setProgress() {
+        if (i >= 1) {
+          progress.classList.add('is-on');
+          cue.classList.add('is-on');
+          countEl.textContent = ('0' + i).slice(-2);
+          fill.style.transform = 'scaleX(' + (i / last) + ')';
+        } else {
+          progress.classList.remove('is-on');
+          cue.classList.remove('is-on');
+        }
+      }
+
+      function advance() {
+        if (done || busy) return;
+        if (i >= last) { finish(); return; }   // final click on Q4 -> unlock
+        busy = true;
+        var cur = beats[i], nxt = beats[i + 1];
+        cur.classList.remove('is-active');
+        cur.classList.add('is-leaving');
+        i++;
+        var delay = reduce ? 0 : 120;
+        window.setTimeout(function () {
+          nxt.classList.add('is-active');
+          setProgress();
+          busy = false;
+        }, delay);
+        // move focus off the opening button so keyboard advance routes cleanly
+        if (i === 1) { try { intro.focus({ preventScroll: true }); } catch (e) {} }
+      }
+
+      function finish() {
+        if (done) return;
+        done = true;
+        try { sessionStorage.setItem('pr_intro_seen', '1'); } catch (e) {}
+        cleanup();
+        intro.classList.add('is-unlocking');
+        var wipeMs = reduce ? 0 : 700;
+        window.setTimeout(function () {
+          intro.classList.add('is-gone');
+          var fadeMs = reduce ? 0 : 900;
+          window.setTimeout(function () {
+            intro.classList.add('is-hidden');
+            document.body.classList.remove('intro-lock');
+            window.scrollTo(0, 0);
+          }, fadeMs);
+        }, wipeMs);
+      }
+
+      function onClick(e) {
+        if (skipBtn.contains(e.target)) return;   // Skip has its own handler
+        advance();
+      }
+      function onKey(e) {
+        if (done) return;
+        var k = e.key;
+        if (k === 'Escape' || k === 'Esc') { e.preventDefault(); finish(); return; }
+        if (k === 'Enter' || k === ' ' || k === 'Spacebar') {
+          // If a real button is focused, let its native activation fire (which bubbles to onClick / onSkip)
+          if (e.target === skipBtn || e.target === enterBtn) return;
+          e.preventDefault(); advance();
+        }
+      }
+      function onSkip(e) { e.stopPropagation(); e.preventDefault(); finish(); }
+
+      function cleanup() {
+        intro.removeEventListener('click', onClick);
+        document.removeEventListener('keydown', onKey);
+        skipBtn.removeEventListener('click', onSkip);
+      }
+
+      intro.addEventListener('click', onClick);
+      document.addEventListener('keydown', onKey);
+      skipBtn.addEventListener('click', onSkip);
+    })();
   </script>
 </body>
 </html>
