@@ -1388,272 +1388,209 @@
       .hero-actions .btn { font-size: 11px; padding: 16px 20px; }
     }
     /* =========================================================
-       INTRO EXPERIENCE — click-driven cinematic overlay (experiment)
-       Sits on TOP of the fully-rendered site (real content already in the
-       DOM below, for SEO + a11y). Pure type on a solid background.
-
-       Background choice: NEAR-BLACK (var(--black)) — reads more cinematic /
-       premium, a lights-down "curtain" before the site, with ivory serif
-       type. ALTERNATIVE (bone/ivory): swap .intro background to var(--paper)
-       and the text colours to var(--ink) for a brighter, gallery-white feel.
+       INTRO ENVELOPE — scroll-scrubbed lens intro (experiment)
+       A pinned full-screen overlay whose MAIN video scrubs in sync with
+       scroll (scroll position -> currentTime), reference feel: Fouros /
+       PUCCII scroll intros. The real site is fully in the DOM below (SEO +
+       a11y); a tall #introScroll spacer provides the scrub travel while the
+       overlay stays fixed on top. At the end it cuts to a solid WELCOME
+       screen, then fades to reveal the site at the top.
     ========================================================= */
+    #introScroll { position: relative; width: 100%; }   /* scrub-travel spacer; height set by JS */
+
     .intro {
       position: fixed; inset: 0; z-index: 9000;
-      background: var(--black);              /* ALT premium option: var(--paper) */
-      color: var(--paper);                   /* ALT: var(--ink) */
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: clamp(24px, 6vw, 64px);
-      cursor: pointer;                       /* obviously advanceable (overrides site cursor:none) */
-      overflow: hidden;
-      opacity: 1;
-      transition: opacity 0.9s var(--ease);
+      background: var(--black); color: var(--paper);
+      overflow: hidden; opacity: 1;
+      transition: opacity 0.8s var(--ease);
       -webkit-tap-highlight-color: transparent;
     }
     .intro.is-hidden { display: none; }
-    .intro.is-unlocking { pointer-events: none; }
     .intro.is-gone { opacity: 0; }
 
-    .intro-stage {
-      position: relative;
-      width: 100%; max-width: 900px;
-      min-height: 40vh;
-      display: grid;                          /* all beats stacked, one shown at a time */
-      place-items: center;
+    /* Stacked video layers: loop on top first, main crossfades in on scroll */
+    .intro-video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; background: var(--black);
+      opacity: 0; transition: opacity 0.6s var(--ease);
+    }
+    .intro-video.is-on { opacity: 1; }
+    .intro-loop { z-index: 1; }
+    .intro-main { z-index: 0; }
+    .intro-scrim {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(20,17,13,0.4) 0%, rgba(20,17,13,0.15) 42%, rgba(20,17,13,0.66) 100%);
+    }
+
+    /* Text layer over the video */
+    .intro-text {
+      position: absolute; inset: 0; z-index: 3;
+      display: grid; place-items: center; text-align: center;
+      padding: clamp(24px, 6vw, 64px); pointer-events: none;
     }
     .intro-beat {
-      grid-area: 1 / 1;
-      width: 100%;
-      opacity: 0; transform: translateY(22px);
-      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-      pointer-events: none;
+      grid-area: 1 / 1; width: 100%; max-width: 900px;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
     }
-    .intro-beat.is-active { opacity: 1; transform: none; pointer-events: auto; }
-    .intro-beat.is-leaving { opacity: 0; transform: translateY(-16px); transition: opacity 0.36s var(--ease), transform 0.36s var(--ease); }
+    .intro-beat.is-active { opacity: 1; transform: none; }
 
-    /* Small monogram, top center — visible on the opening beat, fades once started */
-    .intro-mark {
-      position: absolute; top: clamp(26px, 5vh, 46px); left: 50%; transform: translateX(-50%);
-      height: clamp(30px, 5vw, 44px); width: auto; opacity: 0.9;
-      transition: opacity 0.7s var(--ease); pointer-events: none; z-index: 2;
-    }
-    .intro.is-started .intro-mark { opacity: 0; }
-
-    /* Opening beat: tempting statement */
     .intro-statement {
       font-family: var(--font-display); font-weight: 400; font-style: normal;
-      font-size: clamp(1.7rem, 4.6vw, 3.4rem);
-      line-height: 1.18; letter-spacing: -0.005em;
+      font-size: clamp(1.7rem, 4.6vw, 3.2rem); line-height: 1.18; letter-spacing: -0.005em;
       color: var(--paper); max-width: 18ch; margin: 0 auto;
+      text-shadow: 0 1px 26px rgba(0,0,0,0.45);
     }
     .intro-statement em { font-style: italic; }
 
-    /* The physical RED button — the only saturated colour on screen.
-       Deep, slightly desaturated red with real depth (sheen + inner/outer
-       shadow) and a slow pulsing invite ring (compositor-only). */
-    .intro-press {
-      position: relative;
-      width: clamp(104px, 24vw, 138px); height: clamp(104px, 24vw, 138px);
-      margin: 2.7rem auto 0;
-      border: none; padding: 0; border-radius: 50%;
-      display: inline-flex; align-items: center; justify-content: center;
-      cursor: pointer; -webkit-tap-highlight-color: transparent;
-      color: rgba(255,247,245,0.92);
-      font-family: var(--font-body); font-weight: 600;
-      font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
-      background: radial-gradient(circle at 38% 30%, #C6473A 0%, #A62C22 52%, #85201A 100%);
-      box-shadow:
-        inset 0 3px 7px rgba(255,255,255,0.28),
-        inset 0 -8px 16px rgba(0,0,0,0.5),
-        0 18px 40px -12px rgba(150,32,22,0.7),
-        0 2px 0 rgba(0,0,0,0.35);
-      transition: transform 0.22s var(--ease), box-shadow 0.3s var(--ease), filter 0.3s var(--ease);
-    }
-    .intro-press-label { position: relative; z-index: 2; }
-    .intro-press::before {   /* soft top sheen */
-      content: ''; position: absolute; left: 18%; top: 11%; width: 46%; height: 34%;
-      border-radius: 50%; pointer-events: none;
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.5), rgba(255,255,255,0) 70%);
-    }
-    .intro-press::after {    /* pulsing invite ring */
-      content: ''; position: absolute; inset: -6px; border-radius: 50%;
-      box-shadow: 0 0 0 2px rgba(198,71,58,0.55);
-      opacity: 0; pointer-events: none; will-change: transform, opacity;
-      animation: introPress 2.6s var(--ease) infinite;
-    }
-    @keyframes introPress {
-      0%   { transform: scale(1);    opacity: 0.55; }
-      70%  { transform: scale(1.34); opacity: 0; }
-      100% { transform: scale(1.34); opacity: 0; }
-    }
-    .intro-press:hover {
-      filter: brightness(1.08);
-      box-shadow:
-        inset 0 3px 7px rgba(255,255,255,0.3),
-        inset 0 -7px 14px rgba(0,0,0,0.5),
-        0 22px 46px -12px rgba(160,34,24,0.8);
-    }
-    .intro-press:focus-visible {
-      outline: none;
-      box-shadow:
-        inset 0 3px 7px rgba(255,255,255,0.3),
-        inset 0 -7px 14px rgba(0,0,0,0.5),
-        0 18px 40px -12px rgba(150,32,22,0.7),
-        0 0 0 3px rgba(251,249,243,0.55);
-    }
-    .intro-press.is-pressing {   /* real click: depress + darken */
-      transform: scale(0.93) translateY(2px);
-      filter: brightness(0.95);
-      box-shadow:
-        inset 0 4px 11px rgba(0,0,0,0.5),
-        inset 0 -2px 6px rgba(255,255,255,0.14),
-        0 8px 18px -10px rgba(150,32,22,0.6);
-    }
-
-    /* Question beats: fine serif question + soft secondary subtitle */
     .intro-q {
       font-family: var(--font-display); font-weight: 400; font-style: normal;
-      font-size: clamp(1.9rem, 5.2vw, 4rem);
-      line-height: 1.16; letter-spacing: -0.005em;
-      color: var(--paper);
-      max-width: 20ch; margin: 0 auto;
+      font-size: clamp(1.9rem, 5.2vw, 4rem); line-height: 1.16; letter-spacing: -0.005em;
+      color: var(--paper); max-width: 20ch; margin: 0 auto;
+      text-shadow: 0 1px 26px rgba(0,0,0,0.45);
     }
     .intro-q em { font-style: italic; }
     .intro-sub {
       font-family: var(--font-body); font-style: italic; font-weight: 400;
-      font-size: clamp(0.98rem, 1.9vw, 1.2rem);
-      line-height: 1.5; letter-spacing: 0.01em;
-      color: rgba(251,249,243,0.48);
-      max-width: 34ch; margin: 1.5rem auto 0;
+      font-size: clamp(0.98rem, 1.9vw, 1.2rem); line-height: 1.5; letter-spacing: 0.01em;
+      color: rgba(251,249,243,0.72); max-width: 34ch; margin: 1.4rem auto 0;
+      text-shadow: 0 1px 20px rgba(0,0,0,0.5);
     }
 
-    /* Closing beat: WELCOME TO + centered navbar logo */
-    .intro-welcome-label {
-      display: block;
-      font-family: var(--font-body); font-weight: 500;
-      font-size: 12px; letter-spacing: 0.34em; text-transform: uppercase;
-      color: rgba(251,249,243,0.6); margin-bottom: 1.6rem;
+    /* Reduced-motion static "enter" (hidden by default; shown only in that mode) */
+    .intro-enter {
+      display: none; pointer-events: auto; margin: 2.2rem auto 0;
+      align-items: center; gap: 12px; background: none; color: var(--paper);
+      border: 1px solid rgba(251,249,243,0.5);
+      font-family: var(--font-body); font-weight: 500; font-size: 12px;
+      letter-spacing: 0.26em; text-transform: uppercase; padding: 14px 32px; cursor: pointer;
+      transition: background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease);
     }
-    .intro-welcome-logo {
-      height: clamp(48px, 8.5vw, 82px); width: auto; margin: 0 auto; display: block; opacity: 0.98;
+    .intro-enter:hover, .intro-enter:focus-visible { background: var(--paper); color: var(--ink); border-color: var(--paper); outline: none; }
+
+    /* Scroll cue (loop beat): label + animated down-chevron */
+    .intro-cue {
+      position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(30px, 8vh, 64px);
+      z-index: 4; display: flex; flex-direction: column; align-items: center; gap: 12px;
+      font-family: var(--font-body); font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(251,249,243,0.72); opacity: 0; transition: opacity 0.6s var(--ease); pointer-events: none;
+    }
+    .intro-cue.is-on { opacity: 0.85; }
+    .intro-chevron {
+      width: 16px; height: 16px; border-right: 1px solid rgba(251,249,243,0.75);
+      border-bottom: 1px solid rgba(251,249,243,0.75); transform: rotate(45deg);
+      animation: introChev 2s var(--ease) infinite;
+    }
+    @keyframes introChev {
+      0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.4; }
+      50%      { transform: rotate(45deg) translate(3px, 3px); opacity: 0.9; }
     }
 
-    /* Progress: 01 —— 04 */
+    /* Progress 01 —— 04 */
     .intro-progress {
-      position: absolute; left: 50%; transform: translateX(-50%);
-      bottom: clamp(30px, 7vh, 64px);
-      display: flex; align-items: center; gap: 14px;
-      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.24em;
-      color: rgba(251,249,243,0.5); text-transform: uppercase;
-      opacity: 0; transition: opacity 0.6s var(--ease);
+      position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(30px, 7vh, 58px);
+      z-index: 4; display: flex; align-items: center; gap: 14px;
+      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+      color: rgba(251,249,243,0.55); opacity: 0; transition: opacity 0.5s var(--ease); pointer-events: none;
     }
     .intro-progress.is-on { opacity: 1; }
-    .intro-track { width: 90px; height: 1px; background: rgba(251,249,243,0.22); position: relative; overflow: hidden; }
-    .intro-track-fill { position: absolute; inset: 0; background: rgba(251,249,243,0.85); transform: scaleX(0.25); transform-origin: left center; transition: transform 0.6s var(--ease); }
+    .intro-track { width: 90px; height: 1px; background: rgba(251,249,243,0.24); position: relative; overflow: hidden; }
+    .intro-track-fill { position: absolute; inset: 0; background: rgba(251,249,243,0.85); transform: scaleX(0); transform-origin: left center; }
 
-    /* Click cue */
-    .intro-cue {
-      position: absolute; left: 50%; transform: translateX(-50%);
-      bottom: clamp(74px, 13vh, 128px);
-      font-family: var(--font-body); font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase;
-      color: rgba(251,249,243,0.55);
-      opacity: 0; transition: opacity 0.6s var(--ease);
+    /* WELCOME cut — solid screen, NOT over the video */
+    .intro-welcome {
+      position: absolute; inset: 0; z-index: 6;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      background: var(--black); opacity: 0; visibility: hidden; transition: opacity 0.6s var(--ease);
     }
-    /* Pulse only once questions begin (beat 0 shows just the ENTER affordance) */
-    .intro-cue.is-on { opacity: 0.7; animation: introCue 2.4s var(--ease) infinite; }
-    @keyframes introCue { 0%,100% { opacity: 0.35; } 50% { opacity: 0.8; } }
+    .intro-welcome.is-on { opacity: 1; visibility: visible; }
+    .intro-welcome-label {
+      font-family: var(--font-body); font-weight: 500; font-size: 12px;
+      letter-spacing: 0.34em; text-transform: uppercase; color: rgba(251,249,243,0.6); margin-bottom: 1.6rem;
+    }
+    .intro-welcome-logo { height: clamp(48px, 8.5vw, 82px); width: auto; margin: 0 auto; display: block; opacity: 0.98; }
 
-    /* Skip — discreet, bottom-right */
+    /* Skip — discreet, always visible */
     .intro-skip {
-      position: absolute; right: clamp(16px, 4vw, 34px); bottom: clamp(16px, 4vh, 30px);
-      background: none; border: none; color: rgba(251,249,243,0.55);
+      position: absolute; right: clamp(16px, 4vw, 34px); bottom: clamp(16px, 4vh, 30px); z-index: 7;
+      background: none; border: none; color: rgba(251,249,243,0.6);
       font-family: var(--font-body); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-      cursor: pointer; padding: 8px; transition: color 0.3s var(--ease); z-index: 2;
+      cursor: pointer; padding: 8px; transition: color 0.3s var(--ease);
     }
     .intro-skip:hover, .intro-skip:focus-visible { color: var(--paper); outline: none; }
 
-    /* Unlock line-wipe: a thin ivory line sweeps across, then overlay fades */
-    .intro-wipe {
-      position: absolute; left: 0; top: 50%; height: 1px; width: 100%;
-      background: rgba(251,249,243,0.85); transform: scaleX(0); transform-origin: center;
-      opacity: 0; pointer-events: none;
-    }
-    .intro.is-unlocking .intro-wipe { animation: introWipe 0.7s var(--ease) forwards; }
-    @keyframes introWipe {
-      0%   { transform: scaleX(0); opacity: 0.9; }
-      55%  { transform: scaleX(1); opacity: 0.9; }
-      100% { transform: scaleX(1); opacity: 0; }
-    }
-    .intro.is-unlocking .intro-stage, .intro.is-unlocking .intro-progress,
-    .intro.is-unlocking .intro-cue, .intro.is-unlocking .intro-skip {
-      opacity: 0; transition: opacity 0.4s var(--ease);
-    }
-
-    body.intro-lock { overflow: hidden; height: 100vh; }
+    body.intro-lock { overflow: hidden; }
 
     @media (max-width: 768px) {
-      .intro-statement { font-size: clamp(1.6rem, 7.4vw, 2.4rem); max-width: 14ch; }
-      .intro-q { font-size: clamp(1.7rem, 8vw, 2.6rem); max-width: 15ch; }
+      .intro-statement { font-size: clamp(1.55rem, 7vw, 2.3rem); max-width: 15ch; }
+      .intro-q { font-size: clamp(1.6rem, 7.4vw, 2.5rem); max-width: 15ch; }
       .intro-sub { font-size: clamp(0.95rem, 4vw, 1.05rem); max-width: 26ch; }
       .intro-track { width: 64px; }
       .intro-cue { letter-spacing: 0.22em; }
     }
 
-    /* Reduced motion: no rise/pulse/press/wipe — instant, calm swaps; still click-advanceable and skippable */
+    /* Reduced motion: no scrub, no rise/pulse — static sealed-lens + Enter */
     @media (prefers-reduced-motion: reduce) {
-      .intro, .intro-beat, .intro-beat.is-leaving, .intro-progress, .intro-track-fill,
-      .intro-cue, .intro-press, .intro-press::after, .intro-mark { transition: none !important; animation: none !important; }
+      .intro, .intro-beat, .intro-video, .intro-welcome, .intro-cue, .intro-progress { transition: none !important; }
       .intro-beat { transform: none; }
-      .intro-press.is-pressing { transform: none; }
-      .intro-cue.is-on { opacity: 0.7; }
+      .intro-chevron { animation: none !important; }
+      .intro-enter { display: inline-flex; }
+      .intro-cue { display: none; }
     }
   </style>
 </head>
 <body>
 
   <!-- ==========================================================
-       INTRO EXPERIENCE (experiment) — visual layer ONLY. The real
-       site is fully present in the DOM below this overlay, so
-       crawlers and screen readers reach everything regardless.
-       If JS is off, <noscript> hides the intro and the site shows.
+       INTRO ENVELOPE (experiment) — scroll-scrubbed lens intro. Visual
+       layer only: the real site is fully present in the DOM below, so
+       crawlers and screen readers reach everything regardless. If JS is
+       off, <noscript> hides the intro and the site shows normally.
   =========================================================== -->
-  <noscript><style>#intro{display:none!important}</style></noscript>
+  <noscript><style>#intro,#introScroll{display:none!important}</style></noscript>
+  <div id="introScroll" aria-hidden="true"></div>
   <div id="intro" class="intro" role="dialog" aria-label="Purple Roots intro" aria-modal="false" tabindex="-1">
-    <!-- small monogram, top center (opening beat) -->
-    <img class="intro-mark" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_rgb:F6F3EA,f_auto,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" alt="Purple Roots" />
-    <div class="intro-stage">
-      <!-- Beat 0: tempting statement + physical red button -->
-      <div class="intro-beat is-active" data-beat="0">
+    <!-- LOOP (sealed lens, breathing) on top first; MAIN scrubs in on scroll -->
+    <video class="intro-video intro-loop is-on" id="introLoop" muted loop playsinline preload="auto"
+           poster="https://res.cloudinary.com/dsprn0ew4/video/upload/f_jpg,q_auto,w_720,so_0/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.jpg" src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720,vc_h264/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.mp4"></video>
+    <video class="intro-video intro-main" id="introMain" muted playsinline preload="auto"
+           poster="https://res.cloudinary.com/dsprn0ew4/video/upload/f_jpg,q_auto,w_720,so_0/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.jpg" src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,q_auto,w_720/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.12_PM_mwvx5k.mp4"></video>
+    <div class="intro-scrim" aria-hidden="true"></div>
+
+    <div class="intro-text">
+      <!-- opening statement (over the loop) -->
+      <div class="intro-beat is-active" data-beat="statement">
         <p class="intro-statement"><!-- filled from INTRO.statement --></p>
-        <button class="intro-press" type="button" data-intro-enter aria-label="Press to begin">
-          <span class="intro-press-label">Press</span>
-        </button>
+        <button class="intro-enter" type="button" data-intro-enter>Enter</button>
       </div>
-      <!-- Beats 1-4: question + secondary subtitle (filled from INTRO.beats) -->
+      <!-- question + secondary subtitle beats, revealed at scroll thresholds -->
+      <div class="intro-beat" data-beat="0"><p class="intro-q"></p><p class="intro-sub"></p></div>
       <div class="intro-beat" data-beat="1"><p class="intro-q"></p><p class="intro-sub"></p></div>
       <div class="intro-beat" data-beat="2"><p class="intro-q"></p><p class="intro-sub"></p></div>
       <div class="intro-beat" data-beat="3"><p class="intro-q"></p><p class="intro-sub"></p></div>
-      <div class="intro-beat" data-beat="4"><p class="intro-q"></p><p class="intro-sub"></p></div>
-      <!-- Beat 5: WELCOME TO + centered navbar logo -->
-      <div class="intro-beat intro-beat--welcome" data-beat="5">
-        <span class="intro-welcome-label"><!-- filled from INTRO.welcomeLabel --></span>
-        <img class="intro-welcome-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_rgb:F6F3EA,f_auto,q_auto/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" />
-      </div>
     </div>
-    <div class="intro-cue" aria-hidden="true">Click to continue</div>
+
+    <div class="intro-cue" id="introCue" aria-hidden="true"><span>Scroll to enter</span><span class="intro-chevron"></span></div>
     <div class="intro-progress" aria-hidden="true">
       <span class="intro-count">01</span>
       <span class="intro-track"><span class="intro-track-fill"></span></span>
       <span class="intro-total">04</span>
     </div>
-    <div class="intro-wipe" aria-hidden="true"></div>
+
+    <!-- WELCOME cut (solid screen, shown at the end) -->
+    <div class="intro-welcome" id="introWelcome">
+      <span class="intro-welcome-label"><!-- filled from INTRO.welcomeLabel --></span>
+      <img class="intro-welcome-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_rgb:F6F3EA,f_auto,q_auto/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" />
+    </div>
+
     <button class="intro-skip" type="button" data-intro-skip aria-label="Skip intro">Skip</button>
   </div>
   <script>
     (function () {
       /* =========================================================
-         INTRO COPY — edit all wording here (single source of truth).
+         INTRO COPY & TUNING — edit here (single source of truth).
+         thresholds: scroll fraction (0-1) at which each question appears;
+         retune to the MAIN video's natural moments.
       ========================================================= */
       var INTRO = {
         statement: 'Your brand will never be the same after this.',
@@ -1663,7 +1600,8 @@
           { q: "Your following just won't grow?",                    sub: 'The hardest part is almost behind you.' },
           { q: 'Ready to build something people actually remember?', sub: "Then you're exactly where you need to be." }
         ],
-        welcomeLabel: 'Welcome to'
+        welcomeLabel: 'Welcome to',
+        thresholds: [0.20, 0.45, 0.70, 0.90]
       };
       /* ========================================================= */
       window.__INTRO_COPY = INTRO;
@@ -1677,7 +1615,12 @@
         }
       } catch (e) {}
       /* Session gate: hide before paint if already seen this tab session. */
-      try { if (sessionStorage.getItem('pr_intro_seen') === '1') { var el = document.getElementById('intro'); if (el) el.classList.add('is-hidden'); } } catch (e) {}
+      try {
+        if (sessionStorage.getItem('pr_intro_seen') === '1') {
+          var el = document.getElementById('intro'); if (el) el.classList.add('is-hidden');
+          var sp = document.getElementById('introScroll'); if (sp) sp.style.display = 'none';
+        }
+      } catch (e) {}
     })();
   </script>
 
@@ -2802,130 +2745,175 @@
     inject();
   </script>
 
-  <!-- INTRO EXPERIENCE controller (experiment). Self-contained; if the intro
-       was already seen this session it is inert and the site behaves normally. -->
+  <!-- INTRO ENVELOPE controller (experiment) — scroll-scrubs the MAIN video
+       by scroll position, reveals question beats at thresholds, cuts to the
+       WELCOME screen at the end, then fades to the real site at the top. -->
   <script>
     (function () {
-      var intro = document.getElementById('intro');
-      if (!intro || intro.classList.contains('is-hidden')) return;   // already seen -> site behaves normally
+      var intro  = document.getElementById('intro');
+      var spacer = document.getElementById('introScroll');
+      if (!intro) return;
+      if (intro.classList.contains('is-hidden')) { if (spacer) spacer.style.display = 'none'; return; }
+
       var reduce = false;
       try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
-      var beats   = [].slice.call(intro.querySelectorAll('.intro-beat'));
-      var progress= intro.querySelector('.intro-progress');
-      var countEl = intro.querySelector('.intro-count');
-      var fill    = intro.querySelector('.intro-track-fill');
-      var cue     = intro.querySelector('.intro-cue');
-      var pressBtn= intro.querySelector('[data-intro-enter]');   // the red button
-      var skipBtn = intro.querySelector('[data-intro-skip]');
-      var WELCOME = beats.length - 1;   // index of the closing WELCOME beat (5)
-      var NQ      = WELCOME - 1;         // number of questions (4)
-      var i = 0, done = false, busy = false, welcomeTimer = null;
+      var loop     = document.getElementById('introLoop');
+      var main     = document.getElementById('introMain');
+      var welcome  = document.getElementById('introWelcome');
+      var cue      = document.getElementById('introCue');
+      var progress = intro.querySelector('.intro-progress');
+      var countEl  = intro.querySelector('.intro-count');
+      var fill     = intro.querySelector('.intro-track-fill');
+      var skipBtn  = intro.querySelector('[data-intro-skip]');
+      var enterBtn = intro.querySelector('[data-intro-enter]');
+      var statementBeat = intro.querySelector('[data-beat="statement"]');
+      var qBeats = [].slice.call(intro.querySelectorAll('.intro-beat')).filter(function (b) {
+        return b.getAttribute('data-beat') !== 'statement';
+      });
 
-      document.body.classList.add('intro-lock');
-      if (pressBtn) { try { pressBtn.focus({ preventScroll: true }); } catch (e) {} }
+      var COPY = window.__INTRO_COPY || {};
+      var THRESHOLDS = (COPY.thresholds && COPY.thresholds.length === 4) ? COPY.thresholds : [0.20, 0.45, 0.70, 0.90];
+      var WELCOME_AT = 0.985;            // scroll fraction at which the WELCOME cut fires
+      var SCRUB_SCREENS = 2.8;           // pinned scroll travel (~2.8 screens for the ~13s clip)
 
-      function setProgress() {
-        if (i >= 1 && i <= NQ) {
-          progress.classList.add('is-on');
-          cue.classList.add('is-on');
-          countEl.textContent = ('0' + i).slice(-2);
-          fill.style.transform = 'scaleX(' + (i / NQ) + ')';
-        } else {
-          progress.classList.remove('is-on');
-          cue.classList.remove('is-on');
-        }
-      }
-
-      function onWelcome() {
-        progress.classList.remove('is-on');
-        cue.classList.remove('is-on');
-        var hold = reduce ? 500 : 1500;   // hold on WELCOME, then auto-unlock
-        welcomeTimer = window.setTimeout(finish, hold);
-      }
-
-      function advance() {
-        if (done || busy) return;
-        if (i >= WELCOME) { finish(); return; }   // click during WELCOME -> unlock now
-        busy = true;
-        var cur = beats[i], nxt = beats[i + 1];
-        cur.classList.remove('is-active');
-        cur.classList.add('is-leaving');
-        i++;
-        intro.classList.add('is-started');   // fade the top monogram once we begin
-        var delay = reduce ? 0 : 380;   // let the leaving beat fully fade before the next enters (one focal line at a time)
-        window.setTimeout(function () {
-          nxt.classList.add('is-active');
-          if (i === WELCOME) { onWelcome(); } else { setProgress(); }
-          busy = false;
-        }, delay);
-        // move focus off the opening button so keyboard advance routes cleanly
-        if (i === 1) { try { intro.focus({ preventScroll: true }); } catch (e) {} }
-      }
-
-      function pressAndAdvance() {
-        if (done || busy || i !== 0) { advance(); return; }
-        if (pressBtn) pressBtn.classList.add('is-pressing');
-        var t = reduce ? 0 : 150;
-        window.setTimeout(function () {
-          if (pressBtn) pressBtn.classList.remove('is-pressing');
-          advance();
-        }, t);
-      }
+      var done = false, started = false, welcomed = false, welcomeTimer = null, primed = false;
+      var target = 0, cur = 0, rafId = null;
 
       function finish() {
-        if (done) return;
-        done = true;
+        if (done) return; done = true;
         if (welcomeTimer) { clearTimeout(welcomeTimer); welcomeTimer = null; }
+        if (rafId) cancelAnimationFrame(rafId);
         try { sessionStorage.setItem('pr_intro_seen', '1'); } catch (e) {}
-        cleanup();
-        intro.classList.add('is-unlocking');
-        var wipeMs = reduce ? 0 : 700;
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onResize);
+        document.removeEventListener('keydown', onKey);
+        try { loop.pause(); main.pause(); } catch (e) {}
+        intro.classList.add('is-gone');
+        var fadeMs = reduce ? 0 : 800;
         window.setTimeout(function () {
-          intro.classList.add('is-gone');
-          var fadeMs = reduce ? 0 : 900;
-          window.setTimeout(function () {
-            intro.classList.add('is-hidden');
-            document.body.classList.remove('intro-lock');
-            window.scrollTo(0, 0);
-          }, fadeMs);
-        }, wipeMs);
+          intro.classList.add('is-hidden');
+          if (spacer && spacer.parentNode) spacer.parentNode.removeChild(spacer);
+          document.body.classList.remove('intro-lock');
+          // jump to top INSTANTLY (bypass scroll-behavior:smooth) so the site
+          // just appears at the top with no visible scroll-up animation
+          var de = document.documentElement, prev = de.style.scrollBehavior;
+          de.style.scrollBehavior = 'auto';
+          window.scrollTo(0, 0);
+          de.style.scrollBehavior = prev;
+        }, fadeMs);
       }
 
-      function onClick(e) {
-        if (skipBtn.contains(e.target)) return;                 // Skip has its own handler
-        if (pressBtn && pressBtn.contains(e.target)) return;    // red button handles itself
-        if (i === 0) return;                                    // opening beat advances ONLY via the red button
-        advance();
-      }
-      function onPress(e) { e.stopPropagation(); pressAndAdvance(); }
       function onKey(e) {
         if (done) return;
-        var k = e.key;
-        if (k === 'Escape' || k === 'Esc') { e.preventDefault(); finish(); return; }
-        if (k === 'Enter' || k === ' ' || k === 'Spacebar') {
-          if (e.target === skipBtn) return;                     // native Skip activation
-          if (i === 0) {                                        // opening: press the red button
-            if (e.target === pressBtn) return;                  // native button activation -> onPress
-            e.preventDefault(); if (pressBtn) pressBtn.click(); return;
-          }
-          if (e.target === pressBtn) return;
-          e.preventDefault(); advance();
+        if (e.key === 'Escape' || e.key === 'Esc') { e.preventDefault(); finish(); return; }
+        if (reduce && (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar')) {
+          if (e.target === skipBtn) return; e.preventDefault(); finish();
         }
       }
-      function onSkip(e) { e.stopPropagation(); e.preventDefault(); finish(); }
+      skipBtn.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); finish(); });
+      document.addEventListener('keydown', onKey);
 
-      function cleanup() {
-        intro.removeEventListener('click', onClick);
-        document.removeEventListener('keydown', onKey);
-        skipBtn.removeEventListener('click', onSkip);
-        if (pressBtn) pressBtn.removeEventListener('click', onPress);
+      /* ---------- REDUCED MOTION: static sealed-lens + Enter, no scrub ---------- */
+      if (reduce) {
+        if (spacer) spacer.style.display = 'none';
+        document.body.classList.add('intro-lock');
+        loop.classList.add('is-on');
+        statementBeat.classList.add('is-active');
+        if (enterBtn) { enterBtn.style.display = 'inline-flex'; enterBtn.addEventListener('click', function (e) { e.preventDefault(); finish(); });
+          try { enterBtn.focus({ preventScroll: true }); } catch (e) {} }
+        try { loop.removeAttribute('loop'); loop.pause(); } catch (e) {}
+        return;
       }
 
-      intro.addEventListener('click', onClick);
-      document.addEventListener('keydown', onKey);
-      skipBtn.addEventListener('click', onSkip);
-      if (pressBtn) pressBtn.addEventListener('click', onPress);
+      /* ---------- SCROLL-SCRUB ---------- */
+      function setSpacer() {
+        if (spacer) spacer.style.height = Math.round(window.innerHeight * (SCRUB_SCREENS + 1)) + 'px';
+      }
+      function travel() { return Math.max(1, spacer.offsetHeight - window.innerHeight); }
+
+      function primeMain() {
+        if (primed) return; primed = true;
+        // unlock buffering/seeking (esp. mobile): play then immediately pause
+        try {
+          var pr = main.play();
+          if (pr && pr.then) pr.then(function () { try { main.pause(); main.currentTime = 0; } catch (e) {} }).catch(function () { try { main.pause(); } catch (e) {} });
+        } catch (e) {}
+      }
+
+      function startScrub() {
+        if (started) return; started = true;
+        main.classList.add('is-on');
+        loop.classList.remove('is-on');
+        try { loop.pause(); } catch (e) {}
+        statementBeat.classList.remove('is-active');
+        cue.classList.remove('is-on');
+        progress.classList.add('is-on');
+      }
+
+      function updateBeats(p) {
+        if (!started) return;
+        var idx = -1;
+        for (var i = 0; i < THRESHOLDS.length; i++) { if (p >= THRESHOLDS[i]) idx = i; }
+        qBeats.forEach(function (b, n) { b.classList.toggle('is-active', n === idx && !welcomed); });
+        fill.style.transform = 'scaleX(' + Math.min(1, p) + ')';
+        countEl.textContent = ('0' + Math.min(4, Math.max(1, idx + 1))).slice(-2);
+      }
+
+      function enterWelcome() {
+        welcomed = true;
+        qBeats.forEach(function (b) { b.classList.remove('is-active'); });
+        progress.classList.remove('is-on');
+        welcome.classList.add('is-on');
+        welcomeTimer = window.setTimeout(finish, 1300);   // hold a beat, then unlock
+      }
+      function exitWelcome() {
+        if (welcomeTimer) { clearTimeout(welcomeTimer); welcomeTimer = null; }
+        welcomed = false;
+        welcome.classList.remove('is-on');
+        if (started) progress.classList.add('is-on');
+      }
+
+      function onScroll() {
+        if (done) return;
+        var p = window.scrollY / travel();
+        if (p < 0) p = 0; if (p > 1) p = 1;
+        if (p > 0.001 && !started) startScrub();
+        target = p;
+        updateBeats(p);
+        if (p >= WELCOME_AT && !welcomed) enterWelcome();
+        else if (p < WELCOME_AT && welcomed) exitWelcome();
+      }
+      function onResize() { setSpacer(); onScroll(); }
+
+      function tick() {
+        cur += (target - cur) * 0.12;                       // small lerp -> smooth scrub
+        if (Math.abs(target - cur) < 0.0005) cur = target;
+        if (started && main.duration && isFinite(main.duration) && main.duration > 0) {
+          var t = cur * main.duration;
+          try {
+            if (main.readyState >= 1 && !main.seeking) {
+              if (typeof main.fastSeek === 'function') main.fastSeek(t); else main.currentTime = t;
+            }
+          } catch (e) {}
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+
+      // init
+      setSpacer();
+      loop.classList.add('is-on');
+      statementBeat.classList.add('is-active');
+      cue.classList.add('is-on');
+      try { var lp = loop.play(); if (lp && lp.catch) lp.catch(function () {}); } catch (e) {}
+      try { main.load(); } catch (e) {}
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onResize, { passive: true });
+      window.addEventListener('touchstart', primeMain, { passive: true, once: true });
+      window.addEventListener('wheel', primeMain, { passive: true, once: true });
+      window.addEventListener('scroll', primeMain, { passive: true, once: true });
+      tick();
+      onScroll();
     })();
   </script>
 </body>
