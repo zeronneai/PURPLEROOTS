@@ -1589,8 +1589,12 @@
     (function () {
       /* =========================================================
          INTRO COPY & TUNING — edit here (single source of truth).
-         thresholds: scroll fraction (0-1) at which each question appears;
-         retune to the MAIN video's natural moments.
+         thresholds : scroll fraction (0-1) at which each question appears
+                      (evenly spaced; Q4 lands before the end so it dwells).
+         videoEnd   : scroll fraction at which the video reaches its LAST
+                      frame; from here to the end the frame HOLDS and Q4
+                      stays on screen (the dwell zone) before Welcome.
+         welcome    : timings for the Welcome cut (all in ms).
       ========================================================= */
       var INTRO = {
         statement: 'Your brand will never be the same after this.',
@@ -1601,7 +1605,9 @@
           { q: 'Ready to build something people actually remember?', sub: "Then you're exactly where you need to be." }
         ],
         welcomeLabel: 'Welcome to',
-        thresholds: [0.20, 0.45, 0.70, 0.90]
+        thresholds: [0.16, 0.38, 0.58, 0.78],
+        videoEnd: 0.82,
+        welcome: { minHoldMs: 1800, maxMs: 2600, fadeInMs: 700, fadeOutMs: 1100 }
       };
       /* ========================================================= */
       window.__INTRO_COPY = INTRO;
@@ -2773,24 +2779,32 @@
       });
 
       var COPY = window.__INTRO_COPY || {};
-      var THRESHOLDS = (COPY.thresholds && COPY.thresholds.length === 4) ? COPY.thresholds : [0.20, 0.45, 0.70, 0.90];
-      var WELCOME_AT = 0.985;            // scroll fraction at which the WELCOME cut fires
-      var SCRUB_SCREENS = 2.8;           // pinned scroll travel (~2.8 screens for the ~13s clip)
+      var THRESHOLDS = (COPY.thresholds && COPY.thresholds.length === 4) ? COPY.thresholds : [0.16, 0.38, 0.58, 0.78];
+      var VIDEO_END  = (typeof COPY.videoEnd === 'number') ? COPY.videoEnd : 0.82;   // video reaches last frame here; holds after
+      var WELCOME_AT = 0.97;             // scroll fraction at which the WELCOME cut fires (after the Q4 dwell)
+      var SCRUB_SCREENS = 3.2;           // pinned scroll travel (~3.2 screens; extra room for the Q4 dwell)
+      var W = COPY.welcome || {};
+      W.minHoldMs = W.minHoldMs || 1800; // minimum time the Welcome screen stays visible
+      W.maxMs     = W.maxMs     || 2600; // hard cap so preload never hangs the Welcome
+      W.fadeInMs  = W.fadeInMs  || 700;  // gentle Welcome fade-in
+      W.fadeOutMs = W.fadeOutMs || 1100; // slower fade-out to the site
 
-      var done = false, started = false, welcomed = false, welcomeTimer = null, primed = false;
+      var done = false, started = false, welcomed = false, welcomeTimers = [], primed = false;
       var target = 0, cur = 0, rafId = null;
+      function clearWelcomeTimers() { welcomeTimers.forEach(function (t) { clearTimeout(t); }); welcomeTimers = []; }
 
       function finish() {
         if (done) return; done = true;
-        if (welcomeTimer) { clearTimeout(welcomeTimer); welcomeTimer = null; }
+        clearWelcomeTimers();
         if (rafId) cancelAnimationFrame(rafId);
         try { sessionStorage.setItem('pr_intro_seen', '1'); } catch (e) {}
         window.removeEventListener('scroll', onScroll);
         window.removeEventListener('resize', onResize);
         document.removeEventListener('keydown', onKey);
         try { loop.pause(); main.pause(); } catch (e) {}
+        var fadeMs = reduce ? 0 : W.fadeOutMs;         // slower, gentle fade to the site
+        intro.style.transitionDuration = fadeMs + 'ms';
         intro.classList.add('is-gone');
-        var fadeMs = reduce ? 0 : 800;
         window.setTimeout(function () {
           intro.classList.add('is-hidden');
           if (spacer && spacer.parentNode) spacer.parentNode.removeChild(spacer);
@@ -2860,15 +2874,48 @@
         countEl.textContent = ('0' + Math.min(4, Math.max(1, idx + 1))).slice(-2);
       }
 
+      /* Preload the site behind the Welcome hold: fonts + hero media + the
+         above-the-fold nav logo, so nothing pops in late after the fade.
+         Each task self-times-out so this never hangs. */
+      function preloadReady() {
+        var tasks = [];
+        try { if (document.fonts && document.fonts.ready) tasks.push(document.fonts.ready); } catch (e) {}
+        var hero = document.querySelector('.hero-video-bg');
+        if (hero) {
+          try { hero.preload = 'auto'; hero.load(); } catch (e) {}
+          tasks.push(new Promise(function (res) {
+            if (hero.readyState >= 3) return res();
+            var t = setTimeout(res, W.maxMs);
+            hero.addEventListener('canplay', function () { clearTimeout(t); res(); }, { once: true });
+          }));
+        }
+        [].slice.call(document.querySelectorAll('.nav-logo-img')).forEach(function (im) {
+          if (im.complete) return;
+          tasks.push(new Promise(function (res) {
+            var t = setTimeout(res, W.maxMs);
+            im.addEventListener('load',  function () { clearTimeout(t); res(); }, { once: true });
+            im.addEventListener('error', function () { clearTimeout(t); res(); }, { once: true });
+          }));
+        });
+        return Promise.all(tasks).catch(function () {});
+      }
+
       function enterWelcome() {
         welcomed = true;
-        qBeats.forEach(function (b) { b.classList.remove('is-active'); });
+        qBeats.forEach(function (b) { b.classList.remove('is-active'); });   // Q4 crossfades out under the Welcome fade-in
         progress.classList.remove('is-on');
+        cue.classList.remove('is-on');
+        welcome.style.transitionDuration = W.fadeInMs + 'ms';               // gentle fade-in
         welcome.classList.add('is-on');
-        welcomeTimer = window.setTimeout(finish, 1300);   // hold a beat, then unlock
+        // Hold >= minHold, wait for site assets, but never exceed maxMs.
+        var ready = false, held = false, committed = false;
+        var commit = function () { if (committed || !welcomed) return; if (held && ready) { committed = true; finish(); } };
+        preloadReady().then(function () { ready = true; commit(); });
+        welcomeTimers.push(window.setTimeout(function () { held = true; commit(); }, W.minHoldMs));
+        welcomeTimers.push(window.setTimeout(function () { if (!committed && welcomed) { committed = true; finish(); } }, W.maxMs));
       }
-      function exitWelcome() {
-        if (welcomeTimer) { clearTimeout(welcomeTimer); welcomeTimer = null; }
+      function exitWelcome() {   // user scrolled back up before the cut committed
+        clearWelcomeTimers();
         welcomed = false;
         welcome.classList.remove('is-on');
         if (started) progress.classList.add('is-on');
@@ -2890,7 +2937,10 @@
         cur += (target - cur) * 0.12;                       // small lerp -> smooth scrub
         if (Math.abs(target - cur) < 0.0005) cur = target;
         if (started && main.duration && isFinite(main.duration) && main.duration > 0) {
-          var t = cur * main.duration;
+          // Map scroll to video over [0, VIDEO_END]; beyond that the video HOLDS
+          // on its final frame (the dwell zone) while Q4 stays readable.
+          var videoP = Math.min(1, cur / VIDEO_END);
+          var t = videoP * main.duration;
           try {
             if (main.readyState >= 1 && !main.seeking) {
               if (typeof main.fastSeek === 'function') main.fastSeek(t); else main.currentTime = t;
