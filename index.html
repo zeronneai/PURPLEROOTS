@@ -774,9 +774,9 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(26,26,46,0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(26,26,46,0.9);
+      backdrop-filter: blur(6px);            /* M4: lighter blur for Safari; bg is ~90% opaque so blur is barely seen */
+      -webkit-backdrop-filter: blur(6px);
       z-index: 9999;
       align-items: center;
       justify-content: center;
@@ -1553,7 +1553,7 @@
     <!-- LOOP (sealed lens, breathing) on top first; MAIN scrubs in on scroll -->
     <video class="intro-video intro-loop is-on" id="introLoop" muted loop playsinline preload="auto"
            poster="https://res.cloudinary.com/dsprn0ew4/video/upload/f_jpg,q_auto,w_720,so_0/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.jpg" src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720,vc_h264/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.mp4"></video>
-    <video class="intro-video intro-main" id="introMain" muted playsinline preload="auto"
+    <video class="intro-video intro-main" id="introMain" muted playsinline preload="metadata"
            poster="https://res.cloudinary.com/dsprn0ew4/video/upload/f_jpg,q_auto,w_720,so_0/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.jpg" src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,q_auto,w_720/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.12_PM_mwvx5k.mp4"></video>
     <div class="intro-scrim" aria-hidden="true"></div>
 
@@ -1672,7 +1672,8 @@
   </div>
 
   <section class="hero" id="hero">
-    <video class="hero-video-bg" autoplay muted loop playsinline>
+    <video class="hero-video-bg" autoplay muted loop playsinline preload="metadata"
+      poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1778261003/Prvideo1_cktsqz.jpg">
       <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_webm,vc_vp9,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.webm" type="video/webm" />
       <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.mp4" type="video/mp4" />
     </video>
@@ -2227,6 +2228,21 @@
       });
     });
 
+    /* M1: in-page anchor navigation. Route through Lenis when it's running so
+       the smooth-scroll library isn't fighting native `scroll-behavior`; fall
+       back to native smooth scroll when Lenis isn't present (mobile/touch). */
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if (!a || a.hasAttribute('data-inquire')) return;    // drawer openers handle themselves
+      const id = a.getAttribute('href');
+      if (!id || id.length < 2) return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      if (window.__lenis && window.__lenis.scrollTo) window.__lenis.scrollTo(target, { offset: 0 });
+      else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, false);
+
     /* Logo → Home: closes the mobile menu and returns to the top (#hero) */
     const navLogo = document.querySelector('.nav-logo');
     if (navLogo) navLogo.addEventListener('click', () => {
@@ -2374,11 +2390,27 @@
          ONE rAF loop: gsap.ticker drives lenis.raf; lenis.scroll drives ScrollTrigger.update.
          lagSmoothing(0) so GSAP never "catches up" and stutters. Never run a separate rAF. */
       if (!isTouch) {
-        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, syncTouch: false });
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((t) => lenis.raf(t * 1000));
-        gsap.ticker.lagSmoothing(0);
-
+        // C3/M1: while the scroll-scrub intro is live it drives NATIVE scroll,
+        // so Lenis must not be smoothing at the same time (double-smoothing =
+        // laggy/stuttery scrub). Rather than lock scroll with lenis.stop(),
+        // we DEFER Lenis until the intro tears down (or start it immediately
+        // when there is no intro to wait for). scroll-behavior is also dropped
+        // (M1) so smooth-scroll never fights Lenis or the scrub.
+        var lenisStarted = false;
+        var startLenis = function () {
+          if (lenisStarted) return; lenisStarted = true;
+          try { document.documentElement.style.scrollBehavior = 'auto'; } catch (e) {}
+          var lenis = new Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, syncTouch: false });
+          lenis.on('scroll', ScrollTrigger.update);
+          gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+          gsap.ticker.lagSmoothing(0);
+          window.__lenis = lenis;
+        };
+        window.__introLenisResume = startLenis;      // intro calls this on teardown
+        window.__introLenisPause  = function () {};   // no-op: Lenis isn't running yet
+        var _intro = document.getElementById('intro');
+        var _introLive = _intro && !_intro.classList.contains('is-hidden');
+        if (!_introLive) startLenis();                // nothing to wait for -> smooth scroll now
       }
 
       /* --- Lightweight, scroll-TRIGGERED reveals: opacity + translateY only.
@@ -2693,6 +2725,72 @@
     }
     initCaseStudies();
 
+    /* =====================================================================
+       SAFETY NET (C2) — content must NEVER stay stuck at opacity:0.
+       Fully independent of GSAP / ScrollTrigger / Lenis / any CDN. Three
+       layers, belt-and-suspenders:
+         (1) IntersectionObserver: when a reveal/title/panel scrolls into
+             view, if it is STILL effectively invisible after a short grace
+             (a real animation would have finished), force it visible.
+         (2) Hard max-timeout after load: force EVERYTHING visible, period.
+         (3) Hooks the intro can call after it tears down.
+       We'd rather lose an animation than ever show an empty section.
+    ===================================================================== */
+    (function () {
+      var SEL = '.reveal, .section-title, .cs-panel, .cs-name, [data-splitwords], .media-band-caption';
+      var EXTRA = '#heroTitle .line, .hero-eyebrow, .hero-sub, .hero-actions, .cs-num';
+      var INNER = '.word, .word > span, .cs-name, .cs-video-inner, .cs-video-el, .cs-video-poster, .media-band-caption';
+
+      function clearInline(n) { if (!n) return; n.style.opacity = ''; n.style.transform = ''; n.style.filter = ''; }
+      function forceShow(el) {
+        if (!el) return;
+        el.classList.add('visible');
+        clearInline(el);
+        var kids = el.querySelectorAll(INNER);
+        for (var i = 0; i < kids.length; i++) clearInline(kids[i]);
+      }
+      function nodeHidden(el) {
+        try {
+          if (parseFloat(getComputedStyle(el).opacity) < 0.05) return true;
+          var w = el.querySelector('.word, .cs-name, .cs-video-inner');
+          if (w && parseFloat(getComputedStyle(w).opacity) < 0.05) return true;
+        } catch (e) {}
+        return false;
+      }
+      function list() { return [].slice.call(document.querySelectorAll(SEL)); }
+      function forceAll() {
+        list().forEach(forceShow);
+        [].slice.call(document.querySelectorAll(EXTRA)).forEach(clearInline);
+      }
+      // Expose an "in-view sweep" for the intro to call right after teardown.
+      window.__introForceRevealInView = function () {
+        var vh = window.innerHeight || 800;
+        list().forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < vh * 1.1 && r.bottom > -vh * 0.1 && nodeHidden(el)) forceShow(el);
+        });
+      };
+
+      // Layer 1 — IntersectionObserver backstop (per element, on view + grace)
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            var el = en.target;
+            io.unobserve(el);
+            window.setTimeout(function () { if (nodeHidden(el)) forceShow(el); }, 1500);
+          });
+        }, { threshold: 0.01, rootMargin: '0px 0px -4% 0px' });
+        list().forEach(function (n) { io.observe(n); });
+      } else {
+        forceAll();
+      }
+
+      // Layer 2 — absolute hard cap: nothing may be invisible past these points.
+      window.setTimeout(forceAll, 7000);
+      window.addEventListener('load', function () { window.setTimeout(forceAll, 4000); });
+    })();
+
     /* Perf: pause the always-on background videos (hero + media band) when they're
        off-screen so we never decode multiple full-bleed videos at once. */
     (function () {
@@ -2789,6 +2887,16 @@
       W.fadeInMs  = W.fadeInMs  || 700;  // gentle Welcome fade-in
       W.fadeOutMs = W.fadeOutMs || 1100; // slower fade-out to the site
 
+      /* C3: Safari / iOS WebKit cannot seek network video per-frame without
+         stuttering, so we do NOT scrub currentTime there — we play the MAIN
+         clip through smoothly and drive only the text beats + Welcome by
+         scroll (a clean play-through). Frame-accurate scrub stays ON only for
+         engines where it's reliable (Chromium/Blink, Firefox on desktop). */
+      var ua = navigator.userAgent || '';
+      var isIOS = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var isSafari = /^((?!chrome|crios|fxios|android|edg|opr|samsung).)*safari/i.test(ua) && /Apple/.test(navigator.vendor || '');
+      var USE_SCRUB = !reduce && !isIOS && !isSafari;   // true = frame-accurate scrub; false = play-through
+
       var done = false, started = false, welcomed = false, welcomeTimers = [], primed = false;
       var target = 0, cur = 0, rafId = null;
       function clearWelcomeTimers() { welcomeTimers.forEach(function (t) { clearTimeout(t); }); welcomeTimers = []; }
@@ -2815,6 +2923,17 @@
           de.style.scrollBehavior = 'auto';
           window.scrollTo(0, 0);
           de.style.scrollBehavior = prev;
+          // C1: the site's ScrollTrigger positions were computed WITH the tall
+          // #introScroll spacer present; now that it's gone, recompute them or
+          // every reveal fires at the wrong place (empty sections). Re-enable
+          // Lenis (paused during the scrub) and refresh on the next frames.
+          try { if (window.__introLenisResume) window.__introLenisResume(); } catch (e) {}
+          var refresh = function () { try { if (window.ScrollTrigger && window.ScrollTrigger.refresh) window.ScrollTrigger.refresh(); } catch (e) {} };
+          refresh();
+          requestAnimationFrame(refresh);
+          window.setTimeout(refresh, 250);
+          // C2 backstop: sweep once more so nothing that should be on-screen stays hidden
+          try { if (window.__introForceRevealInView) window.__introForceRevealInView(); } catch (e) {}
         }, fadeMs);
       }
 
@@ -2863,6 +2982,12 @@
         statementBeat.classList.remove('is-active');
         cue.classList.remove('is-on');
         progress.classList.add('is-on');
+        if (!USE_SCRUB) {
+          // Safari/iOS play-through: let the clip play smoothly (no seeking);
+          // it holds on its last frame when it ends. Beats + Welcome stay
+          // scroll-driven. The user gesture that started scrolling permits play.
+          try { main.loop = false; var pr = main.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {}
+        }
       }
 
       function updateBeats(p) {
@@ -2936,7 +3061,7 @@
       function tick() {
         cur += (target - cur) * 0.12;                       // small lerp -> smooth scrub
         if (Math.abs(target - cur) < 0.0005) cur = target;
-        if (started && main.duration && isFinite(main.duration) && main.duration > 0) {
+        if (USE_SCRUB && started && main.duration && isFinite(main.duration) && main.duration > 0) {
           // Map scroll to video over [0, VIDEO_END]; beyond that the video HOLDS
           // on its final frame (the dwell zone) while Q4 stays readable.
           var videoP = Math.min(1, cur / VIDEO_END);
@@ -2951,17 +3076,25 @@
       }
 
       // init
+      // C3/M3: pause Lenis so it doesn't double-smooth the scroll the scrub
+      // reads (and to lighten work during the intro). Resumed in finish().
+      try { if (window.__introLenisPause) window.__introLenisPause(); } catch (e) {}
       setSpacer();
       loop.classList.add('is-on');
       statementBeat.classList.add('is-active');
       cue.classList.add('is-on');
       try { var lp = loop.play(); if (lp && lp.catch) lp.catch(function () {}); } catch (e) {}
-      try { main.load(); } catch (e) {}
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onResize, { passive: true });
-      window.addEventListener('touchstart', primeMain, { passive: true, once: true });
-      window.addEventListener('wheel', primeMain, { passive: true, once: true });
-      window.addEventListener('scroll', primeMain, { passive: true, once: true });
+      if (USE_SCRUB) {
+        // Only the frame-accurate scrub needs the main clip buffered ahead and
+        // seeking primed on first gesture. Play-through streams as it plays,
+        // so Safari/iOS keep preload=metadata (lighter first paint, M3).
+        try { main.preload = 'auto'; main.load(); } catch (e) {}
+        window.addEventListener('touchstart', primeMain, { passive: true, once: true });
+        window.addEventListener('wheel', primeMain, { passive: true, once: true });
+        window.addEventListener('scroll', primeMain, { passive: true, once: true });
+      }
       tick();
       onScroll();
     })();
