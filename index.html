@@ -939,32 +939,6 @@
       max-width: 42ch;
     }
 
-    /* =========================================================
-       TESTIMONIALS
-    ========================================================= */
-    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); }
-    .testimonial-card {
-      background: var(--paper-alt);
-      padding: 3.5rem 3rem;
-      cursor: default;
-    }
-    .testimonial-quote {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 1.6rem;
-      line-height: 1.45;
-      color: var(--black);
-      margin-bottom: 2rem;
-    }
-    .testimonial-quote span { color: var(--accent); font-style: normal; }
-    .testimonial-author {
-      font-family: var(--font-body);
-      font-size: 0.66rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--black);
-      opacity: 0.5;
-    }
 
     /* =========================================================
        FINAL CTA
@@ -1287,7 +1261,6 @@
     .section-title em, .final-cta h2 em,
     .section-title .y, .section-title .lv, .section-title .bl,
     .final-cta h2 .yellow, .cs-name em { font-style: normal; }
-    .testimonial-quote { font-family: var(--font-display); font-style: normal; font-weight: 500; letter-spacing: -0.01em; text-transform: none; line-height: 1.2; }
     .footer-tagline { font-family: var(--font-display); font-style: normal; }
 
     @media (max-width: 1024px) {
@@ -1344,9 +1317,6 @@
       .is-pinned .process-panel { position: static; opacity: 1; transform: none; border-top: 1px solid var(--line); margin: 0; padding: 1.4rem 0 0; }
       .is-pinned .process-panel + .process-panel { margin-top: 1.4rem; }
       .process-progress { display: none; }
-      .testimonials-grid  { grid-template-columns: 1fr; }
-      .testimonial-card   { padding: 1.6rem 0; }
-      .testimonial-quote  { font-size: clamp(20px, 5vw, 28px); }
       .final-cta h2    { font-size: clamp(40px, 12vw, 72px); }
       .final-cta .btn-lime { width: 100%; justify-content: center; padding: 20px 24px; font-size: 13px; }
       /* Premium, centered, ordered footer on mobile */
@@ -1878,18 +1848,6 @@
         <div class="process-panel" data-step="1"><div class="process-n">02</div><div class="process-name">Strategy</div><p class="process-desc">We craft a clear creative direction and content roadmap before a single frame is shot or pixel is placed.</p><div class="process-progress"><span>01</span><span class="on">02</span><span>03</span><span>04</span></div></div>
         <div class="process-panel" data-step="2"><div class="process-n">03</div><div class="process-name">Production</div><p class="process-desc">We execute with precision. From shoot day to final export, every detail is handled with obsessive attention to quality.</p><div class="process-progress"><span>01</span><span>02</span><span class="on">03</span><span>04</span></div></div>
         <div class="process-panel" data-step="3"><div class="process-n">04</div><div class="process-name">Launch &amp; Grow</div><p class="process-desc">We don't disappear at delivery. We monitor, optimize, and iterate until the results match the ambition.</p><div class="process-progress"><span>01</span><span>02</span><span>03</span><span class="on">04</span></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block block--tight" id="testimonials" style="background: var(--paper-alt);">
-    <div class="container">
-      <div class="section-head reveal offset-right"><div class="section-num">07</div><h2 class="section-title">Don't take<br />our <span class="bl">word for it.</span></h2></div>
-      <div class="testimonials-grid">
-        <div class="testimonial-card reveal"><p class="testimonial-quote">"Purple Roots didn't just shoot our content, they <span>understood our brand</span> before we even finished explaining it. The results speak for themselves."</p><div class="testimonial-author">Marketing Director, Jarritos Campaign</div></div>
-        <div class="testimonial-card reveal"><p class="testimonial-quote">"From concept to delivery, they were <span>professional, fast, and genuinely creative</span>. We've worked with agencies twice their size that delivered half the quality."</p><div class="testimonial-author">Brand Manager, Mercedes El Paso</div></div>
-        <div class="testimonial-card reveal"><p class="testimonial-quote">"Our social engagement went up <span>300% in 90 days</span>. I didn't think that was realistic. Purple Roots made it look easy."</p><div class="testimonial-author">Founder, Badass Human</div></div>
-        <div class="testimonial-card reveal"><p class="testimonial-quote">"They're the team you call when you're tired of mediocre. Honest, <span>talent-heavy</span>, and they actually give a damn about your brand."</p><div class="testimonial-author">CEO, Desertview</div></div>
       </div>
     </div>
   </section>
@@ -2602,7 +2560,7 @@
       cursor.style.left = e.clientX + 'px';
       cursor.style.top  = e.clientY + 'px';
     });
-    document.querySelectorAll('a, button, .brand-card-slide, .work-card, .story-row, .honest-card, .testimonial-card').forEach(el => {
+    document.querySelectorAll('a, button, .brand-card-slide, .work-card, .story-row, .honest-card').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
