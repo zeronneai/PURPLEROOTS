@@ -1467,7 +1467,7 @@
     #decision.is-rising { transform: translateY(-100%); }              /* curtain rises */
     @media (prefers-reduced-motion: reduce) { #decision.is-rising { transform: none; opacity: 0; } }
 
-    .decision-inner { width: min(94vw, 760px); display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .decision-inner { width: 100%; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
     .decision-h1 {
       font-family: var(--font-display); font-weight: 500;
       font-size: clamp(2rem, 5.6vw, 4.1rem); line-height: 1.02;
@@ -1484,7 +1484,7 @@
     }
 
     /* flow-chart branch */
-    .flow { position: relative; width: min(94vw, 620px); display: flex; flex-direction: column; align-items: center; margin-top: var(--sp-3); }
+    .flow { position: relative; width: 100%; max-width: 620px; margin-left: auto; margin-right: auto; margin-top: var(--sp-3); display: flex; flex-direction: column; align-items: center; }
     .flow-canvas { position: relative; width: 100%; height: clamp(58px, 8vh, 96px); }
     .flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
     .flow-svg path { fill: none; vector-effect: non-scaling-stroke; }
@@ -1573,12 +1573,14 @@
            "More than you think. Let's fix that."
            "Everything. But it's not too late."                     */
         welcomeLabel: "Welcome to",
+        /* ---- timing (ms) — only the FIRST tap is required; the rest auto-plays ---- */
         openMs:        1150,   // box-opening (3D door swing) duration
-        answerHoldMs:  1100,   // (used only if auto-advancing; here clicks advance)
-        welcomeMinMs:  1900,   // Welcome min on-screen hold
-        welcomeMaxMs:  2500,   // hard cap so preload never hangs
+        answerHoldMs:  2700,   // how long the ANSWER holds on screen before auto-advancing
+        welcomeMinMs:  2100,   // Welcome min on-screen hold (uses this time to preload the site)
+        welcomeMaxMs:  2600,   // Welcome hard cap so the preload never hangs the sequence
         welcomeFadeMs: 750,    // Welcome fade-in
-        fadeOutMs:     1000    // overlay fade-out to the site
+        fadeOutMs:     1000,   // overlay fade-out to the site
+        reducedHoldMs: 1600    // prefers-reduced-motion: how long the question shows before auto-revealing the site
       };
       /* ========================================================= */
       window.__ENT_COPY = ENT;
@@ -2900,12 +2902,12 @@
       var ENT = window.__ENT_COPY || {};
       var skipBtn  = intro.querySelector('[data-ent-skip]');
       var enterBtn = intro.querySelector('[data-ent-enter]');
-      var state = 0, done = false, lockUntil = 0, welcomeTimers = [];
+      var state = 0, done = false, lastTap = 0, timers = [];   // state 0 closed, 1 answer, 2 welcome
 
       document.body.classList.add('ent-lock');
       try { (reduce && enterBtn ? enterBtn : intro).focus({ preventScroll: true }); } catch (e) {}
 
-      function clearWelcomeTimers() { welcomeTimers.forEach(function (t) { clearTimeout(t); }); welcomeTimers = []; }
+      function clearWelcomeTimers() { timers.forEach(function (t) { clearTimeout(t); }); timers = []; }
 
       /* Preload the site behind the Welcome hold: fonts + hero video + logos,
          each self-timing-out so it never hangs past welcomeMaxMs. */
@@ -2927,23 +2929,38 @@
         return Promise.all(tasks).catch(function () {});
       }
 
-      function enterWelcome() {
+      /* Beat 1: open the box + reveal the answer, then AUTO-advance to Welcome
+         after the answer hold. (state 0 -> 1) */
+      function toAnswer() {
+        if (state !== 0) return;
+        state = 1;
+        intro.classList.add('is-open');
+        clearWelcomeTimers();
+        timers.push(window.setTimeout(function () { if (state === 1) toWelcome(); },
+          (ENT.openMs || 1150) + (ENT.answerHoldMs || 2700)));
+      }
+      /* Beat 2: Welcome + logo; hold (preloading the site), then AUTO-finish. (state 1 -> 2) */
+      function toWelcome() {
+        if (state >= 2 || done) return;
         state = 2;
+        clearWelcomeTimers();
         intro.classList.add('is-welcome');
         var ready = false, held = false, committed = false;
         var commit = function () { if (committed) return; if (held && ready) { committed = true; finish(); } };
         preloadReady().then(function () { ready = true; commit(); });
-        welcomeTimers.push(window.setTimeout(function () { held = true; commit(); }, ENT.welcomeMinMs || 1900));
-        welcomeTimers.push(window.setTimeout(function () { if (!committed) { committed = true; finish(); } }, ENT.welcomeMaxMs || 2500));
+        timers.push(window.setTimeout(function () { held = true; commit(); }, ENT.welcomeMinMs || 2100));
+        timers.push(window.setTimeout(function () { if (!committed) { committed = true; finish(); } }, ENT.welcomeMaxMs || 2600));
       }
 
+      /* A tap always moves FORWARD: only the first tap is required; taps during
+         the auto-sequence skip to the next beat (2nd -> welcome, 3rd -> site). */
       function advance() {
         if (done) return;
-        if (reduce) { finish(); return; }              // static version: any advance -> site
-        if (Date.now() < lockUntil) return;            // let the current beat be read
-        if (state === 0) { state = 1; intro.classList.add('is-open'); lockUntil = Date.now() + 800; }
-        else if (state === 1) { enterWelcome(); }
-        else { finish(); }
+        if (reduce) { finish(); return; }
+        var now = Date.now(); if (now - lastTap < 220) return; lastTap = now;   // debounce a double-fired single tap
+        if (state === 0) toAnswer();
+        else if (state === 1) toWelcome();
+        else finish();
       }
 
       function finish() {
@@ -2995,6 +3012,10 @@
       document.addEventListener('keydown', onKey);
       skipBtn.addEventListener('click', onSkip);
       if (enterBtn) enterBtn.addEventListener('click', onEnter);
+
+      // prefers-reduced-motion: no animation — show the question briefly, then
+      // auto-reveal the site (Enter/click/Skip still finish sooner).
+      if (reduce) { preloadReady(); timers.push(window.setTimeout(finish, ENT.reducedHoldMs || 1600)); }
     })();
   </script>
   <!-- DECISION SCREEN controller — path highlight + press micro-interactions;
