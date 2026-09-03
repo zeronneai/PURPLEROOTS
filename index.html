@@ -130,7 +130,7 @@
        RESET & BASE
     ========================================================= */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: auto; }   /* Lenis owns smooth scroll; native smooth would fight it */
 
     body {
       background-color: var(--paper);
@@ -502,7 +502,7 @@
       margin: 0; max-width: 16ch; text-transform: none;
     }
     .hero h1 .line { display: block; }
-    .hero h1 .line > span { display: inline-block; will-change: transform, opacity; }
+    .hero h1 .line > span { display: inline-block; }
     .hero h1 em, .hero h1 .yellow { font-style: normal; font-weight: 500; color: inherit; }
     .hero-sub {
       font-family: var(--font-body); font-size: var(--fs-lead);
@@ -517,7 +517,6 @@
       width: 100%; max-width: 1040px; aspect-ratio: 16 / 9;
       border-radius: var(--radius); overflow: hidden;
       background: var(--paper-alt); border: 1px solid var(--hair-c);
-      will-change: transform;
     }
     .hero-media video, .hero-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .hero-media-badge {
@@ -1258,7 +1257,6 @@
     /* Active section link: full-opacity ink, hairline underline held open */
     .nav-links a.active { color: var(--ink); opacity: 1; }
     .nav-links a.active::after { transform: scaleX(1); }
-    [data-magnetic] { will-change: transform; }
 
     /* =========================================================
        REVEAL
@@ -1385,48 +1383,63 @@
     #intro.ent.is-hidden { display: none; }
     #intro.ent.is-gone { opacity: 0; }
 
-    .ent-stage {
-      position: relative; width: min(92vw, 760px);
-      display: flex; flex-direction: column; align-items: center;
-      gap: clamp(30px, 5.5vh, 60px); text-align: center;
+    /* SCENE — perspective container holds the 3D box (behind the text) */
+    .ent-scene {
+      position: absolute; inset: 0; z-index: 1;
+      display: grid; place-items: center;
+      perspective: 1600px; perspective-origin: 50% 46%;
     }
-    .ent-question {
-      font-family: var(--font-display); font-weight: 500;
-      font-size: clamp(1.9rem, 5.4vw, 3.9rem); line-height: 1.03;
-      letter-spacing: var(--tr-display); color: var(--ink); margin: 0; max-width: 15ch;
-      transition: opacity .6s var(--ease), transform .6s var(--ease);
+    .ent-box {
+      position: relative; width: clamp(210px, 34vw, 380px); aspect-ratio: 3 / 4;
+      transform-style: preserve-3d; pointer-events: none;
     }
-
-    /* the refined closed box, with a hairline seam down the centre */
-    .ent-boxwrap { position: relative; width: clamp(200px, 38vw, 340px); aspect-ratio: 4 / 5; }
-    .ent-box { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
     .ent-half {
       position: absolute; top: 0; bottom: 0; width: 50%;
-      background: var(--paper-alt); border: 1px solid var(--line);
-      will-change: transform; transition: transform var(--ent-open, 950ms) var(--ease);
+      background: linear-gradient(160deg, #efeee9 0%, var(--paper-alt) 60%, #e4e2db 100%);
+      border: 1px solid var(--line); backface-visibility: hidden;
+      transition: transform var(--ent-open, 950ms) var(--ease);
+      will-change: transform;
     }
-    .ent-left  { left: 0;  border-right: 1px solid var(--ink); }   /* centre seam */
-    .ent-right { right: 0; border-left: none; }
-    /* the answer, revealed from inside the box as the halves part */
-    .ent-answer {
-      position: absolute; inset: -34% -36%; z-index: 1;
-      display: grid; place-items: center; overflow: visible;
-      opacity: 0; transition: opacity .8s var(--ease); pointer-events: none;
+    .ent-left  { left: 0;  transform-origin: right center; border-right: 1px solid var(--ink); }  /* hinged at the centre seam */
+    .ent-right { right: 0; transform-origin: left center;  border-left: none; }
+    /* soft depth shadow on the inner edges — reads dimensional as they swing */
+    .ent-half::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 42%;
+      opacity: 0; pointer-events: none; transition: opacity var(--ent-open, 950ms) var(--ease);
     }
-    .ent-answer p {
-      font-family: var(--font-display); font-weight: 500;
-      font-size: clamp(1.5rem, 4.2vw, 2.8rem); line-height: 1.05;
-      letter-spacing: var(--tr-display); color: var(--ink); margin: 0; max-width: 16ch;
-    }
+    .ent-left::after  { right: 0; background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.16) 100%); }
+    .ent-right::after { left: 0;  background: linear-gradient(to left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.16) 100%); }
 
-    /* OPEN state — doors part, question leaves, answer fades in */
-    #intro.is-open .ent-left  { transform: translateX(-104%); }
-    #intro.is-open .ent-right { transform: translateX(104%); }
-    #intro.is-open .ent-answer { opacity: 1; transition-delay: .35s; }
-    #intro.is-open .ent-question { opacity: 0; transform: translateY(-12px); }
+    /* OPEN — the two halves swing OUTWARD in 3D like double doors (rotateY),
+       revealing the space behind. Text lives on its own layer (never clipped). */
+    #intro.is-open .ent-left  { transform: rotateY(-104deg); }
+    #intro.is-open .ent-right { transform: rotateY(104deg); }
+    #intro.is-open .ent-half::after { opacity: 1; }
+
+    /* TEXT LAYER — standalone, centered on screen, ABOVE the box. The question
+       and answer are never inside/clipped by the panels. */
+    .ent-textlayer {
+      position: absolute; inset: 0; z-index: 4;
+      display: grid; place-items: center; text-align: center;
+      padding: clamp(24px, 6vw, 72px); pointer-events: none;
+    }
+    .ent-question, .ent-answer {
+      grid-area: 1 / 1; margin: 0;
+      font-family: var(--font-display); font-weight: 500;
+      letter-spacing: var(--tr-display); color: var(--ink);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+      will-change: transform, opacity;
+    }
+    .ent-question { font-size: clamp(1.9rem, 5.4vw, 3.9rem); line-height: 1.03; max-width: 15ch; }
+    .ent-answer  { font-size: clamp(1.6rem, 4.4vw, 3rem);   line-height: 1.05; max-width: 17ch; opacity: 0; }
+    /* on open: question rises + fades OUT on its own; answer fades IN after */
+    #intro.is-open .ent-question { opacity: 0; transform: translateY(-44px); }
+    #intro.is-open .ent-answer   { opacity: 1; transition-delay: .45s; }
+
+    .ent-enter { display: none; margin-top: var(--sp-6); position: relative; z-index: 4; pointer-events: auto; }
 
     .ent-cue {
-      position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(28px, 8vh, 60px);
+      position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(28px, 8vh, 60px); z-index: 4;
       font-family: var(--font-body); font-weight: 600; font-size: 11px;
       letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--ink-40);
       transition: opacity .5s var(--ease);
@@ -1449,24 +1462,22 @@
       opacity: 0; visibility: hidden; transition: opacity var(--ent-welcome-fade, 750ms) var(--ease);
     }
     #intro.is-welcome .ent-welcome { opacity: 1; visibility: visible; }
-    #intro.is-welcome .ent-stage { opacity: 0; transition: opacity .5s var(--ease); }
+    #intro.is-welcome .ent-scene, #intro.is-welcome .ent-textlayer { opacity: 0; transition: opacity .5s var(--ease); }
     .ent-welcome-label {
       font-family: var(--font-body); font-weight: 600; font-size: 12px;
       letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--ink-50);
     }
     .ent-welcome-logo { height: clamp(40px, 7vw, 66px); width: auto; display: block; }
 
-    .ent-enter { display: none; margin-top: var(--sp-4); }   /* reduced-motion only */
-
-    body.ent-lock { overflow: hidden; }
+        body.ent-lock { overflow: hidden; }
 
     @media (max-width: 560px) {
-      .ent-boxwrap { width: clamp(190px, 60vw, 260px); }
+      .ent-box { width: clamp(180px, 58vw, 260px); }
     }
     /* Reduced motion: static — question + a single Enter, no box animation */
     @media (prefers-reduced-motion: reduce) {
-      #intro.ent, .ent-question, .ent-answer, .ent-half, .ent-welcome, .ent-cue { transition: none !important; }
-      .ent-boxwrap, .ent-cue { display: none; }
+      #intro.ent, .ent-question, .ent-answer, .ent-half, .ent-half::after, .ent-welcome, .ent-cue { transition: none !important; }
+      .ent-scene, .ent-cue { display: none; }
       .ent-enter { display: inline-flex; }
     }
   </style>
@@ -1481,12 +1492,14 @@
   =========================================================== -->
   <noscript><style>#intro{display:none!important}</style></noscript>
   <div id="intro" class="ent theme-light" role="dialog" aria-label="Purple Roots intro" aria-modal="false" tabindex="-1">
-    <div class="ent-stage">
+    <!-- box (behind, in a 3D perspective scene) -->
+    <div class="ent-scene" aria-hidden="true">
+      <div class="ent-box"><span class="ent-half ent-left"></span><span class="ent-half ent-right"></span></div>
+    </div>
+    <!-- text on its OWN layer, centered on screen, never clipped by the panels -->
+    <div class="ent-textlayer">
       <p class="ent-question"><!-- ENT.question --></p>
-      <div class="ent-boxwrap" aria-hidden="true">
-        <div class="ent-box"><span class="ent-half ent-left"></span><span class="ent-half ent-right"></span></div>
-        <div class="ent-answer"><p><!-- ENT.answer --></p></div>
-      </div>
+      <p class="ent-answer"><!-- ENT.answer --></p>
       <button class="ent-enter cta-btn" type="button" data-ent-enter>Enter</button>
     </div>
     <div class="ent-welcome" aria-hidden="true">
@@ -1508,7 +1521,7 @@
            "More than you think. Let's fix that."
            "Everything. But it's not too late."                     */
         welcomeLabel: "Welcome to",
-        openMs:        950,    // box-opening duration
+        openMs:        1150,   // box-opening (3D door swing) duration
         answerHoldMs:  1100,   // (used only if auto-advancing; here clicks advance)
         welcomeMinMs:  1900,   // Welcome min on-screen hold
         welcomeMaxMs:  2500,   // hard cap so preload never hangs
@@ -1521,7 +1534,7 @@
         var r = document.getElementById('intro');
         if (r) {
           r.querySelector('.ent-question').textContent = ENT.question;
-          r.querySelector('.ent-answer p').textContent = ENT.answer;
+          r.querySelector('.ent-answer').textContent = ENT.answer;
           r.querySelector('.ent-welcome-label').textContent = ENT.welcomeLabel;
           r.style.setProperty('--ent-open', ENT.openMs + 'ms');
           r.style.setProperty('--ent-welcome-fade', ENT.welcomeFadeMs + 'ms');
@@ -1790,7 +1803,7 @@
 
   <footer>
     <div class="footer-inner">
-      <div class="footer-brand"><img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258144/ChatGPT_Image_May_8_2026_10_33_08_AM_v91yje.png" alt="Purple Roots" class="footer-brand-img" /></div>
+      <div class="footer-brand"><img src="https://res.cloudinary.com/dsprn0ew4/image/upload/v1778258144/ChatGPT_Image_May_8_2026_10_33_08_AM_v91yje.png" alt="Purple Roots" class="footer-brand-img" loading="lazy" /></div>
       <p class="footer-tagline">"Crafting culture, one brand at a time."</p>
       <ul class="footer-socials"><li><a href="https://instagram.com/purpleroots.agency" target="_blank">Instagram</a></li></ul>
     </div>
@@ -1976,7 +1989,7 @@
       var aspect = v.aspect || '16:9';
       var hasSrc = !!v.src;
       var poster = v.poster || '';
-      var posterImg = poster ? '<img class="cs-video-poster" src="' + poster + '" alt="' + esc(c.client) + '" />' : '';
+      var posterImg = poster ? '<img class="cs-video-poster" loading="lazy" src="' + poster + '" alt="' + esc(c.client) + '" />' : '';
       return '<figure class="cs-video' + (hasSrc ? '' : ' cs-video--fallback') + '" data-aspect="' + aspect + '"><div class="cs-video-inner">'
         + '<video class="cs-video-el" muted loop playsinline preload="none"' + (poster ? ' poster="' + poster + '"' : '') + (hasSrc ? ' data-src="' + v.src + '"' : '') + '></video>'
         + posterImg
@@ -2064,11 +2077,11 @@
       card.className = 'brand-card-slide';
       if (b.thumbnail) {
         card.classList.add('has-thumb');
-        card.innerHTML = `<img src="${b.thumbnail}" alt="${b.name}" class="brand-thumb" /><div class="brand-lbl brand-lbl--overlay">${b.name}</div>`;
+        card.innerHTML = `<img src="${b.thumbnail}" alt="${b.name}" class="brand-thumb" loading="lazy" /><div class="brand-lbl brand-lbl--overlay">${b.name}</div>`;
       } else {
         card.style.background = bg;
         const logoHtml = b.logo
-          ? `<img src="${b.logo}" alt="${b.name}" class="brand-logo-img" />`
+          ? `<img src="${b.logo}" alt="${b.name}" class="brand-logo-img" loading="lazy" />`
           : `<div class="brand-init">${getInitials(b.name)}</div>`;
         card.innerHTML = `${logoHtml}<div class="brand-lbl">${b.name}</div>`;
       }
@@ -2358,11 +2371,18 @@
       }
 
       /* Hero scroll intent — headline and video panel parallax at DIFFERENT
-         rates as the hero scrolls out (transform only, scrubbed, no bounce). */
+         rates as the hero scrolls out (transform only, scrubbed, no bounce).
+         will-change is added only while the hero trigger is active, then
+         cleared — the ONLY scroll-linked work on the page besides the pin. */
+      const heroTitleEl = document.getElementById('heroTitle');
       const heroEl = document.querySelector('.hero');
       if (heroEl) {
-        gsap.to('#heroTitle', { yPercent: -14, ease: 'none',
-          scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: 0.5 } });
+        const wcOn  = (els) => els.forEach(e => e && (e.style.willChange = 'transform'));
+        const wcOff = (els) => els.forEach(e => e && (e.style.willChange = 'auto'));
+        const pxEls = [heroTitleEl, heroMediaEl];
+        const stCfg = { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: 0.5,
+          onToggle: self => (self.isActive ? wcOn(pxEls) : wcOff(pxEls)) };
+        if (heroTitleEl) gsap.to(heroTitleEl, { yPercent: -14, ease: 'none', scrollTrigger: stCfg });
         if (heroMediaEl) gsap.to(heroMediaEl, { yPercent: -6, ease: 'none',
           scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: 0.5 } });
       }
@@ -2424,11 +2444,12 @@
 
       /* Magnetic hover on primary CTAs */
       document.querySelectorAll('[data-magnetic]').forEach(btn => {
+        btn.addEventListener('mouseenter', () => { btn.style.willChange = 'transform'; });
         btn.addEventListener('mousemove', e => {
           const r = btn.getBoundingClientRect();
           gsap.to(btn, { x: (e.clientX - (r.left + r.width / 2)) * 0.3, y: (e.clientY - (r.top + r.height / 2)) * 0.4, duration: 0.4, ease: 'power2.out' });
         });
-        btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: EASE }));
+        btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: EASE, onComplete: () => { btn.style.willChange = 'auto'; } }));
       });
 
       // Recompute pin/scrub positions once everything (fonts, video posters) has loaded,
@@ -2732,36 +2753,27 @@
       vids.forEach(v => io.observe(v));
     })();
 
-    /* Nav scrollspy: light up the current section's link in lagoon (palette active state).
-       Picks the mapped section that straddles the viewport midline. */
+    /* Nav scrollspy — IntersectionObserver (no per-frame getBoundingClientRect
+       on scroll). A section is "current" while its middle band crosses the
+       viewport centre; the last such section wins. */
     (function () {
       const links = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
-      if (!links.length) return;
-      const pairs = [];
-      links.forEach(a => {
-        const sec = document.querySelector(a.getAttribute('href'));
-        if (sec) pairs.push({ a, sec });
-      });
-      if (!pairs.length) return;
-      let current = null, ticking = false;
-      const update = () => {
-        ticking = false;
-        const mid = window.innerHeight / 2;
+      if (!links.length || !('IntersectionObserver' in window)) return;
+      const map = new Map();
+      links.forEach(a => { const sec = document.querySelector(a.getAttribute('href')); if (sec) map.set(sec, a); });
+      if (!map.size) return;
+      const visible = new Set();
+      let current = null;
+      const apply = () => {
         let hit = null;
-        for (const p of pairs) {
-          const r = p.sec.getBoundingClientRect();
-          if (r.top <= mid && r.bottom >= mid) { hit = p.a; }  // last straddler wins
-        }
-        if (hit !== current) {
-          if (current) current.classList.remove('active');
-          if (hit) hit.classList.add('active');
-          current = hit;
-        }
+        map.forEach((a, sec) => { if (visible.has(sec)) hit = a; });   // last in DOM order wins
+        if (hit !== current) { if (current) current.classList.remove('active'); if (hit) hit.classList.add('active'); current = hit; }
       };
-      const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll, { passive: true });
-      update();
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => { if (en.isIntersecting) visible.add(en.target); else visible.delete(en.target); });
+        apply();
+      }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });   // a 0px band at the viewport centre
+      map.forEach((_, sec) => io.observe(sec));
     })();
   </script>
 
@@ -2843,6 +2855,8 @@
         window.setTimeout(function () {
           intro.classList.add('is-hidden');
           document.body.classList.remove('ent-lock');
+          // fully REMOVE the overlay from the DOM so no layer/listener lingers behind the site
+          if (intro.parentNode) intro.parentNode.removeChild(intro);
           try { if (window.__introLenisResume) window.__introLenisResume(); } catch (e) {}
           var de = document.documentElement, prev = de.style.scrollBehavior;
           de.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); de.style.scrollBehavior = prev;
