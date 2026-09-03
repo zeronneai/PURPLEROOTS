@@ -1480,6 +1480,88 @@
       .ent-scene, .ent-cue { display: none; }
       .ent-enter { display: inline-flex; }
     }
+    /* =========================================================
+       DECISION SCREEN — the reworked hero: a calm "answer + choice"
+       moment (flow-chart branch), NOT a scroll section. Covers the site;
+       "See Our Work" lifts it away (curtain) to reveal the video hero + rest.
+       Monochrome editorial, grotesque display, generous space.
+    ========================================================= */
+    #decision {
+      position: fixed; inset: 0; z-index: 850;   /* above site (nav 100, fab 300); below inquiry (998) + entrance (9000) */
+      background: var(--paper); color: var(--ink);
+      display: grid; place-items: center; padding: clamp(28px, 6vw, 72px) var(--gutter);
+      overflow: hidden;
+      transition: transform 0.95s var(--ease), opacity 0.95s var(--ease);
+    }
+    #decision.is-hidden { display: none; }
+    #decision.is-rising { transform: translateY(-100%); }              /* curtain rises */
+    @media (prefers-reduced-motion: reduce) { #decision.is-rising { transform: none; opacity: 0; } }
+
+    .decision-inner { width: min(94vw, 760px); display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .decision-h1 {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(2rem, 5.6vw, 4.1rem); line-height: 1.02;
+      letter-spacing: var(--tr-display); color: var(--ink); margin: 0; max-width: 16ch;
+    }
+    .decision-sub {
+      font-family: var(--font-body); font-size: var(--fs-lead); color: var(--fg-muted);
+      line-height: var(--lh-body); margin: var(--sp-4) auto 0; max-width: 46ch;
+    }
+    .decision-pivot {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(1.3rem, 2.8vw, 2rem); line-height: 1.1; letter-spacing: var(--tr-tight);
+      color: var(--ink); margin: clamp(var(--sp-8), 8vh, var(--sp-16)) 0 0;
+    }
+
+    /* flow-chart branch */
+    .flow { position: relative; width: min(94vw, 620px); display: flex; flex-direction: column; align-items: center; margin-top: var(--sp-3); }
+    .flow-canvas { position: relative; width: 100%; height: clamp(58px, 8vh, 96px); }
+    .flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+    .flow-svg path { fill: none; vector-effect: non-scaling-stroke; }
+    .fl-base { stroke: var(--hair-c); stroke-width: 1; }
+    .fl-node { fill: var(--fg-muted); }
+    .fl-draw { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .55s var(--ease); }
+    .flow.hover-work  .fl-trunk-d, .flow.hover-work  .fl-left-d  { stroke-dashoffset: 0; }
+    .flow.hover-start .fl-trunk-d, .flow.hover-start .fl-right-d { stroke-dashoffset: 0; }
+
+    .flow-branch { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 5vw, 72px); width: 100%; }
+    .flow-btn {
+      justify-self: center; min-width: min(46vw, 220px);
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 17px 26px; border-radius: var(--radius);
+      background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
+      font-family: var(--font-body); font-weight: 600; font-size: 13px;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; white-space: nowrap;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform 0.18s var(--ease);
+      will-change: transform;
+    }
+    .flow-btn--ghost { background: none; color: var(--ink); }
+    .flow-btn:hover, .flow-btn:focus-visible { outline: none; }
+    .flow-btn:not(.flow-btn--ghost):hover { background: #2b2b2b; }
+    .flow-btn--ghost:hover { background: var(--ink); color: var(--paper); }
+    .flow-btn .arr { transition: transform var(--dur) var(--ease); }
+    .flow-btn:hover .arr { transform: translateX(5px); }
+    .flow-btn.is-press { transform: scale(0.95); }
+
+    /* mobile: branch stacks vertically with a simple hairline chain */
+    .flow-mchain { display: none; }
+    @media (max-width: 620px) {
+      .flow-canvas { display: none; }
+      .flow-branch { grid-template-columns: 1fr; gap: 0; }
+      .flow-btn { width: 100%; min-width: 0; }
+      .flow { gap: 0; }
+      .flow-mleg { display: flex; flex-direction: column; align-items: center; width: 100%; }
+      .flow-mleg .flow-mconn { width: 1px; height: 30px; background: var(--hair-c); transition: background .4s var(--ease); }
+      .flow-mleg.is-lit .flow-mconn { background: var(--ink); }
+    }
+    @media (min-width: 621px) { .flow-mconn { display: none; } }
+
+    body.decision-lock { overflow: hidden; }
+
+    @media (prefers-reduced-motion: reduce) {
+      #decision, .decision-h1, .decision-sub, .decision-pivot, .flow-btn, .fl-draw { transition: none !important; }
+      .flow-btn { will-change: auto; }
+    }
   </style>
 </head>
 <body>
@@ -1545,6 +1627,49 @@
       try { if (sessionStorage.getItem('pr_intro_seen') === '1') { var el = document.getElementById('intro'); if (el) el.classList.add('is-hidden'); } } catch (e) {}
     })();
   </script>
+
+  <!-- ==========================================================
+       DECISION SCREEN (reworked hero) — the calm answer + choice.
+       Covers the site until the visitor picks a path. Real content is in
+       the DOM below for SEO. 'See Our Work' curtain-lifts this to reveal
+       the video hero + sections; 'I'm Ready to Start' opens the form.
+  =========================================================== -->
+  <div id="decision" class="decision theme-light" role="group" aria-label="Choose your path">
+    <div class="decision-inner">
+      <!-- ALT headline / sub (swap in):
+        <h1 class="decision-h1">Relax. You're in expert hands now.</h1>
+        <p class="decision-sub">You focus on your business. We'll make the world notice it.</p>
+        --- or ---
+        <h1 class="decision-h1">Breathe. The hard part is over.</h1>
+        <p class="decision-sub">From here, growing your brand is our job, not yours.</p>
+      -->
+      <h1 class="decision-h1">You're one click from leaving it to the experts.</h1>
+      <p class="decision-sub">Focus on your business. We'll make the world notice it.</p>
+      <p class="decision-pivot">So &mdash; what do you want to do?</p>
+
+      <div class="flow">
+        <div class="flow-canvas">
+          <svg class="flow-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <path class="fl-base fl-trunk" d="M50,4 L50,44" />
+            <path class="fl-base fl-left"  d="M50,44 L25,96" />
+            <path class="fl-base fl-right" d="M50,44 L75,96" />
+            <path class="fl-draw fl-trunk-d" pathLength="1" d="M50,4 L50,44" />
+            <path class="fl-draw fl-left-d"  pathLength="1" d="M50,44 L25,96" />
+            <path class="fl-draw fl-right-d" pathLength="1" d="M50,44 L75,96" />
+            <circle class="fl-node" cx="50" cy="4" r="1.4" />
+          </svg>
+        </div>
+        <div class="flow-branch">
+          <div class="flow-mleg" data-side="work"><span class="flow-mconn"></span>
+            <button class="flow-btn" type="button" data-flow="work" data-magnetic>See Our Work <span class="arr">&rarr;</span></button>
+          </div>
+          <div class="flow-mleg" data-side="start"><span class="flow-mconn"></span>
+            <button class="flow-btn flow-btn--ghost" type="button" data-flow="start" data-magnetic>I'm Ready to Start <span class="arr">&rarr;</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="cursor"></div>
 
@@ -2217,6 +2342,7 @@
       }
 
       document.querySelectorAll('[data-inquire]').forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); open(); }));
+      window.__openInquiry = open;   // decision screen's "I'm Ready to Start" calls this
       closeBtn.addEventListener('click', close);
       backdrop.addEventListener('click', close);
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer.classList.contains('open')) close(); });
@@ -2345,8 +2471,10 @@
         window.__introLenisResume = startLenis;      // intro calls this on teardown
         window.__introLenisPause  = function () {};   // no-op: Lenis isn't running yet
         var _intro = document.getElementById('intro');
-        var _introLive = _intro && !_intro.classList.contains('is-hidden');
-        if (!_introLive) startLenis();                // nothing to wait for -> smooth scroll now
+        var _decision = document.getElementById('decision');
+        var _gateLive = (_intro && !_intro.classList.contains('is-hidden')) ||
+                        (_decision && !_decision.classList.contains('is-hidden'));
+        if (!_gateLive) startLenis();                // no overlay gating scroll -> smooth scroll now
       }
 
       /* --- Lightweight, scroll-TRIGGERED reveals: opacity + translateY only.
@@ -2718,6 +2846,20 @@
         });
       };
 
+      /* Shared SITE ENTRY — called when the visitor actually enters the
+         scrollable site (decision "See Our Work", or entrance finish when no
+         decision exists). Resumes Lenis, snaps to top, refreshes ScrollTrigger
+         positions and sweeps the safety net. Independent of both overlays. */
+      window.__enterSite = function () {
+        try { document.body.classList.remove('ent-lock'); document.body.classList.remove('decision-lock'); } catch (e) {}
+        try { if (window.__introLenisResume) window.__introLenisResume(); } catch (e) {}
+        var de = document.documentElement, prev = de.style.scrollBehavior;
+        de.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); de.style.scrollBehavior = prev;
+        var refresh = function () { try { if (window.ScrollTrigger && window.ScrollTrigger.refresh) window.ScrollTrigger.refresh(); } catch (e) {} };
+        refresh(); requestAnimationFrame(refresh); window.setTimeout(refresh, 250);
+        window.setTimeout(window.__introForceRevealInView, 60);
+      };
+
       // Layer 1 — IntersectionObserver backstop (per element, on view + grace)
       if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (entries) {
@@ -2854,15 +2996,18 @@
         var fadeMs = reduce ? 0 : (ENT.fadeOutMs || 1000);
         window.setTimeout(function () {
           intro.classList.add('is-hidden');
-          document.body.classList.remove('ent-lock');
-          // fully REMOVE the overlay from the DOM so no layer/listener lingers behind the site
+          // fully REMOVE the overlay from the DOM so no layer/listener lingers
           if (intro.parentNode) intro.parentNode.removeChild(intro);
-          try { if (window.__introLenisResume) window.__introLenisResume(); } catch (e) {}
-          var de = document.documentElement, prev = de.style.scrollBehavior;
-          de.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); de.style.scrollBehavior = prev;
-          var refresh = function () { try { if (window.ScrollTrigger && window.ScrollTrigger.refresh) window.ScrollTrigger.refresh(); } catch (e) {} };
-          refresh(); requestAnimationFrame(refresh); window.setTimeout(refresh, 250);
-          try { if (window.__introForceRevealInView) window.__introForceRevealInView(); } catch (e) {}
+          // HAND OFF to the decision screen if present — it gates scroll and
+          // does the real site entry on its own. Keep the body locked for it.
+          var decision = document.getElementById('decision');
+          if (decision && !decision.classList.contains('is-hidden')) {
+            document.body.classList.remove('ent-lock');
+            document.body.classList.add('decision-lock');   // decision keeps scroll locked
+          } else {
+            document.body.classList.remove('ent-lock');
+            if (window.__enterSite) window.__enterSite();    // no decision -> enter the site directly
+          }
         }, fadeMs);
       }
 
@@ -2892,6 +3037,63 @@
       document.addEventListener('keydown', onKey);
       skipBtn.addEventListener('click', onSkip);
       if (enterBtn) enterBtn.addEventListener('click', onEnter);
+    })();
+  </script>
+  <!-- DECISION SCREEN controller — path highlight + press micro-interactions;
+       'See Our Work' curtain-lifts to the site, 'I'm Ready to Start' opens the
+       form. Magnetic hover comes from the global [data-magnetic] handler. -->
+  <script>
+    (function () {
+      var decision = document.getElementById('decision');
+      if (!decision) return;
+      var reduce = false; try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      var flow = decision.querySelector('.flow');
+      var btns = [].slice.call(decision.querySelectorAll('.flow-btn'));
+      var acting = false;
+
+      document.body.classList.add('decision-lock');   // gate scroll while the choice is shown
+
+      function sideOf(btn) { return btn.getAttribute('data-flow') === 'work' ? 'work' : 'start'; }
+      function lightPath(btn, on) {
+        var side = sideOf(btn);
+        flow.classList.toggle('hover-work',  on && side === 'work');
+        flow.classList.toggle('hover-start', on && side === 'start');
+        var leg = btn.closest('.flow-mleg'); if (leg) leg.classList.toggle('is-lit', !!on);
+      }
+
+      function enterViaCurtain() {
+        try { if (window.gsap) gsap.set(btns, { x: 0, y: 0 }); } catch (e) {}   // clear magnetic offset before the lift
+        decision.classList.add('is-rising');
+        var done = false;
+        var finish = function () {
+          if (done) return; done = true;
+          decision.classList.add('is-hidden');
+          if (decision.parentNode) decision.parentNode.removeChild(decision);
+          if (window.__enterSite) window.__enterSite();
+        };
+        var onEnd = function (ev) { if (ev.target === decision) { decision.removeEventListener('transitionend', onEnd); finish(); } };
+        decision.addEventListener('transitionend', onEnd);
+        window.setTimeout(finish, (reduce ? 0 : 950) + 140);   // fallback
+      }
+
+      function act(btn) {
+        if (acting) return; acting = true;
+        btn.classList.add('is-press');
+        window.setTimeout(function () {
+          btn.classList.remove('is-press');
+          if (sideOf(btn) === 'start') { acting = false; if (window.__openInquiry) window.__openInquiry(); return; }
+          enterViaCurtain();
+        }, reduce ? 0 : 150);
+      }
+
+      btns.forEach(function (btn) {
+        btn.addEventListener('mouseenter', function () { lightPath(btn, true); });
+        btn.addEventListener('mouseleave', function () { lightPath(btn, false); });
+        btn.addEventListener('focus',      function () { lightPath(btn, true); });
+        btn.addEventListener('blur',       function () { lightPath(btn, false); });
+        btn.addEventListener('pointerdown',function () { lightPath(btn, true); });   // touch highlight on tap
+        btn.addEventListener('click', function (e) { e.preventDefault(); act(btn); });
+      });
     })();
   </script>
 </body>
