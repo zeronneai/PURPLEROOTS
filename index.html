@@ -438,6 +438,18 @@
     }
 
     /* =========================================================
+       INTERSTITIAL — quiet full-width editorial one-liner in the
+       breathing space BETWEEN sections. Big grotesque, monochrome,
+       lots of air. Theme-aware via .theme-* on the section.
+    ========================================================= */
+    .interstitial { padding: clamp(112px, 20vh, 240px) var(--gutter); background: var(--bg); text-align: center; }
+    .interstitial p {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(1.9rem, 5.2vw, 4.4rem); line-height: 1.06; letter-spacing: var(--tr-display);
+      color: var(--fg); max-width: 22ch; margin: 0 auto;
+    }
+
+    /* =========================================================
        FLOATING WHATSAPP — simple monochrome circle, fixed, opens
        WhatsApp with a prewritten message. Not the inquiry form.
     ========================================================= */
@@ -1406,11 +1418,18 @@
   <section class="hero theme-light" id="hero">
     <div class="hero-inner">
       <div class="hero-eyebrow reveal">Video Marketing Agency &middot; El Paso, TX</div>
+      <!-- ALT (swap this block in to A/B test the hero copy):
       <h1 id="heroTitle">
-        <span class="line"><span>We make brands</span></span>
-        <span class="line"><span><span class="yellow">impossible</span> to ignore.</span></span>
+        <span class="line"><span>Marketing that</span></span>
+        <span class="line"><span>actually moves money.</span></span>
       </h1>
-      <p class="hero-sub reveal">A creative studio for brands with something to say. Strategy, film, and design, made with intention in El Paso, Texas.</p>
+      <p class="hero-sub reveal">Going it alone has a price you can't see yet. Every month without the right partner is revenue you never earned. See what we've done for brands like yours.</p>
+      -->
+      <h1 id="heroTitle">
+        <span class="line"><span>Do you know how much</span></span>
+        <span class="line"><span>you're losing by doing it alone?</span></span>
+      </h1>
+      <p class="hero-sub reveal">Your audience is already out there. We turn their attention into calls, walk-ins, and revenue. The proof is below.</p>
       <div class="hero-actions reveal">
         <a href="#contact" class="cta-btn" data-inquire>Get Started <span class="arr">&rarr;</span></a>
         <a href="#case-studies" class="btn-outline">See the work</a>
@@ -1425,16 +1444,6 @@
         </video>
         <figcaption class="hero-media-badge">Purple Roots &middot; Reel</figcaption>
       </figure>
-    </div>
-  </section>
-
-  <!-- Recurring "Get Started" CTA — after the hero (also sets the light->dark
-       section rhythm). Reused after case studies / before footer too. -->
-  <section class="cta-band theme-dark reveal" aria-label="Get started">
-    <div class="cta-band-inner">
-      <span class="eyebrow">Ready when you are</span>
-      <h2>Ready to grow your brand?</h2>
-      <a href="#contact" class="cta-btn" data-inquire>Get Started <span class="arr">&rarr;</span></a>
     </div>
   </section>
 
@@ -1519,6 +1528,17 @@
     </div>
   </section>
 
+  <!-- ===== INTERSTITIAL 1 (of 2) — quiet editorial one-liner =====
+       Swap the active line below for any of these to change which show
+       (keep only TWO interstitials total across the page):
+       "Attention is currency. Most brands are broke by choice."
+       "Views feel good. Revenue feels better. We chase the second."
+       "Every day you wait is a day your audience forgets you exist."
+  -->
+  <section class="interstitial theme-light reveal" aria-label="Statement">
+    <p>Your competitors aren't better. They're just louder.</p>
+  </section>
+
   <section class="block block--tight stats-section" id="stats">
     <div class="container">
       <div class="section-head reveal offset-right"><div class="section-num">04</div><h2 class="section-title">Numbers<br />don't lie.</h2></div>
@@ -1577,6 +1597,11 @@
     </div>
   </section>
 
+  <!-- ===== INTERSTITIAL 2 (of 2) — quiet editorial one-liner ===== -->
+  <section class="interstitial theme-light reveal" aria-label="Statement">
+    <p>You didn't start a business to be invisible.</p>
+  </section>
+
   <!-- ===================== CASE STUDIES ===================== -->
   <section class="cs-section" id="case-studies">
     <div class="cs-intro container">
@@ -1587,11 +1612,20 @@
     <div id="csTrack"></div>
   </section>
 
+  <!-- Recurring "Get Started" CTA — after the case-study / results section -->
+  <section class="cta-band theme-dark reveal" aria-label="Work with us">
+    <div class="cta-band-inner">
+      <span class="eyebrow">Your turn</span>
+      <h2>Ready for results like these?</h2>
+      <a href="#contact" class="cta-btn" data-inquire>Let's do this for you <span class="arr">&rarr;</span></a>
+    </div>
+  </section>
+
   <section class="block final-cta theme-dark" id="contact">
     <div class="container">
       <h2 class="reveal">Ready to build<br />something <span class="yellow">real?</span></h2>
       <p class="reveal">We have limited availability each quarter. If you're serious about your brand, let's talk before the spot is gone.</p>
-      <a href="mailto:p.rootsagency@gmail.com" class="btn btn-lime reveal" data-magnetic data-inquire>Get in Touch →</a>
+      <a href="mailto:p.rootsagency@gmail.com" class="btn btn-lime reveal" data-magnetic data-inquire>Stop leaving money on the table <span class="arr">→</span></a>
     </div>
   </section>
 
