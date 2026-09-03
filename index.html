@@ -1370,9 +1370,168 @@
     @media (max-width: 480px) {
       .work-grid       { grid-template-columns: 1fr; }
     }
+    /* =========================================================
+       ENTRANCE — premium "box opens" intro (monochrome editorial).
+       Visual layer on top; the real site is in the DOM below (SEO).
+       Motion: transform + opacity only, power3.out (var(--ease)), no bounce.
+    ========================================================= */
+    #intro.ent {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--paper); color: var(--ink);
+      display: grid; place-items: center; padding: clamp(24px, 6vw, 64px);
+      overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent;
+      opacity: 1; transition: opacity var(--ent-fadeout, 950ms) var(--ease);
+    }
+    #intro.ent.is-hidden { display: none; }
+    #intro.ent.is-gone { opacity: 0; }
+
+    .ent-stage {
+      position: relative; width: min(92vw, 760px);
+      display: flex; flex-direction: column; align-items: center;
+      gap: clamp(30px, 5.5vh, 60px); text-align: center;
+    }
+    .ent-question {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(1.9rem, 5.4vw, 3.9rem); line-height: 1.03;
+      letter-spacing: var(--tr-display); color: var(--ink); margin: 0; max-width: 15ch;
+      transition: opacity .6s var(--ease), transform .6s var(--ease);
+    }
+
+    /* the refined closed box, with a hairline seam down the centre */
+    .ent-boxwrap { position: relative; width: clamp(200px, 38vw, 340px); aspect-ratio: 4 / 5; }
+    .ent-box { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+    .ent-half {
+      position: absolute; top: 0; bottom: 0; width: 50%;
+      background: var(--paper-alt); border: 1px solid var(--line);
+      will-change: transform; transition: transform var(--ent-open, 950ms) var(--ease);
+    }
+    .ent-left  { left: 0;  border-right: 1px solid var(--ink); }   /* centre seam */
+    .ent-right { right: 0; border-left: none; }
+    /* the answer, revealed from inside the box as the halves part */
+    .ent-answer {
+      position: absolute; inset: -34% -36%; z-index: 1;
+      display: grid; place-items: center; overflow: visible;
+      opacity: 0; transition: opacity .8s var(--ease); pointer-events: none;
+    }
+    .ent-answer p {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(1.5rem, 4.2vw, 2.8rem); line-height: 1.05;
+      letter-spacing: var(--tr-display); color: var(--ink); margin: 0; max-width: 16ch;
+    }
+
+    /* OPEN state — doors part, question leaves, answer fades in */
+    #intro.is-open .ent-left  { transform: translateX(-104%); }
+    #intro.is-open .ent-right { transform: translateX(104%); }
+    #intro.is-open .ent-answer { opacity: 1; transition-delay: .35s; }
+    #intro.is-open .ent-question { opacity: 0; transform: translateY(-12px); }
+
+    .ent-cue {
+      position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(28px, 8vh, 60px);
+      font-family: var(--font-body); font-weight: 600; font-size: 11px;
+      letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--ink-40);
+      transition: opacity .5s var(--ease);
+    }
+    #intro.is-open .ent-cue, #intro.is-welcome .ent-cue { opacity: 0; }
+
+    .ent-skip {
+      position: absolute; right: clamp(16px, 4vw, 32px); bottom: clamp(16px, 4vh, 28px); z-index: 6;
+      background: none; border: none; color: var(--ink-50);
+      font-family: var(--font-body); font-weight: 600; font-size: 11px;
+      letter-spacing: var(--tr-wide); text-transform: uppercase; cursor: pointer; padding: 8px;
+      transition: color .3s var(--ease);
+    }
+    .ent-skip:hover, .ent-skip:focus-visible { color: var(--ink); outline: none; }
+
+    /* WELCOME beat — centered over the overlay, hidden until state 2 */
+    .ent-welcome {
+      position: absolute; inset: 0; z-index: 5; background: var(--paper);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-4);
+      opacity: 0; visibility: hidden; transition: opacity var(--ent-welcome-fade, 750ms) var(--ease);
+    }
+    #intro.is-welcome .ent-welcome { opacity: 1; visibility: visible; }
+    #intro.is-welcome .ent-stage { opacity: 0; transition: opacity .5s var(--ease); }
+    .ent-welcome-label {
+      font-family: var(--font-body); font-weight: 600; font-size: 12px;
+      letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--ink-50);
+    }
+    .ent-welcome-logo { height: clamp(40px, 7vw, 66px); width: auto; display: block; }
+
+    .ent-enter { display: none; margin-top: var(--sp-4); }   /* reduced-motion only */
+
+    body.ent-lock { overflow: hidden; }
+
+    @media (max-width: 560px) {
+      .ent-boxwrap { width: clamp(190px, 60vw, 260px); }
+    }
+    /* Reduced motion: static — question + a single Enter, no box animation */
+    @media (prefers-reduced-motion: reduce) {
+      #intro.ent, .ent-question, .ent-answer, .ent-half, .ent-welcome, .ent-cue { transition: none !important; }
+      .ent-boxwrap, .ent-cue { display: none; }
+      .ent-enter { display: inline-flex; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ==========================================================
+       ENTRANCE (premium box-opening intro) — visual layer only.
+       The real site is fully present in the DOM below, so crawlers
+       and screen readers reach everything. <noscript> hides it when
+       JS is off so the site shows normally.
+  =========================================================== -->
+  <noscript><style>#intro{display:none!important}</style></noscript>
+  <div id="intro" class="ent theme-light" role="dialog" aria-label="Purple Roots intro" aria-modal="false" tabindex="-1">
+    <div class="ent-stage">
+      <p class="ent-question"><!-- ENT.question --></p>
+      <div class="ent-boxwrap" aria-hidden="true">
+        <div class="ent-box"><span class="ent-half ent-left"></span><span class="ent-half ent-right"></span></div>
+        <div class="ent-answer"><p><!-- ENT.answer --></p></div>
+      </div>
+      <button class="ent-enter cta-btn" type="button" data-ent-enter>Enter</button>
+    </div>
+    <div class="ent-welcome" aria-hidden="true">
+      <span class="ent-welcome-label"><!-- ENT.welcomeLabel --></span>
+      <img class="ent-welcome-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_black,f_auto,q_auto/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" />
+    </div>
+    <div class="ent-cue" aria-hidden="true">Click to open</div>
+    <button class="ent-skip" type="button" data-ent-skip aria-label="Skip intro">Skip</button>
+  </div>
+  <script>
+    (function () {
+      /* =========================================================
+         ENTRANCE COPY & TIMING — edit here (single source of truth).
+      ========================================================= */
+      var ENT = {
+        question:     "What's your silence costing you?",
+        answer:       "Customers you'll never meet. Until now.",
+        /* ALT answers (swap in above):
+           "More than you think. Let's fix that."
+           "Everything. But it's not too late."                     */
+        welcomeLabel: "Welcome to",
+        openMs:        950,    // box-opening duration
+        answerHoldMs:  1100,   // (used only if auto-advancing; here clicks advance)
+        welcomeMinMs:  1900,   // Welcome min on-screen hold
+        welcomeMaxMs:  2500,   // hard cap so preload never hangs
+        welcomeFadeMs: 750,    // Welcome fade-in
+        fadeOutMs:     1000    // overlay fade-out to the site
+      };
+      /* ========================================================= */
+      window.__ENT_COPY = ENT;
+      try {
+        var r = document.getElementById('intro');
+        if (r) {
+          r.querySelector('.ent-question').textContent = ENT.question;
+          r.querySelector('.ent-answer p').textContent = ENT.answer;
+          r.querySelector('.ent-welcome-label').textContent = ENT.welcomeLabel;
+          r.style.setProperty('--ent-open', ENT.openMs + 'ms');
+          r.style.setProperty('--ent-welcome-fade', ENT.welcomeFadeMs + 'ms');
+          r.style.setProperty('--ent-fadeout', ENT.fadeOutMs + 'ms');
+        }
+      } catch (e) {}
+      /* Session gate — hide before paint if already seen this tab session. */
+      try { if (sessionStorage.getItem('pr_intro_seen') === '1') { var el = document.getElementById('intro'); if (el) el.classList.add('is-hidden'); } } catch (e) {}
+    })();
+  </script>
 
   <div id="cursor"></div>
 
@@ -2617,5 +2776,109 @@
   </script>
 
 
+  <!-- ENTRANCE controller — click-to-open box, answer, Welcome, fade to site.
+       Reuses the shared intro plumbing (Lenis resume + ScrollTrigger refresh +
+       safety-net in-view sweep on teardown). Inert if already seen this session. -->
+  <script>
+    (function () {
+      var intro = document.getElementById('intro');
+      if (!intro || intro.classList.contains('is-hidden')) return;   // already seen -> normal site
+
+      var reduce = false; try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      var ENT = window.__ENT_COPY || {};
+      var skipBtn  = intro.querySelector('[data-ent-skip]');
+      var enterBtn = intro.querySelector('[data-ent-enter]');
+      var state = 0, done = false, lockUntil = 0, welcomeTimers = [];
+
+      document.body.classList.add('ent-lock');
+      try { (reduce && enterBtn ? enterBtn : intro).focus({ preventScroll: true }); } catch (e) {}
+
+      function clearWelcomeTimers() { welcomeTimers.forEach(function (t) { clearTimeout(t); }); welcomeTimers = []; }
+
+      /* Preload the site behind the Welcome hold: fonts + hero video + logos,
+         each self-timing-out so it never hangs past welcomeMaxMs. */
+      function preloadReady() {
+        var cap = ENT.welcomeMaxMs || 2500, tasks = [];
+        try { if (document.fonts && document.fonts.ready) tasks.push(document.fonts.ready); } catch (e) {}
+        var hero = document.querySelector('.hero-media-video');
+        if (hero) {
+          try { hero.preload = 'auto'; hero.load(); } catch (e) {}
+          tasks.push(new Promise(function (res) { if (hero.readyState >= 3) return res();
+            var t = setTimeout(res, cap); hero.addEventListener('canplay', function () { clearTimeout(t); res(); }, { once: true }); }));
+        }
+        [].slice.call(document.querySelectorAll('.nav-logo-img, .ent-welcome-logo')).forEach(function (im) {
+          if (im.complete) return;
+          tasks.push(new Promise(function (res) { var t = setTimeout(res, cap);
+            im.addEventListener('load', function () { clearTimeout(t); res(); }, { once: true });
+            im.addEventListener('error', function () { clearTimeout(t); res(); }, { once: true }); }));
+        });
+        return Promise.all(tasks).catch(function () {});
+      }
+
+      function enterWelcome() {
+        state = 2;
+        intro.classList.add('is-welcome');
+        var ready = false, held = false, committed = false;
+        var commit = function () { if (committed) return; if (held && ready) { committed = true; finish(); } };
+        preloadReady().then(function () { ready = true; commit(); });
+        welcomeTimers.push(window.setTimeout(function () { held = true; commit(); }, ENT.welcomeMinMs || 1900));
+        welcomeTimers.push(window.setTimeout(function () { if (!committed) { committed = true; finish(); } }, ENT.welcomeMaxMs || 2500));
+      }
+
+      function advance() {
+        if (done) return;
+        if (reduce) { finish(); return; }              // static version: any advance -> site
+        if (Date.now() < lockUntil) return;            // let the current beat be read
+        if (state === 0) { state = 1; intro.classList.add('is-open'); lockUntil = Date.now() + 800; }
+        else if (state === 1) { enterWelcome(); }
+        else { finish(); }
+      }
+
+      function finish() {
+        if (done) return; done = true;
+        clearWelcomeTimers(); cleanup();
+        try { sessionStorage.setItem('pr_intro_seen', '1'); } catch (e) {}
+        intro.classList.add('is-gone');
+        var fadeMs = reduce ? 0 : (ENT.fadeOutMs || 1000);
+        window.setTimeout(function () {
+          intro.classList.add('is-hidden');
+          document.body.classList.remove('ent-lock');
+          try { if (window.__introLenisResume) window.__introLenisResume(); } catch (e) {}
+          var de = document.documentElement, prev = de.style.scrollBehavior;
+          de.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); de.style.scrollBehavior = prev;
+          var refresh = function () { try { if (window.ScrollTrigger && window.ScrollTrigger.refresh) window.ScrollTrigger.refresh(); } catch (e) {} };
+          refresh(); requestAnimationFrame(refresh); window.setTimeout(refresh, 250);
+          try { if (window.__introForceRevealInView) window.__introForceRevealInView(); } catch (e) {}
+        }, fadeMs);
+      }
+
+      function onClick(e) {
+        if (skipBtn.contains(e.target)) return;
+        if (enterBtn && enterBtn.contains(e.target)) return;   // enter has its own handler
+        advance();
+      }
+      function onEnter(e) { e.stopPropagation(); advance(); }
+      function onKey(e) {
+        if (done) return; var k = e.key;
+        if (k === 'Escape' || k === 'Esc') { e.preventDefault(); finish(); return; }
+        if (k === 'Enter' || k === ' ' || k === 'Spacebar') {
+          if (e.target === skipBtn || e.target === enterBtn) return;   // native activation
+          e.preventDefault(); advance();
+        }
+      }
+      function onSkip(e) { e.stopPropagation(); e.preventDefault(); finish(); }
+      function cleanup() {
+        intro.removeEventListener('click', onClick);
+        document.removeEventListener('keydown', onKey);
+        skipBtn.removeEventListener('click', onSkip);
+        if (enterBtn) enterBtn.removeEventListener('click', onEnter);
+      }
+
+      intro.addEventListener('click', onClick);
+      document.addEventListener('keydown', onKey);
+      skipBtn.addEventListener('click', onSkip);
+      if (enterBtn) enterBtn.addEventListener('click', onEnter);
+    })();
+  </script>
 </body>
 </html>
