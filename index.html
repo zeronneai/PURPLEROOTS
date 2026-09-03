@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <style>
@@ -21,44 +21,110 @@
        VARIABLES
     ========================================================= */
     :root {
-      /* EDITORIAL-LUX: near-monochrome. Warm ivory paper + warm near-black ink.
-         The elegance is the ABSENCE of colour — no orange, no lagoon, no blocks.
-         Structure comes from fine serif type, hairline rules and measured space. */
-      --black:      #17140F;   /* warm near-black ink (dark backgrounds) */
-      --white:      #FBF9F3;   /* soft ivory white */
-      --paper:      #F6F3EA;   /* warm ivory paper (not pure white) */
-      --paper-alt:  #EFEBDF;   /* slightly deeper ivory */
+      /* =====================================================================
+         LEMON-EDITORIAL DESIGN SYSTEM (Phase 1)
+         Clean, premium, light-dominant (ref: lemonlight.com, inverted to a
+         LIGHT base). MONOCHROME only — near-black ink, warm off-white, a grey
+         scale. No colour, no purple. Elegance from type, contrast and space.
+         Sections alternate light / grey / dark to build scroll rhythm.
+         --------------------------------------------------------------------
+         FONTS — free Google pairing (works immediately):
+           display : Space Grotesk   (upright modern grotesque)
+           body    : Inter Tight
+         Premium alternative (swap --font-display when licensed):
+           'Neue Haas Grotesk Display'.
+      ===================================================================== */
+      --font-display: 'Space Grotesk', 'Neue Haas Grotesk Display', 'Helvetica Neue', Arial, sans-serif;
+      --font-body:    'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      --font-serif:   var(--font-display);   /* no serif; alias kept for legacy refs */
 
-      --ink:        #1A1712;   /* warm near-black text */
-      --ink-70:     rgba(26,23,18,0.72);
-      --ink-50:     rgba(26,23,18,0.5);
+      /* --- Monochrome scale --- */
+      --white:      #FFFFFF;
+      --paper:      #F7F6F2;   /* warm off-white — the dominant canvas */
+      --paper-alt:  #ECEBE6;   /* light grey block (section rhythm) */
+      --black:      #131313;   /* near-black (dark sections) */
+      --grey-900:   #1C1C1C;   /* dark-grey alt */
+      --ink:        #131313;   /* near-black ink */
+      --ink-70:     rgba(19,19,19,0.66);   /* calm body ink */
+      --ink-50:     rgba(19,19,19,0.5);
+      --ink-40:     rgba(19,19,19,0.4);
+      --ink-25:     rgba(19,19,19,0.22);
+      /* On dark surfaces */
+      --paper-on-dark:    #F2F1ED;
+      --paper-on-dark-70: rgba(242,241,237,0.66);
+      --paper-on-dark-45: rgba(242,241,237,0.45);
 
-      /* Legacy accent roles are neutralised to ink for this variant so any
-         residual reference renders as restrained ink, never a colour pop. */
-      --orange:     var(--ink);
-      --copper:     var(--ink);
-      --lagoon:     var(--ink);
-      --accent:     var(--ink);
+      /* Legacy accent roles kept neutral (ink) — no colour anywhere. */
+      --accent: var(--ink); --orange: var(--ink); --copper: var(--ink); --lagoon: var(--ink);
       --ink-on-accent: var(--paper);
 
-      --line:       rgba(26,23,18,0.24);         /* fine ink hairline (structure) on light bg */
-      --line-faint: rgba(26,23,18,0.13);         /* barely-there ink hairline */
-      --line-dark:  rgba(251,249,243,0.20);      /* light hairline on dark bg */
+      /* --- Hairlines --- */
+      --line:       rgba(19,19,19,0.16);    /* hairline on light */
+      --line-faint: rgba(19,19,19,0.09);
+      --line-dark:  rgba(242,241,237,0.18); /* hairline on dark */
+      --hair:       1px;
+      --rule:       var(--hair) solid var(--line);
+      --rule-thin:  var(--hair) solid var(--line-faint);
 
-      --font-display: 'Playfair Display', 'Times New Roman', Georgia, serif;
-      --font-body:    'EB Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
-      --font-serif:   'Playfair Display', 'Times New Roman', Georgia, serif;
+      /* --- Per-section THEME tokens (set by .theme-* on a section) ---
+         Components read --bg / --fg / --fg-muted / --hair-c / --btn-* so each
+         section renders correctly whether it sits on light, grey or dark. */
+      --bg:         var(--paper);
+      --fg:         var(--ink);
+      --fg-muted:   var(--ink-70);
+      --hair-c:     var(--line);
+      --btn-bg:     var(--ink);            /* primary CTA fill */
+      --btn-fg:     var(--paper);          /* primary CTA text */
+      --btn-bg-h:   #2b2b2b;               /* primary CTA hover fill */
 
-      --rule:       1px solid var(--line);
-      --rule-thin:  1px solid var(--line-faint);
+      /* --- Type scale (fluid; big display vs small calm body) --- */
+      --fs-eyebrow: 0.72rem;
+      --fs-body:    1rem;
+      --fs-sm:      0.82rem;
+      --fs-lead:    clamp(1.1rem, 1.5vw, 1.35rem);
+      --fs-h3:      clamp(1.35rem, 2.4vw, 2rem);
+      --fs-h2:      clamp(2.2rem, 5.5vw, 4.6rem);
+      --fs-display: clamp(2.8rem, 8vw, 8rem);
+      --fs-hero:    clamp(2.9rem, 8.4vw, 8.5rem);   /* hero headline */
 
-      --ease:       cubic-bezier(0.33, 0, 0.15, 1);   /* gentle, unhurried ease-out, no overshoot */
-      --dur:        900ms;   /* slow, calm reveals */
+      --lh-tight:   0.98;
+      --lh-body:    1.6;
+      --tr-display: -0.025em;
+      --tr-tight:   -0.015em;
+      --tr-wide:    0.22em;
 
-      /* Variable vertical rhythm */
-      --pad-major:  132px;
-      --pad-tight:  72px;
+      /* --- Spacing (8px rhythm) --- */
+      --sp-1: 8px;  --sp-2: 16px; --sp-3: 24px; --sp-4: 32px;
+      --sp-6: 48px; --sp-8: 64px; --sp-12: 96px; --sp-16: 128px; --sp-24: 192px;
+      /* Variable (not uniform) section padding */
+      --pad-major: clamp(80px, 12vh, 168px);
+      --pad-tight: clamp(48px, 7vh, 96px);
+
+      /* --- Layout --- */
+      --maxw:      1320px;
+      --maxw-wide: 1500px;
+      --maxw-text: 60ch;
+      --gutter:    max(20px, 5vw);
+      --radius:    4px;      /* max; no drop shadows */
+
+      /* --- Motion --- */
+      --ease:  cubic-bezier(0.22, 1, 0.36, 1);   /* power3.out-like, no overshoot */
+      --dur:   760ms;
     }
+
+    /* =========================================================
+       SECTION THEMING — set the surface, components adapt.
+       .theme-light  off-white   |  .theme-grey  light grey
+       .theme-dark   near-black  |  .theme-darkgrey dark grey
+    ========================================================= */
+    .theme-light   { --bg: var(--paper);     --fg: var(--ink); --fg-muted: var(--ink-70); --hair-c: var(--line);
+                     --btn-bg: var(--ink);   --btn-fg: var(--paper); --btn-bg-h: #2b2b2b; background: var(--bg); color: var(--fg); }
+    .theme-grey    { --bg: var(--paper-alt); --fg: var(--ink); --fg-muted: var(--ink-70); --hair-c: var(--line);
+                     --btn-bg: var(--ink);   --btn-fg: var(--paper); --btn-bg-h: #2b2b2b; background: var(--bg); color: var(--fg); }
+    .theme-dark    { --bg: var(--black);     --fg: var(--paper-on-dark); --fg-muted: var(--paper-on-dark-70); --hair-c: var(--line-dark);
+                     --btn-bg: var(--paper); --btn-fg: var(--ink); --btn-bg-h: #ffffff; background: var(--bg); color: var(--fg); }
+    .theme-darkgrey{ --bg: var(--grey-900);  --fg: var(--paper-on-dark); --fg-muted: var(--paper-on-dark-70); --hair-c: var(--line-dark);
+                     --btn-bg: var(--paper); --btn-fg: var(--ink); --btn-bg-h: #ffffff; background: var(--bg); color: var(--fg); }
 
     /* =========================================================
        RESET & BASE
@@ -183,21 +249,15 @@
     .nav-links a:hover { opacity: 1; }
 
     .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 22px;
-      background: var(--ink);
-      color: var(--paper);
-      border: 1px solid var(--ink);
-      border-radius: 0;
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+      display: inline-flex; align-items: center;
+      padding: 11px 22px;
+      background: var(--ink); color: var(--paper);
+      border: 1px solid var(--ink); border-radius: var(--radius);
+      font-family: var(--font-body); font-weight: 600;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
     }
-    .nav-cta:hover { background: none; color: var(--ink); }
+    .nav-cta:hover { background: #2b2b2b; transform: translateY(-1px); }
 
     .nav-hamburger {
       display: none;
@@ -326,216 +386,141 @@
     /* =========================================================
        BUTTONS
     ========================================================= */
-    /* Buttons: quiet, wide-tracked EB Garamond caps. Sharp corners, hairline
-       borders. No colour fills — an outline that fills to ink on hover. */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 15px 30px;
-      background: none;
-      color: var(--ink);
-      border: 1px solid var(--ink);
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      text-decoration: none;
-      border-radius: 0;
-      cursor: none;
-      position: relative;
-      transition: background 0.5s var(--ease), color 0.5s var(--ease), border-color 0.5s var(--ease);
-      user-select: none;
+    /* =========================================================
+       BUTTONS — one confident, tactile primary CTA, theme-aware.
+       Solid fill (near-black on light / off-white on dark) via the
+       section's --btn-* tokens. Every legacy button class maps here so
+       the CTA looks identical everywhere. Subtle hover: fill shift +
+       slight lift + arrow nudge. Radius 4px, no heavy shadow.
+    ========================================================= */
+    .btn, .btn-lime, .btn-lavender, .btn-lagoon, .btn-ghost, .cta-btn, .btn-outline {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 16px 30px;
+      background: var(--btn-bg); color: var(--btn-fg);
+      border: 1px solid var(--btn-bg); border-radius: var(--radius);
+      font-family: var(--font-body); font-weight: 600;
+      font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; cursor: none; user-select: none; position: relative;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+                  border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
     }
-    .btn:hover { background: var(--ink); color: var(--paper); }
-
-    /* Secondary on the dark hero: light hairline outline, ivory type */
-    .btn-ghost {
-      background: none;
-      color: var(--paper);
-      border: 1px solid rgba(251,249,243,0.45);
+    .btn:hover, .btn-lime:hover, .btn-lavender:hover, .btn-lagoon:hover, .btn-ghost:hover, .cta-btn:hover,
+    .btn:focus-visible, .cta-btn:focus-visible {
+      background: var(--btn-bg-h); border-color: var(--btn-bg-h);
+      color: var(--btn-fg); transform: translateY(-2px); outline: none;
     }
-    .btn-ghost:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+    /* arrow glyph nudges on hover (wrap trailing arrows in <span class="arr">) */
+    .btn .arr, .cta-btn .arr { transition: transform var(--dur) var(--ease); }
+    .btn:hover .arr, .cta-btn:hover .arr { transform: translateX(4px); }
 
-    /* Solid ink primary (on light sections) */
-    .btn-lime,
-    .btn-lavender { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-    .btn-lime:hover, .btn-lavender:hover { background: none; color: var(--ink); border-color: var(--ink); }
+    /* Secondary / quiet link-style CTA (outline only, same tokens) */
+    .btn-outline {
+      background: none; color: var(--fg); border: 1px solid var(--fg);
+    }
+    .btn-outline:hover { background: var(--fg); color: var(--bg); transform: translateY(-2px); }
 
-    /* Hero primary: solid ivory on the dark video, inverts on hover */
-    .btn-lagoon { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-    .btn-lagoon:hover { background: none; color: var(--paper); border-color: rgba(251,249,243,0.6); }
+    /* =========================================================
+       CTA BAND — reusable "Get Started" block placed at natural
+       points down the page (after hero, after case studies, before
+       footer). Theme-aware via .theme-* on the section.
+    ========================================================= */
+    .cta-band { padding: var(--pad-major) var(--gutter); text-align: center; }
+    .cta-band-inner { max-width: 900px; margin: 0 auto; }
+    .cta-band .eyebrow {
+      font-family: var(--font-body); font-weight: 600; font-size: var(--fs-eyebrow);
+      letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--fg-muted);
+      display: block; margin-bottom: var(--sp-3);
+    }
+    .cta-band h2 {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: var(--fs-h2); line-height: var(--lh-tight); letter-spacing: var(--tr-display);
+      color: var(--fg); margin: 0 auto var(--sp-6); max-width: 18ch;
+    }
 
-    /* Persistent floating CTA — quiet solid-ink pill, no glow, no pulse */
-    .floating-cta {
-      position: fixed;
-      bottom: 40px; right: 30px;
-      z-index: 200;
-      display: inline-flex; align-items: center; gap: 10px;
+    /* =========================================================
+       FLOATING WHATSAPP — simple monochrome circle, fixed, opens
+       WhatsApp with a prewritten message. Not the inquiry form.
+    ========================================================= */
+    .wa-fab {
+      position: fixed; bottom: 26px; right: 26px; z-index: 300;
+      width: 58px; height: 58px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
       background: var(--ink); color: var(--paper);
-      font-family: var(--font-body); font-weight: 500;
-      font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
-      padding: 14px 26px; border: 1px solid var(--ink); border-radius: 0;
-      cursor: none; user-select: none;
-      box-shadow: 0 10px 30px -14px rgba(23,20,15,0.5);
-      transition: background .5s var(--ease), color .5s var(--ease), opacity .5s var(--ease), transform .5s var(--ease);
+      border: 1px solid var(--ink);
+      box-shadow: 0 8px 24px -8px rgba(0,0,0,0.45);
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease);
+      -webkit-tap-highlight-color: transparent;
     }
-    .floating-cta:hover, .floating-cta:focus-visible { background: none; color: var(--ink); outline: none; transform: translateY(-2px); }
-    body.inquire-open .floating-cta { opacity: 0; pointer-events: none; }
+    .wa-fab svg { width: 27px; height: 27px; display: block; fill: currentColor; }
+    .wa-fab:hover, .wa-fab:focus-visible { transform: translateY(-3px) scale(1.04); background: #000; outline: none; }
     @media (max-width: 768px) {
-      .floating-cta { bottom: 22px; right: 16px; padding: 12px 18px; font-size: 11px; letter-spacing: 0.14em; }
+      .wa-fab { bottom: 18px; right: 18px; width: 52px; height: 52px; }
+      .wa-fab svg { width: 24px; height: 24px; }
     }
 
     /* =========================================================
        HERO
     ========================================================= */
+    /* =========================================================
+       HERO — clean, premium, light (ref: lemonlight.com, inverted light).
+       Big grotesque positioning line up top, small eyebrow, one strong
+       CTA, then the hero VIDEO contained + centered as a proper framed
+       focal panel below the type (NOT a full-bleed with text on top).
+    ========================================================= */
     .hero {
-      background: var(--black);
-      padding: 96px 5% 72px;
-      min-height: 88vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
       position: relative;
-    }
-    .hero-video-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-      opacity: 0.52;   /* footage sits quietly behind the serif type */
-    }
-    .hero-video-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(20,17,13,0.55) 0%, rgba(20,17,13,0.42) 45%, rgba(20,17,13,0.82) 100%);
-      z-index: 1;
-    }
-    .hero-eyebrow {
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 12px;
-      letter-spacing: 0.34em;
-      text-transform: uppercase;
-      color: rgba(251,249,243,0.78);
-      margin-bottom: 1.5rem;
+      background: var(--bg); color: var(--fg);
+      padding: calc(var(--sp-16) + 24px) var(--gutter) var(--pad-tight);
+      overflow: hidden;
     }
     .hero-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 1280px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 4rem;
-      align-items: start;
+      max-width: var(--maxw); margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
     }
-
+    .hero-eyebrow {
+      font-family: var(--font-body); font-weight: 600;
+      font-size: var(--fs-eyebrow); letter-spacing: var(--tr-wide);
+      text-transform: uppercase; color: var(--fg-muted);
+      margin-bottom: var(--sp-4);
+    }
     .hero h1 {
-      font-family: var(--font-display);
-      font-weight: 400;
-      font-size: clamp(44px, 8.4vw, 132px);
-      line-height: 1.04;
-      letter-spacing: -0.01em;
-      color: var(--white);
-      margin: 0 0 1.75rem;
-      max-width: none;
+      font-family: var(--font-display); font-weight: 500;
+      font-size: var(--fs-hero); line-height: var(--lh-tight);
+      letter-spacing: var(--tr-display); color: var(--fg);
+      margin: 0; max-width: 16ch; text-transform: none;
     }
-    .hero h1 .line { display: block; }   /* no overflow mask - reveals use opacity+translateY only */
-    .hero h1 .line > span { display: block; white-space: nowrap; }
-    .hero h1 .line--indent > span { padding-left: 0; }
-    .hero h1 em,
-    .hero h1 .yellow { font-style: italic; font-weight: 400; font-family: var(--font-display); color: inherit; letter-spacing: 0; }
-
+    .hero h1 .line { display: block; }
+    .hero h1 .line > span { display: inline-block; will-change: transform, opacity; }
+    .hero h1 em, .hero h1 .yellow { font-style: normal; font-weight: 500; color: inherit; }
     .hero-sub {
-      font-family: var(--font-body);
-      font-size: 1.15rem;
-      color: rgba(251,249,243,0.72);
-      max-width: 46ch;
-      line-height: 1.62;
-      margin: 0 auto 2.25rem;
+      font-family: var(--font-body); font-size: var(--fs-lead);
+      color: var(--fg-muted); line-height: var(--lh-body);
+      max-width: 52ch; margin: var(--sp-4) auto 0;
+    }
+    .hero-actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; justify-content: center; margin-top: var(--sp-6); }
+
+    /* contained, framed, CENTERED hero video — the focal media */
+    .hero-media {
+      position: relative; margin: clamp(var(--sp-8), 8vh, var(--sp-16)) auto 0;
+      width: 100%; max-width: 1040px; aspect-ratio: 16 / 9;
+      border-radius: var(--radius); overflow: hidden;
+      background: var(--paper-alt); border: 1px solid var(--hair-c);
+      will-change: transform;
+    }
+    .hero-media video, .hero-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-media-badge {
+      position: absolute; left: 14px; bottom: 12px; z-index: 2;
+      font-family: var(--font-body); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--white);
+      text-shadow: 0 1px 12px rgba(0,0,0,0.5);
     }
 
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; padding-bottom: 0; }
-
-    .hero-inner--centered {
-      grid-template-columns: 1fr;
-      justify-items: start;
-      text-align: left;
-      max-width: 1480px;
-      width: 100%;
-      margin: 0 auto;
-    }
-    .hero-left--centered { max-width: 100%; }
-    .hero-actions--centered { justify-content: flex-start; }
-
-    /* Desktop: center the hero horizontally + balance it vertically.
-       Only horizontal alignment changes - line-height and highlight-box
-       clearance are untouched. Mobile (<=768px) is left exactly as-is. */
-    @media (min-width: 769px) {
-      .hero { align-items: center; }
-      /* minmax(0,1fr) so the column can't grow to the widest nowrap line's min-content
-         (which was shoving everything right); text-align:center then centers each line
-         on the TRUE center, letting an oversized line bleed off both edges equally. */
-      .hero-inner--centered { grid-template-columns: minmax(0, 1fr); justify-items: stretch; text-align: center; }
-      .hero-left--centered { width: 100%; min-width: 0; }
-      .hero h1 { margin-left: 0; margin-right: 0; width: 100%; min-width: 0; text-align: center; }
-      .hero h1 .line > span { min-width: 0; }
-      .hero h1 .line--indent > span { padding-left: 0; }   /* drop the left stagger when centered */
-      .hero-eyebrow { text-align: center; }
-      .hero-actions--centered { justify-content: center; }
-    }
-    .hero-side--centered {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      flex-wrap: nowrap;
-      padding-top: 0;
-      padding-bottom: 60px;
-      min-width: 0;
-      width: 100%;
-      gap: 1.25rem;
-    }
-    .hero-side--centered .hero-card {
-      flex: 1;
-      min-width: 0;
-      max-width: 280px;
-      text-align: left;
-    }
-
-    .hero-side {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding-top: 2rem;
-      min-width: 220px;
-    }
-    .hero-card {
-      border: 1px solid var(--line-dark);
-      padding: 24px;
-      cursor: none;
-    }
-    .hero-card.lime,
-    .hero-card.lav,
-    .hero-card.blush { background: none; }
-    .hero-card-num {
-      font-family: var(--font-display);
-      font-size: 2.4rem;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      color: var(--black);
-    }
-    .hero-card-label {
-      font-family: var(--font-body);
-      font-size: 0.68rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--black);
-      opacity: 0.7;
-      margin-top: 4px;
+    @media (max-width: 768px) {
+      .hero { padding: calc(var(--sp-12) + 16px) var(--gutter) var(--pad-tight); }
+      .hero h1 { max-width: 14ch; }
+      .hero-actions { width: 100%; }
+      .hero-actions .btn, .hero-actions .btn-lime, .hero-actions .btn-ghost, .hero-actions .cta-btn { width: 100%; }
+      .hero-media { aspect-ratio: 4 / 5; margin-top: var(--sp-8); }
     }
 
     /* =========================================================
@@ -1000,8 +985,7 @@
       margin: 0 0 3rem;
       line-height: 1.6;
     }
-    .final-cta .btn-lime { font-size: 13px; padding: 20px 44px; background: var(--paper); color: var(--ink); border-color: var(--paper); }
-    .final-cta .btn-lime:hover { background: none; color: var(--paper); border-color: rgba(251,249,243,0.55); }
+    .final-cta .btn-lime { font-size: 13px; padding: 20px 44px; }   /* colours come from theme-dark --btn-* tokens */
 
     /* =========================================================
        FOOTER
@@ -1273,30 +1257,28 @@
     html.gsap-ready .reveal { transition: none; }
     @media (prefers-reduced-motion: reduce) { .reveal { transition: none; opacity: 1; transform: none; } }
 
-    /* Editorial display system — fine Playfair serif, regular weight, mixed
-       case (NO uppercase, no brutalist condensing), calm generous leading. */
-    .hero h1, .section-title, .story-num, .story-head,
+    /* Display type for the OTHER sections (Phase 2 restyles them fully).
+       The hero owns its own type rules above. Grotesque, tight, no italic. */
+    .section-title, .story-num, .story-head,
     .cs-num, .cs-name, .cs-out-value, .cs-in-value, .cs-in-organic, .cs-mult,
     .process-n, .process-name, .stat-num, .work-name, .brand-init,
     .final-cta h2 {
       font-family: var(--font-display);
-      font-weight: 400;
-      letter-spacing: -0.005em;
+      font-weight: 500;
+      letter-spacing: -0.02em;
       font-style: normal;
       text-transform: none;
-      line-height: 1.02;   /* single-line numerals (story-num, stat-num, cs-*, process-n) */
+      line-height: 1.02;
     }
-    .section-title { line-height: 1.1; }
-    .final-cta h2  { line-height: 1.08; }
-    .hero h1       { line-height: 1.04; }
-    .story-head, .cs-name, .process-name, .work-name { line-height: 1.12; }
-    /* Emphasis words are italic serif across the display type */
-    .section-title em, .final-cta h2 em, .hero h1 em,
+    .section-title { line-height: 1.06; }
+    .final-cta h2  { line-height: 1.02; }
+    .story-head, .cs-name, .process-name, .work-name { line-height: 1.1; }
+    /* Emphasis words (other sections only — hero handles its own) */
+    .section-title em, .final-cta h2 em,
     .section-title .y, .section-title .lv, .section-title .bl,
-    .hero h1 .yellow, .final-cta h2 .yellow, .cs-name em { font-style: italic; }
-    /* Testimonial quotes: large italic serif pull-quotes */
-    .testimonial-quote { font-family: var(--font-display); font-style: italic; font-weight: 400; letter-spacing: 0; text-transform: none; line-height: 1.34; }
-    .footer-tagline { font-family: var(--font-display); font-style: italic; }
+    .final-cta h2 .yellow, .cs-name em { font-style: normal; }
+    .testimonial-quote { font-family: var(--font-display); font-style: normal; font-weight: 500; letter-spacing: -0.01em; text-transform: none; line-height: 1.2; }
+    .footer-tagline { font-family: var(--font-display); font-style: normal; }
 
     @media (max-width: 1024px) {
       .work-grid         { grid-template-columns: 1fr 1fr; }
@@ -1322,16 +1304,7 @@
       .nav-cta         { display: none; }
       .nav-hamburger   { display: flex; }
       .mobile-menu a   { font-size: 2.25rem; }
-      .hero            { padding: 92px 16px 40px; min-height: 82vh; }
-      .hero-inner      { grid-template-columns: 1fr; gap: 2rem; }
-      /* Center the whole hero on mobile: eyebrow, headline, sub and CTAs */
-      .hero-inner--centered { justify-items: center; text-align: center; }
-      .hero-left--centered { width: 100%; text-align: center; }
-      .hero h1         { font-size: clamp(40px, 11vw, 72px); max-width: 100%; text-align: center; }
-      .hero-eyebrow    { letter-spacing: 0.2em; font-size: 10.5px; text-align: center; }
-      .hero-sub        { font-size: 1rem; margin: 0 auto 2rem; max-width: 100%; }
-      .hero-actions    { flex-direction: column; align-items: center; padding-bottom: 8px; gap: 0.75rem; width: 100%; }
-      .hero-actions .btn { width: 100%; justify-content: center; padding-left: 20px; padding-right: 20px; }
+      /* hero owns its own responsive rules (see the HERO block above) */
       .section-head    { margin-bottom: 1.75rem; }
       /* Only font-size changes on mobile; line-heights (leading that clears the
          highlight boxes) come from the unified base rules above. */
@@ -1383,252 +1356,11 @@
     }
 
     @media (max-width: 480px) {
-      .hero h1         { font-size: clamp(40px, 13vw, 64px); }
       .work-grid       { grid-template-columns: 1fr; }
-      .hero-actions .btn { font-size: 11px; padding: 16px 20px; }
-    }
-    /* =========================================================
-       INTRO ENVELOPE — scroll-scrubbed lens intro (experiment)
-       A pinned full-screen overlay whose MAIN video scrubs in sync with
-       scroll (scroll position -> currentTime), reference feel: Fouros /
-       PUCCII scroll intros. The real site is fully in the DOM below (SEO +
-       a11y); a tall #introScroll spacer provides the scrub travel while the
-       overlay stays fixed on top. At the end it cuts to a solid WELCOME
-       screen, then fades to reveal the site at the top.
-    ========================================================= */
-    #introScroll { position: relative; width: 100%; }   /* scrub-travel spacer; height set by JS */
-
-    .intro {
-      position: fixed; inset: 0; z-index: 9000;
-      background: var(--black); color: var(--paper);
-      overflow: hidden; opacity: 1;
-      transition: opacity 0.8s var(--ease);
-      -webkit-tap-highlight-color: transparent;
-    }
-    .intro.is-hidden { display: none; }
-    .intro.is-gone { opacity: 0; }
-
-    /* Stacked video layers: loop on top first, main crossfades in on scroll */
-    .intro-video {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; background: var(--black);
-      opacity: 0; transition: opacity 0.6s var(--ease);
-    }
-    .intro-video.is-on { opacity: 1; }
-    .intro-loop { z-index: 1; }
-    .intro-main { z-index: 0; }
-    .intro-scrim {
-      position: absolute; inset: 0; z-index: 2; pointer-events: none;
-      background: linear-gradient(to bottom, rgba(20,17,13,0.4) 0%, rgba(20,17,13,0.15) 42%, rgba(20,17,13,0.66) 100%);
-    }
-
-    /* Text layer over the video */
-    .intro-text {
-      position: absolute; inset: 0; z-index: 3;
-      display: grid; place-items: center; text-align: center;
-      padding: clamp(24px, 6vw, 64px); pointer-events: none;
-    }
-    .intro-beat {
-      grid-area: 1 / 1; width: 100%; max-width: 900px;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-    }
-    .intro-beat.is-active { opacity: 1; transform: none; }
-
-    .intro-statement {
-      font-family: var(--font-display); font-weight: 400; font-style: normal;
-      font-size: clamp(1.7rem, 4.6vw, 3.2rem); line-height: 1.18; letter-spacing: -0.005em;
-      color: var(--paper); max-width: 18ch; margin: 0 auto;
-      text-shadow: 0 1px 26px rgba(0,0,0,0.45);
-    }
-    .intro-statement em { font-style: italic; }
-
-    .intro-q {
-      font-family: var(--font-display); font-weight: 400; font-style: normal;
-      font-size: clamp(1.9rem, 5.2vw, 4rem); line-height: 1.16; letter-spacing: -0.005em;
-      color: var(--paper); max-width: 20ch; margin: 0 auto;
-      text-shadow: 0 1px 26px rgba(0,0,0,0.45);
-    }
-    .intro-q em { font-style: italic; }
-    .intro-sub {
-      font-family: var(--font-body); font-style: italic; font-weight: 400;
-      font-size: clamp(0.98rem, 1.9vw, 1.2rem); line-height: 1.5; letter-spacing: 0.01em;
-      color: rgba(251,249,243,0.72); max-width: 34ch; margin: 1.4rem auto 0;
-      text-shadow: 0 1px 20px rgba(0,0,0,0.5);
-    }
-
-    /* Reduced-motion static "enter" (hidden by default; shown only in that mode) */
-    .intro-enter {
-      display: none; pointer-events: auto; margin: 2.2rem auto 0;
-      align-items: center; gap: 12px; background: none; color: var(--paper);
-      border: 1px solid rgba(251,249,243,0.5);
-      font-family: var(--font-body); font-weight: 500; font-size: 12px;
-      letter-spacing: 0.26em; text-transform: uppercase; padding: 14px 32px; cursor: pointer;
-      transition: background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease);
-    }
-    .intro-enter:hover, .intro-enter:focus-visible { background: var(--paper); color: var(--ink); border-color: var(--paper); outline: none; }
-
-    /* Scroll cue (loop beat): label + animated down-chevron */
-    .intro-cue {
-      position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(30px, 8vh, 64px);
-      z-index: 4; display: flex; flex-direction: column; align-items: center; gap: 12px;
-      font-family: var(--font-body); font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase;
-      color: rgba(251,249,243,0.72); opacity: 0; transition: opacity 0.6s var(--ease); pointer-events: none;
-    }
-    .intro-cue.is-on { opacity: 0.85; }
-    .intro-chevron {
-      width: 16px; height: 16px; border-right: 1px solid rgba(251,249,243,0.75);
-      border-bottom: 1px solid rgba(251,249,243,0.75); transform: rotate(45deg);
-      animation: introChev 2s var(--ease) infinite;
-    }
-    @keyframes introChev {
-      0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.4; }
-      50%      { transform: rotate(45deg) translate(3px, 3px); opacity: 0.9; }
-    }
-
-    /* Progress 01 —— 04 */
-    .intro-progress {
-      position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(30px, 7vh, 58px);
-      z-index: 4; display: flex; align-items: center; gap: 14px;
-      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
-      color: rgba(251,249,243,0.55); opacity: 0; transition: opacity 0.5s var(--ease); pointer-events: none;
-    }
-    .intro-progress.is-on { opacity: 1; }
-    .intro-track { width: 90px; height: 1px; background: rgba(251,249,243,0.24); position: relative; overflow: hidden; }
-    .intro-track-fill { position: absolute; inset: 0; background: rgba(251,249,243,0.85); transform: scaleX(0); transform-origin: left center; }
-
-    /* WELCOME cut — solid screen, NOT over the video */
-    .intro-welcome {
-      position: absolute; inset: 0; z-index: 6;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-      background: var(--black); opacity: 0; visibility: hidden; transition: opacity 0.6s var(--ease);
-    }
-    .intro-welcome.is-on { opacity: 1; visibility: visible; }
-    .intro-welcome-label {
-      font-family: var(--font-body); font-weight: 500; font-size: 12px;
-      letter-spacing: 0.34em; text-transform: uppercase; color: rgba(251,249,243,0.6); margin-bottom: 1.6rem;
-    }
-    .intro-welcome-logo { height: clamp(48px, 8.5vw, 82px); width: auto; margin: 0 auto; display: block; opacity: 0.98; }
-
-    /* Skip — discreet, always visible */
-    .intro-skip {
-      position: absolute; right: clamp(16px, 4vw, 34px); bottom: clamp(16px, 4vh, 30px); z-index: 7;
-      background: none; border: none; color: rgba(251,249,243,0.6);
-      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-      cursor: pointer; padding: 8px; transition: color 0.3s var(--ease);
-    }
-    .intro-skip:hover, .intro-skip:focus-visible { color: var(--paper); outline: none; }
-
-    body.intro-lock { overflow: hidden; }
-
-    @media (max-width: 768px) {
-      .intro-statement { font-size: clamp(1.55rem, 7vw, 2.3rem); max-width: 15ch; }
-      .intro-q { font-size: clamp(1.6rem, 7.4vw, 2.5rem); max-width: 15ch; }
-      .intro-sub { font-size: clamp(0.95rem, 4vw, 1.05rem); max-width: 26ch; }
-      .intro-track { width: 64px; }
-      .intro-cue { letter-spacing: 0.22em; }
-    }
-
-    /* Reduced motion: no scrub, no rise/pulse — static sealed-lens + Enter */
-    @media (prefers-reduced-motion: reduce) {
-      .intro, .intro-beat, .intro-video, .intro-welcome, .intro-cue, .intro-progress { transition: none !important; }
-      .intro-beat { transform: none; }
-      .intro-chevron { animation: none !important; }
-      .intro-enter { display: inline-flex; }
-      .intro-cue { display: none; }
     }
   </style>
 </head>
 <body>
-
-  <!-- ==========================================================
-       INTRO ENVELOPE (experiment) — scroll-scrubbed lens intro. Visual
-       layer only: the real site is fully present in the DOM below, so
-       crawlers and screen readers reach everything regardless. If JS is
-       off, <noscript> hides the intro and the site shows normally.
-  =========================================================== -->
-  <noscript><style>#intro,#introScroll{display:none!important}</style></noscript>
-  <div id="introScroll" aria-hidden="true"></div>
-  <div id="intro" class="intro" role="dialog" aria-label="Purple Roots intro" aria-modal="false" tabindex="-1">
-    <!-- LOOP (sealed lens, breathing) on top first; MAIN scrubs in on scroll -->
-    <video class="intro-video intro-loop is-on" id="introLoop" muted loop playsinline preload="auto"
-           poster="https://res.cloudinary.com/dsprn0ew4/video/upload/f_jpg,q_auto,w_720,so_0/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.jpg" src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720,vc_h264/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.mp4"></video>
-    <video class="intro-video intro-main" id="introMain" muted playsinline preload="metadata"
-           poster="https://res.cloudinary.com/dsprn0ew4/video/upload/f_jpg,q_auto,w_720,so_0/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.13_PM_vsbclz.jpg" src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,q_auto,w_720/v1785537656/WhatsApp_Video_2026-07-31_at_4.37.12_PM_mwvx5k.mp4"></video>
-    <div class="intro-scrim" aria-hidden="true"></div>
-
-    <div class="intro-text">
-      <!-- opening statement (over the loop) -->
-      <div class="intro-beat is-active" data-beat="statement">
-        <p class="intro-statement"><!-- filled from INTRO.statement --></p>
-        <button class="intro-enter" type="button" data-intro-enter>Enter</button>
-      </div>
-      <!-- question + secondary subtitle beats, revealed at scroll thresholds -->
-      <div class="intro-beat" data-beat="0"><p class="intro-q"></p><p class="intro-sub"></p></div>
-      <div class="intro-beat" data-beat="1"><p class="intro-q"></p><p class="intro-sub"></p></div>
-      <div class="intro-beat" data-beat="2"><p class="intro-q"></p><p class="intro-sub"></p></div>
-      <div class="intro-beat" data-beat="3"><p class="intro-q"></p><p class="intro-sub"></p></div>
-    </div>
-
-    <div class="intro-cue" id="introCue" aria-hidden="true"><span>Scroll to enter</span><span class="intro-chevron"></span></div>
-    <div class="intro-progress" aria-hidden="true">
-      <span class="intro-count">01</span>
-      <span class="intro-track"><span class="intro-track-fill"></span></span>
-      <span class="intro-total">04</span>
-    </div>
-
-    <!-- WELCOME cut (solid screen, shown at the end) -->
-    <div class="intro-welcome" id="introWelcome">
-      <span class="intro-welcome-label"><!-- filled from INTRO.welcomeLabel --></span>
-      <img class="intro-welcome-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_rgb:F6F3EA,f_auto,q_auto/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" />
-    </div>
-
-    <button class="intro-skip" type="button" data-intro-skip aria-label="Skip intro">Skip</button>
-  </div>
-  <script>
-    (function () {
-      /* =========================================================
-         INTRO COPY & TUNING — edit here (single source of truth).
-         thresholds : scroll fraction (0-1) at which each question appears
-                      (evenly spaced; Q4 lands before the end so it dwells).
-         videoEnd   : scroll fraction at which the video reaches its LAST
-                      frame; from here to the end the frame HOLDS and Q4
-                      stays on screen (the dwell zone) before Welcome.
-         welcome    : timings for the Welcome cut (all in ms).
-      ========================================================= */
-      var INTRO = {
-        statement: 'Your brand will never be the same after this.',
-        beats: [
-          { q: 'Struggling to know what content to make?',          sub: "It's normal. Don't get discouraged." },
-          { q: 'Posting constantly with nothing to show for it?',    sub: "You're already making your best decision." },
-          { q: "Your following just won't grow?",                    sub: 'The hardest part is almost behind you.' },
-          { q: 'Ready to build something people actually remember?', sub: "Then you're exactly where you need to be." }
-        ],
-        welcomeLabel: 'Welcome to',
-        thresholds: [0.16, 0.38, 0.58, 0.78],
-        videoEnd: 0.82,
-        welcome: { minHoldMs: 1800, maxMs: 2600, fadeInMs: 700, fadeOutMs: 1100 }
-      };
-      /* ========================================================= */
-      window.__INTRO_COPY = INTRO;
-      try {
-        var root = document.getElementById('intro');
-        if (root) {
-          var st = root.querySelector('.intro-statement'); if (st) st.textContent = INTRO.statement;
-          var qs = root.querySelectorAll('.intro-q'), subs = root.querySelectorAll('.intro-sub');
-          INTRO.beats.forEach(function (bt, n) { if (qs[n]) qs[n].textContent = bt.q; if (subs[n]) subs[n].textContent = bt.sub; });
-          var wl = root.querySelector('.intro-welcome-label'); if (wl) wl.textContent = INTRO.welcomeLabel;
-        }
-      } catch (e) {}
-      /* Session gate: hide before paint if already seen this tab session. */
-      try {
-        if (sessionStorage.getItem('pr_intro_seen') === '1') {
-          var el = document.getElementById('intro'); if (el) el.classList.add('is-hidden');
-          var sp = document.getElementById('introScroll'); if (sp) sp.style.display = 'none';
-        }
-      } catch (e) {}
-    })();
-  </script>
 
   <div id="cursor"></div>
 
@@ -1671,44 +1403,38 @@
     <a href="#contact"  class="m-link">Inquire</a>
   </div>
 
-  <section class="hero" id="hero">
-    <video class="hero-video-bg" autoplay muted loop playsinline preload="metadata"
-      poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1778261003/Prvideo1_cktsqz.jpg">
-      <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_webm,vc_vp9,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.webm" type="video/webm" />
-      <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.mp4" type="video/mp4" />
-    </video>
-    <div class="hero-video-overlay"></div>
-    <!-- ============================================================
-         HERO MEDIA - chosen: video full-bleed BEHIND the oversized type
-         (giant letterforms sit over the footage; strong + reliable).
-         Alt A (footage THROUGH letterforms): wrap the H1 text in an SVG
-           <mask><text> and paint a bone <rect> masked by it over the video,
-           so the video only shows inside the letters. More fragile to size
-           responsively - commented for now.
-         Alt B (hard-edged block beside): drop hero to a 60/40 grid, type left
-           overflowing, a hard-edged <video> block right. Swap in if preferred.
-         ============================================================ -->
-    <div class="hero-inner hero-inner--centered">
-      <div class="hero-left hero-left--centered">
-        <div class="hero-eyebrow">Video Marketing Agency · El Paso, TX</div>
-        <!-- ========================================================
-             HERO STATEMENT - pick one (leave one active, comment the rest):
-               A) WE MAKE / BRANDS / IMPOSSIBLE / TO IGNORE   (active)
-               B) ATTENTION / IS THE / WHOLE / GAME
-               C) LOUD / ON / PURPOSE
-             ======================================================== -->
-        <h1 id="heroTitle">
-          <span class="line"><span>We make</span></span>
-          <span class="line line--indent"><span>brands</span></span>
-          <span class="line"><span><span class="yellow">impossible</span></span></span>
-          <span class="line line--indent"><span>to ignore.</span></span>
-        </h1>
-        <p class="hero-sub">A creative studio for brands with something to say. Strategy, film, and design, made with intention in El Paso, Texas.</p>
-        <div class="hero-actions hero-actions--centered">
-          <a href="#case-studies" class="btn btn-lagoon" data-magnetic>See the proof →</a>
-          <a href="#contact" class="btn btn-ghost" data-inquire>Start a project →</a>
-        </div>
+  <section class="hero theme-light" id="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow reveal">Video Marketing Agency &middot; El Paso, TX</div>
+      <h1 id="heroTitle">
+        <span class="line"><span>We make brands</span></span>
+        <span class="line"><span><span class="yellow">impossible</span> to ignore.</span></span>
+      </h1>
+      <p class="hero-sub reveal">A creative studio for brands with something to say. Strategy, film, and design, made with intention in El Paso, Texas.</p>
+      <div class="hero-actions reveal">
+        <a href="#contact" class="cta-btn" data-inquire>Get Started <span class="arr">&rarr;</span></a>
+        <a href="#case-studies" class="btn-outline">See the work</a>
       </div>
+
+      <!-- contained, centered, framed hero video — the focal media -->
+      <figure class="hero-media reveal" id="heroMedia">
+        <video class="hero-media-video" autoplay muted loop playsinline preload="metadata"
+          poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1778261003/Prvideo1_cktsqz.jpg">
+          <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_webm,vc_vp9,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.webm" type="video/webm" />
+          <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.mp4" type="video/mp4" />
+        </video>
+        <figcaption class="hero-media-badge">Purple Roots &middot; Reel</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Recurring "Get Started" CTA — after the hero (also sets the light->dark
+       section rhythm). Reused after case studies / before footer too. -->
+  <section class="cta-band theme-dark reveal" aria-label="Get started">
+    <div class="cta-band-inner">
+      <span class="eyebrow">Ready when you are</span>
+      <h2>Ready to grow your brand?</h2>
+      <a href="#contact" class="cta-btn" data-inquire>Get Started <span class="arr">&rarr;</span></a>
     </div>
   </section>
 
@@ -1861,7 +1587,7 @@
     <div id="csTrack"></div>
   </section>
 
-  <section class="block final-cta" id="contact">
+  <section class="block final-cta theme-dark" id="contact">
     <div class="container">
       <h2 class="reveal">Ready to build<br />something <span class="yellow">real?</span></h2>
       <p class="reveal">We have limited availability each quarter. If you're serious about your brand, let's talk before the spot is gone.</p>
@@ -1886,7 +1612,11 @@
   </footer>
 
   <!-- Persistent CTA - always visible on scroll; opens the inquiry drawer -->
-  <button class="floating-cta" type="button" data-inquire aria-label="Get started">Get Started →</button>
+  <!-- Floating WhatsApp — opens WhatsApp with a prewritten message (not the form) -->
+  <a class="wa-fab" href="https://wa.me/19152343655?text=I%20want%20to%20grow%20my%20brand"
+     target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.04 4C9.9 4 4.9 9 4.9 15.14c0 2.17.64 4.19 1.73 5.9L4.6 28l7.16-1.98a11.1 11.1 0 0 0 4.28.86h.01c6.14 0 11.14-5 11.14-11.14C27.19 9 22.18 4 16.04 4Zm0 20.4h-.01c-1.36 0-2.7-.37-3.86-1.06l-.28-.16-4.25 1.18 1.13-4.14-.18-.29a9.16 9.16 0 0 1-1.4-4.88c0-5.06 4.12-9.18 9.19-9.18 2.45 0 4.76.96 6.49 2.69a9.11 9.11 0 0 1 2.69 6.5c0 5.06-4.12 9.18-9.18 9.18Zm5.04-6.88c-.28-.14-1.63-.8-1.88-.9-.25-.09-.44-.14-.62.14-.18.28-.71.9-.87 1.08-.16.18-.32.2-.6.07-.28-.14-1.17-.43-2.22-1.37-.82-.73-1.38-1.63-1.54-1.91-.16-.28-.02-.43.12-.57.13-.12.28-.32.42-.48.14-.16.18-.28.28-.46.09-.18.05-.35-.02-.49-.07-.14-.62-1.5-.85-2.05-.22-.53-.45-.46-.62-.47l-.53-.01c-.18 0-.48.07-.73.35-.25.28-.96.94-.96 2.3 0 1.36.98 2.67 1.12 2.85.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.58.65.21 1.25.18 1.72.11.52-.08 1.63-.67 1.86-1.31.23-.64.23-1.19.16-1.31-.07-.12-.25-.19-.53-.33Z"/></svg>
+  </a>
 
   <!-- ===================== INQUIRE DRAWER (slide-in form) ===================== -->
   <div id="inquireBackdrop" class="inquire-backdrop" hidden></div>
@@ -2419,27 +2149,30 @@
       const setWC = (els) => els.forEach(e => { e.style.willChange = 'transform, opacity'; });
       const clearWC = (els) => els.forEach(e => { e.style.willChange = 'auto'; });
 
-      /* Hero - lines fade + rise (transform/opacity). Blur->sharp only here (one element,
-         one-shot) and only because richMotion is desktop-only. */
-      const heroLines = gsap.utils.toArray('#heroTitle .line');
-      setWC(heroLines);
-      gsap.set(heroLines, { opacity: 0, y: 34 });
-      gsap.to(heroLines, { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', stagger: 0.16, delay: 0.2, onComplete: () => clearWC(heroLines) });
-      const heroTitleEl = document.getElementById('heroTitle');
-      if (heroTitleEl) {
-        heroTitleEl.style.willChange = 'filter';
-        gsap.fromTo(heroTitleEl, { filter: 'blur(8px)' }, { filter: 'blur(0px)', duration: 1.5, ease: 'power3.out', delay: 0.2,
-          onComplete: () => { heroTitleEl.style.filter = 'none'; heroTitleEl.style.willChange = 'auto'; } });
+      /* Hero on-load — eyebrow, headline lines, sub, CTAs rise + fade
+         (transform/opacity, power3.out, no bounce); the framed video panel
+         settles from a slight scale. */
+      const heroLineSpans = gsap.utils.toArray('#heroTitle .line > span');
+      setWC(heroLineSpans);
+      gsap.set(heroLineSpans, { opacity: 0, y: 40 });
+      gsap.to(heroLineSpans, { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', stagger: 0.1, delay: 0.12, onComplete: () => clearWC(heroLineSpans) });
+      gsap.from('.hero-eyebrow', { opacity: 0, y: 14, duration: 0.9, ease: 'power3.out', delay: 0.05 });
+      gsap.from('.hero-sub, .hero-actions', { opacity: 0, y: 16, duration: 1.0, ease: 'power3.out', stagger: 0.12, delay: 0.5 });
+      const heroMediaEl = document.getElementById('heroMedia');
+      if (heroMediaEl) {
+        heroMediaEl.style.willChange = 'transform, opacity';
+        gsap.fromTo(heroMediaEl, { opacity: 0, y: 40, scale: 1.03 }, { opacity: 1, y: 0, scale: 1, duration: 1.25, ease: 'power3.out', delay: 0.65, onComplete: () => { heroMediaEl.style.willChange = 'auto'; } });
       }
-      gsap.from('.hero-eyebrow, .hero-sub, .hero-actions', { opacity: 0, y: 16, duration: 1.2, ease: 'power3.out', stagger: 0.2, delay: 0.75 });
 
-      /* Hero background - cheap one-shot scale-in on load (NO scroll scrub) */
-      (function () {
-        const v = document.querySelector('.hero-video-bg');
-        if (!v) return;
-        v.style.willChange = 'transform';
-        gsap.fromTo(v, { scale: 1.06 }, { scale: 1, duration: 2.2, ease: 'power3.out', onComplete: () => { v.style.willChange = 'auto'; } });
-      })();
+      /* Hero scroll intent — headline and video panel parallax at DIFFERENT
+         rates as the hero scrolls out (transform only, scrubbed, no bounce). */
+      const heroEl = document.querySelector('.hero');
+      if (heroEl) {
+        gsap.to('#heroTitle', { yPercent: -14, ease: 'none',
+          scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: 0.5 } });
+        if (heroMediaEl) gsap.to(heroMediaEl, { yPercent: -6, ease: 'none',
+          scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: 0.5 } });
+      }
 
       /* Section titles - words fade + rise once on enter (no mask) */
       document.querySelectorAll('.section-title').forEach(title => {
@@ -2738,7 +2471,7 @@
     ===================================================================== */
     (function () {
       var SEL = '.reveal, .section-title, .cs-panel, .cs-name, [data-splitwords], .media-band-caption';
-      var EXTRA = '#heroTitle .line, .hero-eyebrow, .hero-sub, .hero-actions, .cs-num';
+      var EXTRA = '#heroTitle .line > span, .hero-eyebrow, .hero-sub, .hero-actions, .hero-media, .cs-num';
       var INNER = '.word, .word > span, .cs-name, .cs-video-inner, .cs-video-el, .cs-video-poster, .media-band-caption';
 
       function clearInline(n) { if (!n) return; n.style.opacity = ''; n.style.transform = ''; n.style.filter = ''; }
@@ -2794,7 +2527,7 @@
     /* Perf: pause the always-on background videos (hero + media band) when they're
        off-screen so we never decode multiple full-bleed videos at once. */
     (function () {
-      const vids = document.querySelectorAll('.hero-video-bg, .media-band-video');
+      const vids = document.querySelectorAll('.hero-media-video, .media-band-video');
       if (!vids.length || !('IntersectionObserver' in window)) return;
       const io = new IntersectionObserver((entries) => {
         entries.forEach(en => {
@@ -2849,255 +2582,6 @@
     inject();
   </script>
 
-  <!-- INTRO ENVELOPE controller (experiment) — scroll-scrubs the MAIN video
-       by scroll position, reveals question beats at thresholds, cuts to the
-       WELCOME screen at the end, then fades to the real site at the top. -->
-  <script>
-    (function () {
-      var intro  = document.getElementById('intro');
-      var spacer = document.getElementById('introScroll');
-      if (!intro) return;
-      if (intro.classList.contains('is-hidden')) { if (spacer) spacer.style.display = 'none'; return; }
 
-      var reduce = false;
-      try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-
-      var loop     = document.getElementById('introLoop');
-      var main     = document.getElementById('introMain');
-      var welcome  = document.getElementById('introWelcome');
-      var cue      = document.getElementById('introCue');
-      var progress = intro.querySelector('.intro-progress');
-      var countEl  = intro.querySelector('.intro-count');
-      var fill     = intro.querySelector('.intro-track-fill');
-      var skipBtn  = intro.querySelector('[data-intro-skip]');
-      var enterBtn = intro.querySelector('[data-intro-enter]');
-      var statementBeat = intro.querySelector('[data-beat="statement"]');
-      var qBeats = [].slice.call(intro.querySelectorAll('.intro-beat')).filter(function (b) {
-        return b.getAttribute('data-beat') !== 'statement';
-      });
-
-      var COPY = window.__INTRO_COPY || {};
-      var THRESHOLDS = (COPY.thresholds && COPY.thresholds.length === 4) ? COPY.thresholds : [0.16, 0.38, 0.58, 0.78];
-      var VIDEO_END  = (typeof COPY.videoEnd === 'number') ? COPY.videoEnd : 0.82;   // video reaches last frame here; holds after
-      var WELCOME_AT = 0.97;             // scroll fraction at which the WELCOME cut fires (after the Q4 dwell)
-      var SCRUB_SCREENS = 3.2;           // pinned scroll travel (~3.2 screens; extra room for the Q4 dwell)
-      var W = COPY.welcome || {};
-      W.minHoldMs = W.minHoldMs || 1800; // minimum time the Welcome screen stays visible
-      W.maxMs     = W.maxMs     || 2600; // hard cap so preload never hangs the Welcome
-      W.fadeInMs  = W.fadeInMs  || 700;  // gentle Welcome fade-in
-      W.fadeOutMs = W.fadeOutMs || 1100; // slower fade-out to the site
-
-      /* C3: Safari / iOS WebKit cannot seek network video per-frame without
-         stuttering, so we do NOT scrub currentTime there — we play the MAIN
-         clip through smoothly and drive only the text beats + Welcome by
-         scroll (a clean play-through). Frame-accurate scrub stays ON only for
-         engines where it's reliable (Chromium/Blink, Firefox on desktop). */
-      var ua = navigator.userAgent || '';
-      var isIOS = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      var isSafari = /^((?!chrome|crios|fxios|android|edg|opr|samsung).)*safari/i.test(ua) && /Apple/.test(navigator.vendor || '');
-      var USE_SCRUB = !reduce && !isIOS && !isSafari;   // true = frame-accurate scrub; false = play-through
-
-      var done = false, started = false, welcomed = false, welcomeTimers = [], primed = false;
-      var target = 0, cur = 0, rafId = null;
-      function clearWelcomeTimers() { welcomeTimers.forEach(function (t) { clearTimeout(t); }); welcomeTimers = []; }
-
-      function finish() {
-        if (done) return; done = true;
-        clearWelcomeTimers();
-        if (rafId) cancelAnimationFrame(rafId);
-        try { sessionStorage.setItem('pr_intro_seen', '1'); } catch (e) {}
-        window.removeEventListener('scroll', onScroll);
-        window.removeEventListener('resize', onResize);
-        document.removeEventListener('keydown', onKey);
-        try { loop.pause(); main.pause(); } catch (e) {}
-        var fadeMs = reduce ? 0 : W.fadeOutMs;         // slower, gentle fade to the site
-        intro.style.transitionDuration = fadeMs + 'ms';
-        intro.classList.add('is-gone');
-        window.setTimeout(function () {
-          intro.classList.add('is-hidden');
-          if (spacer && spacer.parentNode) spacer.parentNode.removeChild(spacer);
-          document.body.classList.remove('intro-lock');
-          // jump to top INSTANTLY (bypass scroll-behavior:smooth) so the site
-          // just appears at the top with no visible scroll-up animation
-          var de = document.documentElement, prev = de.style.scrollBehavior;
-          de.style.scrollBehavior = 'auto';
-          window.scrollTo(0, 0);
-          de.style.scrollBehavior = prev;
-          // C1: the site's ScrollTrigger positions were computed WITH the tall
-          // #introScroll spacer present; now that it's gone, recompute them or
-          // every reveal fires at the wrong place (empty sections). Re-enable
-          // Lenis (paused during the scrub) and refresh on the next frames.
-          try { if (window.__introLenisResume) window.__introLenisResume(); } catch (e) {}
-          var refresh = function () { try { if (window.ScrollTrigger && window.ScrollTrigger.refresh) window.ScrollTrigger.refresh(); } catch (e) {} };
-          refresh();
-          requestAnimationFrame(refresh);
-          window.setTimeout(refresh, 250);
-          // C2 backstop: sweep once more so nothing that should be on-screen stays hidden
-          try { if (window.__introForceRevealInView) window.__introForceRevealInView(); } catch (e) {}
-        }, fadeMs);
-      }
-
-      function onKey(e) {
-        if (done) return;
-        if (e.key === 'Escape' || e.key === 'Esc') { e.preventDefault(); finish(); return; }
-        if (reduce && (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar')) {
-          if (e.target === skipBtn) return; e.preventDefault(); finish();
-        }
-      }
-      skipBtn.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); finish(); });
-      document.addEventListener('keydown', onKey);
-
-      /* ---------- REDUCED MOTION: static sealed-lens + Enter, no scrub ---------- */
-      if (reduce) {
-        if (spacer) spacer.style.display = 'none';
-        document.body.classList.add('intro-lock');
-        loop.classList.add('is-on');
-        statementBeat.classList.add('is-active');
-        if (enterBtn) { enterBtn.style.display = 'inline-flex'; enterBtn.addEventListener('click', function (e) { e.preventDefault(); finish(); });
-          try { enterBtn.focus({ preventScroll: true }); } catch (e) {} }
-        try { loop.removeAttribute('loop'); loop.pause(); } catch (e) {}
-        return;
-      }
-
-      /* ---------- SCROLL-SCRUB ---------- */
-      function setSpacer() {
-        if (spacer) spacer.style.height = Math.round(window.innerHeight * (SCRUB_SCREENS + 1)) + 'px';
-      }
-      function travel() { return Math.max(1, spacer.offsetHeight - window.innerHeight); }
-
-      function primeMain() {
-        if (primed) return; primed = true;
-        // unlock buffering/seeking (esp. mobile): play then immediately pause
-        try {
-          var pr = main.play();
-          if (pr && pr.then) pr.then(function () { try { main.pause(); main.currentTime = 0; } catch (e) {} }).catch(function () { try { main.pause(); } catch (e) {} });
-        } catch (e) {}
-      }
-
-      function startScrub() {
-        if (started) return; started = true;
-        main.classList.add('is-on');
-        loop.classList.remove('is-on');
-        try { loop.pause(); } catch (e) {}
-        statementBeat.classList.remove('is-active');
-        cue.classList.remove('is-on');
-        progress.classList.add('is-on');
-        if (!USE_SCRUB) {
-          // Safari/iOS play-through: let the clip play smoothly (no seeking);
-          // it holds on its last frame when it ends. Beats + Welcome stay
-          // scroll-driven. The user gesture that started scrolling permits play.
-          try { main.loop = false; var pr = main.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {}
-        }
-      }
-
-      function updateBeats(p) {
-        if (!started) return;
-        var idx = -1;
-        for (var i = 0; i < THRESHOLDS.length; i++) { if (p >= THRESHOLDS[i]) idx = i; }
-        qBeats.forEach(function (b, n) { b.classList.toggle('is-active', n === idx && !welcomed); });
-        fill.style.transform = 'scaleX(' + Math.min(1, p) + ')';
-        countEl.textContent = ('0' + Math.min(4, Math.max(1, idx + 1))).slice(-2);
-      }
-
-      /* Preload the site behind the Welcome hold: fonts + hero media + the
-         above-the-fold nav logo, so nothing pops in late after the fade.
-         Each task self-times-out so this never hangs. */
-      function preloadReady() {
-        var tasks = [];
-        try { if (document.fonts && document.fonts.ready) tasks.push(document.fonts.ready); } catch (e) {}
-        var hero = document.querySelector('.hero-video-bg');
-        if (hero) {
-          try { hero.preload = 'auto'; hero.load(); } catch (e) {}
-          tasks.push(new Promise(function (res) {
-            if (hero.readyState >= 3) return res();
-            var t = setTimeout(res, W.maxMs);
-            hero.addEventListener('canplay', function () { clearTimeout(t); res(); }, { once: true });
-          }));
-        }
-        [].slice.call(document.querySelectorAll('.nav-logo-img')).forEach(function (im) {
-          if (im.complete) return;
-          tasks.push(new Promise(function (res) {
-            var t = setTimeout(res, W.maxMs);
-            im.addEventListener('load',  function () { clearTimeout(t); res(); }, { once: true });
-            im.addEventListener('error', function () { clearTimeout(t); res(); }, { once: true });
-          }));
-        });
-        return Promise.all(tasks).catch(function () {});
-      }
-
-      function enterWelcome() {
-        welcomed = true;
-        qBeats.forEach(function (b) { b.classList.remove('is-active'); });   // Q4 crossfades out under the Welcome fade-in
-        progress.classList.remove('is-on');
-        cue.classList.remove('is-on');
-        welcome.style.transitionDuration = W.fadeInMs + 'ms';               // gentle fade-in
-        welcome.classList.add('is-on');
-        // Hold >= minHold, wait for site assets, but never exceed maxMs.
-        var ready = false, held = false, committed = false;
-        var commit = function () { if (committed || !welcomed) return; if (held && ready) { committed = true; finish(); } };
-        preloadReady().then(function () { ready = true; commit(); });
-        welcomeTimers.push(window.setTimeout(function () { held = true; commit(); }, W.minHoldMs));
-        welcomeTimers.push(window.setTimeout(function () { if (!committed && welcomed) { committed = true; finish(); } }, W.maxMs));
-      }
-      function exitWelcome() {   // user scrolled back up before the cut committed
-        clearWelcomeTimers();
-        welcomed = false;
-        welcome.classList.remove('is-on');
-        if (started) progress.classList.add('is-on');
-      }
-
-      function onScroll() {
-        if (done) return;
-        var p = window.scrollY / travel();
-        if (p < 0) p = 0; if (p > 1) p = 1;
-        if (p > 0.001 && !started) startScrub();
-        target = p;
-        updateBeats(p);
-        if (p >= WELCOME_AT && !welcomed) enterWelcome();
-        else if (p < WELCOME_AT && welcomed) exitWelcome();
-      }
-      function onResize() { setSpacer(); onScroll(); }
-
-      function tick() {
-        cur += (target - cur) * 0.12;                       // small lerp -> smooth scrub
-        if (Math.abs(target - cur) < 0.0005) cur = target;
-        if (USE_SCRUB && started && main.duration && isFinite(main.duration) && main.duration > 0) {
-          // Map scroll to video over [0, VIDEO_END]; beyond that the video HOLDS
-          // on its final frame (the dwell zone) while Q4 stays readable.
-          var videoP = Math.min(1, cur / VIDEO_END);
-          var t = videoP * main.duration;
-          try {
-            if (main.readyState >= 1 && !main.seeking) {
-              if (typeof main.fastSeek === 'function') main.fastSeek(t); else main.currentTime = t;
-            }
-          } catch (e) {}
-        }
-        rafId = requestAnimationFrame(tick);
-      }
-
-      // init
-      // C3/M3: pause Lenis so it doesn't double-smooth the scroll the scrub
-      // reads (and to lighten work during the intro). Resumed in finish().
-      try { if (window.__introLenisPause) window.__introLenisPause(); } catch (e) {}
-      setSpacer();
-      loop.classList.add('is-on');
-      statementBeat.classList.add('is-active');
-      cue.classList.add('is-on');
-      try { var lp = loop.play(); if (lp && lp.catch) lp.catch(function () {}); } catch (e) {}
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onResize, { passive: true });
-      if (USE_SCRUB) {
-        // Only the frame-accurate scrub needs the main clip buffered ahead and
-        // seeking primed on first gesture. Play-through streams as it plays,
-        // so Safari/iOS keep preload=metadata (lighter first paint, M3).
-        try { main.preload = 'auto'; main.load(); } catch (e) {}
-        window.addEventListener('touchstart', primeMain, { passive: true, once: true });
-        window.addEventListener('wheel', primeMain, { passive: true, once: true });
-        window.addEventListener('scroll', primeMain, { passive: true, once: true });
-      }
-      tick();
-      onScroll();
-    })();
-  </script>
 </body>
 </html>
