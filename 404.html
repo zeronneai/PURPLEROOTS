@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, follow" />
+  <title>Page Not Found · Purple Roots</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #F7F6F2;
+      --paper-alt: #ECEBE6;
+      --ink: #131313;
+      --ink-70: rgba(19,19,19,0.66);
+      --ink-50: rgba(19,19,19,0.5);
+      --line: rgba(19,19,19,0.12);
+      --font-display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      --font-body: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: var(--paper); color: var(--ink);
+      font-family: var(--font-body);
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 40px 24px; text-align: center;
+      -webkit-font-smoothing: antialiased;
+    }
+    .e-wrap { width: 100%; max-width: 640px; }
+    .e-eyebrow {
+      font-weight: 600; font-size: 11px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--ink-50); margin: 0 0 clamp(20px, 5vh, 40px);
+    }
+    .e-code {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(5rem, 22vw, 11rem); line-height: 0.9;
+      letter-spacing: -0.05em; margin: 0; color: var(--ink);
+    }
+    .e-title {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(1.4rem, 4.4vw, 2.2rem); line-height: 1.1;
+      letter-spacing: -0.02em; margin: clamp(18px, 4vh, 28px) 0 0;
+    }
+    .e-sub {
+      font-size: clamp(0.95rem, 2.2vw, 1.05rem); line-height: 1.6;
+      color: var(--ink-70); margin: 16px auto 0; max-width: 42ch;
+    }
+    .e-actions {
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+      margin-top: clamp(28px, 6vh, 44px);
+    }
+    .e-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 15px 26px; border-radius: 6px;
+      background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
+      font-family: var(--font-body); font-weight: 600; font-size: 13px;
+      letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .e-btn:hover { background: #2b2b2b; }
+    .e-btn .arr { transition: transform 0.25s ease; }
+    .e-btn:hover .arr { transform: translateX(4px); }
+    .e-btn--ghost { background: none; color: var(--ink); }
+    .e-btn--ghost:hover { background: var(--ink); color: var(--paper); }
+    .e-links {
+      margin-top: clamp(28px, 6vh, 40px); padding-top: 22px;
+      border-top: 1px solid var(--line);
+      display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: center;
+    }
+    .e-links a {
+      font-weight: 600; font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-50); text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .e-links a:hover { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <main class="e-wrap">
+    <p class="e-eyebrow">Purple Roots · El Paso, TX</p>
+    <h1 class="e-code">404</h1>
+    <p class="e-title">This page moved on.</p>
+    <p class="e-sub">The page you were looking for is no longer here. Our new home has everything, the work, the results, and how to reach us.</p>
+    <div class="e-actions">
+      <a class="e-btn" href="/">Go to homepage <span class="arr">&rarr;</span></a>
+      <a class="e-btn e-btn--ghost" href="/#case-studies">See the work</a>
+    </div>
+    <nav class="e-links" aria-label="Site sections">
+      <a href="/#about">Ethos</a>
+      <a href="/#services">Capabilities</a>
+      <a href="/#brands">Partners</a>
+      <a href="/#process">Method</a>
+      <a href="/#case-studies">Proof</a>
+      <a href="/#contact">Inquire</a>
+    </nav>
+  </main>
+</body>
+</html>
