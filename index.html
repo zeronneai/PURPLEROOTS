@@ -527,7 +527,10 @@
     }
 
     @media (max-width: 768px) {
-      .hero { padding: calc(var(--sp-12) + 16px) var(--gutter) var(--pad-tight); }
+      /* Tighter top gap on mobile — the nav is sticky (reserves its own 64px in
+         flow, so the headline is never hidden behind it); this padding is the
+         clear space BELOW the nav. Desktop spacing above is unchanged. */
+      .hero { padding: clamp(28px, 9vw, 52px) var(--gutter) var(--pad-tight); }
       .hero h1 { max-width: 14ch; }
       .hero-actions { width: 100%; }
       .hero-actions .btn, .hero-actions .btn-lime, .hero-actions .btn-ghost, .hero-actions .cta-btn { width: 100%; }
@@ -1733,9 +1736,10 @@
   =========================================================== -->
   <div id="videoIntro" class="is-hidden" aria-hidden="true">
     <div class="vi-video-wrap">
-      <video class="vi-video" muted playsinline preload="auto"
-        poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
-        <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
+      <video class="vi-video" muted playsinline preload="none"
+        poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
+        <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/sp_auto/v1788621509/PRA_RECAP_-_2_mgtdo7.m3u8" type="application/x-mpegURL" />
+        <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280,br_2m/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
       </video>
     </div>
     <div class="vi-scrim"></div>
@@ -1750,8 +1754,9 @@
   <div id="heroLightbox" role="dialog" aria-label="Purple Roots reel" aria-modal="true">
     <div class="hlb-stage">
       <video class="hlb-video" id="hlbVid" muted playsinline preload="none"
-        poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
-        <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
+        poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
+        <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/sp_auto/v1788621509/PRA_RECAP_-_2_mgtdo7.m3u8" type="application/x-mpegURL" />
+        <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280,br_2m/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
       </video>
       <div class="hlb-ctrls">
         <button class="hero-cbtn hero-cbtn--play" type="button" data-hlb="play" aria-label="Play or pause">
@@ -1835,8 +1840,9 @@
            place. Full controls + click-to-expand lightbox. -->
       <figure class="hero-media reveal" id="heroMedia">
         <video class="hero-media-video" id="heroVid" autoplay muted loop playsinline preload="metadata"
-          poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
-          <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
+          poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
+          <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/sp_auto/v1788621509/PRA_RECAP_-_2_mgtdo7.m3u8" type="application/x-mpegURL" />
+          <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280,br_2m/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
         </video>
         <figcaption class="hero-media-badge">Purple Roots &middot; Reel</figcaption>
         <div class="hero-ctrls" id="heroCtrls">
@@ -3417,6 +3423,38 @@
         var swap = function () { logo.style.display = 'none'; brand.hidden = false; };
         logo.addEventListener('error', swap);
         if (logo.complete && logo.naturalWidth === 0) swap();   // already failed before this ran
+      })();
+
+      /* ---- HLS safety: if the account doesn't serve the adaptive m3u8, strip it
+         so the browser uses the optimized MP4. Native <source> fallthrough usually
+         handles this; this makes it certain and only touches the recap videos. ---- */
+      (function () {
+        [].forEach.call(document.querySelectorAll('.vi-video, #heroVid, #hlbVid'), function (v) {
+          var hls = v.querySelector('source[type="application/x-mpegURL"]');
+          if (!hls) return;
+          var toMp4 = function () { if (hls.parentNode) { hls.remove(); try { v.load(); } catch (e) {} } };
+          hls.addEventListener('error', toMp4);   // the m3u8 source failed to load
+          v.addEventListener('error', toMp4, true);   // belt-and-braces if the media element errors
+        });
+      })();
+
+      /* ---- Low-priority recap PRELOAD: begin buffering the recap quietly in the
+         background AFTER first paint, so 'See Our Work' plays instantly with no
+         stall. Kept off the critical path (preload="none" in markup, warmed at
+         idle) so it never blocks the entrance animation or first paint. Only the
+         hero/recap video — the case-study videos stay lazy (preload=none). ---- */
+      (function () {
+        var warm = function () {
+          [].forEach.call(document.querySelectorAll('.vi-video, #heroVid'), function (v) {
+            try { v.preload = 'auto'; v.load(); } catch (e) {}
+          });
+        };
+        var kick = function () {
+          if ('requestIdleCallback' in window) requestIdleCallback(warm, { timeout: 2500 });
+          else setTimeout(warm, 800);
+        };
+        if (document.readyState === 'complete') kick();
+        else window.addEventListener('load', kick, { once: true });
       })();
     })();
   </script>
