@@ -1424,7 +1424,7 @@
       letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--ink-40);
       transition: opacity .5s var(--ease);
     }
-    #intro.is-open .ent-cue, #intro.is-welcome .ent-cue { opacity: 0; }
+    #intro.is-open .ent-cue { opacity: 0; }
 
     .ent-skip {
       position: absolute; right: clamp(16px, 4vw, 32px); bottom: clamp(16px, 4vh, 28px); z-index: 6;
@@ -1434,20 +1434,6 @@
       transition: color .3s var(--ease);
     }
     .ent-skip:hover, .ent-skip:focus-visible { color: var(--ink); outline: none; }
-
-    /* WELCOME beat — centered over the overlay, hidden until state 2 */
-    .ent-welcome {
-      position: absolute; inset: 0; z-index: 5; background: var(--paper);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-4);
-      opacity: 0; visibility: hidden; transition: opacity var(--ent-welcome-fade, 750ms) var(--ease);
-    }
-    #intro.is-welcome .ent-welcome { opacity: 1; visibility: visible; }
-    #intro.is-welcome .ent-scene, #intro.is-welcome .ent-textlayer { opacity: 0; transition: opacity .5s var(--ease); }
-    .ent-welcome-label {
-      font-family: var(--font-body); font-weight: 600; font-size: 12px;
-      letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--ink-50);
-    }
-    .ent-welcome-logo { height: clamp(40px, 7vw, 66px); width: auto; display: block; }
 
         body.ent-lock { overflow: hidden; }
 
@@ -1542,6 +1528,98 @@
       #decision, .decision-h1, .decision-sub, .decision-pivot, .flow-btn, .fl-draw { transition: none !important; }
       .flow-btn { will-change: auto; }
     }
+
+    /* =========================================================
+       VIDEO INTRO — 'See Our Work' plays the recap FULL-SIZE, overlays a
+       WELCOME beat, then SMOOTHLY SHRINKS the video into the contained hero
+       slot while the hero composes in. Sits above the site + decision while
+       it runs; fully removed after the shrink hands off to the hero player.
+    ========================================================= */
+    #videoIntro {
+      position: fixed; inset: 0; z-index: 900;   /* above site + decision(850), below inquiry(998) */
+      background: #000; overflow: hidden;
+    }
+    #videoIntro.is-hidden { display: none; }
+    /* the video box: positioned/sized to the hero slot, then transformed UP to
+       cover the viewport (uniform scale = no distortion), and animated back. */
+    .vi-video-wrap {
+      position: fixed; overflow: hidden; background: #000;
+      transform-origin: center center; will-change: transform; backface-visibility: hidden;
+    }
+    .vi-video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* scrim dims the video so the WELCOME text always reads clearly */
+    .vi-scrim {
+      position: absolute; inset: 0; z-index: 2; background: rgba(9,9,9,0.55);
+      opacity: 0; transition: opacity var(--vi-fade, 700ms) var(--ease); pointer-events: none;
+    }
+    #videoIntro.vi-welcoming .vi-scrim { opacity: 1; }
+    .vi-welcome {
+      position: absolute; inset: 0; z-index: 3;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: clamp(14px, 3vh, 26px); text-align: center; padding: 8vw;
+      opacity: 0; transform: scale(0.94);
+      transition: opacity var(--vi-fade, 700ms) var(--ease), transform var(--vi-fade, 700ms) var(--ease);
+      pointer-events: none;
+    }
+    #videoIntro.vi-welcoming .vi-welcome { opacity: 1; transform: none; }
+    .vi-welcome-label {
+      font-family: var(--font-body); font-weight: 600;
+      font-size: clamp(11px, 1.5vw, 14px); letter-spacing: 0.42em;
+      text-transform: uppercase; color: rgba(255,255,255,0.82);
+    }
+    .vi-logo { height: clamp(40px, 7vw, 68px); width: auto; display: block; }
+    .vi-brand {   /* text fallback / companion — wide-tracked uppercase */
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(1.9rem, 7vw, 4.6rem); line-height: 0.98;
+      letter-spacing: 0.14em; text-transform: uppercase; color: #fff; margin: 0;
+    }
+    @media (prefers-reduced-motion: reduce) { .vi-scrim, .vi-welcome { transition: none !important; } }
+
+    /* HERO contained player — play/pause, unmute, click-to-expand lightbox.
+       Custom-cursor site convention: interactive bits use cursor:none. */
+    .hero-media-video { cursor: none; }
+    .hero-ctrls {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px 13px;
+      background: linear-gradient(to top, rgba(0,0,0,0.62), rgba(0,0,0,0));
+      opacity: 0; transform: translateY(6px);
+      transition: opacity .3s var(--ease), transform .3s var(--ease); pointer-events: none;
+    }
+    .hero-media:hover .hero-ctrls, .hero-media.show-ctrls .hero-ctrls { opacity: 1; transform: none; pointer-events: auto; }
+    .hero-cbtn {
+      background: none; border: none; color: #fff; cursor: none; padding: 4px;
+      display: inline-flex; align-items: center; justify-content: center; transition: opacity .2s var(--ease);
+    }
+    .hero-cbtn svg { width: 20px; height: 20px; display: block; fill: currentColor; }
+    .hero-cbtn:hover, .hero-cbtn:focus-visible { opacity: 0.66; outline: none; }
+    .hero-cbtn:focus-visible { outline: 2px solid rgba(255,255,255,0.7); outline-offset: 2px; }
+    .hero-cbtn--expand { margin-left: auto; }
+    .hero-cbtn .ic-pause, .hero-cbtn .ic-unmute { display: none; }
+    .hero-media-video.is-paused ~ .hero-ctrls .ic-play,
+    .hero-cbtn.is-active .ic-play { display: none; }
+
+    /* video LIGHTBOX (hero expand) — large view with its own controls */
+    #heroLightbox {
+      position: fixed; inset: 0; z-index: 999; background: rgba(8,8,8,0.94);
+      display: none; align-items: center; justify-content: center; padding: clamp(14px, 4vw, 48px);
+    }
+    #heroLightbox.is-open { display: flex; }
+    .hlb-stage { position: relative; width: min(94vw, 1180px); max-height: 84vh; aspect-ratio: 16 / 9; background: #000; border-radius: var(--radius); overflow: hidden; }
+    .hlb-stage video { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; cursor: none; }
+    .hlb-ctrls {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+      display: flex; align-items: center; gap: 12px; padding: 14px 16px 15px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+    }
+    .hlb-close {
+      position: absolute; top: clamp(10px, 3vw, 20px); right: clamp(10px, 3vw, 20px); z-index: 4;
+      width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4);
+      background: rgba(0,0,0,0.35); color: #fff; cursor: none;
+      display: inline-flex; align-items: center; justify-content: center; transition: background .2s var(--ease);
+    }
+    .hlb-close:hover, .hlb-close:focus-visible { background: rgba(255,255,255,0.16); outline: none; }
+    .hlb-close svg { width: 18px; height: 18px; fill: currentColor; }
+    @media (max-width: 768px) { .hlb-stage { width: 94vw; } }
   </style>
 </head>
 <body>
@@ -1564,10 +1642,6 @@
       <p class="ent-answer"><!-- ENT.answer --></p>
       <button class="ent-enter cta-btn" type="button" data-ent-enter>Enter</button>
     </div>
-    <div class="ent-welcome" aria-hidden="true">
-      <span class="ent-welcome-label"><!-- ENT.welcomeLabel --></span>
-      <img class="ent-welcome-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_black,f_auto,q_auto/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" />
-    </div>
     <div class="ent-cue" aria-hidden="true">Click to open</div>
     <button class="ent-skip" type="button" data-ent-skip aria-label="Skip intro">Skip</button>
   </div>
@@ -1582,15 +1656,15 @@
         /* ALT answers (swap in above):
            "More than you think. Let's fix that."
            "Everything. But it's not too late."                     */
-        welcomeLabel: "Welcome to",
-        /* ---- timing (ms) — only the FIRST tap is required; the rest auto-plays ---- */
+        /* ---- timing (ms) — only the FIRST tap is required; the rest auto-plays.
+           After the answer, the box hands off to the DECISION screen (flow-chart
+           choice). The WELCOME beat now lives over the recap video, see
+           VIDEO_INTRO below. ---- */
         openMs:        1150,   // box-opening (3D door swing) duration
-        answerHoldMs:  2700,   // how long the ANSWER holds on screen before auto-advancing
-        welcomeMinMs:  2100,   // Welcome min on-screen hold (uses this time to preload the site)
-        welcomeMaxMs:  2600,   // Welcome hard cap so the preload never hangs the sequence
-        welcomeFadeMs: 750,    // Welcome fade-in
-        fadeOutMs:     1000,   // overlay fade-out to the site
-        reducedHoldMs: 1600    // prefers-reduced-motion: how long the question shows before auto-revealing the site
+        answerHoldMs:  2700,   // how long the ANSWER holds before auto-advancing to the decision
+        preloadCapMs:  2600,   // hard cap for any single preload task so nothing hangs
+        fadeOutMs:     1000,   // overlay fade-out
+        reducedHoldMs: 1600    // prefers-reduced-motion: question hold before auto-advancing
       };
       /* ========================================================= */
       window.__ENT_COPY = ENT;
@@ -1599,9 +1673,7 @@
         if (r) {
           r.querySelector('.ent-question').textContent = ENT.question;
           r.querySelector('.ent-answer').textContent = ENT.answer;
-          r.querySelector('.ent-welcome-label').textContent = ENT.welcomeLabel;
           r.style.setProperty('--ent-open', ENT.openMs + 'ms');
-          r.style.setProperty('--ent-welcome-fade', ENT.welcomeFadeMs + 'ms');
           r.style.setProperty('--ent-fadeout', ENT.fadeOutMs + 'ms');
         }
       } catch (e) {}
@@ -1650,6 +1722,50 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       VIDEO INTRO — full-size recap → WELCOME overlay → shrink into hero.
+       Shown only when 'See Our Work' is chosen. Hidden by default; the
+       controller sizes/positions .vi-video-wrap and removes this after the
+       shrink. Real hero content is already in the DOM below (SEO/reduced-motion).
+  =========================================================== -->
+  <div id="videoIntro" class="is-hidden" aria-hidden="true">
+    <div class="vi-video-wrap">
+      <video class="vi-video" muted playsinline preload="auto"
+        poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
+        <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="vi-scrim"></div>
+    <div class="vi-welcome">
+      <span class="vi-welcome-label">Welcome to</span>
+      <img class="vi-logo" src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_white,f_auto,q_auto/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" />
+      <h2 class="vi-brand" hidden>Purple Roots</h2>
+    </div>
+  </div>
+
+  <!-- HERO VIDEO LIGHTBOX — large expanded view with its own controls -->
+  <div id="heroLightbox" role="dialog" aria-label="Purple Roots reel" aria-modal="true">
+    <div class="hlb-stage">
+      <video class="hlb-video" id="hlbVid" muted playsinline preload="none"
+        poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
+        <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
+      </video>
+      <div class="hlb-ctrls">
+        <button class="hero-cbtn hero-cbtn--play" type="button" data-hlb="play" aria-label="Play or pause">
+          <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+        </button>
+        <button class="hero-cbtn hero-cbtn--mute" type="button" data-hlb="mute" aria-label="Mute or unmute">
+          <svg class="ic-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.9 3 5l16 16 1.1-1.1L4 3.9zM3 9v6h4l5 5v-5.2L3.8 9H3z"/></svg>
+          <svg class="ic-unmute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+        </button>
+      </div>
+      <button class="hlb-close" type="button" data-hlb="close" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7l1.4-1.4L10.6 10.6l6.3-6.3z"/></svg>
+      </button>
     </div>
   </div>
 
@@ -1714,14 +1830,28 @@
         <a href="#case-studies" class="btn-outline">See the work</a>
       </div>
 
-      <!-- contained, centered, framed hero video — the focal media -->
+      <!-- contained, centered, framed hero video — the focal media. This is the
+           SAME recap that plays full-size during the video intro, shrunk into
+           place. Full controls + click-to-expand lightbox. -->
       <figure class="hero-media reveal" id="heroMedia">
-        <video class="hero-media-video" autoplay muted loop playsinline preload="metadata"
-          poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1778261003/Prvideo1_cktsqz.jpg">
-          <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_webm,vc_vp9,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.webm" type="video/webm" />
-          <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.mp4" type="video/mp4" />
+        <video class="hero-media-video" id="heroVid" autoplay muted loop playsinline preload="metadata"
+          poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
+          <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
         </video>
         <figcaption class="hero-media-badge">Purple Roots &middot; Reel</figcaption>
+        <div class="hero-ctrls" id="heroCtrls">
+          <button class="hero-cbtn hero-cbtn--play" type="button" data-hero="play" aria-label="Play or pause">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+          </button>
+          <button class="hero-cbtn hero-cbtn--mute" type="button" data-hero="mute" aria-label="Mute or unmute">
+            <svg class="ic-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" opacity="0.35"/><path d="M4 3.9 3 5l16 16 1.1-1.1L4 3.9zM3 9v6h4l5 5v-5.2L3.8 9H3z"/></svg>
+            <svg class="ic-unmute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+          </button>
+          <button class="hero-cbtn hero-cbtn--expand" type="button" data-hero="expand" aria-label="Expand video">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4V4zm10 0h6v6h-2V6h-4V4zM4 14h2v4h4v2H4v-6zm14 0h2v6h-6v-2h4v-4z"/></svg>
+          </button>
+        </div>
       </figure>
     </div>
   </section>
@@ -2874,6 +3004,8 @@
       const io = new IntersectionObserver((entries) => {
         entries.forEach(en => {
           const v = en.target;
+          // Respect a manual pause / open lightbox on the hero player.
+          if (v.dataset.userPaused === '1') return;
           if (en.isIntersecting) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
           else { try { v.pause(); } catch (e) {} }
         });
@@ -2928,70 +3060,51 @@
       var ENT = window.__ENT_COPY || {};
       var skipBtn  = intro.querySelector('[data-ent-skip]');
       var enterBtn = intro.querySelector('[data-ent-enter]');
-      var state = 0, done = false, lastTap = 0, timers = [];   // state 0 closed, 1 answer, 2 welcome
+      var state = 0, done = false, lastTap = 0, timers = [];   // state 0 closed, 1 answer
 
       document.body.classList.add('ent-lock');
       try { (reduce && enterBtn ? enterBtn : intro).focus({ preventScroll: true }); } catch (e) {}
 
-      function clearWelcomeTimers() { timers.forEach(function (t) { clearTimeout(t); }); timers = []; }
+      function clearTimers() { timers.forEach(function (t) { clearTimeout(t); }); timers = []; }
 
-      /* Preload the site behind the Welcome hold: fonts + hero video + logos,
-         each self-timing-out so it never hangs past welcomeMaxMs. */
-      function preloadReady() {
-        var cap = ENT.welcomeMaxMs || 2500, tasks = [];
-        try { if (document.fonts && document.fonts.ready) tasks.push(document.fonts.ready); } catch (e) {}
-        var hero = document.querySelector('.hero-media-video');
-        if (hero) {
-          try { hero.preload = 'auto'; hero.load(); } catch (e) {}
-          tasks.push(new Promise(function (res) { if (hero.readyState >= 3) return res();
-            var t = setTimeout(res, cap); hero.addEventListener('canplay', function () { clearTimeout(t); res(); }, { once: true }); }));
-        }
-        [].slice.call(document.querySelectorAll('.nav-logo-img, .ent-welcome-logo')).forEach(function (im) {
-          if (im.complete) return;
-          tasks.push(new Promise(function (res) { var t = setTimeout(res, cap);
-            im.addEventListener('load', function () { clearTimeout(t); res(); }, { once: true });
-            im.addEventListener('error', function () { clearTimeout(t); res(); }, { once: true }); }));
+      /* Warm the assets the decision + video-intro will need next: fonts, the
+         recap (hero + full-size intro copies), logos. Each self-times-out. */
+      function preload() {
+        var cap = ENT.preloadCapMs || 2600;
+        try { if (document.fonts && document.fonts.ready) document.fonts.ready.catch(function () {}); } catch (e) {}
+        [].slice.call(document.querySelectorAll('.hero-media-video, .vi-video')).forEach(function (v) {
+          try { v.preload = 'auto'; v.load(); } catch (e) {}
         });
-        return Promise.all(tasks).catch(function () {});
+        [].slice.call(document.querySelectorAll('.nav-logo-img, .vi-logo')).forEach(function (im) {
+          try { if (!im.complete) { var t = setTimeout(function () {}, cap); im.addEventListener('load', function () { clearTimeout(t); }, { once: true }); } } catch (e) {}
+        });
       }
 
-      /* Beat 1: open the box + reveal the answer, then AUTO-advance to Welcome
-         after the answer hold. (state 0 -> 1) */
+      /* Beat 1: open the box + reveal the answer, then AUTO-advance to the
+         DECISION screen after the answer hold. (state 0 -> 1 -> hand off) */
       function toAnswer() {
         if (state !== 0) return;
         state = 1;
         intro.classList.add('is-open');
-        clearWelcomeTimers();
-        timers.push(window.setTimeout(function () { if (state === 1) toWelcome(); },
+        preload();
+        clearTimers();
+        timers.push(window.setTimeout(function () { if (state === 1) finish(); },
           (ENT.openMs || 1150) + (ENT.answerHoldMs || 2700)));
       }
-      /* Beat 2: Welcome + logo; hold (preloading the site), then AUTO-finish. (state 1 -> 2) */
-      function toWelcome() {
-        if (state >= 2 || done) return;
-        state = 2;
-        clearWelcomeTimers();
-        intro.classList.add('is-welcome');
-        var ready = false, held = false, committed = false;
-        var commit = function () { if (committed) return; if (held && ready) { committed = true; finish(); } };
-        preloadReady().then(function () { ready = true; commit(); });
-        timers.push(window.setTimeout(function () { held = true; commit(); }, ENT.welcomeMinMs || 2100));
-        timers.push(window.setTimeout(function () { if (!committed) { committed = true; finish(); } }, ENT.welcomeMaxMs || 2600));
-      }
 
-      /* A tap always moves FORWARD: only the first tap is required; taps during
-         the auto-sequence skip to the next beat (2nd -> welcome, 3rd -> site). */
+      /* A tap always moves FORWARD: only the first tap is required; a tap during
+         the answer hold skips straight to the decision. */
       function advance() {
         if (done) return;
         if (reduce) { finish(); return; }
         var now = Date.now(); if (now - lastTap < 220) return; lastTap = now;   // debounce a double-fired single tap
         if (state === 0) toAnswer();
-        else if (state === 1) toWelcome();
         else finish();
       }
 
       function finish() {
         if (done) return; done = true;
-        clearWelcomeTimers(); cleanup();
+        clearTimers(); cleanup();
         try { sessionStorage.setItem('pr_intro_seen', '1'); } catch (e) {}
         intro.classList.add('is-gone');
         var fadeMs = reduce ? 0 : (ENT.fadeOutMs || 1000);
@@ -3041,7 +3154,7 @@
 
       // prefers-reduced-motion: no animation — show the question briefly, then
       // auto-reveal the site (Enter/click/Skip still finish sooner).
-      if (reduce) { preloadReady(); timers.push(window.setTimeout(finish, ENT.reducedHoldMs || 1600)); }
+      if (reduce) { preload(); timers.push(window.setTimeout(finish, ENT.reducedHoldMs || 1600)); }
     })();
   </script>
   <!-- DECISION SCREEN controller — path highlight + press micro-interactions;
@@ -3087,7 +3200,10 @@
         window.setTimeout(function () {
           btn.classList.remove('is-press');
           if (sideOf(btn) === 'start') { acting = false; if (window.__openInquiry) window.__openInquiry(); return; }
-          enterViaCurtain();
+          // 'See Our Work' -> full-size recap intro -> Welcome -> shrink into hero.
+          try { if (window.gsap) gsap.set(btns, { x: 0, y: 0 }); } catch (e) {}   // clear magnetic offset
+          if (window.__runVideoIntro) window.__runVideoIntro();
+          else enterViaCurtain();   // fallback: plain curtain lift to the site
         }, reduce ? 0 : 150);
       }
 
@@ -3099,6 +3215,209 @@
         btn.addEventListener('pointerdown',function () { lightPath(btn, true); });   // touch highlight on tap
         btn.addEventListener('click', function (e) { e.preventDefault(); act(btn); });
       });
+    })();
+  </script>
+
+  <!-- VIDEO INTRO + HERO PLAYER + LIGHTBOX controller.
+       'See Our Work' -> recap plays FULL-SIZE -> WELCOME overlay -> the video
+       SHRINKS (uniform scale, no distortion) into the contained hero slot while
+       the hero composes in. The contained hero video then has full controls and
+       a click-to-expand lightbox. -->
+  <script>
+    (function () {
+      /* =========================================================
+         VIDEO-INTRO TIMING — edit here (single source of truth).
+      ========================================================= */
+      var VIDEO_INTRO = {
+        welcomeDelayMs: 2000,   // after the recap starts, when WELCOME TO PURPLE ROOTS appears
+        welcomeHoldMs:  2200,   // how long WELCOME holds on screen before the shrink begins
+        fadeMs:          700,   // WELCOME scrim + text fade (in and out)
+        shrinkMs:        900    // full-size -> contained hero shrink duration
+      };
+      /* ========================================================= */
+
+      var reduce = false; try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      var hasGsap = !!window.gsap;
+
+      function coverTransform(rect) {
+        var vw = window.innerWidth, vh = window.innerHeight;
+        var s = Math.max(vw / rect.width, vh / rect.height) * 1.002;   // cover the viewport, tiny overscan
+        var x = (vw / 2) - (rect.left + rect.width / 2);
+        var y = (vh / 2) - (rect.top + rect.height / 2);
+        return { s: s, x: x, y: y };
+      }
+      function placeFull(wrap, heroMedia) {
+        var rect = heroMedia.getBoundingClientRect();
+        var t = coverTransform(rect);
+        wrap.style.left = rect.left + 'px';
+        wrap.style.top = rect.top + 'px';
+        wrap.style.width = rect.width + 'px';
+        wrap.style.height = rect.height + 'px';
+        if (hasGsap) gsap.set(wrap, { x: t.x, y: t.y, scale: t.s });
+        else wrap.style.transform = 'translate(' + t.x + 'px,' + t.y + 'px) scale(' + t.s + ')';
+      }
+
+      /* ---- the full-size recap -> welcome -> shrink sequence ---- */
+      window.__runVideoIntro = function () {
+        var vi = document.getElementById('videoIntro');
+        var heroMedia = document.getElementById('heroMedia');
+        var heroVid = document.getElementById('heroVid');
+        var decision = document.getElementById('decision');
+
+        // remove the decision underlay; keep the body locked until we truly enter.
+        if (decision) { decision.classList.add('is-hidden'); if (decision.parentNode) decision.parentNode.removeChild(decision); }
+        document.body.classList.add('decision-lock');
+
+        var viVid = vi ? vi.querySelector('.vi-video') : null;
+        var wrap  = vi ? vi.querySelector('.vi-video-wrap') : null;
+
+        var finished = false;
+        function enterSite() {
+          if (finished) return; finished = true;
+          try { if (heroVid) { heroVid.muted = true; heroVid.dataset.userPaused = '0'; if (heroVid.paused) { var hp = heroVid.play(); if (hp && hp.catch) hp.catch(function () {}); } } } catch (e) {}
+          if (vi) { vi.classList.add('is-hidden'); if (vi.parentNode) vi.parentNode.removeChild(vi); }
+          try { if (viVid) viVid.pause(); } catch (e) {}
+          if (window.__enterSite) window.__enterSite();   // unlock + snap top + ScrollTrigger.refresh + safety sweep
+        }
+
+        // Reduced motion / missing pieces: skip the drama, land on the hero with
+        // the recap present and controllable.
+        if (!vi || !heroMedia || !viVid || !wrap || reduce) { enterSite(); return; }
+
+        vi.style.setProperty('--vi-fade', VIDEO_INTRO.fadeMs + 'ms');
+        vi.classList.remove('is-hidden');
+        vi.setAttribute('aria-hidden', 'false');
+        try { window.scrollTo(0, 0); } catch (e) {}
+
+        placeFull(wrap, heroMedia);
+        var onResize = function () { placeFull(wrap, heroMedia); };
+        window.addEventListener('resize', onResize);
+
+        // play the recap full-size, from the top
+        try { viVid.currentTime = 0; } catch (e) {}
+        viVid.muted = true;
+        var p = viVid.play(); if (p && p.catch) p.catch(function () {});
+
+        var t1 = window.setTimeout(function () { vi.classList.add('vi-welcoming'); }, VIDEO_INTRO.welcomeDelayMs);
+        var t2 = window.setTimeout(function () {
+          vi.classList.remove('vi-welcoming');                                   // fade WELCOME out
+          window.setTimeout(shrink, Math.round(VIDEO_INTRO.fadeMs * 0.55));      // begin shrink as it fades
+        }, VIDEO_INTRO.welcomeDelayMs + VIDEO_INTRO.welcomeHoldMs);
+
+        function shrink() {
+          window.removeEventListener('resize', onResize);
+          // compose the hero in behind the video (clears .reveal transforms so the
+          // measured slot is the final resting position), then hand off the frame.
+          if (window.__introForceRevealInView) { try { window.__introForceRevealInView(); } catch (e) {} }
+          try { if (heroVid) { heroVid.muted = true; heroVid.currentTime = viVid.currentTime || 0; var hp = heroVid.play(); if (hp && hp.catch) hp.catch(function () {}); } } catch (e) {}
+
+          if (hasGsap) {
+            placeFull(wrap, heroMedia);   // re-measure the (now revealed) slot, sets full-cover transform
+            gsap.to(wrap, { x: 0, y: 0, scale: 1, duration: VIDEO_INTRO.shrinkMs / 1000, ease: 'power3.out', onComplete: enterSite });
+          } else {
+            // no GSAP: simple opacity handoff to the contained hero video
+            vi.style.transition = 'opacity ' + Math.round(VIDEO_INTRO.shrinkMs * 0.6) + 'ms ease';
+            vi.style.opacity = '0';
+            window.setTimeout(enterSite, Math.round(VIDEO_INTRO.shrinkMs * 0.6) + 40);
+          }
+        }
+
+        // safety cap: never let the intro hang
+        window.setTimeout(function () { if (!finished) enterSite(); },
+          VIDEO_INTRO.welcomeDelayMs + VIDEO_INTRO.welcomeHoldMs + VIDEO_INTRO.shrinkMs + 1600);
+        void t1; void t2;
+      };
+
+      /* ---- small helper to flip the two-state control icons ---- */
+      function setIcons(btn, cls, showFirst) {
+        if (!btn) return;
+        var a = btn.querySelector('.ic-' + cls[0]), b = btn.querySelector('.ic-' + cls[1]);
+        if (a) a.style.display = showFirst ? 'block' : 'none';
+        if (b) b.style.display = showFirst ? 'none' : 'block';
+      }
+
+      /* ---- contained HERO player controls ---- */
+      (function () {
+        var media = document.getElementById('heroMedia');
+        var vid = document.getElementById('heroVid');
+        if (!media || !vid) return;
+        var playBtn = media.querySelector('[data-hero="play"]');
+        var muteBtn = media.querySelector('[data-hero="mute"]');
+        var expandBtn = media.querySelector('[data-hero="expand"]');
+
+        function syncPlay() { setIcons(playBtn, ['play', 'pause'], vid.paused); }
+        function syncMute() { setIcons(muteBtn, ['mute', 'unmute'], vid.muted); }
+        function togglePlay() {
+          if (vid.paused) { vid.dataset.userPaused = '0'; var p = vid.play(); if (p && p.catch) p.catch(function () {}); }
+          else { vid.pause(); vid.dataset.userPaused = '1'; }
+        }
+        if (playBtn) playBtn.addEventListener('click', function (e) { e.stopPropagation(); togglePlay(); });
+        if (muteBtn) muteBtn.addEventListener('click', function (e) { e.stopPropagation(); vid.muted = !vid.muted; });
+        if (expandBtn) expandBtn.addEventListener('click', function (e) { e.stopPropagation(); if (window.__openHeroLightbox) window.__openHeroLightbox(); });
+        vid.addEventListener('click', togglePlay);
+        vid.addEventListener('play', syncPlay);
+        vid.addEventListener('pause', syncPlay);
+        vid.addEventListener('volumechange', syncMute);
+        media.addEventListener('pointerdown', function () { media.classList.add('show-ctrls'); });
+        syncPlay(); syncMute();
+      })();
+
+      /* ---- hero video LIGHTBOX (expanded view) ---- */
+      (function () {
+        var lb = document.getElementById('heroLightbox');
+        var lbVid = document.getElementById('hlbVid');
+        var heroVid = document.getElementById('heroVid');
+        if (!lb || !lbVid) return;
+        var playBtn = lb.querySelector('[data-hlb="play"]');
+        var muteBtn = lb.querySelector('[data-hlb="mute"]');
+        var closeBtn = lb.querySelector('[data-hlb="close"]');
+        var lastFocus = null;
+
+        function syncPlay() { setIcons(playBtn, ['play', 'pause'], lbVid.paused); }
+        function syncMute() { setIcons(muteBtn, ['mute', 'unmute'], lbVid.muted); }
+
+        window.__openHeroLightbox = function () {
+          lastFocus = document.activeElement;
+          lb.classList.add('is-open');
+          lb.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          try { lbVid.currentTime = heroVid ? (heroVid.currentTime || 0) : 0; } catch (e) {}
+          lbVid.muted = heroVid ? heroVid.muted : true;
+          try { if (heroVid) { heroVid.pause(); heroVid.dataset.userPaused = '1'; } } catch (e) {}
+          var p = lbVid.play(); if (p && p.catch) p.catch(function () {});
+          syncPlay(); syncMute();
+          if (closeBtn) try { closeBtn.focus(); } catch (e) {}
+        };
+        function close() {
+          if (!lb.classList.contains('is-open')) return;
+          lb.classList.remove('is-open');
+          lb.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+          try { lbVid.pause(); } catch (e) {}
+          try { if (heroVid) { heroVid.currentTime = lbVid.currentTime || 0; heroVid.dataset.userPaused = '0'; var p = heroVid.play(); if (p && p.catch) p.catch(function () {}); } } catch (e) {}
+          if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) {} }
+        }
+        function togglePlay() { if (lbVid.paused) { var p = lbVid.play(); if (p && p.catch) p.catch(function () {}); } else lbVid.pause(); }
+
+        if (playBtn) playBtn.addEventListener('click', function (e) { e.stopPropagation(); togglePlay(); });
+        if (muteBtn) muteBtn.addEventListener('click', function (e) { e.stopPropagation(); lbVid.muted = !lbVid.muted; });
+        if (closeBtn) closeBtn.addEventListener('click', function (e) { e.stopPropagation(); close(); });
+        lbVid.addEventListener('click', togglePlay);
+        lbVid.addEventListener('play', syncPlay);
+        lbVid.addEventListener('pause', syncPlay);
+        lbVid.addEventListener('volumechange', syncMute);
+        lb.addEventListener('click', function (e) { if (e.target === lb) close(); });   // backdrop
+        document.addEventListener('keydown', function (e) { if (lb.classList.contains('is-open') && (e.key === 'Escape' || e.key === 'Esc')) close(); });
+      })();
+
+      /* WELCOME logo fallback: if the wordmark image fails, show the text brand. */
+      (function () {
+        var logo = document.querySelector('.vi-logo'), brand = document.querySelector('.vi-brand');
+        if (!logo || !brand) return;
+        var swap = function () { logo.style.display = 'none'; brand.hidden = false; };
+        logo.addEventListener('error', swap);
+        if (logo.complete && logo.naturalWidth === 0) swap();   // already failed before this ran
+      })();
     })();
   </script>
 </body>
