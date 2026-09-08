@@ -1634,6 +1634,10 @@
     ========================================================= */
     .comedy { background: var(--bg); color: var(--fg); padding: clamp(64px, 12vh, 140px) 0; }
     .comedy-head { max-width: var(--maxw); margin: 0 auto; padding: 0 5%; }
+    .comedy-transition {
+      font-family: var(--font-body); font-style: italic; font-size: var(--fs-lead);
+      color: var(--fg-muted); line-height: var(--lh-body); margin: 0 0 var(--sp-3); max-width: 46ch;
+    }
     .comedy-eyebrow {
       font-family: var(--font-body); font-weight: 600; font-size: var(--fs-eyebrow);
       letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--fg-muted);
@@ -1858,8 +1862,8 @@
       <li><a href="#services">Capabilities</a></li>
       <li><a href="#brands">Partners</a></li>
       <li><a href="#process">Method</a></li>
-      <li><a href="#case-studies">Proof</a></li>
       <li><a href="#comedy">Comedy</a></li>
+      <li><a href="#case-studies">Proof</a></li>
       <li><a href="#contact">Inquire</a></li>
     </ul>
     <a href="https://wa.me/19152343655" target="_blank" class="nav-cta">Get a Quote →</a>
@@ -1873,8 +1877,8 @@
     <a href="#services" class="m-link">Capabilities</a>
     <a href="#brands"   class="m-link">Partners</a>
     <a href="#process"  class="m-link">Method</a>
-    <a href="#case-studies" class="m-link">Proof</a>
     <a href="#comedy"   class="m-link">Comedy</a>
+    <a href="#case-studies" class="m-link">Proof</a>
     <a href="#contact"  class="m-link">Inquire</a>
   </div>
 
@@ -2063,28 +2067,17 @@
     </div>
   </section>
 
-  <!-- ===== INTERSTITIAL 2 (of 2) — quiet editorial one-liner ===== -->
-  <section class="interstitial theme-light reveal" aria-label="Statement">
-    <p>You didn't start a business to be invisible.</p>
-  </section>
-
-  <!-- ===================== CASE STUDIES ===================== -->
-  <section class="cs-section" id="case-studies">
-    <div class="cs-intro container">
-      <div class="section-num reveal">08</div>
-      <h2 class="section-title reveal">The <span class="y">results.</span></h2>
-      <p class="cs-intro-sub reveal">Real budgets in. Real numbers out. Four case studies, no rounding in our favor. All figures in USD.</p>
-    </div>
-    <div id="csTrack"></div>
-  </section>
-
-  <!-- ===================== COMEDY PORTFOLIO ===================== -->
-  <section class="comedy theme-light" id="comedy" aria-label="Comedy Portfolio">
+  <!-- ===================== COMEDY — PART OF THE METHOD =====================
+       A primary section, immediately after Method: comedy is one of the ways
+       we get into people's minds. Full section treatment; 9:16 grid; click to
+       open the shared portrait lightbox (native controls). Nothing autoplays. -->
+  <section class="comedy theme-light" id="comedy" aria-label="Comedy Portfolio, part of the method">
     <div class="comedy-head">
-      <div class="section-num reveal">09</div>
-      <span class="comedy-eyebrow reveal">Comedy Portfolio</span>
-      <h2 class="comedy-title-h reveal">Make them laugh. Make them stay.</h2>
-      <p class="comedy-desc reveal">Laughter is the shortest path into someone's mind. When a brand makes you laugh, you don't just remember it. You root for it.</p>
+      <div class="section-num reveal">07</div>
+      <p class="comedy-transition reveal">The method has a lighter gear, too.</p>
+      <span class="comedy-eyebrow reveal">Part of the Method</span>
+      <h2 class="comedy-title-h reveal">Sometimes the way in is a laugh.</h2>
+      <p class="comedy-desc reveal">Laughter is the shortest path into someone's mind. When a brand makes you laugh, you don't just remember it. You root for it. This is one of the ways we do it.</p>
     </div>
     <div class="comedy-grid" id="comedyGrid" role="list"></div>
   </section>
@@ -2092,9 +2085,10 @@
     (function () {
       /* ============================================================
          COMEDY VIDEOS — edit titles / URLs here (add or remove freely).
-         Each raw Cloudinary URL is auto-optimized (f_auto,q_auto,w_720)
-         and its poster is derived (so_0,...jpg). Nothing loads until a
-         tile is opened; the grid only ever fetches posters.
+         Titles stay in Spanish (that's the joke). Each raw Cloudinary URL is
+         auto-optimized (f_auto,q_auto,w_720) and its poster is derived
+         (so_0,...jpg). Nothing loads until a tile is opened; the grid only
+         ever fetches posters.
       ============================================================ */
       var COMEDY = [
         { title: "No me quieren pagar",        src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882164/igexport-DbUFh-YhSTK_rbkzhm.mp4" },
@@ -2160,6 +2154,21 @@
       });
     })();
   </script>
+
+  <!-- ===== INTERSTITIAL 2 (of 2) — quiet editorial one-liner ===== -->
+  <section class="interstitial theme-light reveal" aria-label="Statement">
+    <p>You didn't start a business to be invisible.</p>
+  </section>
+
+  <!-- ===================== CASE STUDIES ===================== -->
+  <section class="cs-section" id="case-studies">
+    <div class="cs-intro container">
+      <div class="section-num reveal">08</div>
+      <h2 class="section-title reveal">The <span class="y">results.</span></h2>
+      <p class="cs-intro-sub reveal">Real budgets in. Real numbers out. Four case studies, no rounding in our favor. All figures in USD.</p>
+    </div>
+    <div id="csTrack"></div>
+  </section>
 
   <!-- Recurring "Get Started" CTA — after the case-study / results section -->
   <section class="cta-band theme-dark reveal" aria-label="Work with us">
