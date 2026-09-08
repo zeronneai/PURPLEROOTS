@@ -1626,6 +1626,64 @@
     .hlb-close:hover, .hlb-close:focus-visible { background: rgba(255,255,255,0.16); outline: none; }
     .hlb-close svg { width: 18px; height: 18px; fill: currentColor; }
     @media (max-width: 768px) { .hlb-stage { width: 94vw; } }
+
+    /* =========================================================
+       COMEDY PORTFOLIO — grid of 9:16 tiles (poster + title). Click opens
+       the shared #videoModal in portrait mode with native controls. Only the
+       opened video plays; posters shown instantly; videos load on open only.
+    ========================================================= */
+    .comedy { background: var(--bg); color: var(--fg); padding: clamp(64px, 12vh, 140px) 0; }
+    .comedy-head { max-width: var(--maxw); margin: 0 auto; padding: 0 5%; }
+    .comedy-eyebrow {
+      font-family: var(--font-body); font-weight: 600; font-size: var(--fs-eyebrow);
+      letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--fg-muted);
+      display: block; margin-bottom: var(--sp-4);
+    }
+    .comedy-title-h {
+      font-family: var(--font-display); font-weight: 500; font-size: var(--fs-h2, clamp(2rem, 5vw, 3.4rem));
+      line-height: var(--lh-tight); letter-spacing: var(--tr-display); color: var(--fg); margin: 0; max-width: 20ch;
+    }
+    .comedy-desc {
+      font-family: var(--font-body); font-size: var(--fs-lead); color: var(--fg-muted);
+      line-height: var(--lh-body); max-width: 54ch; margin: var(--sp-4) 0 0;
+    }
+    .comedy-grid {
+      max-width: var(--maxw); margin: clamp(32px, 6vh, 64px) auto 0; padding: 0 5%;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.6vw, 22px);
+    }
+    .comedy-tile {
+      position: relative; display: block; width: 100%; aspect-ratio: 9 / 16;
+      border-radius: 6px; overflow: hidden; background: var(--paper-alt);
+      border: 1px solid var(--hair-c); padding: 0; margin: 0; cursor: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .comedy-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; }
+    .comedy-prev   { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 2; opacity: 0; transition: opacity .4s var(--ease); background: transparent; }
+    .comedy-prev.is-playing { opacity: 1; }
+    .comedy-shade  { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(to top, rgba(9,9,9,0.74) 0%, rgba(9,9,9,0.10) 40%, rgba(9,9,9,0) 62%); }
+    .comedy-name {
+      position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 4;
+      color: #fff; font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(0.85rem, 1.05vw, 1.05rem); line-height: 1.1; letter-spacing: -0.01em;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.4);
+    }
+    .comedy-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 4;
+      width: 54px; height: 54px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.6);
+      background: rgba(0,0,0,0.28); display: flex; align-items: center; justify-content: center; color: #fff;
+      transition: background .25s var(--ease), transform .25s var(--ease);
+    }
+    .comedy-tile:hover .comedy-play, .comedy-tile:focus-visible .comedy-play { background: rgba(0,0,0,0.52); transform: translate(-50%, -50%) scale(1.06); }
+    .comedy-play svg { width: 20px; height: 20px; fill: currentColor; margin-left: 2px; }
+    .comedy-tile:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+    @media (max-width: 900px) { .comedy-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 620px) { .comedy-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+    /* portrait mode for the shared video modal (comedy 9:16) */
+    #videoModal.is-portrait .modal-box { max-width: 420px; }
+    #videoModal.is-portrait #modalMedia { aspect-ratio: 9 / 16; max-height: 78vh; }
+    #modalMedia video { object-fit: contain; background: var(--black); }
   </style>
 </head>
 <body>
@@ -1801,6 +1859,7 @@
       <li><a href="#brands">Partners</a></li>
       <li><a href="#process">Method</a></li>
       <li><a href="#case-studies">Proof</a></li>
+      <li><a href="#comedy">Comedy</a></li>
       <li><a href="#contact">Inquire</a></li>
     </ul>
     <a href="https://wa.me/19152343655" target="_blank" class="nav-cta">Get a Quote →</a>
@@ -1815,6 +1874,7 @@
     <a href="#brands"   class="m-link">Partners</a>
     <a href="#process"  class="m-link">Method</a>
     <a href="#case-studies" class="m-link">Proof</a>
+    <a href="#comedy"   class="m-link">Comedy</a>
     <a href="#contact"  class="m-link">Inquire</a>
   </div>
 
@@ -2017,6 +2077,89 @@
     </div>
     <div id="csTrack"></div>
   </section>
+
+  <!-- ===================== COMEDY PORTFOLIO ===================== -->
+  <section class="comedy theme-light" id="comedy" aria-label="Comedy Portfolio">
+    <div class="comedy-head">
+      <div class="section-num reveal">09</div>
+      <span class="comedy-eyebrow reveal">Comedy Portfolio</span>
+      <h2 class="comedy-title-h reveal">Make them laugh. Make them stay.</h2>
+      <p class="comedy-desc reveal">Laughter is the shortest path into someone's mind. When a brand makes you laugh, you don't just remember it. You root for it.</p>
+    </div>
+    <div class="comedy-grid" id="comedyGrid" role="list"></div>
+  </section>
+  <script>
+    (function () {
+      /* ============================================================
+         COMEDY VIDEOS — edit titles / URLs here (add or remove freely).
+         Each raw Cloudinary URL is auto-optimized (f_auto,q_auto,w_720)
+         and its poster is derived (so_0,...jpg). Nothing loads until a
+         tile is opened; the grid only ever fetches posters.
+      ============================================================ */
+      var COMEDY = [
+        { title: "No me quieren pagar",        src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882164/igexport-DbUFh-YhSTK_rbkzhm.mp4" },
+        { title: "Minivan",                    src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882165/igexport-DbMydH4MMrS_cbihrp.mp4" },
+        { title: "Me puedes traer una chela?", src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882166/igexport-DcCHoA3ih2J_zvkest.mp4" },
+        { title: "Si me van a pagar?",         src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882164/igexport-DbmLsNrPe2b_lg6ou0.mp4" },
+        { title: "Trae clutch?",               src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882164/igexport-DbhHzmLM3qj_w6gxqa.mp4" },
+        { title: "Cuanto te debo carnal?",     src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882163/igexport-Da6NZ-mCDqy_ssxdwv.mp4" },
+        { title: "Le rompio el telefono?!",    src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882057/igexport-DchendIJ1Af_yw8wqj.mp4" },
+        { title: "Mini cheque",                src: "https://res.cloudinary.com/dsprn0ew4/video/upload/v1788882033/igexport-DbZQ9HjPDq-_qsybad.mp4" }
+      ];
+      /* ============================================================ */
+
+      var grid = document.getElementById('comedyGrid');
+      if (!grid) return;
+
+      function opt(url, tr) { return url.replace('/upload/', '/upload/' + tr + '/'); }
+      function videoURL(url) { return opt(url, 'f_auto,q_auto,w_720'); }
+      function posterURL(url) { return opt(url, 'so_0,f_auto,q_auto,w_720').replace(/\.mp4($|\?)/, '.jpg$1'); }
+      function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+      var reduce = false, isTouch = false;
+      try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      try { isTouch = window.matchMedia('(hover: none)').matches; } catch (e) {}
+      var canHoverPreview = !reduce && !isTouch;   // short muted preview on hover, desktop only
+
+      function stopPreview(tile) {
+        var prev = tile.querySelector('.comedy-prev');
+        if (!prev) return;
+        prev.classList.remove('is-playing');
+        try { prev.pause(); } catch (e) {}
+      }
+
+      COMEDY.forEach(function (item) {
+        var vurl = videoURL(item.src), purl = posterURL(item.src);
+        var tile = document.createElement('button');
+        tile.type = 'button';
+        tile.className = 'comedy-tile reveal';
+        tile.setAttribute('role', 'listitem');
+        tile.setAttribute('aria-label', 'Play video: ' + item.title);
+        tile.innerHTML =
+          '<img class="comedy-poster" src="' + purl + '" alt="' + esc(item.title) + '" loading="lazy" decoding="async" />' +
+          (canHoverPreview ? '<video class="comedy-prev" muted loop playsinline preload="none" data-src="' + vurl + '"></video>' : '') +
+          '<div class="comedy-shade"></div>' +
+          '<span class="comedy-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>' +
+          '<span class="comedy-name">' + esc(item.title) + '</span>';
+        grid.appendChild(tile);
+
+        tile.addEventListener('click', function () {
+          stopPreview(tile);
+          if (window.openModal) window.openModal(item.title, vurl, true);   // portrait lightbox, native controls
+        });
+
+        if (canHoverPreview) {
+          var prev = tile.querySelector('.comedy-prev');
+          tile.addEventListener('mouseenter', function () {
+            if (!prev.getAttribute('src')) prev.setAttribute('src', prev.dataset.src);   // lazy: load on first hover only
+            var p = prev.play(); if (p && p.catch) p.catch(function () {});
+            prev.classList.add('is-playing');
+          });
+          tile.addEventListener('mouseleave', function () { stopPreview(tile); });
+        }
+      });
+    })();
+  </script>
 
   <!-- Recurring "Get Started" CTA — after the case-study / results section -->
   <section class="cta-band theme-dark reveal" aria-label="Work with us">
@@ -2349,8 +2492,9 @@
       },
     });
 
-    function openModal(name, video) {
+    function openModal(name, video, portrait) {
       document.getElementById('modalBrandName').textContent = name;
+      document.getElementById('videoModal').classList.toggle('is-portrait', !!portrait);
       const media = document.getElementById('modalMedia');
       media.innerHTML = '';
       if (!video) {
@@ -2376,6 +2520,7 @@
 
     function closeModal() {
       document.getElementById('videoModal').classList.remove('active');
+      document.getElementById('videoModal').classList.remove('is-portrait');
       document.body.style.overflow = '';
       const media = document.getElementById('modalMedia');
       media.innerHTML = '';
