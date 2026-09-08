@@ -91,10 +91,10 @@
       --black:      #131313;   /* near-black (dark sections) */
       --grey-900:   #1C1C1C;   /* dark-grey alt */
       --ink:        #131313;   /* near-black ink */
-      --ink-70:     rgba(19,19,19,0.66);   /* calm body ink */
-      --ink-50:     rgba(19,19,19,0.5);
-      --ink-40:     rgba(19,19,19,0.4);
-      --ink-25:     rgba(19,19,19,0.22);
+      --ink-70:     rgba(19,19,19,0.72);   /* calm body ink — WCAG AA on paper (>=4.5:1) */
+      --ink-50:     rgba(19,19,19,0.72);   /* text token: darkened from 0.5 for AA (small labels/cues) */
+      --ink-40:     rgba(19,19,19,0.72);   /* text token: darkened from 0.4 for AA */
+      --ink-25:     rgba(19,19,19,0.22);   /* decorative only (hairlines) — not for text */
       /* On dark surfaces */
       --paper-on-dark:    #F2F1ED;
       --paper-on-dark-70: rgba(242,241,237,0.66);
@@ -220,6 +220,14 @@
       opacity: 0.5;
     }
     @media (hover: none) { #cursor { display: none; } body { cursor: auto; } }
+    /* Robustness: cursor:none only takes effect once JS confirms the custom cursor
+       is live (html.custom-cursor-on, added on non-touch + non-reduced-motion).
+       Until then — JS slow/blocked, or reduced-motion — native cursors are restored
+       via !important so the pointer is NEVER invisible on desktop. */
+    html:not(.custom-cursor-on) *,
+    html:not(.custom-cursor-on) *::before,
+    html:not(.custom-cursor-on) *::after { cursor: revert !important; }
+    html:not(.custom-cursor-on) #cursor { display: none; }
 
     /* =========================================================
        MARQUEE KEYFRAME (used by the clients trust strip)
@@ -605,7 +613,7 @@
       font-size: 0.8rem;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: rgba(26,26,46,0.45);
+      color: rgba(19,19,19,0.72);   /* was 0.45 (~2.8:1) — AA on paper */
       padding: 0 34px;
       transition: color var(--dur) var(--ease);
       display: inline-block;
@@ -753,6 +761,10 @@
       cursor: none;
       overflow: hidden;
     }
+    /* brands without footage: not interactive — native default cursor, no hover cue */
+    .brand-card-slide.no-video { cursor: default; }
+    .brand-card-slide.no-video:hover .brand-logo-img,
+    .brand-card-slide.no-video:hover .brand-thumb { transform: none; }
     .brand-logo-img {
       width: 65%;
       max-width: 130px;
@@ -1177,25 +1189,25 @@
 
     /* IN / OUT paired unit */
     .cs-inout { display: flex; align-items: flex-end; gap: 1.75rem; flex-wrap: wrap; margin: 2.25rem 0 1.5rem; }
-    .cs-label { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.6; }
+    .cs-label { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; }
     .cs-in-value { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.4rem); letter-spacing: -0.03em; margin-top: 0.5rem; line-height: 1; }
     .cs-in-organic { font-family: var(--font-display); font-size: clamp(1.6rem, 3.4vw, 2.6rem); letter-spacing: -0.03em; color: var(--accent); margin-top: 0.5rem; line-height: 1; }
-    .cs-in-sub { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-top: 0.4rem; }
-    .cs-arrow { font-size: 1.4rem; opacity: 0.35; align-self: center; padding-bottom: 0.4rem; }
+    .cs-in-sub { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; margin-top: 0.4rem; }
+    .cs-arrow { font-size: 1.4rem; opacity: 0.5; align-self: center; padding-bottom: 0.4rem; }
     .cs-out-value { font-family: var(--font-display); font-size: clamp(3.25rem, 9vw, 8rem); line-height: 0.85; letter-spacing: -0.05em; }
-    .cs-out-label { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-top: 0.75rem; }
+    .cs-out-label { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; margin-top: 0.75rem; }
     .cs-mult { font-family: var(--font-display); font-size: clamp(2.25rem, 5.5vw, 4.5rem); color: var(--accent); letter-spacing: -0.045em; line-height: 0.9; margin-left: auto; }
 
     .cs-metrics { display: flex; gap: 2.5rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
     .cs-panel.dark .cs-metrics { border-top-color: var(--line-dark); }
     .cs-metric-value { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: -0.02em; line-height: 1; }
-    .cs-metric-label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; margin-top: 0.4rem; max-width: 20ch; }
+    .cs-metric-label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; margin-top: 0.4rem; max-width: 20ch; }
 
     .cs-chart { margin-top: 2rem; }
     .cs-chart svg { width: 100%; height: auto; display: block; overflow: visible; }
     .cs-chart svg + svg { margin-top: 1rem; }
     .cs-svg-bar { height: 40px; }
-    .cs-chart-cap { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.5; margin-top: 0.85rem; }
+    .cs-chart-cap { font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; margin-top: 0.85rem; }
     /* Area chart (organic-growth story). Uses currentColor so it's always
        visible on light OR dark panels. Capped height so it can't blow open. */
     .cs-area { max-height: 300px; }
@@ -1203,13 +1215,13 @@
     .cs-area-line { opacity: 1; }
     .cs-area-dot  { opacity: 1; }
     .cs-area text { fill: currentColor; font-family: var(--font-body); }
-    .cs-area-x   { font-size: 4px; font-weight: 600; letter-spacing: 0.06em; opacity: 0.5; text-anchor: middle; }
+    .cs-area-x   { font-size: 4px; font-weight: 600; letter-spacing: 0.06em; opacity: 0.85; text-anchor: middle; }
     .cs-area-val { font-size: 6.4px; font-weight: 700; letter-spacing: -0.01em; }
     @media (max-width: 768px) { .cs-area { max-height: 210px; } .cs-area-val { font-size: 7px; } .cs-area-x { font-size: 4.6px; } }
     .cs-media--single .cs-video { max-width: 920px; }
     .cs-dot  { opacity: 1; }   /* default visible (never-empty); JS sets 0 then staggers up when it animates */
     .cs-unit { opacity: 1; }
-    .cs-summary { font-size: 0.95rem; opacity: 0.75; max-width: 46ch; margin-top: 1.5rem; line-height: 1.6; }
+    .cs-summary { font-size: 0.95rem; opacity: 0.9; max-width: 46ch; margin-top: 1.5rem; line-height: 1.6; }
     .cs-links { margin-top: 1.5rem; }
     .cs-links a { font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
     .cs-links a::after { content: ''; }
@@ -1950,7 +1962,7 @@
            SAME recap that plays full-size during the video intro, shrunk into
            place. Full controls + click-to-expand lightbox. -->
       <figure class="hero-media reveal" id="heroMedia">
-        <video class="hero-media-video" id="heroVid" autoplay muted loop playsinline preload="metadata"
+        <video class="hero-media-video" id="heroVid" muted loop playsinline preload="metadata"
           poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1788621509/PRA_RECAP_-_2_mgtdo7.jpg">
           <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/sp_auto/v1788621509/PRA_RECAP_-_2_mgtdo7.m3u8" type="application/x-mpegURL" />
           <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280,br_2m/v1788621509/PRA_RECAP_-_2_mgtdo7.mp4" type="video/mp4" />
@@ -2030,7 +2042,8 @@
 
   <!-- FULL-BLEED MEDIA BAND -->
   <section class="media-band" id="mediaBand">
-    <video class="media-band-video" autoplay muted loop playsinline preload="none">
+    <video class="media-band-video" muted loop playsinline preload="none"
+      poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_jpg,q_auto,w_1280/v1778261003/Prvideo1_cktsqz.jpg">
       <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_webm,vc_vp9,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.webm" type="video/webm" />
       <source src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,h_720,q_auto:good,ac_none/v1778261003/Prvideo1_cktsqz.mp4" type="video/mp4" />
     </video>
@@ -2281,10 +2294,29 @@
     </div>
   </aside>
 
+  <!-- Library loader: Swiper (brand carousel) loads everywhere. GSAP +
+       ScrollTrigger + Lenis are the desktop motion/smooth-scroll layer and are
+       skipped on touch devices and reduced-motion — mobile never downloads
+       ~150KB it can't use (all GSAP calls are guarded by hasGSAP; Lenis only
+       ever runs on non-touch). Kept as parser-ordered document.write so the
+       inline app below still sees the globals synchronously on desktop. -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    (function () {
+      var touch  = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (touch || reduce) return;   // mobile / reduced-motion: no GSAP, no Lenis
+      var base = 'https://cdn.jsdelivr.net/npm/';
+      var libs = [
+        'gsap@3.12.5/dist/gsap.min.js',
+        'gsap@3.12.5/dist/ScrollTrigger.min.js',
+        '@studio-freight/lenis@1.0.42/dist/lenis.min.js'
+      ];
+      for (var i = 0; i < libs.length; i++) {
+        document.write('<script src="' + base + libs[i] + '"><\/script>');
+      }
+    })();
+  </script>
   <script>
     /* ============================================================
        CASE STUDIES - data + renderers (add a case here, no markup edits)
@@ -2535,7 +2567,19 @@
           : `<div class="brand-init">${getInitials(b.name)}</div>`;
         card.innerHTML = `${logoHtml}<div class="brand-lbl">${b.name}</div>`;
       }
-      card.addEventListener('click', () => openModal(b.name, b.video));
+      // Only wire a click when there's real footage — brands with no video stay
+      // as a plain, non-clickable logo (no placeholder "coming soon" modal).
+      if (b.video) {
+        card.classList.add('is-clickable');
+        card.setAttribute('role', 'button');
+        card.tabIndex = 0;
+        card.setAttribute('aria-label', 'Play ' + b.name + ' reel');
+        card.addEventListener('click', () => openModal(b.name, b.video));
+        card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(b.name, b.video); } });
+      } else {
+        card.classList.add('no-video');
+        card.setAttribute('aria-label', b.name);
+      }
       slide.appendChild(card);
       bWrapper.appendChild(slide);
     });
@@ -2923,16 +2967,25 @@
       richMotion();
     }
 
-    /* Custom cursor (desktop pointer only; hidden via CSS on touch) */
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button, .brand-card-slide, .work-card, .story-row, .honest-card').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
+    /* Custom cursor — desktop pointer only, and ONLY after we confirm it here.
+       Adding html.custom-cursor-on is what activates the cursor:none CSS; if this
+       code never runs (JS blocked) or on touch / reduced-motion, the native
+       pointer stays visible. */
+    (function () {
+      const cursor = document.getElementById('cursor');
+      const touch  = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!cursor || touch || reduce) return;   // native cursor stays
+      document.documentElement.classList.add('custom-cursor-on');
+      document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top  = e.clientY + 'px';
+      });
+      document.querySelectorAll('a, button, .brand-card-slide.is-clickable, .work-card, .story-row, .honest-card').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+      });
+    })();
 
     /* ============================================================
        CASE STUDIES - behaviour + motion
@@ -3213,21 +3266,41 @@
       window.addEventListener('load', function () { window.setTimeout(forceAll, 4000); });
     })();
 
-    /* Perf: pause the always-on background videos (hero + media band) when they're
-       off-screen so we never decode multiple full-bleed videos at once. */
+    /* Perf: desktop auto-plays the background videos (hero + media band) when in
+       view and pauses them off-screen. On small screens / touch / Save-Data we do
+       NOT autoplay — the poster shows and playback is gated behind a tap (saves
+       MBs of cellular data). The videos have no `autoplay` attribute, so nothing
+       buffers until this decides to play. */
     (function () {
       const vids = document.querySelectorAll('.hero-media-video, .media-band-video');
       if (!vids.length || !('IntersectionObserver' in window)) return;
+      const saveData = !!(navigator.connection && navigator.connection.saveData);
+      const gateAutoplay = saveData ||
+        window.matchMedia('(max-width: 768px), (hover: none), (pointer: coarse)').matches;
+
       const io = new IntersectionObserver((entries) => {
         entries.forEach(en => {
           const v = en.target;
-          // Respect a manual pause / open lightbox on the hero player.
-          if (v.dataset.userPaused === '1') return;
-          if (en.isIntersecting) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
-          else { try { v.pause(); } catch (e) {} }
+          if (v.dataset.userPaused === '1') return;   // manual pause / lightbox open
+          if (en.isIntersecting) {
+            if (gateAutoplay && v.dataset.userPlay !== '1') return;   // wait for a tap
+            const p = v.play(); if (p && p.catch) p.catch(() => {});
+          } else { try { v.pause(); } catch (e) {} }
         });
       }, { threshold: 0.01 });
       vids.forEach(v => io.observe(v));
+
+      // Tap-to-play for the media band (the hero has its own control bar).
+      if (gateAutoplay) {
+        const band = document.querySelector('.media-band-video');
+        if (band) {
+          band.style.cursor = 'pointer';
+          band.addEventListener('click', () => {
+            if (band.paused) { band.dataset.userPlay = '1'; const p = band.play(); if (p && p.catch) p.catch(() => {}); }
+            else { band.pause(); band.dataset.userPlay = '0'; }
+          });
+        }
+      }
     })();
 
     /* Nav scrollspy — IntersectionObserver (no per-frame getBoundingClientRect
@@ -3655,6 +3728,8 @@
          idle) so it never blocks the entrance animation or first paint. Only the
          hero/recap video — the case-study videos stay lazy (preload=none). ---- */
       (function () {
+        // Skip warming on Save-Data — don't pre-buffer MBs the visitor asked us not to.
+        if (navigator.connection && navigator.connection.saveData) return;
         var warm = function () {
           [].forEach.call(document.querySelectorAll('.vi-video, #heroVid'), function (v) {
             try { v.preload = 'auto'; v.load(); } catch (e) {}
