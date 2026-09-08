@@ -3,7 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Purple Roots · Creative Agency</title>
+  <title>Purple Roots — Video Marketing Agency in El Paso, TX</title>
+  <meta name="description" content="Purple Roots is a video marketing agency in El Paso, TX. We turn attention into calls, walk-ins, and revenue with cinematic video and social-first strategy." />
+  <link rel="canonical" href="https://purpleroots.agency/" />
+  <meta name="theme-color" content="#131313" />
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Purple Roots" />
+  <meta property="og:title" content="Purple Roots — Video Marketing Agency in El Paso, TX" />
+  <meta property="og:description" content="We turn attention into calls, walk-ins, and revenue with cinematic video and social-first strategy. Based in El Paso, TX." />
+  <meta property="og:url" content="https://purpleroots.agency/" />
+  <meta property="og:image" content="https://res.cloudinary.com/dsprn0ew4/image/upload/c_pad,w_1200,h_630,b_white,f_jpg,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Purple Roots" />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Purple Roots — Video Marketing Agency in El Paso, TX" />
+  <meta name="twitter:description" content="We turn attention into calls, walk-ins, and revenue with cinematic video and social-first strategy. Based in El Paso, TX." />
+  <meta name="twitter:image" content="https://res.cloudinary.com/dsprn0ew4/image/upload/c_pad,w_1200,h_630,b_white,f_jpg,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" />
+
+  <!-- Structured data: local marketing agency -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "additionalType": "https://schema.org/ProfessionalService",
+    "name": "Purple Roots",
+    "description": "Video marketing agency in El Paso, TX producing cinematic video and social-first campaigns that drive calls, walk-ins, and revenue.",
+    "url": "https://purpleroots.agency/",
+    "logo": "https://res.cloudinary.com/dsprn0ew4/image/upload/c_pad,w_512,h_512,b_white,f_png,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png",
+    "image": "https://res.cloudinary.com/dsprn0ew4/image/upload/c_pad,w_1200,h_630,b_white,f_jpg,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png",
+    "telephone": "+1-915-234-3655",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "El Paso",
+      "addressRegion": "TX",
+      "addressCountry": "US"
+    },
+    "areaServed": "El Paso, TX",
+    "sameAs": ["https://instagram.com/purpleroots.agency"]
+  }
+  </script>
 
   <!-- Favicon: square PNG from the monogram via Cloudinary c_pad (padded, no crop).
        Google search favicons must be reachable, square, and >= 48x48 (a multiple
@@ -1759,13 +1802,14 @@
   <div id="decision" class="decision theme-light" role="group" aria-label="Choose your path">
     <div class="decision-inner">
       <!-- ALT headline / sub (swap in):
-        <h1 class="decision-h1">Relax. You're in expert hands now.</h1>
+        <h2 class="decision-h1">Relax. You're in expert hands now.</h2>
         <p class="decision-sub">You focus on your business. We'll make the world notice it.</p>
         --- or ---
-        <h1 class="decision-h1">Breathe. The hard part is over.</h1>
+        <h2 class="decision-h1">Breathe. The hard part is over.</h2>
         <p class="decision-sub">From here, growing your brand is our job, not yours.</p>
       -->
-      <h1 class="decision-h1">You're one click from leaving it to the experts.</h1>
+      <!-- transient overlay UI, not the document's primary heading -> <h2>, hero keeps the sole <h1> -->
+      <h2 class="decision-h1">You're one click from leaving it to the experts.</h2>
       <p class="decision-sub">Focus on your business. We'll make the world notice it.</p>
       <p class="decision-pivot">So what do you want to do?</p>
 
@@ -2202,7 +2246,7 @@
       <p class="footer-copy">© 2025 Purple Roots. All rights reserved. El Paso, TX.</p>
       <ul class="footer-nav">
         <li><a href="#about">About</a></li><li><a href="#services">Services</a></li>
-        <li><a href="#brands">Clients</a></li><li><a href="#honest">Process</a></li>
+        <li><a href="#brands">Partners</a></li><li><a href="#honest">Method</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -2223,14 +2267,16 @@
       <div class="inquire-eyebrow">Start a Project</div>
       <h2 class="inquire-title" id="inquireTitle">Let's build something loud.</h2>
       <p class="inquire-sub">Tell us who you are and what you want to achieve. We'll get back to you fast.</p>
-      <form id="inquireForm" class="inquire-form" novalidate>
+      <!-- JS POSTs to the Apps Script endpoint (see controller). action/method are the
+           no-JS fallback only: without JS, submit opens the visitor's mail client. -->
+      <form id="inquireForm" class="inquire-form" novalidate action="mailto:p.rootsagency@gmail.com" method="post" enctype="text/plain">
         <label class="inquire-field"><span>Name</span><input type="text" name="name" required autocomplete="name" placeholder="Your name" /></label>
         <label class="inquire-field"><span>Company Name</span><input type="text" name="company" autocomplete="organization" placeholder="Company name" /></label>
         <label class="inquire-field"><span>Phone</span><input type="tel" name="phone" autocomplete="tel" placeholder="Phone number" /></label>
         <label class="inquire-field"><span>Email</span><input type="email" name="email" required autocomplete="email" placeholder="you@company.com" /></label>
         <label class="inquire-field"><span>What you want to achieve</span><textarea name="goal" rows="4" placeholder="Tell us what you want to achieve"></textarea></label>
         <button type="submit" class="btn btn-lime inquire-submit">Send inquiry →</button>
-        <p class="inquire-note">This opens your email app with the details prefilled.</p>
+        <p class="inquire-note">We usually reply within one business day.</p>
       </form>
     </div>
   </aside>
