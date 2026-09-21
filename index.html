@@ -1937,10 +1937,10 @@
            no-JS fallback only: without JS, submit opens the visitor's mail client. -->
       <form id="inquireForm" class="inquire-form" novalidate action="mailto:p.rootsagency@gmail.com" method="post" enctype="text/plain">
         <label class="inquire-field"><span>Name</span><input type="text" name="name" required autocomplete="name" placeholder="Your name" /></label>
-        <label class="inquire-field"><span>Company Name</span><input type="text" name="company" autocomplete="organization" placeholder="Company name" /></label>
-        <label class="inquire-field"><span>Phone</span><input type="tel" name="phone" autocomplete="tel" placeholder="Phone number" /></label>
+        <label class="inquire-field"><span>Company Name</span><input type="text" name="company" required autocomplete="organization" placeholder="Company name" /></label>
+        <label class="inquire-field"><span>Phone</span><input type="tel" name="phone" required autocomplete="tel" placeholder="Phone number" /></label>
         <label class="inquire-field"><span>Email</span><input type="email" name="email" required autocomplete="email" placeholder="you@company.com" /></label>
-        <label class="inquire-field"><span>What you want to achieve</span><textarea name="goal" rows="4" placeholder="Tell us what you want to achieve"></textarea></label>
+        <label class="inquire-field"><span>What you want to achieve</span><textarea name="goal" rows="4" required placeholder="Tell us what you want to achieve"></textarea></label>
         <button type="submit" class="btn btn-lime inquire-submit">Send inquiry →</button>
         <p class="inquire-note">We usually reply within one business day.</p>
       </form>
@@ -2390,14 +2390,24 @@
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const name = (form.elements['name'].value || '').trim();
-        const email = (form.elements['email'].value || '').trim();
-        if (!name) { form.elements['name'].focus(); return; }
-        if (!email) { form.elements['email'].focus(); return; }
 
         const submitBtn = form.querySelector('.inquire-submit');
         const prevErr = form.querySelector('.inquire-error');
         if (prevErr) prevErr.remove();
+
+        // Every field is required — block the send and show one clear message.
+        const fields = ['name', 'company', 'phone', 'email', 'goal'];
+        const firstEmpty = fields.find((f) => !(form.elements[f].value || '').trim());
+        if (firstEmpty) {
+          const err = document.createElement('p');
+          err.className = 'inquire-error';
+          err.setAttribute('role', 'alert');
+          err.textContent = 'Please fill in every field so we can do our best work for you.';
+          submitBtn.insertAdjacentElement('afterend', err);
+          form.elements[firstEmpty].focus();
+          return;
+        }
+
         const restoreLabel = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending…';
