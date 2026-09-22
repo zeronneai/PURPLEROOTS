@@ -1,6 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "trailingSlash": false,
+  "headers": [
+    { "source": "/llms.txt", "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }] }
+  ],
   "redirects": [
     { "source": "/about", "destination": "/#about", "permanent": true },
     { "source": "/about-us", "destination": "/#about", "permanent": true },
