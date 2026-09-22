@@ -65,7 +65,6 @@
     { "source": "/blog/:path*", "destination": "/", "permanent": true },
     { "source": "/post/:path*", "destination": "/", "permanent": true },
     { "source": "/news", "destination": "/", "permanent": true },
-    { "source": "/faq", "destination": "/", "permanent": true },
     { "source": "/faqs", "destination": "/", "permanent": true }
   ]
 }
