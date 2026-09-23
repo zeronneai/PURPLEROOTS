@@ -439,7 +439,7 @@
     .kpi dd { margin: 8px 0 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 2.3vw, 40px); letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
     .kpi dd em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: var(--accent); }
     .chart { margin-top: clamp(24px, 3.4vh, 36px); color: var(--accent); }
-    .chart svg { width: 100%; height: auto; overflow: visible; }
+    .chart svg { width: 100%; max-width: 440px; height: auto; overflow: visible; }
     .chart svg.chart--area { max-height: 220px; }
     .chart__cap { margin: 12px 0 0; font-family: var(--f-label); font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-2); }
     .case__summary { margin: clamp(22px, 3vh, 32px) 0 0; color: var(--fg-2); max-width: 46ch; }
@@ -476,7 +476,7 @@
     }
     .preview {
       position: fixed; left: 0; top: 0; z-index: 150; pointer-events: none;
-      width: clamp(220px, 21vw, 360px); aspect-ratio: 3 / 4; margin: -44% 0 0 -50%;
+      width: clamp(220px, 21vw, 360px); aspect-ratio: 3 / 4;
       border-radius: var(--radius); overflow: hidden; background: var(--ink-3);
       clip-path: inset(100% 0% 0% 0% round var(--radius)); transition: clip-path .8s var(--ease);
       display: none;
@@ -649,7 +649,9 @@
       .case__media { order: 2; } .case__info { order: 1; }
       .comedy__grid { grid-template-columns: 1fr 1fr; gap: 12px; }
       .ctile__name { left: 12px; right: 12px; bottom: 12px; }
-      .cap { row-gap: 12px; padding: 22px 0; }
+      .cap { grid-template-columns: 1fr; row-gap: 10px; padding: 24px 0; }
+      .cap > * { grid-column: 1 / -1; }
+      .cap__name { font-size: clamp(34px, 10.5vw, 64px); }
       .cap__num { margin-bottom: 4px; }
       .fit__col { grid-column: 1 / -1; }
       .final__actions .btn { width: 100%; justify-content: space-between; }
@@ -660,6 +662,7 @@
     @media (max-width: 420px) {
       .btn { height: 54px; padding: 0 22px 0 24px; font-size: 15px; }
       .hero__actions { flex-direction: column; }
+      .hero__actions .btn { flex: none; width: 100%; }   /* column: basis 0 would collapse the height */
     }
 
     /* ---------- reduced motion ---------- */
@@ -1214,12 +1217,12 @@
       d.addEventListener('mouseleave', function () { c.classList.add('is-hidden'); });
       d.addEventListener('mouseenter', function () { c.classList.remove('is-hidden'); });
       d.addEventListener('mouseover', function (e) {
-        var t = e.target.closest('[data-cursor], a, button, input, textarea, label');
+        /* a [data-cursor] area wins over the links/buttons nested inside it */
+        var area = e.target.closest('[data-cursor]'), link = e.target.closest('a, button, input, textarea, label');
         c.classList.remove('is-label', 'is-link');
-        if (!t) return;
-        var kind = t.getAttribute('data-cursor');
-        if (kind === 'play' || kind === 'view') { label.textContent = kind === 'play' ? 'PLAY' : 'VIEW'; c.classList.add('is-label'); }
-        else if (!t.disabled) c.classList.add('is-link');
+        if (area && (!link || area.contains(link))) {
+          label.textContent = area.getAttribute('data-cursor') === 'view' ? 'VIEW' : 'PLAY'; c.classList.add('is-label');
+        } else if (link && !link.disabled) { label.textContent = ''; c.classList.add('is-link'); }
       });
     }
 
@@ -1578,6 +1581,7 @@
         img.alt = ''; img.decoding = 'async'; img.loading = 'lazy'; img.setAttribute('data-src', src);
         box.appendChild(img); media.push(img);
       });
+      gsap.set(box, { xPercent: -50, yPercent: -55 });   /* centred on the pointer (percent of its own size) */
       var xTo = gsap.quickTo(box, 'x', { duration: 0.7, ease: 'power3' }), yTo = gsap.quickTo(box, 'y', { duration: 0.7, ease: 'power3' });
       var rTo = gsap.quickTo(box, 'rotation', { duration: 0.9, ease: 'power3' }), lastX = 0;
       list.addEventListener('mousemove', function (e) { xTo(e.clientX); yTo(e.clientY); rTo(Math.max(-8, Math.min(8, (e.clientX - lastX) * 0.4))); lastX = e.clientX; });
