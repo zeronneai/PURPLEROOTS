@@ -6,6 +6,9 @@
   <title>FAQ · Purple Roots Agency</title>
   <meta name="description" content="Frequently asked questions about Purple Roots Agency, a cinema-grade video production and creative marketing agency in El Paso, TX: services, pricing, results, location, and how to get in touch." />
   <link rel="canonical" href="https://purpleroots.agency/faq" />
+  <link rel="alternate" hreflang="en" href="https://purpleroots.agency/faq" />
+  <link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/faq" />
+  <link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/faq" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#131313" />
 
@@ -77,6 +80,20 @@
       text-decoration: none; transition: color .2s ease;
     }
     .faq-nav-back:hover { color: var(--ink); }
+    .faq-nav-right { display: flex; align-items: center; gap: 18px; }
+    .faq-lang {
+      display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--line); color: var(--ink); text-decoration: none;
+      font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.14em; padding-left: 0.14em; line-height: 1;
+      transition: background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .faq-lang:hover, .faq-lang:focus-visible { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .faq-nav-back { white-space: nowrap; }
+    @media (max-width: 420px) {
+      .faq-nav-logo img { height: 21px; }
+      .faq-nav-right { gap: 12px; }
+      .faq-nav-back { letter-spacing: 0.08em; }
+    }
 
     /* content */
     .faq-wrap { max-width: 760px; margin: 0 auto; padding: clamp(48px, 9vw, 96px) 24px clamp(64px, 10vh, 120px); }
@@ -132,7 +149,10 @@
     <a class="faq-nav-logo" href="/" aria-label="Purple Roots home">
       <img src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_black,f_auto,q_auto/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" />
     </a>
-    <a class="faq-nav-back" href="/">&larr; Back to site</a>
+    <div class="faq-nav-right">
+      <a class="faq-lang" href="/es/faq" hreflang="es" lang="es" aria-label="Ver esta página en español">ES</a>
+      <a class="faq-nav-back" href="/">&larr; Back to site</a>
+    </div>
   </nav>
 
   <main class="faq-wrap">
