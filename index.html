@@ -400,7 +400,11 @@
     .case--v.case--flip .case__media { grid-column: 8 / span 4; }
     .case--v.case--flip .case__info { grid-column: 1 / span 6; }
     .case__media--4 { grid-template-columns: 1fr 1fr; }
-    .cvid { position: relative; overflow: hidden; border-radius: var(--radius); background: var(--ink-3); aspect-ratio: 16 / 9; }
+    /* mixed orientation: landscape image + landscape video stacked, portrait video spans both rows */
+    .case__media--mix { grid-template-columns: 1.45fr 1fr; }
+    .case__media--mix .cvid--img { aspect-ratio: 3 / 2; }
+    .case__media--mix .cvid--v { grid-column: 2; grid-row: 1 / span 2; aspect-ratio: auto; height: 100%; }
+    .cvid { margin: 0; position: relative; overflow: hidden; border-radius: var(--radius); background: var(--ink-3); aspect-ratio: 16 / 9; }
     .cvid--v { aspect-ratio: 9 / 16; }
     .cvid img, .cvid video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .cvid video { opacity: 0; transition: opacity .8s var(--ease); }
@@ -836,42 +840,10 @@
           </div>
           <p class="lede work__lede" data-fade>Attention first, community next, ads to amplify. Here's what that order produces. Real budgets in, real numbers out, no rounding in our favor. All figures in USD.</p>
         </div>
-        <article class="case grid" id="case-01" aria-label="Mark Davis case study">
-          <div class="case__media"><figure class="cvid" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_960,c_limit,q_auto:eco,ac_none/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.jpg" data-title="Mark Davis" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.jpg" alt="Mark Davis, video 1 of 2" loading="lazy" decoding="async" width="960" height="540" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Mark Davis video 1 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure><figure class="cvid" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_960,c_limit,q_auto:eco,ac_none/v1785162611/Davis_Law_-_The_Reading_wqa5wk.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1785162611/Davis_Law_-_The_Reading_wqa5wk.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1785162611/Davis_Law_-_The_Reading_wqa5wk.jpg" data-title="Mark Davis" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1785162611/Davis_Law_-_The_Reading_wqa5wk.jpg" alt="Mark Davis, video 2 of 2" loading="lazy" decoding="async" width="960" height="540" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Mark Davis video 2 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure></div>
-          <div class="case__info">
-            <p class="eyebrow case__kicker"><span class="idx">Case I</span><span class="bar"></span>Personal Brand</p>
-            <h3 class="case__name" data-split>Mark Davis</h3>
-            <div class="flow">
-              <dl class="flow__in"><dt>Ad Investment</dt><dd><span class="count" data-to="6780" data-prefix="$" data-comma>$6,780</span></dd></dl>
-              <span class="flow__arrow" aria-hidden="true">into</span>
-              <dl class="flow__out"><dt>Views</dt><dd><span class="count" data-to="557" data-suffix="K">557K</span></dd></dl>
-            </div>
-            <dl class="kpis"><div class="kpi"><dt>Inbound Calls</dt><dd><span class="count" data-to="402">402</span></dd></div><div class="kpi"><dt>Commercial Produced</dt><dd>1</dd></div><div class="kpi"><dt>Views per dollar</dt><dd>82<em>×</em></dd></div></dl>
-            <div class="chart" data-chart="dots" data-n="402" aria-hidden="true"></div><p class="chart__cap">402 inbound calls</p>
-            <p class="case__summary">A focused paid campaign turned a modest budget into massive reach, and more importantly, 402 real inbound calls and a produced commercial.</p>
-            
-          </div>
-        </article>
-        <article class="case grid case--v case--flip" id="case-02" aria-label="Chingón Cuh&#x27;ts case study">
-          <div class="case__media"><figure class="cvid cvid--v" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_540,c_limit,q_auto:eco,ac_none/v1784932471/CHINGON_CUHTS-1_oaujpz.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720/v1784932471/CHINGON_CUHTS-1_oaujpz.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_540/v1784932471/CHINGON_CUHTS-1_oaujpz.jpg" data-title="Chingón Cuh&#x27;ts" data-orient="v" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_540/v1784932471/CHINGON_CUHTS-1_oaujpz.jpg" alt="Chingón Cuh&#x27;ts, video 1 of 1" loading="lazy" decoding="async" width="540" height="960" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Chingón Cuh&#x27;ts video 1 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure></div>
-          <div class="case__info">
-            <p class="eyebrow case__kicker"><span class="idx">Case II</span><span class="bar"></span>Barbershop</p>
-            <h3 class="case__name" data-split>Chingón Cuh&#x27;ts</h3>
-            <div class="flow">
-              <dl class="flow__in"><dt>Ad Spend</dt><dd>$100</dd></dl>
-              <span class="flow__arrow" aria-hidden="true">into</span>
-              <dl class="flow__out"><dt>Views</dt><dd><span class="count" data-to="500" data-suffix="K">500K</span></dd></dl>
-            </div>
-            <dl class="kpis"><div class="kpi"><dt>Walk-ins</dt><dd>Record</dd></div><div class="kpi"><dt>Appointments Booked</dt><dd>Record</dd></div><div class="kpi"><dt>Views per dollar</dt><dd>5,000<em>×</em></dd></div></dl>
-            <div class="chart" data-chart="ratio" data-in="100" data-out="500000" aria-hidden="true"></div><p class="chart__cap">$100 in, 500,000 views out</p>
-            <p class="case__summary">One hundred dollars of ad spend. Half a million views. Record-breaking walk-ins and appointments in the shop&#x27;s history.</p><p class="case__summary" style="margin-top:14px">Walk-ins, most in company history.</p>
-            <a class="btn btn--ghost btn--sm case__link" href="https://www.instagram.com/chingoncuhts/" target="_blank" rel="noopener"><span class="btn__label"><span data-t="View on Instagram">View on Instagram</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-          </div>
-        </article>
-        <article class="case grid" id="case-03" aria-label="Mario Yague case study">
+        <article class="case grid" id="case-01" aria-label="Mario Yague case study">
           <div class="case__media case__media--4"><figure class="cvid" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_960,c_limit,q_auto:eco,ac_none/v1775164758/Mario_Yague_El_Toro_Final_ohedjn.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1775164758/Mario_Yague_El_Toro_Final_ohedjn.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1775164758/Mario_Yague_El_Toro_Final_ohedjn.jpg" data-title="Mario Yague" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1775164758/Mario_Yague_El_Toro_Final_ohedjn.jpg" alt="Mario Yague, video 1 of 4" loading="lazy" decoding="async" width="960" height="540" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Mario Yague video 1 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure><figure class="cvid" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_960,c_limit,q_auto:eco,ac_none/v1784932459/Day_in_life_El_Toro_qhtj0s.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932459/Day_in_life_El_Toro_qhtj0s.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932459/Day_in_life_El_Toro_qhtj0s.jpg" data-title="Mario Yague" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932459/Day_in_life_El_Toro_qhtj0s.jpg" alt="Mario Yague, video 2 of 4" loading="lazy" decoding="async" width="960" height="540" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Mario Yague video 2 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure><figure class="cvid" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_960,c_limit,q_auto:eco,ac_none/v1784932460/Mario_June_24_-_2_k8dzcq.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932460/Mario_June_24_-_2_k8dzcq.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932460/Mario_June_24_-_2_k8dzcq.jpg" data-title="Mario Yague" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932460/Mario_June_24_-_2_k8dzcq.jpg" alt="Mario Yague, video 3 of 4" loading="lazy" decoding="async" width="960" height="540" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Mario Yague video 3 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure><figure class="cvid" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_960,c_limit,q_auto:eco,ac_none/v1784932442/OMG_ARE_U_EL_TORO_l2gxkj.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932442/OMG_ARE_U_EL_TORO_l2gxkj.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932442/OMG_ARE_U_EL_TORO_l2gxkj.jpg" data-title="Mario Yague" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932442/OMG_ARE_U_EL_TORO_l2gxkj.jpg" alt="Mario Yague, video 4 of 4" loading="lazy" decoding="async" width="960" height="540" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Mario Yague video 4 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure></div>
           <div class="case__info">
-            <p class="eyebrow case__kicker"><span class="idx">Case III</span><span class="bar"></span>Personal Injury Attorney · El Toro Law</p>
+            <p class="eyebrow case__kicker"><span class="idx">Case 01</span><span class="bar"></span>Personal Injury Attorney · El Toro Law</p>
             <h3 class="case__name" data-split>Mario Yague</h3>
             <div class="flow">
               <dl class="flow__in"><dt>Paid Spend</dt><dd>$0</dd></dl>
@@ -884,10 +856,26 @@
             <a class="btn btn--ghost btn--sm case__link" href="https://www.instagram.com/yaguelaw/" target="_blank" rel="noopener"><span class="btn__label"><span data-t="View on Instagram">View on Instagram</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
           </div>
         </article>
-        <article class="case grid case--v case--flip" id="case-04" aria-label="Powerhouse Gym case study">
+        <article class="case grid case--flip" id="case-02" aria-label="Tippin&#x27; Cowgirl case study">
+          <div class="case__media case__media--mix"><figure class="cvid cvid--img" data-media><img src="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_960/v1790277573/29072026-NZR_8885_1_tordqx.jpg" srcset="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_960/v1790277573/29072026-NZR_8885_1_tordqx.jpg 960w, https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_1600/v1790277573/29072026-NZR_8885_1_tordqx.jpg 1600w" sizes="(max-width: 768px) 60vw, 36vw" alt="Tippin&#x27; Cowgirl western fashion shoot at golden hour" loading="lazy" decoding="async" width="960" height="640" /></figure><figure class="cvid" data-media data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1790277582/Tippin_Solana_Horse_-_Main_c1kfda.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1790277582/Tippin_Solana_Horse_-_Main_c1kfda.jpg" data-title="Tippin&#x27; Cowgirl" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1790277582/Tippin_Solana_Horse_-_Main_c1kfda.jpg" alt="Tippin&#x27; Cowgirl, video 1 of 2" loading="lazy" decoding="async" width="960" height="540" /><button class="cvid__open" type="button" aria-label="Play Tippin&#x27; Cowgirl video 1 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure><figure class="cvid cvid--v" data-media data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720/v1790277607/Tippin_Store_Tour_j37ibi.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_540/v1790277607/Tippin_Store_Tour_j37ibi.jpg" data-title="Tippin&#x27; Cowgirl" data-orient="v" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_540/v1790277607/Tippin_Store_Tour_j37ibi.jpg" alt="Tippin&#x27; Cowgirl, video 2 of 2" loading="lazy" decoding="async" width="540" height="960" /><button class="cvid__open" type="button" aria-label="Play Tippin&#x27; Cowgirl video 2 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure></div>
+          <div class="case__info">
+            <p class="eyebrow case__kicker"><span class="idx">Case 02</span><span class="bar"></span>Retail · Western Fashion</p>
+            <h3 class="case__name" data-split>Tippin&#x27; Cowgirl</h3>
+            <div class="flow">
+              <dl class="flow__in"><dt>Timeline</dt><dd>60 days</dd></dl>
+              <span class="flow__arrow" aria-hidden="true">into</span>
+              <dl class="flow__out"><dt>Views</dt><dd><span class="count" data-dec="1" data-to="1.5" data-suffix="M+">1.5M+</span></dd></dl>
+            </div>
+            <dl class="kpis"><div class="kpi"><dt>New Followers</dt><dd><span class="count" data-to="6500" data-suffix="+" data-comma>6,500+</span></dd></div><div class="kpi"><dt>Grand-opening campaign</dt><dd>Hat Bar</dd></div><div class="kpi"><dt>New followers a day</dt><dd>108+</dd></div></dl>
+            <div class="chart" data-chart="area" data-points="[0.03,0.12,0.34,0.64,1]" data-label="6,500+" data-ticks="D0,D15,D30,D45,D60" data-aria="Followers climbing past 6,500 over 60 days" aria-hidden="true"></div><p class="chart__cap">60 days · 6,500+ followers · 1.5M+ views</p>
+            <p class="case__summary">A grand-opening campaign for their first Hat Bar. In 60 days the boutique gained more than 6,500 new followers and passed 1.5 million views.</p>
+            
+          </div>
+        </article>
+        <article class="case grid case--v" id="case-03" aria-label="Powerhouse Gym case study">
           <div class="case__media"><figure class="cvid cvid--v" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_540,c_limit,q_auto:eco,ac_none/v1785163159/Its_been_home_all_along._Dont_forget_for_a_limited_time_only_we_have_our_5_sign_up_special_nxox0w.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720/v1785163159/Its_been_home_all_along._Dont_forget_for_a_limited_time_only_we_have_our_5_sign_up_special_nxox0w.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_540/v1785163159/Its_been_home_all_along._Dont_forget_for_a_limited_time_only_we_have_our_5_sign_up_special_nxox0w.jpg" data-title="Powerhouse Gym" data-orient="v" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_540/v1785163159/Its_been_home_all_along._Dont_forget_for_a_limited_time_only_we_have_our_5_sign_up_special_nxox0w.jpg" alt="Powerhouse Gym, video 1 of 1" loading="lazy" decoding="async" width="540" height="960" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Powerhouse Gym video 1 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure></div>
           <div class="case__info">
-            <p class="eyebrow case__kicker"><span class="idx">Case IV</span><span class="bar"></span>Fitness · El Paso</p>
+            <p class="eyebrow case__kicker"><span class="idx">Case 03</span><span class="bar"></span>Fitness · El Paso</p>
             <h3 class="case__name" data-split>Powerhouse Gym</h3>
             <div class="flow">
               <dl class="flow__in"><dt>Paid Ads</dt><dd>$1,500</dd></dl>
@@ -898,6 +886,38 @@
             <div class="chart" data-chart="ratio" data-in="1500" data-out="70000" data-n="80" aria-hidden="true"></div><p class="chart__cap">80 memberships</p>
             <p class="case__summary">Fifteen hundred in ads returned $70,000 in membership contracts. 80 new members and a commercial in the can.</p>
             <a class="btn btn--ghost btn--sm case__link" href="https://www.instagram.com/powerhouseeptx/" target="_blank" rel="noopener"><span class="btn__label"><span data-t="View on Instagram">View on Instagram</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          </div>
+        </article>
+        <article class="case grid case--flip" id="case-04" aria-label="Mark Davis case study">
+          <div class="case__media"><figure class="cvid" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_960,c_limit,q_auto:eco,ac_none/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.jpg" data-title="Mark Davis" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1784932420/WhatsApp_Video_2026-07-21_at_3.09.32_PM_oup1az.jpg" alt="Mark Davis, video 1 of 2" loading="lazy" decoding="async" width="960" height="540" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Mark Davis video 1 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure><figure class="cvid" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_960,c_limit,q_auto:eco,ac_none/v1785162611/Davis_Law_-_The_Reading_wqa5wk.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_1280/v1785162611/Davis_Law_-_The_Reading_wqa5wk.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1785162611/Davis_Law_-_The_Reading_wqa5wk.jpg" data-title="Mark Davis" data-orient="h" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_960/v1785162611/Davis_Law_-_The_Reading_wqa5wk.jpg" alt="Mark Davis, video 2 of 2" loading="lazy" decoding="async" width="960" height="540" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Mark Davis video 2 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure></div>
+          <div class="case__info">
+            <p class="eyebrow case__kicker"><span class="idx">Case 04</span><span class="bar"></span>Personal Brand</p>
+            <h3 class="case__name" data-split>Mark Davis</h3>
+            <div class="flow">
+              <dl class="flow__in"><dt>Ad Investment</dt><dd><span class="count" data-to="6780" data-prefix="$" data-comma>$6,780</span></dd></dl>
+              <span class="flow__arrow" aria-hidden="true">into</span>
+              <dl class="flow__out"><dt>Views</dt><dd><span class="count" data-to="557" data-suffix="K">557K</span></dd></dl>
+            </div>
+            <dl class="kpis"><div class="kpi"><dt>Inbound Calls</dt><dd><span class="count" data-to="402">402</span></dd></div><div class="kpi"><dt>Commercial Produced</dt><dd>1</dd></div><div class="kpi"><dt>Views per dollar</dt><dd>82<em>×</em></dd></div></dl>
+            <div class="chart" data-chart="dots" data-n="402" aria-hidden="true"></div><p class="chart__cap">402 inbound calls</p>
+            <p class="case__summary">A focused paid campaign turned a modest budget into massive reach, and more importantly, 402 real inbound calls and a produced commercial.</p>
+            
+          </div>
+        </article>
+        <article class="case grid case--v" id="case-05" aria-label="Chingón Cuh&#x27;ts case study">
+          <div class="case__media"><figure class="cvid cvid--v" data-media data-src="https://res.cloudinary.com/dsprn0ew4/video/upload/f_mp4,vc_h264,w_540,c_limit,q_auto:eco,ac_none/v1784932471/CHINGON_CUHTS-1_oaujpz.mp4" data-full="https://res.cloudinary.com/dsprn0ew4/video/upload/f_auto,q_auto,w_720/v1784932471/CHINGON_CUHTS-1_oaujpz.mp4" data-poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_540/v1784932471/CHINGON_CUHTS-1_oaujpz.jpg" data-title="Chingón Cuh&#x27;ts" data-orient="v" data-cursor="view"><img src="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_540/v1784932471/CHINGON_CUHTS-1_oaujpz.jpg" alt="Chingón Cuh&#x27;ts, video 1 of 1" loading="lazy" decoding="async" width="540" height="960" /><video muted loop playsinline preload="none" aria-hidden="true"></video><button class="cvid__open" type="button" aria-label="Play Chingón Cuh&#x27;ts video 1 with sound"></button><span class="cvid__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch</span></figure></div>
+          <div class="case__info">
+            <p class="eyebrow case__kicker"><span class="idx">Case 05</span><span class="bar"></span>Barbershop</p>
+            <h3 class="case__name" data-split>Chingón Cuh&#x27;ts</h3>
+            <div class="flow">
+              <dl class="flow__in"><dt>Ad Spend</dt><dd>$100</dd></dl>
+              <span class="flow__arrow" aria-hidden="true">into</span>
+              <dl class="flow__out"><dt>Views</dt><dd><span class="count" data-to="500" data-suffix="K">500K</span></dd></dl>
+            </div>
+            <dl class="kpis"><div class="kpi"><dt>Walk-ins</dt><dd>Record</dd></div><div class="kpi"><dt>Appointments Booked</dt><dd>Record</dd></div><div class="kpi"><dt>Views per dollar</dt><dd>5,000<em>×</em></dd></div></dl>
+            <div class="chart" data-chart="ratio" data-in="100" data-out="500000" aria-hidden="true"></div><p class="chart__cap">$100 in, 500,000 views out</p>
+            <p class="case__summary">One hundred dollars of ad spend. Half a million views. Record-breaking walk-ins and appointments in the shop&#x27;s history.</p><p class="case__summary" style="margin-top:14px">Walk-ins, most in company history.</p>
+            <a class="btn btn--ghost btn--sm case__link" href="https://www.instagram.com/chingoncuhts/" target="_blank" rel="noopener"><span class="btn__label"><span data-t="View on Instagram">View on Instagram</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
           </div>
         </article>
       </div>
@@ -1326,16 +1346,16 @@
     }
 
     /* ---------------- count-up numbers (ported: Numbers) ---------------- */
-    function fmt(n, comma) { n = Math.round(n); return comma ? n.toLocaleString('en-US') : String(n); }
+    function fmt(n, comma, dec) { if (dec) return n.toFixed(dec); n = Math.round(n); return comma ? n.toLocaleString('en-US') : String(n); }
     function initCounts() {
       if (!MOTION) return;
       $$('.count').forEach(function (el) {
         var to = parseFloat(el.getAttribute('data-to')); if (isNaN(to)) return;
-        var pre = el.getAttribute('data-prefix') || '', suf = el.getAttribute('data-suffix') || '', comma = el.hasAttribute('data-comma');
+        var pre = el.getAttribute('data-prefix') || '', suf = el.getAttribute('data-suffix') || '', comma = el.hasAttribute('data-comma'), dec = +el.getAttribute('data-dec') || 0;
         var final = el.textContent;
         var o = { v: 0 };
         ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: function () {
-          gsap.to(o, { v: to, duration: 1.8, ease: 'expo.out', onUpdate: function () { el.textContent = pre + fmt(o.v, comma) + suf; }, onComplete: function () { el.textContent = final; } });
+          gsap.to(o, { v: to, duration: 1.8, ease: 'expo.out', onUpdate: function () { el.textContent = pre + fmt(o.v, comma, dec) + suf; }, onComplete: function () { el.textContent = final; } });
         } });
       });
     }
@@ -1490,11 +1510,11 @@
       s.appendChild(svgEl('rect', { x: 0, y: 2, width: Math.max(0.8, inv / out * 100).toFixed(2), height: 10, fill: 'currentColor', class: 'bar-in' }));
       return s;
     }
-    function chartArea(points, label) {
+    function chartArea(points, label, ticks, aria) {
       var W = 100, H = 58, px = 4, top = 12, base = H - 12, n = points.length;
       var xs = points.map(function (p, i) { return px + i / (n - 1) * (W - px * 2); }), ys = points.map(function (p) { return base - p * (base - top); });
       var pts = xs.map(function (x, i) { return x.toFixed(2) + ' ' + ys[i].toFixed(2); });
-      var s = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart--area', role: 'img', 'aria-label': 'Revenue climbing to ' + label + ' over 4 months with $0 paid spend' });
+      var s = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart--area', role: 'img', 'aria-label': aria || ('Revenue climbing to ' + label + ' over 4 months with $0 paid spend') });
       var gid = 'ag' + Math.random().toString(36).slice(2, 7), defs = svgEl('defs', {}), lg = svgEl('linearGradient', { id: gid, x1: 0, y1: 0, x2: 0, y2: 1 });
       lg.appendChild(svgEl('stop', { offset: 0, 'stop-color': 'currentColor', 'stop-opacity': 0.34 })); lg.appendChild(svgEl('stop', { offset: 1, 'stop-color': 'currentColor', 'stop-opacity': 0.02 }));
       defs.appendChild(lg); s.appendChild(defs);
@@ -1502,7 +1522,7 @@
       s.appendChild(svgEl('path', { d: 'M ' + xs[0] + ' ' + base + ' L ' + pts.join(' L ') + ' L ' + xs[n - 1] + ' ' + base + ' Z', fill: 'url(#' + gid + ')', class: 'a-fill' }));
       s.appendChild(svgEl('path', { d: 'M ' + pts.join(' L '), fill: 'none', stroke: 'currentColor', 'stroke-width': 2.2, 'vector-effect': 'non-scaling-stroke', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, class: 'a-line' }));
       s.appendChild(svgEl('circle', { cx: xs[n - 1], cy: ys[n - 1], r: 1.8, fill: 'currentColor', class: 'a-dot' }));
-      ['01', '02', '03', '04'].forEach(function (t, i) { var tx = svgEl('text', { x: xs[i], y: base + 8, 'text-anchor': 'middle', fill: 'currentColor', 'font-size': 3.6, opacity: 0.85, 'font-family': 'Josefin Sans, sans-serif', 'letter-spacing': 0.4 }); tx.textContent = t; s.appendChild(tx); });
+      (ticks || ['01', '02', '03', '04']).forEach(function (t, i) { var tx = svgEl('text', { x: xs[i], y: base + 8, 'text-anchor': 'middle', fill: 'currentColor', 'font-size': 3.6, opacity: 0.85, 'font-family': 'Josefin Sans, sans-serif', 'letter-spacing': 0.4 }); tx.textContent = t; s.appendChild(tx); });
       var val = svgEl('text', { x: W - px, y: Math.max(7, ys[n - 1] - 4), 'text-anchor': 'end', fill: 'currentColor', 'font-size': 6, 'font-weight': 700, 'font-family': 'Inter Tight, sans-serif' }); val.textContent = label; s.appendChild(val);
       return s;
     }
@@ -1511,13 +1531,13 @@
         var t = c.getAttribute('data-chart');
         if (t === 'dots') c.appendChild(chartDots(+c.getAttribute('data-n')));
         else if (t === 'ratio') { c.appendChild(chartRatio(+c.getAttribute('data-in'), +c.getAttribute('data-out'))); if (c.getAttribute('data-n')) { var dd = chartDots(+c.getAttribute('data-n')); dd.style.marginTop = '18px'; c.appendChild(dd); } }
-        else if (t === 'area') c.appendChild(chartArea(JSON.parse(c.getAttribute('data-points')), c.getAttribute('data-label')));
+        else if (t === 'area') c.appendChild(chartArea(JSON.parse(c.getAttribute('data-points')), c.getAttribute('data-label'), c.getAttribute('data-ticks') ? c.getAttribute('data-ticks').split(',') : null, c.getAttribute('data-aria')));
         if (!MOTION) return;
         var units = $$('.u', c), out = $('.bar-out', c), line = $('.a-line', c), fill = $('.a-fill', c);
         var tl = gsap.timeline({ paused: true });
         if (units.length) tl.fromTo(units, { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: { each: Math.min(0.004, 1.2 / units.length) }, ease: 'none' }, 0);
         if (out) tl.fromTo(out, { attr: { width: 0 } }, { attr: { width: 100 }, duration: 1.4, ease: EASE }, 0);
-        if (line) { line.style.strokeDasharray = '1'; tl.fromTo(line, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.6, ease: EASE }, 0); }
+        if (line) { line.style.strokeDasharray = '1'; tl.fromTo(line, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.6, ease: EASE, onComplete: function () { line.style.strokeDasharray = 'none'; } }, 0); }  /* Chromium mis-scales pathLength dashes with non-scaling-stroke: drop the dash once drawn */
         if (fill) tl.fromTo(fill, { opacity: 0 }, { opacity: 1, duration: 1.2, ease: EASE }, 0.3);
         ScrollTrigger.create({ trigger: c, start: 'top 88%', once: true, onEnter: function () { tl.play(); } });
       });
