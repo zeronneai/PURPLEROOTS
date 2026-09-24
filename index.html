@@ -84,7 +84,7 @@
       if (!seen) d.classList.add('is-loading');             /* preloader, once per session */
       setTimeout(function () {                              /* failsafe: never leave anything hidden */
         if (window.__appReady) return;
-        d.classList.remove('hi', 'is-loading');
+        d.classList.remove('hi', 'is-loading'); d.classList.add('app-failed');   /* also reveals the nav */
         var l = document.getElementById('loader'); if (l) l.parentNode.removeChild(l);
       }, 4500);
     })();
@@ -223,35 +223,38 @@
     .cursor.is-link .cursor__dot { width: 46px; height: 46px; margin: -23px 0 0 -23px; background: transparent; border: 1px solid var(--lav); }
     .cursor.is-hidden .cursor__dot { opacity: 0; }
 
-    /* ---------- preloader ---------- */
+    /* ---------- preloader: one centered axis (logo, lavender hairline, small counter) ---------- */
     .loader { display: none; }
     html.is-loading .loader {
-      display: flex; position: fixed; inset: 0; z-index: 10000; background: var(--ink); color: var(--bone);
-      flex-direction: column; justify-content: space-between; padding: calc(var(--pad) * .8) var(--pad);
-      clip-path: inset(0% 0% 0% 0%);
+      display: grid; place-items: center; position: fixed; inset: 0; z-index: 10000;
+      background: var(--ink); color: var(--bone); clip-path: inset(0% 0% 0% 0%);
     }
-    .loader__top { display: flex; justify-content: space-between; }
-    .loader__logo { align-self: center; opacity: 0; }
-    .loader__logo img { height: clamp(34px, 4.4vw, 64px); width: auto; }
+    .loader__stack { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+    .loader__logo { opacity: 0; }
+    .loader__logo img { height: clamp(30px, 3.4vw, 50px); width: auto; }
+    .loader__line { width: clamp(140px, 13vw, 220px); height: 1px; background: rgba(244,241,236,0.14); overflow: hidden; }
+    .loader__line span { display: block; height: 100%; background: var(--lav); transform: scaleX(0); transform-origin: 0 50%; }
     .loader__count {
-      font-family: var(--f-display); font-weight: 800; line-height: .78; letter-spacing: -0.06em;
-      font-size: clamp(120px, 26vw, 420px); font-variant-numeric: tabular-nums; margin: 0;
+      margin: 0; min-width: 5ch; text-align: center; padding-left: 0.32em;   /* optical centre for tracked text */
+      font-family: var(--f-label); font-weight: 600; font-size: 12px; letter-spacing: 0.32em;
+      color: rgba(244,241,236,0.72); font-variant-numeric: tabular-nums;
     }
-    .loader__count sup { font-size: .18em; letter-spacing: 0; vertical-align: top; margin-left: .1em; color: var(--lav); font-weight: 600; }
 
     /* ---------- nav ---------- */
     .nav {
       position: fixed; inset: 0 0 auto 0; z-index: 200; height: var(--nav-h);
       display: flex; align-items: center; justify-content: space-between; gap: 24px;
       padding-inline: var(--pad); color: var(--bone);
-      transition: transform .9s var(--ease), background-color .6s var(--ease), border-color .6s var(--ease);
-      border-bottom: 1px solid transparent;
-    }
-    .nav.is-scrolled {
-      background: rgba(11,10,13,0.58); border-bottom-color: rgba(244,241,236,0.1);
+      background: rgba(11,10,13,0.6); border-bottom: 1px solid rgba(244,241,236,0.1);
       -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%);
+      transition: transform .9s var(--ease), opacity .9s var(--ease), visibility 0s linear 0s;
     }
-    .nav.is-hidden { transform: translateY(-101%); }
+    /* No nav over the hero: JS adds .is-shown past ~80% of the hero. Without JS it stays visible. */
+    html.js .nav:not(.is-shown) {
+      transform: translateY(-100%); opacity: 0; visibility: hidden; pointer-events: none;
+      transition: transform .9s var(--ease), opacity .9s var(--ease), visibility 0s linear .9s;
+    }
+    html.app-failed .nav:not(.is-shown) { transform: none; opacity: 1; visibility: visible; pointer-events: auto; }
     .nav__logo img { height: 30px; width: auto; }
     .nav__links { display: flex; align-items: center; gap: clamp(20px, 2.4vw, 40px); list-style: none; margin: 0; padding: 0; }
     .nav__links a {
@@ -292,9 +295,14 @@
     }
     .hero__media video, .hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,10,13,0.18) 0%, rgba(11,10,13,0.32) 60%, rgba(11,10,13,0.6) 100%); }
+    /* headline + two centred buttons on one axis, nothing else */
+    .hero__center {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      gap: clamp(30px, 5.2vh, 56px); padding: 0 var(--pad);
+    }
     .hero__title {
-      position: absolute; inset: 0; z-index: 2; margin: 0; pointer-events: none;
-      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+      margin: 0; text-align: center;
       font-family: var(--f-display); font-weight: 800; text-transform: uppercase;
       font-size: clamp(54px, 12.6vw, 236px); line-height: 0.84; letter-spacing: -0.052em; color: var(--bone);
     }
@@ -302,31 +310,11 @@
     .hero__title .ln { display: block; overflow: hidden; padding: 0 0.04em 0.07em; }
     .hero__title .ln > span { display: block; }
     .hero__title em { font-size: 1.02em; }
-    .hero__top {
-      position: absolute; z-index: 3; left: var(--pad); right: var(--pad); top: calc(var(--nav-h) + 18px);
-      display: flex; justify-content: space-between; align-items: center; gap: 20px;
-    }
-    .hero__foot {
-      position: absolute; z-index: 3; left: var(--pad); right: var(--pad); bottom: clamp(26px, 5vh, 54px);
-      display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); column-gap: var(--gap); align-items: end;
-    }
-    .hero__sub { grid-column: 1 / span 4; margin: 0; color: rgba(244,241,236,0.82); font-size: clamp(16px, 1.1vw, 18px); line-height: 1.55; max-width: 40ch; }
-    .hero__actions { grid-column: 8 / span 5; display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
-    .scroll-ind {
-      position: absolute; z-index: 3; left: 50%; bottom: clamp(26px, 5vh, 54px); transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
-      font-family: var(--f-label); font-size: 11px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(244,241,236,0.72);
-    }
-    .scroll-ind__line { width: 1px; height: 46px; background: rgba(244,241,236,0.22); position: relative; overflow: hidden; }
-    .scroll-ind__line::after { content: ""; position: absolute; left: 0; top: 0; width: 1px; height: 45%; background: var(--lav); animation: scrollind 2.2s var(--ease) infinite; }
-    @keyframes scrollind { 0% { transform: translateY(-100%); } 100% { transform: translateY(240%); } }
-    .reel-btn {
-      position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
-    }
-    /* hero intro pending (JS sets start states, then removes .hi) */
+    .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; pointer-events: auto; }
+    .reel-btn { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; }
+    /* entrance pending (JS sets the start states, then removes .hi) */
     html.hi .hero__title .ln > span { transform: translateY(112%); }
-    html.hi .hero__top, html.hi .hero__foot, html.hi .scroll-ind { opacity: 0; }
-    @media (min-width: 769px) { html.hi .hero__media { clip-path: inset(76% 31% 24% 31% round 26px); } }
+    html.hi .hero__actions .btn { opacity: 0; }
 
     /* ---------- statement (ported: Text Scroll Animation / Magic Text) ---------- */
     .statement { padding: clamp(110px, 18vh, 220px) 0; }
@@ -339,7 +327,7 @@
       line-height: 1.0; letter-spacing: -0.04em; color: var(--fg); text-wrap: balance;
     }
     .statement__text em { color: var(--accent); }
-    .statement__foot { grid-column: 8 / span 5; margin-top: clamp(28px, 5vh, 56px); }
+    .statement__lede { grid-column: 7 / span 5; margin: clamp(28px, 5vh, 56px) 0 0; }
 
     /* ---------- clients (ported: Marquee) ---------- */
     .clients { padding: clamp(110px, 16vh, 200px) 0 clamp(90px, 13vh, 160px); overflow: hidden; }
@@ -601,8 +589,6 @@
     @media (max-width: 1100px) {
       .nav__links { gap: 22px; }
       .nav__links a { font-size: 15px; }
-      .hero__sub { grid-column: 1 / span 6; }
-      .hero__actions { grid-column: 7 / span 6; }
       .clients__title, .method__title, .work__title, .comedy__title, .caps__title, .fit__title { grid-column: 1 / -1; }
       .stats, .method__intro, .work__lede, .comedy__lede, .caps__lede, .fit__lede { grid-column: 1 / span 8; }
       .steps { grid-template-columns: 1fr 1fr; row-gap: 40px; }
@@ -625,14 +611,9 @@
       .grid > * { grid-column: 1 / -1 !important; }
       /* hero: full-screen video, no expansion */
       .hero__media { clip-path: none; }
-      .hero__shade { background: linear-gradient(180deg, rgba(11,10,13,0.35) 0%, rgba(11,10,13,0.25) 40%, rgba(11,10,13,0.82) 100%); }
-      .hero__title { justify-content: flex-end; padding-bottom: 42vh; font-size: clamp(50px, 15vw, 120px); }
-      .hero__top { top: calc(var(--nav-h) + 8px); }
-      .hero__top .eyebrow:last-child { display: none; }
-      .hero__foot { display: flex; flex-direction: column; align-items: stretch; gap: 20px; bottom: 28px; }
-      .hero__actions { justify-content: stretch; }
-      .hero__actions .btn { flex: 1 1 0; justify-content: space-between; }
-      .scroll-ind { display: none; }
+      .hero__shade { background: linear-gradient(180deg, rgba(11,10,13,0.5) 0%, rgba(11,10,13,0.46) 45%, rgba(11,10,13,0.62) 100%); }
+      .hero__title { font-size: clamp(44px, 14.4vw, 120px); }
+      .hero__center { gap: 34px; }
       .statement__text { font-size: clamp(34px, 9.4vw, 60px); }
       .stats { grid-template-columns: 1fr 1fr; }
       .marquee { margin-top: 56px; }
@@ -661,8 +642,8 @@
     }
     @media (max-width: 420px) {
       .btn { height: 54px; padding: 0 22px 0 24px; font-size: 15px; }
-      .hero__actions { flex-direction: column; }
-      .hero__actions .btn { flex: none; width: 100%; }   /* column: basis 0 would collapse the height */
+      .hero__actions { flex-direction: column; width: 100%; max-width: 340px; }
+      .hero__actions .btn { flex: none; width: 100%; justify-content: space-between; }
     }
 
     /* ---------- reduced motion ---------- */
@@ -680,9 +661,11 @@
 
   <!-- Preloader (only rendered when html.is-loading; once per session) -->
   <div class="loader" id="loader" aria-hidden="true">
-    <div class="loader__top"><span class="eyebrow">Purple Roots</span><span class="eyebrow">El Paso, TX</span></div>
-    <div class="loader__logo"><img src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_white,f_auto,q_auto,h_120/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="" width="220" height="60" /></div>
-    <p class="loader__count"><span id="loaderNum">0</span><sup>%</sup></p>
+    <div class="loader__stack">
+      <div class="loader__logo"><img src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_white,f_auto,q_auto,h_120/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="" width="220" height="50" /></div>
+      <div class="loader__line"><span id="loaderLine"></span></div>
+      <p class="loader__count"><span id="loaderNum">000</span></p>
+    </div>
   </div>
 
   <!-- Custom cursor (desktop only; enabled by JS) -->
@@ -741,24 +724,17 @@
             data-title="Purple Roots · Reel"><span class="sr-only">Play the Purple Roots reel with sound</span></button>
         </div>
 
-        <h1 class="hero__title">
-          <span class="hero__row hero__row--a"><span class="ln"><span>We turn</span></span></span>
-          <span class="hero__row hero__row--b"><span class="ln"><span><em>attention</em></span></span></span>
-          <span class="hero__row hero__row--c"><span class="ln"><span>into sales.</span></span></span>
-        </h1>
-
-        <div class="hero__top">
-          <p class="eyebrow">Video Marketing Agency · El Paso, TX</p>
-          <p class="eyebrow">Cinema-grade since 2021</p>
-        </div>
-        <div class="hero__foot">
-          <p class="hero__sub">First we earn the right audience with creative that connects. Then we turn that attention into revenue. Ads come after the community, not before it.</p>
+        <div class="hero__center">
+          <h1 class="hero__title">
+            <span class="hero__row hero__row--a"><span class="ln"><span>We turn</span></span></span>
+            <span class="hero__row hero__row--b"><span class="ln"><span><em>attention</em></span></span></span>
+            <span class="hero__row hero__row--c"><span class="ln"><span>into sales.</span></span></span>
+          </h1>
           <div class="hero__actions">
             <a class="btn btn--primary" href="#contact" data-inquire data-magnetic><span class="btn__label"><span data-t="Get Started">Get Started</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-            <a class="btn btn--ghost" href="#case-studies" data-magnetic><span class="btn__label"><span data-t="See the Work">See the Work</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+            <a class="btn btn--ghost" href="#case-studies" data-magnetic><span class="btn__label"><span data-t="See Results">See Results</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
           </div>
         </div>
-        <div class="scroll-ind" aria-hidden="true"><span>Scroll</span><span class="scroll-ind__line"></span></div>
       </div>
     </section>
 
@@ -769,6 +745,7 @@
           <p class="eyebrow"><span class="idx">01 / 08</span><span class="bar"></span>The idea</p>
           <div class="grid">
             <p class="statement__text" id="statementText">Attention you <em>earn</em> beats attention you rent. Community first. Conversions follow. Ads amplify. They don't build.</p>
+            <p class="lede statement__lede" id="statementLede">First we earn the right audience with creative that connects. Then we turn that attention into revenue. Ads come after the community, not before it.</p>
           </div>
         </div>
       </div>
@@ -1165,7 +1142,7 @@
       });
     }
 
-    /* ---------------- nav: hide on scroll down, show on scroll up ---------------- */
+    /* ---------------- nav: absent over the hero, slides in past ~80% of it ---------------- */
     var nav, menu, burger;
     function closeMenu() {
       if (!menu || !menu.classList.contains('is-open')) return;
@@ -1175,10 +1152,11 @@
     }
     function initNav() {
       nav = $('#nav'); menu = $('#menu'); burger = $('#burger');
-      var lastY = window.scrollY || 0;
+      var hero = $('#hero');
+      /* .hero's height includes its pin-spacer on desktop, so this is 80% of the whole
+         hero sequence. The hero CTAs are gone by then, so "Get Started" is never shown twice. */
       var onScroll = function (y) {
-        nav.classList.toggle('is-scrolled', y > 40);
-        if (Math.abs(y - lastY) > 6) { nav.classList.toggle('is-hidden', y > lastY && y > 160 && !menu.classList.contains('is-open')); lastY = y; }
+        nav.classList.toggle('is-shown', y > hero.offsetHeight * 0.8 || menu.classList.contains('is-open'));
       };
       if (lenis) lenis.on('scroll', function (l) { onScroll(l.scroll); });
       else window.addEventListener('scroll', function () { onScroll(window.scrollY); }, { passive: true });
@@ -1239,44 +1217,49 @@
       });
     }
 
-    /* ---------------- preloader: counter 0 -> 100, logo, curtain ---------------- */
+    /* ---------------- preloader: logo, hairline + counter, one curtain (max 2s) ---------------- */
     function runLoader(onReveal) {
       var el = $('#loader');
       if (!html.classList.contains('is-loading') || !el) { onReveal(); return; }
       try { sessionStorage.setItem('pr_loaded', '1'); } catch (e) {}
-      var num = $('#loaderNum'), logo = $('.loader__logo', el);
+      var num = $('#loaderNum'), line = $('#loaderLine'), stack = $('.loader__stack', el), logo = $('.loader__logo', el);
+      var pad3 = function (v) { return ('00' + Math.round(v)).slice(-3); };
       var done = function () { if (el.parentNode) el.parentNode.removeChild(el); html.classList.remove('is-loading'); startScroll(); if (hasG) ScrollTrigger.refresh(); };
-      if (!MOTION) { num.textContent = '100'; logo.style.opacity = 1; setTimeout(function () { done(); onReveal(); }, RM ? 250 : 450); return; }
+      if (!MOTION) { num.textContent = '100'; logo.style.opacity = 1; line.style.transform = 'scaleX(1)'; setTimeout(function () { done(); onReveal(); }, RM ? 250 : 450); return; }
       var o = { v: 0 };
-      /* the loader is on screen from first paint, so budget against time since
-         navigation: whatever was spent loading the libs is taken out of 2.2s */
+      /* on screen from first paint: whatever the libs took to load comes out of the 2s */
       var elapsed = (window.performance && performance.now ? performance.now() : 0) / 1000;
-      var budget = Math.max(1.3, 2.2 - elapsed);
-      gsap.timeline({ onComplete: done }).timeScale(2.2 / budget)
-        .to(o, { v: 100, duration: 1.25, ease: 'power2.inOut', onUpdate: function () { num.textContent = Math.round(o.v); } }, 0)
-        .fromTo(logo, { opacity: 0, yPercent: 40 }, { opacity: 1, yPercent: 0, duration: 0.8, ease: EASE }, 0.4)
-        .to(el, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.9, ease: EASE_IO }, 1.3)
-        .call(onReveal, null, 1.45);                                     /* total 2.2s */
+      var budget = Math.max(1.2, 2.0 - elapsed);
+      gsap.timeline({ onComplete: done }).timeScale(2.0 / budget)
+        .fromTo(logo, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: EASE }, 0)
+        .to(o, { v: 100, duration: 1.0, ease: 'power2.inOut', onUpdate: function () { num.textContent = pad3(o.v); } }, 0.2)
+        .fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: 'power2.inOut' }, 0.2)
+        .to(stack, { opacity: 0, y: -8, duration: 0.25, ease: 'power2.in' }, 1.22)        /* clear the stage before the wipe: nothing gets clipped */
+        .to(el, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.6, ease: EASE_IO }, 1.4)  /* single curtain */
+        .call(onReveal, null, 1.48);                                                      /* total 2.0s */
     }
 
-    /* ---------------- hero ---------------- */
-    var CARD = 'inset(24% 31% 24% 31% round 26px)', CARD_LOW = 'inset(76% 31% 24% 31% round 26px)', FULL = 'inset(0% 0% 0% 0% round 0px)';
+    /* ---------------- hero ----------------
+       Entrance and scroll use DIFFERENT elements so they can never fight:
+         entrance (plays once): .ln > span, .hero__actions .btn, #heroVideo scale
+         scroll (scrubbed):     .hero__row, .hero__actions, .hero__media clip, .hero__shade
+       Scrubbed tweens use explicit fromTo values, so scrolling back up always
+       returns to exactly the post-load state. */
+    var CARD = 'inset(24% 31% 24% 31% round 26px)', FULL = 'inset(0% 0% 0% 0% round 0px)';
     function heroStates() {
       if (!MOTION) { html.classList.remove('hi'); return; }
       gsap.set('.hero__title .ln > span', { y: 0, yPercent: 112 });   /* y:0 so GSAP ignores the CSS start transform */
-      gsap.set('.hero__top, .hero__foot, .scroll-ind', { autoAlpha: 0, y: 18 });
-      if (!isMobile()) gsap.set('.hero__media', { clipPath: CARD_LOW });
-      gsap.set('#heroVideo', { scale: 1.15 });
-      gsap.set('.hero__media', { y: 0 });
+      gsap.set('.hero__actions .btn', { autoAlpha: 0, y: 18 });
+      gsap.set('#heroVideo', { scale: 1.08 });
       html.classList.remove('hi');
     }
+    var introDone = false;
     function heroIntro() {
-      if (!MOTION) return;
-      var tl = gsap.timeline();
-      if (!isMobile()) tl.to('.hero__media', { clipPath: CARD, duration: 1.2, ease: EASE }, 0);
-      tl.to('#heroVideo', { scale: 1, duration: 1.6, ease: EASE }, 0)
-        .to('.hero__title .ln > span', { yPercent: 0, duration: 1.1, ease: EASE, stagger: 0.08 }, 0.1)
-        .to('.hero__top, .hero__foot, .scroll-ind', { autoAlpha: 1, y: 0, duration: 1, ease: EASE, stagger: 0.06 }, 0.45);
+      if (!MOTION || introDone) return; introDone = true;
+      gsap.timeline()
+        .to('#heroVideo', { scale: 1, duration: 1.8, ease: EASE }, 0)
+        .to('.hero__title .ln > span', { yPercent: 0, duration: 1.1, ease: EASE, stagger: 0.08 }, 0.05)
+        .to('.hero__actions .btn', { autoAlpha: 1, y: 0, duration: 1, ease: EASE, stagger: 0.08 }, 0.45);
     }
     function initHero() {
       var v = $('#heroVideo');
@@ -1286,16 +1269,16 @@
       var mm = gsap.matchMedia();
       mm.add('(min-width: 769px)', function () {
         var tl = gsap.timeline({
-          defaults: { ease: 'none' },
+          defaults: { ease: 'none', immediateRender: false },
           scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=140%', scrub: 1, pin: '.hero__pin', anticipatePin: 1 }
         });
-        tl.fromTo('.hero__media', { clipPath: CARD }, { clipPath: FULL, duration: 1, immediateRender: false }, 0)
-          .to('.hero__row--a', { x: '-58vw', duration: 1 }, 0)
-          .to('.hero__row--c', { x: '58vw', duration: 1 }, 0)
-          .to('.hero__row--b', { scale: 0.6, autoAlpha: 0, duration: 0.7 }, 0.15)
-          .to('.hero__top, .hero__foot, .scroll-ind', { autoAlpha: 0, y: -24, duration: 0.3 }, 0)
-          .to('.hero__shade', { opacity: 0.35, duration: 1 }, 0);
-        return function () { gsap.set('.hero__row--a, .hero__row--b, .hero__row--c', { clearProps: 'transform,opacity,visibility' }); };
+        tl.fromTo('.hero__media', { clipPath: CARD }, { clipPath: FULL, duration: 1 }, 0)
+          .fromTo('.hero__row--a', { x: 0 }, { x: '-58vw', duration: 1 }, 0)
+          .fromTo('.hero__row--c', { x: 0 }, { x: '58vw', duration: 1 }, 0)
+          .fromTo('.hero__row--b', { scale: 1, autoAlpha: 1 }, { scale: 0.6, autoAlpha: 0, duration: 0.7 }, 0.15)
+          .fromTo('.hero__actions', { autoAlpha: 1, y: 0 }, { autoAlpha: 0, y: -24, duration: 0.3 }, 0)
+          .fromTo('.hero__shade', { opacity: 1 }, { opacity: 0.35, duration: 1 }, 0);
+        return function () { gsap.set('.hero__row, .hero__actions, .hero__shade', { clearProps: 'transform,opacity,visibility' }); };
       });
     }
 
