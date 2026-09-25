@@ -82,12 +82,12 @@
     .faq-nav-back:hover { color: var(--ink); }
     .faq-nav-right { display: flex; align-items: center; gap: 18px; }
     .faq-lang {
-      display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
-      border: 1px solid var(--line); color: var(--ink); text-decoration: none;
-      font-family: var(--font-body); font-weight: 600; font-size: 11px; letter-spacing: 0.14em; padding-left: 0.14em; line-height: 1;
-      transition: background .2s ease, color .2s ease, border-color .2s ease;
+      display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px;
+      color: #7A5FF0; text-decoration: none;
+      font-family: var(--font-body); font-weight: 700; font-size: 12px; letter-spacing: 0.16em; padding-left: 0.16em; line-height: 1;
+      transition: color .2s ease;
     }
-    .faq-lang:hover, .faq-lang:focus-visible { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .faq-lang:hover, .faq-lang:focus-visible { color: var(--ink); }
     .faq-nav-back { white-space: nowrap; }
     @media (max-width: 420px) {
       .faq-nav-logo img { height: 21px; }

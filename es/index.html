@@ -273,14 +273,13 @@
     .nav__links a:hover { color: #fff; }
     .nav__links a:hover::after, .nav__links a.is-active::after { transform: scaleX(1); transform-origin: left; }
     .nav__right { display: flex; align-items: center; gap: 14px; }
-    /* language switch: same outlined circle as the menu button */
+    /* language switch: plain text, set apart from the monochrome nav by the brand lavender */
     .lang {
-      display: inline-grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 50%;
-      border: 1px solid rgba(244,241,236,0.28); color: var(--bone);
-      font-family: var(--f-label); font-weight: 600; font-size: 11px; letter-spacing: 0.18em; padding-left: 0.18em; line-height: 1;
-      transition: background .5s var(--ease), color .5s var(--ease), border-color .5s var(--ease);
+      display: inline-flex; align-items: center; justify-content: center; flex: none; min-width: 44px; height: 44px;
+      color: var(--lav); font-family: var(--f-label); font-weight: 700; font-size: 13px; letter-spacing: 0.2em; padding-left: 0.2em; line-height: 1;
+      transition: color .5s var(--ease);
     }
-    .lang:hover, .lang:focus-visible { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+    .lang:hover, .lang:focus-visible { color: var(--bone); }
     .menu__foot .lang { align-self: flex-start; }
     .nav:has(#burger[aria-expanded="true"]) .nav__right .lang { visibility: hidden; }   /* the open menu has its own switch */
     .nav__burger { display: none; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(244,241,236,0.28); position: relative; }
@@ -623,7 +622,6 @@
     @media (max-width: 900px) {
       .nav__links, .nav__right .btn { display: none; }
       .nav__burger { display: block; }
-      .nav__right .lang { width: 48px; height: 48px; }
     }
     @media (max-width: 768px) {
       :root { --nav-h: 72px; --radius: 14px; }
@@ -662,8 +660,12 @@
     }
     @media (max-width: 420px) {
       .btn { height: 54px; padding: 0 22px 0 24px; font-size: 15px; }
-      .hero__actions { flex-direction: column; width: 100%; max-width: 340px; }
-      .hero__actions .btn { flex: none; width: 100%; justify-content: space-between; }
+    }
+    /* phones: the three hero buttons stay in one row */
+    @media (max-width: 600px) {
+      .hero__actions { flex-wrap: nowrap; gap: 8px; }
+      .hero__actions .btn { flex: none; height: 46px; padding: 0 clamp(11px, 3.4vw, 18px); font-size: clamp(12px, 3.5vw, 14px); gap: 0; justify-content: center; white-space: nowrap; }
+      .hero__actions .btn__arrow { display: none; }
     }
 
     /* ---------- reduced motion ---------- */
@@ -679,7 +681,6 @@
     @media (max-width: 1100px) {
       .nav__links, .nav__right .btn { display: none; }
       .nav__burger { display: block; }
-      .nav__right .lang { width: 48px; height: 48px; }
     }
   </style>
 </head>
@@ -762,6 +763,7 @@
           <div class="hero__actions">
             <a class="btn btn--primary" href="#contact" data-inquire data-magnetic><span class="btn__label"><span data-t="Comenzar">Comenzar</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
             <a class="btn btn--ghost" href="#case-studies" data-magnetic><span class="btn__label"><span data-t="Ver resultados">Ver resultados</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+            <a class="btn btn--ghost" href="#services" data-magnetic><span class="btn__label"><span data-t="Servicios">Servicios</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
           </div>
         </div>
       </div>
@@ -773,7 +775,7 @@
         <div class="statement__inner wrap">
           <p class="eyebrow"><span class="idx">01 / 08</span><span class="bar"></span>La idea</p>
           <div class="grid">
-            <p class="statement__text" id="statementText">La atención que se <em>gana</em> vale más que la atención que se compra. Primero, la comunidad. Después, las ventas. La publicidad amplifica, pero no construye.</p>
+            <p class="statement__text" id="statementText">La atención que se <em>gana</em> vale más que la atención que se compra. Primero, la comunidad. Después, las ventas. La publicidad amplifica.</p>
             <p class="lede statement__lede" id="statementLede">Primero atraemos a la audiencia correcta con contenido creativo que conecta. Después convertimos esa atención en ingresos. La publicidad llega después de la comunidad, nunca antes.</p>
           </div>
         </div>
@@ -789,10 +791,10 @@
             <h2 class="h-xl" data-split>Marcas que <em>confían</em> en nosotros.</h2>
           </div>
           <dl class="stats" data-fade>
-            <div class="stat"><dt><span class="count" data-to="5" data-suffix="+">5+</span></dt><dd>Años de experiencia</dd></div>
-            <div class="stat"><dt><span class="count" data-to="40" data-suffix="+">40+</span></dt><dd>Marcas atendidas</dd></div>
-            <div class="stat"><dt><span class="count" data-to="100" data-suffix="+">100+</span></dt><dd>Proyectos entregados</dd></div>
-            <div class="stat"><dt><span class="count" data-to="3">3</span></dt><dd>Países con presencia</dd></div>
+            <div class="stat"><dt><span class="count" data-to="100" data-suffix="+">100+</span></dt><dd>Marcas atendidas</dd></div>
+            <div class="stat"><dt><span class="count" data-to="250" data-suffix="+">250+</span></dt><dd>Proyectos entregados</dd></div>
+            <div class="stat"><dt><span class="count" data-to="21" data-prefix="$" data-suffix="M+">$21M+</span></dt><dd>Generados para clientes</dd></div>
+            <div class="stat"><dt><span class="count" data-to="12" data-suffix="+">12+</span></dt><dd>Años de experiencia</dd></div>
           </dl>
         </div>
       </div>
