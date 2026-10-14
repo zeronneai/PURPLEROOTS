@@ -36,4 +36,22 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://purpleroots.agency/audit</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/audit" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/audit" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/audit" />
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/es/audit</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/audit" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/audit" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/audit" />
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
