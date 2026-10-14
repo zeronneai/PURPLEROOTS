@@ -54,7 +54,9 @@
   '.ap__foot a,.ap__foot button{color:rgba(244,241,236,.72);background:none;border:0;padding:0;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}' +
   '.ap__err{grid-column:1/-1;margin:0;color:#FF8A80;font-weight:600;font-size:13px}' +
   '@media (max-width:560px){.ap{align-items:flex-end;padding:0}.ap__card{border-radius:24px 24px 0 0;max-height:92dvh;padding:28px 20px 22px}.ap__card::before{border-radius:24px 24px 0 0}.ap form{grid-template-columns:1fr}}' +
-  '@media (prefers-reduced-motion:reduce){.ap__bg,.ap__card{transition:none}}';
+  '@media (prefers-reduced-motion:reduce){.ap__bg,.ap__card{transition:none}}' +
+  'html.cc-on .ap,html.cc-on .ap *{cursor:auto!important}html.cc-on .ap input{cursor:text!important}html.cc-on .ap button,html.cc-on .ap a,html.cc-on .ap [data-ap-close]{cursor:pointer!important}' +
+  'html.ap-open .cursor{opacity:0!important;visibility:hidden!important}';
 
   var arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
   var x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
@@ -97,7 +99,7 @@
   function open() {
     if (!root) build();
     lastFocus = d.activeElement;
-    root.classList.add('open');
+    root.classList.add('open'); html.classList.add('ap-open');
     if (w.__lenis) w.__lenis.stop();
     html.style.overflow = 'hidden';
     store('sessionStorage', 'pr_audit_popup', '1');
@@ -105,7 +107,7 @@
   }
   function close() {
     if (!root) return;
-    root.classList.remove('open');
+    root.classList.remove('open'); html.classList.remove('ap-open');
     if (w.__lenis) w.__lenis.start();
     html.style.overflow = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
