@@ -1167,7 +1167,7 @@
     /* ---------------- Lenis smooth scroll (desktop, motion) ---------------- */
     function initLenis() {
       if (!MOTION || !FINE || !window.Lenis) return;
-      lenis = new Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 1 });
+      lenis = new Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 1 }); window.__lenis = lenis;
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
       gsap.ticker.lagSmoothing(0);
@@ -1765,5 +1765,6 @@
     if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
   })();
   </script>
+  <script defer src="/assets/audit-popup.js" data-lang="es"></script>
 </body>
 </html>
