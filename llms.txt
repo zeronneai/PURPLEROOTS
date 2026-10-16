@@ -15,11 +15,13 @@
 
 ## Services
 
-- Video production: cinematic brand films, commercials, short-form video for Instagram, TikTok, and YouTube
-- Social media management and content strategy
-- Brand identity and rebrands
+Spanish versions of each service page live under https://purpleroots.agency/es/
+
+- Video production: cinematic brand films, commercials, short-form video for Instagram, TikTok, and YouTube. Details: https://purpleroots.agency/video-production-el-paso
+- Social media management and content strategy. Details: https://purpleroots.agency/social-media-marketing-el-paso
+- Brand identity and rebrands. Details: https://purpleroots.agency/brand-identity-el-paso
 - Influencer marketing (roster of 80+ creators)
-- Web design and development
+- Web design and development. Details: https://purpleroots.agency/web-design-el-paso
 - Email and SMS marketing
 - AI-augmented marketing services (in-house AI division)
 - Paid media amplification (Meta ads)

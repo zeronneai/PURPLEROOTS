@@ -5,7 +5,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/" />
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -14,7 +14,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/" />
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -51,6 +51,78 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/audit" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/audit" />
     <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/video-production-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/video-production-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/produccion-de-video-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/video-production-el-paso" />
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/es/produccion-de-video-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/video-production-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/produccion-de-video-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/video-production-el-paso" />
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/social-media-marketing-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/social-media-marketing-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/marketing-redes-sociales-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/social-media-marketing-el-paso" />
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/es/marketing-redes-sociales-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/social-media-marketing-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/marketing-redes-sociales-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/social-media-marketing-el-paso" />
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/brand-identity-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/brand-identity-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/identidad-de-marca-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/brand-identity-el-paso" />
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/es/identidad-de-marca-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/brand-identity-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/identidad-de-marca-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/brand-identity-el-paso" />
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/web-design-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/web-design-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/diseno-web-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/web-design-el-paso" />
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://purpleroots.agency/es/diseno-web-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/web-design-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/diseno-web-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/web-design-el-paso" />
+    <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
