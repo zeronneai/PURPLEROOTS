@@ -72,7 +72,7 @@
       '<h2 class="ap__h" id="apTitle">' + T.h + '</h2>' +
       '<p class="ap__p">' + T.sub + '</p>' +
       '<div class="ap__badge"><b>36</b><span>' + T.badge + '</span></div>' +
-      '<form novalidate>' +
+      '<form novalidate>' + '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />' +
       '<div class="ap__f"><label for="ap-name">' + T.name + '</label><input id="ap-name" name="name" autocomplete="name" placeholder="' + T.name_ph + '"></div>' +
       '<div class="ap__f"><label for="ap-phone">' + T.phone + '</label><input id="ap-phone" name="phone" type="tel" autocomplete="tel" placeholder="' + T.phone_ph + '"></div>' +
       '<div class="ap__f ap__f--full"><label for="ap-acct">' + T.acct + '</label><input id="ap-acct" name="account" autocapitalize="off" autocomplete="off" placeholder="' + T.acct_ph + '"></div>' +
@@ -99,7 +99,7 @@
   function open() {
     if (!root) build();
     lastFocus = d.activeElement;
-    root.classList.add('open'); html.classList.add('ap-open');
+    root.classList.add('open'); html.classList.add('ap-open'); w.__apOpenedAt = Date.now();
     if (w.__lenis) w.__lenis.stop();
     html.style.overflow = 'hidden';
     store('sessionStorage', 'pr_audit_popup', '1');
@@ -125,6 +125,7 @@
     }
     var acct = v('account');
     var fd = new FormData();
+    fd.append('k', 'pra26'); fd.append('t', String(Date.now() - (w.__apOpenedAt || 0))); fd.append('website', form.elements.website.value);
     fd.append('name', v('name'));
     fd.append('company', '- (' + acct + ')');
     fd.append('phone', v('phone'));

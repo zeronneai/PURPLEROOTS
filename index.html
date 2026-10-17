@@ -1191,7 +1191,8 @@
       <h2 class="drawer__title" id="inquireTitle">Let's build something <em>loud</em>.</h2>
       <p class="drawer__sub">Tell us who you are and what you want to achieve. We'll get back to you fast.</p>
       <!-- JS POSTs to the Apps Script endpoint. action/method are the no-JS fallback only. -->
-      <form id="inquireForm" class="form" novalidate action="mailto:p.rootsagency@gmail.com" method="post" enctype="text/plain">
+      <form id="inquireForm" class="form" novalidate>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
         <label class="field"><span>Name</span><input type="text" name="name" required autocomplete="name" placeholder="Your name" /></label>
         <label class="field"><span>Company Name</span><input type="text" name="company" required autocomplete="organization" placeholder="Company name" /></label>
         <label class="field"><span>Phone</span><input type="tel" name="phone" required autocomplete="tel" placeholder="Phone number" /></label>
@@ -1782,7 +1783,8 @@
         }
         var label = btn.querySelector('.btn__label > span'), was = label.textContent;
         btn.disabled = true; label.textContent = 'Sending'; label.setAttribute('data-t', 'Sending');
-        fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: new FormData(form) }).then(function () {
+        var fd = new FormData(form); fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now())));
+        fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd }).then(function () {
           inner.innerHTML = '<p class="eyebrow">Received</p><h2 class="drawer__title">Thanks, we\'ll be <em>in touch</em>.</h2>' +
             '<p class="drawer__sub">Your inquiry is on its way. We\'ll reach out shortly.</p>' +
             '<button type="button" class="btn btn--primary" id="inquireDone" style="margin-top:32px"><span class="btn__label"><span data-t="Close">Close</span></span></button>';

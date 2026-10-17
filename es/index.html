@@ -1198,7 +1198,8 @@
       <h2 class="drawer__title" id="inquireTitle">Creemos algo que <em>destaque</em>.</h2>
       <p class="drawer__sub">Cuéntanos quién eres y qué quieres lograr. Te responderemos pronto.</p>
       <!-- JS POSTs to the Apps Script endpoint. action/method are the no-JS fallback only. -->
-      <form id="inquireForm" class="form" novalidate action="mailto:p.rootsagency@gmail.com" method="post" enctype="text/plain">
+      <form id="inquireForm" class="form" novalidate>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
         <label class="field"><span>Nombre</span><input type="text" name="name" required autocomplete="name" placeholder="Tu nombre" /></label>
         <label class="field"><span>Empresa</span><input type="text" name="company" required autocomplete="organization" placeholder="Nombre de tu empresa" /></label>
         <label class="field"><span>Teléfono</span><input type="tel" name="phone" required autocomplete="tel" placeholder="Número de teléfono" /></label>
@@ -1789,7 +1790,8 @@
         }
         var label = btn.querySelector('.btn__label > span'), was = label.textContent;
         btn.disabled = true; label.textContent = 'Enviando'; label.setAttribute('data-t', 'Enviando');
-        fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: new FormData(form) }).then(function () {
+        var fd = new FormData(form); fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now())));
+        fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd }).then(function () {
           inner.innerHTML = '<p class="eyebrow">Recibido</p><h2 class="drawer__title">Gracias, estaremos <em>en contacto</em>.</h2>' +
             '<p class="drawer__sub">Recibimos tu solicitud. Te contactaremos muy pronto.</p>' +
             '<button type="button" class="btn btn--primary" id="inquireDone" style="margin-top:32px"><span class="btn__label"><span data-t="Cerrar">Cerrar</span></span></button>';

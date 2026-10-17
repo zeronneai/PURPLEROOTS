@@ -188,14 +188,14 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
           <p>Envíanos tu red social. Nuestro equipo revisa tus perfiles, tu contenido y tu marca en Instagram, TikTok o Facebook, y te envía una auditoría personalizada con los cambios exactos que haríamos. Sin costo y sin compromiso.</p>
           <a class="wa" href="https://wa.me/19152343655?text=Quiero%20mi%20auditor%C3%ADa%20gratis%20de%20redes%20sociales" target="_blank" rel="noopener">¿Prefieres WhatsApp? Escríbenos <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
         </div>
-        <form id="auditForm" action="https://script.google.com/macros/s/AKfycby_FcqUjJIuyfwG6ZnxvOLqeETVAW6NBGGya7YUYJfKe0I3FifQwPO8vGfwm3Vlhiov5g/exec" method="POST" novalidate>
+        <form id="auditForm" novalidate>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
           <div class="f"><label for="a-name">Tu nombre</label><input id="a-name" name="name" autocomplete="name" placeholder="Nombre completo" required /></div>
           <div class="f"><label for="a-phone">WhatsApp / teléfono</label><input id="a-phone" type="tel" name="phone" autocomplete="tel" placeholder="Número de teléfono" required /></div>
           <div class="f f--full"><label for="a-ig">Tu red social principal (Instagram, TikTok, Facebook)</label><input id="a-ig" name="instagram" autocomplete="off" autocapitalize="off" placeholder="@tumarca o link del perfil" required /></div>
           <div class="f"><label for="a-biz">Nombre del negocio</label><input id="a-biz" name="company" autocomplete="organization" placeholder="Nombre del negocio" /></div>
           <div class="f"><label for="a-email">Correo</label><input id="a-email" type="email" name="email" autocomplete="email" placeholder="tu@empresa.com" required /></div>
           <div class="f f--full"><label for="a-goal">Tu mayor reto ahora mismo (opcional)</label><textarea id="a-goal" name="challenge" placeholder="p. ej. publicamos mucho pero nadie compra"></textarea></div>
-          <input type="hidden" name="goal" value="SOLICITUD DE AUDITORÍA GRATIS (36h)" />
           <div class="form-foot"><button class="btn" type="submit"><span class="lbl">Enviar mi solicitud</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button><p class="privacy">Solo usamos tus datos para enviarte tu auditoría. Nada de spam.</p></div>
         </form>
       </div>
@@ -246,6 +246,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
       }
       var ig = v('instagram');
       var fd = new FormData();
+      fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now()))); fd.append('website', form.elements.website.value);
       fd.append('name', v('name'));
       fd.append('company', (v('company') || '-') + ' (' + ig + ')');
       fd.append('phone', v('phone'));
