@@ -91,14 +91,17 @@
       "English",
       "Spanish"
     ],
-    "description": "Agencia de producción de video con calidad cinematográfica y marketing creativo en El Paso, TX. Video de formato corto, comerciales, estrategia de marca, marketing de influencers y servicios apoyados en inteligencia artificial que convierten la atención en ventas.",
+    "description": "Agencia de marketing en El Paso, TX. Auditoría completa del negocio, video corto cinematográfico y de comedia, identidad de marca, redes sociales, diseño web, sistemas detrás del sitio web del cliente, contenido con IA y publicidad pagada que convierten la atención en ventas.",
     "knowsAbout": [
+      "Business Audits",
+      "Marketing Research and Strategy",
+      "Brand Identity",
       "Video Production",
-      "Video Marketing",
       "Social Media Marketing",
-      "Brand Strategy",
-      "Influencer Marketing",
-      "Commercial Production"
+      "Web Design",
+      "Business Systems and Admin Portals",
+      "AI Content",
+      "Paid Advertising"
     ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
@@ -579,6 +582,24 @@
     .preview .is-on { opacity: 1; transform: none; }
 
     /* ---------- fit ---------- */
+    /* systems: audit + business systems */
+    .systems { padding: clamp(110px, 16vh, 200px) 0; background: var(--ink-2); }
+    .sys__head { align-items: end; row-gap: 26px; margin-bottom: clamp(44px, 7vh, 84px); }
+    .sys__title { grid-column: 1 / span 8; margin-top: 24px; }
+    .sys__lede { grid-column: 9 / span 4; }
+    .sys__cols { row-gap: 40px; }
+    .sys__col { grid-column: span 6; border-top: 1px solid var(--line-2); padding-top: 26px; }
+    .sys__n { display: block; font-family: var(--f-serif); font-style: italic; color: var(--accent); font-size: clamp(26px, 2.2vw, 36px); line-height: 1; margin-bottom: 18px; }
+    .sys__col h3 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(24px, 2vw, 34px); letter-spacing: -0.03em; line-height: 1.05; }
+    .sys__col h3 em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: var(--accent); }
+    .sys__col p { margin: 18px 0 0; color: var(--fg-2); font-size: clamp(16px, 1.1vw, 18px); line-height: 1.6; max-width: 54ch; }
+    .sys__close { margin-top: clamp(56px, 9vh, 110px); border-top: 1px solid var(--line); padding-top: clamp(32px, 5vh, 48px); }
+    .sys__line { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 2.8vw, 46px); letter-spacing: -0.03em; line-height: 1.1; max-width: 28ch; }
+    .sys__cta { display: inline-flex; align-items: center; gap: 12px; margin-top: 26px; color: var(--accent); font-weight: 600; font-size: clamp(16px, 1.2vw, 19px); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; transition: color .4s var(--ease); }
+    .sys__cta:hover { color: var(--fg); }
+    .sys__cta svg { width: 18px; height: 18px; flex: none; }
+    @media (max-width: 1100px) { .sys__title { grid-column: 1 / -1; } .sys__lede { grid-column: 1 / span 8; } }
+    @media (max-width: 768px) { .sys__col, .sys__lede { grid-column: 1 / -1; } }
     .fit { padding: clamp(110px, 16vh, 200px) 0; }
     .fit__head { align-items: end; row-gap: 26px; margin-bottom: clamp(44px, 7vh, 84px); }
     .fit__title { grid-column: 1 / span 7; margin-top: 24px; }
@@ -861,7 +882,7 @@
     <section class="statement theme-bone" id="about" aria-label="La idea">
       <div class="statement__stick">
         <div class="statement__inner wrap">
-          <p class="eyebrow"><span class="idx">01 / 08</span><span class="bar"></span>La idea</p>
+          <p class="eyebrow"><span class="idx">01 / 09</span><span class="bar"></span>La idea</p>
           <div class="grid">
             <p class="statement__text" id="statementText">La atención que se <em>gana</em> vale más que la atención que se compra. Primero, la comunidad. Después, las ventas. Luego escalamos lo que ya funciona.</p>
             <p class="lede statement__lede" id="statementLede">Primero atraemos a la audiencia correcta con contenido creativo que conecta. Después convertimos esa atención en ingresos. La publicidad llega después de la comunidad, nunca antes.</p>
@@ -875,7 +896,7 @@
       <div class="wrap">
         <div class="grid clients__head">
           <div class="clients__title">
-            <p class="eyebrow"><span class="idx">02 / 08</span><span class="bar"></span>Clientes</p>
+            <p class="eyebrow"><span class="idx">02 / 09</span><span class="bar"></span>Clientes</p>
             <h2 class="h-xl" data-split>Marcas que <em>confían</em> en nosotros.</h2>
           </div>
           <dl class="stats" data-fade>
@@ -907,7 +928,7 @@
         <svg class="method__svg" id="methodSvg" aria-hidden="true" focusable="false"></svg>
         <div class="grid method__head">
           <div class="method__title">
-            <p class="eyebrow"><span class="idx">03 / 08</span><span class="bar"></span>Método</p>
+            <p class="eyebrow"><span class="idx">03 / 09</span><span class="bar"></span>Método</p>
             <h2 class="h-xl" data-split>Cómo <em>trabajamos</em>.</h2>
           </div>
           <p class="lede method__intro" data-fade>Nuestro método sigue un orden y no es para todos. La publicidad va al final, por una razón.</p>
@@ -950,7 +971,7 @@
       <div class="wrap">
         <div class="grid work__head">
           <div class="work__title">
-            <p class="eyebrow"><span class="idx">04 / 08</span><span class="bar"></span>Resultados</p>
+            <p class="eyebrow"><span class="idx">04 / 09</span><span class="bar"></span>Resultados</p>
             <h2 class="h-xl" data-split>Los <em>resultados</em>.</h2>
           </div>
           <p class="lede work__lede" data-fade>Primero la atención, después la comunidad y al final la publicidad para amplificar. Esto es lo que produce ese orden. Presupuestos reales y resultados reales, sin redondear a nuestro favor. Todas las cifras en dólares estadounidenses (USD).</p>
@@ -963,11 +984,11 @@
             <div class="flow">
               <dl class="flow__in"><dt>Inversión en publicidad</dt><dd>$0</dd></dl>
               <span class="flow__arrow" aria-hidden="true">rindió</span>
-              <dl class="flow__out"><dt>Ingresos generados para el cliente</dt><dd><span class="count" data-to="700" data-prefix="$" data-suffix="K+">$700K+</span></dd></dl>
+              <dl class="flow__out"><dt>Ingresos del cliente en 4 meses</dt><dd><span class="count" data-to="700" data-prefix="$" data-suffix="K+">$700K+</span></dd></dl>
             </div>
             <dl class="kpis"><div class="kpi"><dt>Inversión</dt><dd>Orgánica</dd></div><div class="kpi"><dt>Rebranding</dt><dd>Completo</dd></div><div class="kpi"><dt>Redes orgánicas</dt><dd>4 meses</dd></div></dl>
-            <div class="chart" data-chart="area" data-points="[0.04,0.2,0.52,1]" data-label="$700K+" aria-hidden="true"></div><p class="chart__cap">4 meses · orgánico · $0 en publicidad</p>
-            <p class="case__summary">Sin inversión en publicidad. Un rebranding completo y cuatro meses de redes sociales orgánicas generaron más de $700,000 en ingresos por clientes nuevos.</p>
+            <div class="chart" data-chart="area" data-points="[0.04,0.2,0.52,1]" data-label="$700K+" aria-hidden="true"></div><p class="chart__cap">4 meses · 100% orgánico · $0 en publicidad</p>
+            <p class="case__summary">Más de $700K en ingresos del cliente en 4 meses. 100% orgánico, $0 en publicidad. Identidad de marca, sitio web, contenido para redes y estrategia de comunidad.</p>
             <a class="btn btn--ghost btn--sm case__link" href="https://www.instagram.com/yaguelaw/" target="_blank" rel="noopener"><span class="btn__label"><span data-t="Ver en Instagram">Ver en Instagram</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
           </div>
         </article>
@@ -1043,7 +1064,7 @@
       <div class="wrap">
         <div class="grid comedy__head">
           <div class="comedy__title">
-            <p class="eyebrow"><span class="idx">05 / 08</span><span class="bar"></span>Parte del método</p>
+            <p class="eyebrow"><span class="idx">05 / 09</span><span class="bar"></span>Parte del método</p>
             <h2 class="h-xl" data-split>A veces, todo empieza con una <em>sonrisa</em>.</h2>
           </div>
           <div class="lede comedy__lede" data-fade>
@@ -1069,18 +1090,42 @@
       <div class="wrap">
         <div class="grid caps__head">
           <div class="caps__title">
-            <p class="eyebrow"><span class="idx">06 / 08</span><span class="bar"></span>Servicios</p>
+            <p class="eyebrow"><span class="idx">06 / 09</span><span class="bar"></span>Servicios</p>
             <h2 class="h-xl" data-split>Lo que <em>realmente</em> hacemos.</h2>
           </div>
         </div>
         <ul class="cap-list" id="capList">
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254015/Vertical_3_4_luxury_real_estate_202605080924_qnohnw.jpg"><span class="cap__num">01</span><h3 class="cap__name">Investigación y estrategia</h3><p class="cap__desc">Empezamos por el mercado: audiencia, categoría y competencia. Así, cada decisión creativa se basa en datos, no en suposiciones.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254856/Vertical_3_4_luxury_beauty_editorial_202605080939_qfbi8n.jpg"><span class="cap__num">02</span><h3 class="cap__name"><a href="/es/identidad-de-marca-el-paso">Identidad de marca</a></h3><p class="cap__desc">Logotipos, sistemas visuales y una voz de marca que capta la atención antes de que digas una sola palabra.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778258137/Vertical_3_4_elite_baseball_training_202605081033_eqlxgi.jpg"><span class="cap__num">03</span><h3 class="cap__name"><a href="/es/produccion-de-video-el-paso">Producción de video</a></h3><p class="cap__desc">Videos de marca con calidad cinematográfica, comerciales y contenido para redes sociales que capta la atención y atrae a la audiencia correcta.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg"><span class="cap__num">04</span><h3 class="cap__name"><a href="/es/marketing-redes-sociales-el-paso">Comunidad y redes sociales</a></h3><p class="cap__desc">Calendarios de contenido, gestión de comunidad y el trabajo diario que convierte a una audiencia en clientes fieles.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg"><span class="cap__num">05</span><h3 class="cap__name"><a href="/es/diseno-web-el-paso">Diseño web</a></h3><p class="cap__desc">Sitios web con diseño de nivel editorial que convierten la atención en ingresos, porque un sitio puede verse bien y vender al mismo tiempo.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg"><span class="cap__num">06</span><h3 class="cap__name">Publicidad pagada</h3><p class="cap__desc">La publicidad va al final, para amplificar lo que ya funciona. Impulsamos lo que ya está dando resultados, en lugar de intentar crearlos solo con presupuesto.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254015/Vertical_3_4_luxury_real_estate_202605080924_qnohnw.jpg"><span class="cap__num">01</span><h3 class="cap__name"><a href="/es/audit">Auditoría del negocio</a></h3><p class="cap__desc">Revisamos tus redes sociales, tu sitio web, tu presencia en Google, tu oferta y lo que pasa después de que un cliente te contacta. Recibes una lista clara de dónde estás perdiendo clientes y qué corregir primero.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg"><span class="cap__num">02</span><h3 class="cap__name">Investigación y estrategia</h3><p class="cap__desc">Empezamos por el mercado: audiencia, categoría y competencia. Así, cada decisión creativa se basa en datos, no en suposiciones.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254856/Vertical_3_4_luxury_beauty_editorial_202605080939_qfbi8n.jpg"><span class="cap__num">03</span><h3 class="cap__name"><a href="/es/identidad-de-marca-el-paso">Identidad de marca</a></h3><p class="cap__desc">Logotipos, sistemas visuales y una voz de marca que capta la atención antes de que digas una sola palabra.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778258137/Vertical_3_4_elite_baseball_training_202605081033_eqlxgi.jpg"><span class="cap__num">04</span><h3 class="cap__name"><a href="/es/produccion-de-video-el-paso">Producción de video</a></h3><p class="cap__desc">Videos de marca con calidad cinematográfica, comerciales y contenido para redes sociales que capta la atención y atrae a la audiencia correcta.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg"><span class="cap__num">05</span><h3 class="cap__name"><a href="/es/marketing-redes-sociales-el-paso">Redes sociales y comunidad</a></h3><p class="cap__desc">Calendarios de contenido, gestión de comunidad y el trabajo diario que convierte a una audiencia en clientes fieles.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg"><span class="cap__num">06</span><h3 class="cap__name"><a href="/es/diseno-web-el-paso">Diseño web</a></h3><p class="cap__desc">Sitios web con diseño de nivel editorial que convierten la atención en ingresos, porque un sitio puede verse bien y vender al mismo tiempo.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254015/Vertical_3_4_luxury_real_estate_202605080924_qnohnw.jpg"><span class="cap__num">07</span><h3 class="cap__name"><a href="#systems">Sistemas para tu negocio</a></h3><p class="cap__desc">Paneles para tu equipo y portales de administración en tu propio dominio, para que tu negocio funcione en un solo lugar y no en mensajes y hojas de cálculo sueltas.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254856/Vertical_3_4_luxury_beauty_editorial_202605080939_qfbi8n.jpg"><span class="cap__num">08</span><h3 class="cap__name">Contenido con IA</h3><p class="cap__desc">Video y contenido con IA para producir más rápido, probar más variaciones y no esperar una grabación completa para cada pieza.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg"><span class="cap__num">09</span><h3 class="cap__name">Publicidad pagada</h3><p class="cap__desc">La publicidad va al final, para amplificar lo que ya funciona. Impulsamos lo que ya está dando resultados, en lugar de intentar crearlos solo con presupuesto.</p></li>
         </ul>
+      </div>
+    </section>
+
+    <!-- ===================== 7. SYSTEMS ===================== -->
+    <section class="systems theme-dark" id="systems" aria-label="Más que contenido">
+      <div class="wrap">
+        <div class="grid sys__head">
+          <div class="sys__title">
+            <p class="eyebrow"><span class="idx">07 / 09</span><span class="bar"></span>Más allá del contenido</p>
+            <h2 class="h-l" data-split>Más que contenido. Un sistema para <em>todo tu negocio</em>.</h2>
+          </div>
+          <p class="lede sys__lede" data-fade>La mayoría de las agencias se quedan en el video. Nosotros empezamos ahí.</p>
+        </div>
+        <div class="grid sys__cols">
+          <article class="sys__col" data-fade><span class="sys__n">01</span><h3>La auditoría del <em>negocio</em></h3><p>Antes de tocar una cámara, revisamos todo el negocio. Tus redes sociales, tu sitio web, tu presencia en Google y tus reseñas, tu oferta y lo que pasa después de que un cliente te llama o te escribe. Recibes una lista clara, por escrito, de dónde estás perdiendo clientes y qué corregir primero. Los dueños nos dicen que es la primera vez que alguien les muestra su negocio como lo ve un cliente.</p></article>
+          <article class="sys__col" data-fade><span class="sys__n">02</span><h3>Sistemas que funcionan detrás de tu <em>sitio web</em></h3><p>Construimos las herramientas con las que opera tu negocio, ligadas a tu propio dominio. Un panel donde tu equipo inicia sesión y hace el trabajo del día. Portales de administración para horarios, solicitudes e información de clientes. Tu sitio web atiende a tus clientes. Detrás, tu negocio funciona en un solo lugar y no en mensajes y hojas de cálculo sueltas.</p></article>
+        </div>
+        <div class="sys__close" data-fade>
+          <p class="sys__line">El contenido trae a los clientes. La auditoría te muestra qué corregir. Los sistemas te ayudan a conservarlos.</p>
+          <a class="sys__cta" href="/es/audit">Empieza con la auditoría y te mostramos el panorama completo. <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </div>
       </div>
     </section>
 
@@ -1089,7 +1134,7 @@
       <div class="wrap">
         <div class="grid fit__head">
           <div class="fit__title">
-            <p class="eyebrow"><span class="idx">07 / 08</span><span class="bar"></span>Honestidad</p>
+            <p class="eyebrow"><span class="idx">08 / 09</span><span class="bar"></span>Honestidad</p>
             <h2 class="h-l" data-split>¿Somos la agencia <em>indicada</em>?</h2>
           </div>
           <p class="lede fit__lede" data-fade>Queremos ser honestos contigo, porque preferimos perder un prospecto antes que hacer perder el tiempo a ambas partes. Nuestro método sigue un orden y no es para todos.</p>
@@ -1127,7 +1172,7 @@
           poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1778261003/Prvideo1_cktsqz.jpg"></video>
       </div>
       <div class="final__inner">
-        <p class="eyebrow"><span class="idx">08 / 08</span><span class="bar"></span>Tu turno</p>
+        <p class="eyebrow"><span class="idx">09 / 09</span><span class="bar"></span>Tu turno</p>
         <p class="lede final__lede" style="margin-top:22px">¿Quieres convertir la atención en ventas?</p>
         <h2 class="final__title" data-split>Construyamos algo que valga la pena <em>seguir</em>.</h2>
         <p class="lede final__lede" data-fade>Trabajamos con un número limitado de marcas cada trimestre. Si quieres ganar atención y construir una comunidad que compra, hablemos antes de que se ocupe el lugar disponible.</p>
@@ -1149,7 +1194,7 @@
           <h4>Oficinas</h4>
           <p>WestStar Tower<br />601 N Mesa St, Suite 1440<br />Downtown El Paso, TX 79901</p>
           <h4 class="footer__svc-h">Servicios</h4>
-          <ul><li><a href="/es/produccion-de-video-el-paso">Producción de video</a></li><li><a href="/es/marketing-redes-sociales-el-paso">Redes sociales</a></li><li><a href="/es/identidad-de-marca-el-paso">Identidad de marca</a></li><li><a href="/es/diseno-web-el-paso">Diseño web</a></li></ul>
+          <ul><li><a href="/es/audit">Auditoría del negocio</a></li><li><a href="#services">Investigación y estrategia</a></li><li><a href="/es/identidad-de-marca-el-paso">Identidad de marca</a></li><li><a href="/es/produccion-de-video-el-paso">Producción de video</a></li><li><a href="/es/marketing-redes-sociales-el-paso">Redes sociales y comunidad</a></li><li><a href="/es/diseno-web-el-paso">Diseño web</a></li><li><a href="#systems">Sistemas para tu negocio</a></li><li><a href="#services">Contenido con IA</a></li><li><a href="#services">Publicidad pagada</a></li></ul>
         </div>
         <div class="footer__col">
           <h4>Contacto</h4>

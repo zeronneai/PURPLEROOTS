@@ -1,6 +1,6 @@
 # Purple Roots Agency
 
-> Purple Roots Agency is a cinema-grade video production and creative marketing agency based in El Paso, Texas. It helps local and regional businesses turn attention into sales through short-form video, commercials, brand strategy, and AI-augmented marketing.
+> Purple Roots Agency is a cinema-grade video production and creative marketing agency based in El Paso, Texas. It starts with a full business audit that shows an owner where customers are being lost, then builds the attention engine (cinematic and comedic short-form content) and the software systems behind the client's own website that help the business run and keep those customers. AI content and paid ads scale what works.
 
 ## About
 
@@ -17,14 +17,15 @@
 
 Spanish versions of each service page live under https://purpleroots.agency/es/
 
-- Video production: cinematic brand films, commercials, short-form video for Instagram, TikTok, and YouTube. Details: https://purpleroots.agency/video-production-el-paso
-- Social media management and content strategy. Details: https://purpleroots.agency/social-media-marketing-el-paso
-- Brand identity and rebrands. Details: https://purpleroots.agency/brand-identity-el-paso
-- Influencer marketing (roster of 80+ creators)
-- Web design and development. Details: https://purpleroots.agency/web-design-el-paso
-- Email and SMS marketing
-- AI-augmented marketing services (in-house AI division)
-- Paid media amplification (Meta ads)
+- Business audit: a full review of social media, website, Google presence and reviews, the offer, and lead handling, delivered as a plain written list of where customers are lost and what to fix first. Details: https://purpleroots.agency/audit
+- Research and strategy: market, audience, and competitor research before any creative work
+- Brand identity: logos, visual systems, brand voice, and rebrands. Details: https://purpleroots.agency/brand-identity-el-paso
+- Video production: cinematic brand films, commercials, short-form video for Instagram, TikTok, and YouTube, and comedy content. Details: https://purpleroots.agency/video-production-el-paso
+- Social media and community: content calendars, posting, and community management. Details: https://purpleroots.agency/social-media-marketing-el-paso
+- Web design: websites and landing pages built to convert. Details: https://purpleroots.agency/web-design-el-paso
+- Business systems: employee backends and admin portals built on the client's own website domain
+- AI content: AI video and content for faster output and more testing
+- Paid amplification: Meta ads placed behind content that already works organically
 
 ## Method
 
@@ -33,7 +34,7 @@ Purple Roots follows an "attention first" method: (1) research the market, (2) e
 ## Proof and case studies
 
 - Tippin Cowgirl (El Paso western boutique and hat bar): 6,500+ new followers and 1.5M+ views in 60 days, grand-opening campaign for their first Hat Bar
-- El Toro Law / Mario Yague (personal injury attorney): one $700K client from 4 months of organic social media after a full rebrand, with $0 paid spend
+- El Toro Law / Mario Yague (personal injury attorney): $700K+ in client revenue in 4 months, fully organic, with $0 spent on paid ads, from brand identity, a new website, social content, and community strategy
 - Powerhouse Gym (El Paso): $70,000 in membership revenue and 80 memberships sold from one commercial with $1,500 in paid ads
 - Mark Davis (personal brand): 557,000 views and 402 inbound calls from one commercial
 - Chingon Cuh'ts (barbershop): 500,000 views from $100 in ad spend; record walk-ins and appointments
@@ -45,6 +46,6 @@ Local and regional businesses (law firms, medical practices, auto dealers, gyms,
 
 ## Contact
 
-- Free social media audit (delivered in 36 hours): https://purpleroots.agency/audit
+- Business audit (the entry point to working with Purple Roots): https://purpleroots.agency/audit
 - Start a project: https://purpleroots.agency (contact form) or WhatsApp +1 (915) 234-3655
 - Instagram: https://www.instagram.com/purpleroots.agency

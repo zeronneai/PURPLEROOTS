@@ -90,14 +90,17 @@
       "English",
       "Spanish"
     ],
-    "description": "Cinema-grade video production and creative marketing agency in El Paso, TX. Short-form video, commercials, brand strategy, influencer marketing, and AI-augmented services that turn attention into sales.",
+    "description": "Marketing systems agency in El Paso, TX. A full business audit, cinematic and comedic short-form video, brand identity, social media, web design, business systems behind the client's own website, AI content, and paid amplification that turn attention into sales.",
     "knowsAbout": [
+      "Business Audits",
+      "Marketing Research and Strategy",
+      "Brand Identity",
       "Video Production",
-      "Video Marketing",
       "Social Media Marketing",
-      "Brand Strategy",
-      "Influencer Marketing",
-      "Commercial Production"
+      "Web Design",
+      "Business Systems and Admin Portals",
+      "AI Content",
+      "Paid Advertising"
     ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
@@ -578,6 +581,24 @@
     .preview .is-on { opacity: 1; transform: none; }
 
     /* ---------- fit ---------- */
+    /* systems: audit + business systems */
+    .systems { padding: clamp(110px, 16vh, 200px) 0; background: var(--ink-2); }
+    .sys__head { align-items: end; row-gap: 26px; margin-bottom: clamp(44px, 7vh, 84px); }
+    .sys__title { grid-column: 1 / span 8; margin-top: 24px; }
+    .sys__lede { grid-column: 9 / span 4; }
+    .sys__cols { row-gap: 40px; }
+    .sys__col { grid-column: span 6; border-top: 1px solid var(--line-2); padding-top: 26px; }
+    .sys__n { display: block; font-family: var(--f-serif); font-style: italic; color: var(--accent); font-size: clamp(26px, 2.2vw, 36px); line-height: 1; margin-bottom: 18px; }
+    .sys__col h3 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(24px, 2vw, 34px); letter-spacing: -0.03em; line-height: 1.05; }
+    .sys__col h3 em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: var(--accent); }
+    .sys__col p { margin: 18px 0 0; color: var(--fg-2); font-size: clamp(16px, 1.1vw, 18px); line-height: 1.6; max-width: 54ch; }
+    .sys__close { margin-top: clamp(56px, 9vh, 110px); border-top: 1px solid var(--line); padding-top: clamp(32px, 5vh, 48px); }
+    .sys__line { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 2.8vw, 46px); letter-spacing: -0.03em; line-height: 1.1; max-width: 28ch; }
+    .sys__cta { display: inline-flex; align-items: center; gap: 12px; margin-top: 26px; color: var(--accent); font-weight: 600; font-size: clamp(16px, 1.2vw, 19px); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; transition: color .4s var(--ease); }
+    .sys__cta:hover { color: var(--fg); }
+    .sys__cta svg { width: 18px; height: 18px; flex: none; }
+    @media (max-width: 1100px) { .sys__title { grid-column: 1 / -1; } .sys__lede { grid-column: 1 / span 8; } }
+    @media (max-width: 768px) { .sys__col, .sys__lede { grid-column: 1 / -1; } }
     .fit { padding: clamp(110px, 16vh, 200px) 0; }
     .fit__head { align-items: end; row-gap: 26px; margin-bottom: clamp(44px, 7vh, 84px); }
     .fit__title { grid-column: 1 / span 7; margin-top: 24px; }
@@ -854,7 +875,7 @@
     <section class="statement theme-bone" id="about" aria-label="The idea">
       <div class="statement__stick">
         <div class="statement__inner wrap">
-          <p class="eyebrow"><span class="idx">01 / 08</span><span class="bar"></span>The idea</p>
+          <p class="eyebrow"><span class="idx">01 / 09</span><span class="bar"></span>The idea</p>
           <div class="grid">
             <p class="statement__text" id="statementText">Attention you <em>earn</em> beats attention you rent. Community first. Conversions follow. Then we scale what already works.</p>
             <p class="lede statement__lede" id="statementLede">First we earn the right audience with creative that connects. Then we turn that attention into revenue. Ads come after the community, not before it.</p>
@@ -868,7 +889,7 @@
       <div class="wrap">
         <div class="grid clients__head">
           <div class="clients__title">
-            <p class="eyebrow"><span class="idx">02 / 08</span><span class="bar"></span>Partners</p>
+            <p class="eyebrow"><span class="idx">02 / 09</span><span class="bar"></span>Partners</p>
             <h2 class="h-xl" data-split>The brands that <em>trust</em> us.</h2>
           </div>
           <dl class="stats" data-fade>
@@ -900,7 +921,7 @@
         <svg class="method__svg" id="methodSvg" aria-hidden="true" focusable="false"></svg>
         <div class="grid method__head">
           <div class="method__title">
-            <p class="eyebrow"><span class="idx">03 / 08</span><span class="bar"></span>Method</p>
+            <p class="eyebrow"><span class="idx">03 / 09</span><span class="bar"></span>Method</p>
             <h2 class="h-xl" data-split>How we <em>work</em>.</h2>
           </div>
           <p class="lede method__intro" data-fade>Our method has an order, and it isn't for everyone. Ads come last, on purpose.</p>
@@ -943,7 +964,7 @@
       <div class="wrap">
         <div class="grid work__head">
           <div class="work__title">
-            <p class="eyebrow"><span class="idx">04 / 08</span><span class="bar"></span>Proof</p>
+            <p class="eyebrow"><span class="idx">04 / 09</span><span class="bar"></span>Proof</p>
             <h2 class="h-xl" data-split>The <em>results</em>.</h2>
           </div>
           <p class="lede work__lede" data-fade>Attention first, community next, ads to amplify. Here's what that order produces. Real budgets in, real numbers out, no rounding in our favor. All figures in USD.</p>
@@ -956,11 +977,11 @@
             <div class="flow">
               <dl class="flow__in"><dt>Paid Spend</dt><dd>$0</dd></dl>
               <span class="flow__arrow" aria-hidden="true">into</span>
-              <dl class="flow__out"><dt>Client Incoming Revenue</dt><dd><span class="count" data-to="700" data-prefix="$" data-suffix="K+">$700K+</span></dd></dl>
+              <dl class="flow__out"><dt>Client Revenue in 4 Months</dt><dd><span class="count" data-to="700" data-prefix="$" data-suffix="K+">$700K+</span></dd></dl>
             </div>
             <dl class="kpis"><div class="kpi"><dt>Investment</dt><dd>Organic</dd></div><div class="kpi"><dt>Rebrand</dt><dd>Full</dd></div><div class="kpi"><dt>Organic Social</dt><dd>4 mo</dd></div></dl>
-            <div class="chart" data-chart="area" data-points="[0.04,0.2,0.52,1]" data-label="$700K+" aria-hidden="true"></div><p class="chart__cap">4 months · organic · $0 paid</p>
-            <p class="case__summary">No paid spend at all. A full rebrand and four months of organic social drove more than $700,000 in incoming client revenue.</p>
+            <div class="chart" data-chart="area" data-points="[0.04,0.2,0.52,1]" data-label="$700K+" aria-hidden="true"></div><p class="chart__cap">4 months · fully organic · $0 in paid ads</p>
+            <p class="case__summary">$700K+ in client revenue in 4 months. Fully organic, $0 in paid ads. Brand identity, website, social content, and community strategy.</p>
             <a class="btn btn--ghost btn--sm case__link" href="https://www.instagram.com/yaguelaw/" target="_blank" rel="noopener"><span class="btn__label"><span data-t="View on Instagram">View on Instagram</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
           </div>
         </article>
@@ -1036,7 +1057,7 @@
       <div class="wrap">
         <div class="grid comedy__head">
           <div class="comedy__title">
-            <p class="eyebrow"><span class="idx">05 / 08</span><span class="bar"></span>Part of the method</p>
+            <p class="eyebrow"><span class="idx">05 / 09</span><span class="bar"></span>Part of the method</p>
             <h2 class="h-xl" data-split>Sometimes the way in is a <em>laugh</em>.</h2>
           </div>
           <div class="lede comedy__lede" data-fade>
@@ -1062,18 +1083,42 @@
       <div class="wrap">
         <div class="grid caps__head">
           <div class="caps__title">
-            <p class="eyebrow"><span class="idx">06 / 08</span><span class="bar"></span>Capabilities</p>
+            <p class="eyebrow"><span class="idx">06 / 09</span><span class="bar"></span>Capabilities</p>
             <h2 class="h-xl" data-split>What we <em>actually</em> do.</h2>
           </div>
         </div>
         <ul class="cap-list" id="capList">
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254015/Vertical_3_4_luxury_real_estate_202605080924_qnohnw.jpg"><span class="cap__num">01</span><h3 class="cap__name">Research &amp; Strategy</h3><p class="cap__desc">We start with the market. Audience, category, and competitors, so every creative decision is built on evidence, not guesswork.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254856/Vertical_3_4_luxury_beauty_editorial_202605080939_qfbi8n.jpg"><span class="cap__num">02</span><h3 class="cap__name"><a href="/brand-identity-el-paso">Brand Identity</a></h3><p class="cap__desc">Logos, visual systems, and a voice that earns attention before you say a single word.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778258137/Vertical_3_4_elite_baseball_training_202605081033_eqlxgi.jpg"><span class="cap__num">03</span><h3 class="cap__name"><a href="/video-production-el-paso">Video Production</a></h3><p class="cap__desc">Cinematic brand films, commercials, and social-first content that stops the scroll and pulls in the right audience.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg"><span class="cap__num">04</span><h3 class="cap__name"><a href="/social-media-marketing-el-paso">Community &amp; Social</a></h3><p class="cap__desc">Content calendars, community management, and the day-to-day that turns an audience into die-hard fans.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg"><span class="cap__num">05</span><h3 class="cap__name"><a href="/web-design-el-paso">Web Design</a></h3><p class="cap__desc">Editorial-grade sites that turn earned attention into revenue, because looking good and converting aren't mutually exclusive.</p></li>
-          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg"><span class="cap__num">06</span><h3 class="cap__name">Paid Amplification</h3><p class="cap__desc">Ads run last, to amplify what's already working. We pour fuel on proven fires, we don't try to light them with ad spend.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254015/Vertical_3_4_luxury_real_estate_202605080924_qnohnw.jpg"><span class="cap__num">01</span><h3 class="cap__name"><a href="/audit">Business Audit</a></h3><p class="cap__desc">A full look at your social media, website, Google presence, offer, and what happens after a customer reaches out. You get a plain list of where customers are being lost and what to fix first.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg"><span class="cap__num">02</span><h3 class="cap__name">Research &amp; Strategy</h3><p class="cap__desc">We start with the market. Audience, category, and competitors, so every creative decision is built on evidence, not guesswork.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254856/Vertical_3_4_luxury_beauty_editorial_202605080939_qfbi8n.jpg"><span class="cap__num">03</span><h3 class="cap__name"><a href="/brand-identity-el-paso">Brand Identity</a></h3><p class="cap__desc">Logos, visual systems, and a voice that earns attention before you say a single word.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778258137/Vertical_3_4_elite_baseball_training_202605081033_eqlxgi.jpg"><span class="cap__num">04</span><h3 class="cap__name"><a href="/video-production-el-paso">Video Production</a></h3><p class="cap__desc">Cinematic brand films, commercials, and social-first content that stops the scroll and pulls in the right audience.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778274694/Vertical_3_4_energetic_women_s_running_202605081508_otdiqa.jpg"><span class="cap__num">05</span><h3 class="cap__name"><a href="/social-media-marketing-el-paso">Social Media &amp; Community</a></h3><p class="cap__desc">Content calendars, community management, and the day-to-day that turns an audience into die-hard fans.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778255499/Vertical_3_4_luxury_automotive_editorial_202605080949_xqmyus.jpg"><span class="cap__num">06</span><h3 class="cap__name"><a href="/web-design-el-paso">Web Design</a></h3><p class="cap__desc">Editorial-grade sites that turn earned attention into revenue, because looking good and converting aren't mutually exclusive.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254015/Vertical_3_4_luxury_real_estate_202605080924_qnohnw.jpg"><span class="cap__num">07</span><h3 class="cap__name"><a href="#systems">Business Systems</a></h3><p class="cap__desc">Employee backends and admin portals built on your own domain, so your business runs in one place instead of scattered texts and spreadsheets.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778254856/Vertical_3_4_luxury_beauty_editorial_202605080939_qfbi8n.jpg"><span class="cap__num">08</span><h3 class="cap__name">AI Content</h3><p class="cap__desc">AI video and content for faster output, more variations, and more testing, without waiting on a full shoot for every piece.</p></li>
+          <li class="cap" data-img="https://res.cloudinary.com/dsprn0ew4/image/upload/f_auto,q_auto,w_640/v1778274146/Vertical_3_4_high-energy_gym_editorial_202605081456_th9afh.jpg"><span class="cap__num">09</span><h3 class="cap__name">Paid Amplification</h3><p class="cap__desc">Ads run last, to amplify what's already working. We pour fuel on proven fires, we don't try to light them with ad spend.</p></li>
         </ul>
+      </div>
+    </section>
+
+    <!-- ===================== 7. SYSTEMS ===================== -->
+    <section class="systems theme-dark" id="systems" aria-label="More than content">
+      <div class="wrap">
+        <div class="grid sys__head">
+          <div class="sys__title">
+            <p class="eyebrow"><span class="idx">07 / 09</span><span class="bar"></span>Beyond content</p>
+            <h2 class="h-l" data-split>More than content. A system for the <em>whole business</em>.</h2>
+          </div>
+          <p class="lede sys__lede" data-fade>Most agencies stop at the video. We start there.</p>
+        </div>
+        <div class="grid sys__cols">
+          <article class="sys__col" data-fade><span class="sys__n">01</span><h3>The Business <em>Audit</em></h3><p>Before we touch a camera, we look at the whole business. Your social media, your website, your Google presence and reviews, your offer, and what happens after a customer calls or messages you. You get a plain written list of where customers are being lost and what to fix first. Owners tell us this is the first time anyone showed them their business the way a customer sees it.</p></article>
+          <article class="sys__col" data-fade><span class="sys__n">02</span><h3>Systems that run behind your <em>website</em></h3><p>We build the working tools your business runs on, tied to your own website domain. An employee backend where your team logs in and does the day's work. Admin portals for schedules, requests, and customer information. Your website faces your customers. Behind it, your business runs in one place instead of scattered texts and spreadsheets.</p></article>
+        </div>
+        <div class="sys__close" data-fade>
+          <p class="sys__line">Content brings the customers in. The audit shows you what to fix. The systems help you keep them.</p>
+          <a class="sys__cta" href="/audit">Start with the audit, and we will show you the whole picture. <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </div>
       </div>
     </section>
 
@@ -1082,7 +1127,7 @@
       <div class="wrap">
         <div class="grid fit__head">
           <div class="fit__title">
-            <p class="eyebrow"><span class="idx">07 / 08</span><span class="bar"></span>Honesty</p>
+            <p class="eyebrow"><span class="idx">08 / 09</span><span class="bar"></span>Honesty</p>
             <h2 class="h-l" data-split>Are we the right <em>fit</em>?</h2>
           </div>
           <p class="lede fit__lede" data-fade>We're going to be honest with you, because we'd rather lose a prospect than waste both our time. Our method has an order, and it isn't for everyone.</p>
@@ -1120,7 +1165,7 @@
           poster="https://res.cloudinary.com/dsprn0ew4/video/upload/so_0,f_auto,q_auto,w_1280/v1778261003/Prvideo1_cktsqz.jpg"></video>
       </div>
       <div class="final__inner">
-        <p class="eyebrow"><span class="idx">08 / 08</span><span class="bar"></span>Your turn</p>
+        <p class="eyebrow"><span class="idx">09 / 09</span><span class="bar"></span>Your turn</p>
         <p class="lede final__lede" style="margin-top:22px">Ready to turn attention into sales?</p>
         <h2 class="final__title" data-split>Let's build something worth <em>following</em>.</h2>
         <p class="lede final__lede" data-fade>We take on a limited number of brands each quarter. If you're ready to earn attention and build a community that buys, let's talk before the spot is gone.</p>
@@ -1142,7 +1187,7 @@
           <h4>Offices</h4>
           <p>WestStar Tower<br />601 N Mesa St, Suite 1440<br />Downtown El Paso, TX 79901</p>
           <h4 class="footer__svc-h">Services</h4>
-          <ul><li><a href="/video-production-el-paso">Video Production</a></li><li><a href="/social-media-marketing-el-paso">Social Media Marketing</a></li><li><a href="/brand-identity-el-paso">Brand Identity</a></li><li><a href="/web-design-el-paso">Web Design</a></li></ul>
+          <ul><li><a href="/audit">Business Audit</a></li><li><a href="#services">Research &amp; Strategy</a></li><li><a href="/brand-identity-el-paso">Brand Identity</a></li><li><a href="/video-production-el-paso">Video Production</a></li><li><a href="/social-media-marketing-el-paso">Social Media &amp; Community</a></li><li><a href="/web-design-el-paso">Web Design</a></li><li><a href="#systems">Business Systems</a></li><li><a href="#services">AI Content</a></li><li><a href="#services">Paid Amplification</a></li></ul>
         </div>
         <div class="footer__col">
           <h4>Contact</h4>
