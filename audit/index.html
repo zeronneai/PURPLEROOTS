@@ -110,7 +110,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
 .form-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:6px}
 .form-sec .btn{background:var(--ink);color:var(--bone)}.form-sec .btn:hover{background:#2a2730}
 .privacy{font-size:13px;color:rgba(11,10,13,.6);margin:0}
-.form__error{grid-column:1/-1;margin:0;color:#B3261E;font-weight:600;font-size:14px}
+.cf-box:empty{display:none}.form__error{grid-column:1/-1;margin:0;color:#B3261E;font-weight:600;font-size:14px}
 .done{grid-column:1/-1;border:1px solid rgba(11,10,13,.12);border-radius:var(--radius);background:#fff;padding:clamp(28px,4vw,48px)}
 .done h3{font-family:var(--f-display);font-weight:700;font-size:clamp(1.8rem,3.4vw,2.8rem);letter-spacing:-.03em;line-height:1.05;margin:0 0 14px}
 .done h3 em{color:var(--lav-deep)}
@@ -145,6 +145,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
  .hero__actions{flex-direction:column;align-items:flex-start}
 }
 </style>
+  <script src="/assets/form-guard.js"></script>
 </head>
 <body>
   <nav class="nav">
@@ -202,6 +203,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
           <div class="f"><label for="a-biz">Business name</label><input id="a-biz" name="company" autocomplete="organization" placeholder="Business name" /></div>
           <div class="f"><label for="a-email">Email</label><input id="a-email" type="email" name="email" autocomplete="email" placeholder="you@company.com" required /></div>
           <div class="f f--full"><label for="a-goal">Biggest challenge right now (optional)</label><textarea id="a-goal" name="challenge" placeholder="e.g. we post a lot but nobody buys"></textarea></div>
+          <div class="f f--full cf-box" id="cfBox"></div>
           <div class="form-foot"><button class="btn" type="submit"><span class="lbl">Send my audit request</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button><p class="privacy">We only use your info to send your audit. No spam.</p></div>
         </form>
       </div>
@@ -237,6 +239,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
 
     var form = d.getElementById('auditForm');
     if (!form) return;
+    var guard = window.PRGuard ? window.PRGuard.mount(d.getElementById('cfBox'), 'en') : null;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var prev = form.querySelector('.form__error'); if (prev) prev.remove();
@@ -250,9 +253,18 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
         form.querySelector('.form-foot').insertAdjacentElement('beforebegin', err);
         form.elements[empty || bad].focus(); return;
       }
+      var showErr = function (msg, field) {
+        var er = d.createElement('p'); er.className = 'form__error'; er.setAttribute('role', 'alert'); er.textContent = msg;
+        form.querySelector('.form-foot').insertAdjacentElement('beforebegin', er); if (field) form.elements[field].focus();
+      };
+      if (window.PRGuard) {
+        var gErr = window.PRGuard.check({ name: v('name'), biz: v('company'), email: v('email'), phone: v('phone'), social: v('instagram'), msg: v('challenge') }, 'en');
+        if (gErr) { showErr(gErr); return; }
+      }
       var ig = v('instagram');
       var fd = new FormData();
       fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now()))); fd.append('website', form.elements.website.value);
+      fd.append('form', 'audit'); fd.append('biz', v('company')); fd.append('social', ig); fd.append('msg', v('challenge'));
       fd.append('name', v('name'));
       fd.append('company', (v('company') || '-') + ' (' + ig + ')');
       fd.append('phone', v('phone'));
@@ -260,9 +272,14 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
       fd.append('goal', "FREE AUDIT REQUEST (36h)" + ' | ' + "Social" + ': ' + ig + (v('challenge') ? ' | ' + "Challenge" + ': ' + v('challenge') : '') + ' | Source: ' + location.pathname + location.search);
       var btn = form.querySelector('button[type="submit"]'), lbl = btn.querySelector('.lbl'), was = lbl.textContent;
       btn.disabled = true; lbl.textContent = "Sending";
-      fetch("https://script.google.com/macros/s/AKfycby_FcqUjJIuyfwG6ZnxvOLqeETVAW6NBGGya7YUYJfKe0I3FifQwPO8vGfwm3Vlhiov5g/exec", { method: 'POST', mode: 'no-cors', body: fd }).then(function () {
+      (guard ? guard.token() : Promise.resolve('')).then(function (tok) {
+        if (guard && guard.enabled && !tok) { btn.disabled = false; lbl.textContent = was; showErr(guard.msg); throw 'nocf'; }
+        fd.append('cf', tok);
+        return fetch("https://script.google.com/macros/s/AKfycby_FcqUjJIuyfwG6ZnxvOLqeETVAW6NBGGya7YUYJfKe0I3FifQwPO8vGfwm3Vlhiov5g/exec", { method: 'POST', mode: 'no-cors', body: fd });
+      }).then(function () {
         form.innerHTML = '<div class="done" role="status"><p class="eyebrow">' + "Request received" + '</p><h3>' + "Your audit is <em>on its way</em>." + '</h3><p>' + "Our team will review your account and send your audit within 36 hours. Keep an eye on your email and WhatsApp." + '</p><a class="btn" href="/">' + "Back to the site" + '</a></div>';
-      }).catch(function () {
+      }).catch(function (x) {
+        if (x === 'nocf') return;
         btn.disabled = false; lbl.textContent = was;
         var err = d.createElement('p'); err.className = 'form__error'; err.setAttribute('role', 'alert');
         err.textContent = "Something went wrong. Please try again or message us on WhatsApp.";

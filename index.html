@@ -638,6 +638,7 @@
     .footer__col ul { list-style: none; margin: 0; padding: 0; }
     .cap__name a { color: inherit; text-decoration: none; }
     .footer__svc-h { margin-top: 28px !important; }
+    .cf-box:empty { display: none; } .cf-box { margin: 4px 0 8px; }
     .footer__col a { transition: color .4s var(--ease); }
     .footer__col a:hover { color: var(--lav); }
     .footer__word {
@@ -785,6 +786,7 @@
       .names { flex-wrap: wrap; justify-content: center; }
     }
   </style>
+  <script src="/assets/form-guard.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -1243,6 +1245,7 @@
         <label class="field"><span>Phone</span><input type="tel" name="phone" required autocomplete="tel" placeholder="Phone number" /></label>
         <label class="field"><span>Email</span><input type="email" name="email" required autocomplete="email" placeholder="you@company.com" /></label>
         <label class="field"><span>What you want to achieve</span><textarea name="goal" rows="4" required placeholder="Tell us what you want to achieve"></textarea></label>
+        <div class="cf-box" id="inquireCf"></div>
         <button class="btn btn--primary" type="submit"><span class="btn__label"><span data-t="Send inquiry">Send inquiry</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button>
         <p class="form__note">We usually reply within one business day.</p>
       </form>
@@ -1815,6 +1818,7 @@
       $('#inquireClose').addEventListener('click', closeDrawer);
       backdrop.addEventListener('click', closeDrawer);
       var ENDPOINT = 'https://script.google.com/macros/s/AKfycby_FcqUjJIuyfwG6ZnxvOLqeETVAW6NBGGya7YUYJfKe0I3FifQwPO8vGfwm3Vlhiov5g/exec';
+      var guard = window.PRGuard ? window.PRGuard.mount(d.getElementById('inquireCf'), 'en') : null;
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = form.querySelector('button[type="submit"]'), prev = form.querySelector('.form__error'); if (prev) prev.remove();
@@ -1826,15 +1830,24 @@
           err.textContent = 'Please fill in every field so we can do our best work for you.';
           btn.insertAdjacentElement('afterend', err); form.elements[empty].focus(); return;
         }
+        var showErr = function (msg) { var er = d.createElement('p'); er.className = 'form__error'; er.setAttribute('role', 'alert'); er.textContent = msg; btn.insertAdjacentElement('afterend', er); };
+        var val = function (n) { return (form.elements[n].value || '').trim(); };
+        if (window.PRGuard) { var gErr = window.PRGuard.check({ name: val('name'), biz: val('company'), email: val('email'), phone: val('phone'), msg: val('goal') }, 'en'); if (gErr) { showErr(gErr); return; } }
         var label = btn.querySelector('.btn__label > span'), was = label.textContent;
         btn.disabled = true; label.textContent = 'Sending'; label.setAttribute('data-t', 'Sending');
         var fd = new FormData(form); fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now())));
-        fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd }).then(function () {
+        fd.append('form', 'contact'); fd.append('biz', val('company')); fd.append('msg', val('goal'));
+        (guard ? guard.token() : Promise.resolve('')).then(function (tok) {
+          if (guard && guard.enabled && !tok) { btn.disabled = false; label.textContent = was; label.setAttribute('data-t', was); showErr(guard.msg); throw 'nocf'; }
+          fd.append('cf', tok);
+          return fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd });
+        }).then(function () {
           inner.innerHTML = '<p class="eyebrow">Received</p><h2 class="drawer__title">Thanks, we\'ll be <em>in touch</em>.</h2>' +
             '<p class="drawer__sub">Your inquiry is on its way. We\'ll reach out shortly.</p>' +
             '<button type="button" class="btn btn--primary" id="inquireDone" style="margin-top:32px"><span class="btn__label"><span data-t="Close">Close</span></span></button>';
           var done = d.getElementById('inquireDone'); if (done) done.addEventListener('click', closeDrawer);
-        }).catch(function () {
+        }).catch(function (x) {
+          if (x === 'nocf') return;
           btn.disabled = false; label.textContent = was; label.setAttribute('data-t', was);
           var err = d.createElement('p'); err.className = 'form__error'; err.setAttribute('role', 'alert');
           err.textContent = 'Something went wrong. Please try again.'; btn.insertAdjacentElement('afterend', err);

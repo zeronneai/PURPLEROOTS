@@ -49,7 +49,7 @@
   '.ap input{font:inherit;font-size:16px;color:#F4F1EC;background:#0B0A0D;border:1px solid rgba(244,241,236,.16);border-radius:12px;padding:13px 14px;outline:none;width:100%}' +
   '.ap input::placeholder{color:rgba(244,241,236,.4)}.ap input:focus{border-color:#B9A4FF;box-shadow:0 0 0 4px rgba(185,164,255,.18)}' +
   '.ap__go{grid-column:1/-1;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:17px 24px;background:#B9A4FF;color:#0B0A0D;font:600 15px Inter,Arial,sans-serif;cursor:pointer;transition:background .25s,transform .25s}' +
-  '.ap__go:hover{background:#cbbcff;transform:translateY(-1px)}.ap__go[disabled]{opacity:.6;cursor:progress;transform:none}.ap__go svg{width:16px;height:16px}' +
+  '.ap__cf:empty{display:none}.ap__go:hover{background:#cbbcff;transform:translateY(-1px)}.ap__go[disabled]{opacity:.6;cursor:progress;transform:none}.ap__go svg{width:16px;height:16px}' +
   '.ap__foot{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;font-size:12px;color:rgba(244,241,236,.55)}' +
   '.ap__foot a,.ap__foot button{color:rgba(244,241,236,.72);background:none;border:0;padding:0;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}' +
   '.ap__err{grid-column:1/-1;margin:0;color:#FF8A80;font-weight:600;font-size:13px}' +
@@ -77,6 +77,7 @@
       '<div class="ap__f"><label for="ap-phone">' + T.phone + '</label><input id="ap-phone" name="phone" type="tel" autocomplete="tel" placeholder="' + T.phone_ph + '"></div>' +
       '<div class="ap__f ap__f--full"><label for="ap-acct">' + T.acct + '</label><input id="ap-acct" name="account" autocapitalize="off" autocomplete="off" placeholder="' + T.acct_ph + '"></div>' +
       '<div class="ap__f ap__f--full"><label for="ap-email">' + T.email + '</label><input id="ap-email" name="email" type="email" autocomplete="email" placeholder="' + T.email_ph + '"></div>' +
+      '<div class="ap__f ap__f--full ap__cf"></div>' +
       '<button class="ap__go" type="submit"><span>' + T.submit + '</span>' + arrow + '</button>' +
       '<div class="ap__foot"><span>' + T.privacy + '</span><span><a href="' + T.page + '">' + T.more + '</a> · <button type="button" data-ap-close>' + T.later + '</button></span></div>' +
       '</form></div>';
@@ -94,6 +95,7 @@
       }
     });
     root.querySelector('form').addEventListener('submit', submit);
+    guard = w.PRGuard ? w.PRGuard.mount(root.querySelector('.ap__cf'), ES ? 'es' : 'en') : null;
   }
 
   function open() {
@@ -113,6 +115,7 @@
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
+  var guard = null;
   function submit(e) {
     e.preventDefault();
     var form = e.currentTarget, v = function (n) { return (form.elements[n].value || '').trim(); };
@@ -123,8 +126,11 @@
       var err = d.createElement('p'); err.className = 'ap__err'; err.setAttribute('role', 'alert'); err.textContent = T.err_fill;
       form.querySelector('.ap__go').insertAdjacentElement('beforebegin', err); form.elements[empty].focus(); return;
     }
+    var showErr = function (msg) { var er = d.createElement('p'); er.className = 'ap__err'; er.setAttribute('role', 'alert'); er.textContent = msg; form.querySelector('.ap__go').insertAdjacentElement('beforebegin', er); };
+    if (w.PRGuard) { var gErr = w.PRGuard.check({ name: v('name'), biz: '', email: v('email'), phone: v('phone'), social: v('account'), msg: '' }, ES ? 'es' : 'en'); if (gErr) { showErr(gErr); return; } }
     var acct = v('account');
     var fd = new FormData();
+    fd.append('form', 'popup'); fd.append('biz', ''); fd.append('social', acct); fd.append('msg', '');
     fd.append('k', 'pra26'); fd.append('t', String(Date.now() - (w.__apOpenedAt || 0))); fd.append('website', form.elements.website.value);
     fd.append('name', v('name'));
     fd.append('company', '- (' + acct + ')');
@@ -133,12 +139,17 @@
     fd.append('goal', T.prefix + ' | ' + T.acct_k + ': ' + acct + ' | Source: popup ' + location.pathname);
     var btn = form.querySelector('.ap__go'), lbl = btn.querySelector('span'), was = lbl.textContent;
     btn.disabled = true; lbl.textContent = T.sending;
-    fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd }).then(function () {
+    (guard ? guard.token() : Promise.resolve('')).then(function (tok) {
+      if (guard && guard.enabled && !tok) { btn.disabled = false; lbl.textContent = was; showErr(guard.msg); throw 'nocf'; }
+      fd.append('cf', tok);
+      return fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd });
+    }).then(function () {
       store('localStorage', 'pr_audit_done', '1');
       form.outerHTML = '<div role="status"><p class="ap__e">' + T.ok_e + '</p><h3 class="ap__h">' + T.ok_h + '</h3><p class="ap__p">' + T.ok_p + '</p>' +
         '<button class="ap__go" type="button" data-ap-close style="width:100%">' + T.close + '</button></div>';
       root.querySelector('.ap__h').remove(); root.querySelector('.ap__e').remove(); root.querySelector('.ap__p').remove(); root.querySelector('.ap__badge').remove();
-    }).catch(function () {
+    }).catch(function (x) {
+      if (x === 'nocf') return;
       btn.disabled = false; lbl.textContent = was;
       var err = d.createElement('p'); err.className = 'ap__err'; err.setAttribute('role', 'alert'); err.textContent = T.err_send;
       btn.insertAdjacentElement('beforebegin', err);
