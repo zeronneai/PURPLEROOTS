@@ -2,7 +2,7 @@
    The same rules run again in the Apps Script, so a bot that skips this file is still blocked. */
 (function (w, d) {
   // Paste the Turnstile SITE key here (Cloudflare dashboard). Empty = Turnstile off.
-  var SITEKEY = '';
+  var SITEKEY = '0x4AAAAAAFeHuEyS1KdRkce-';
 
   var TEMP = ['fextemp.com', 'mailinator.com', 'guerrillamail.com', 'guerrillamail.net', 'guerrillamail.org', 'guerrillamail.biz',
     'guerrillamail.de', 'guerrillamail.info', 'sharklasers.com', 'grr.la', 'pokemail.net', 'spam4.me', '10minutemail.com',
