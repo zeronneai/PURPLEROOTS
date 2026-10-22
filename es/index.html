@@ -422,6 +422,9 @@
     .hero__more { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
     .hero__more .btn { height: 44px; font-size: 14px; color: var(--fg-2); }
     .hero__more .btn:hover, .hero__more .btn:focus-visible { color: var(--ink); }
+    /* hero: hover fills lime, never orange */
+    .hero__actions .btn::before { background: var(--sun); }
+    .hero__more .btn:hover, .hero__more .btn:focus-visible { border-color: var(--sun); }
     .reel-btn { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; }
     /* entrance pending (JS sets the start states, then removes .hi) */
     html.hi .hero__title .ln > span { transform: translateY(112%); }
