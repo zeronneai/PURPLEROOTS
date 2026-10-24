@@ -97,5 +97,42 @@
     };
   }
 
-  w.PRGuard = { check: check, mount: mount, phoneOk: phoneOk, tempEmail: tempEmail, socialOk: socialOk, URL_RX: URL_RX };
+
+  /* ---- SMS consent checkbox (TCPA / A2P 10DLC). Optional, never pre-checked. ---- */
+  var CONSENT_V = '2026-10-23';
+  var CONSENT = {
+    en: { label: 'Text me about my request.',
+      text: 'By checking this box, I agree to receive text messages from Purple Roots Agency at the phone number I provided about my request, including follow-up questions and scheduling. Up to 4 messages per request. Consent is not a condition of any purchase. Message and data rates may apply. Reply STOP to opt out or HELP for help.',
+      links: '<a href="/sms-terms" target="_blank" rel="noopener">SMS Terms</a> · <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>' },
+    es: { label: 'Envíenme mensajes de texto sobre mi solicitud.',
+      text: 'Al marcar esta casilla, acepto recibir mensajes de texto de Purple Roots Agency al número que proporcioné sobre mi solicitud, incluyendo preguntas de seguimiento y agenda. Hasta 4 mensajes por solicitud. El consentimiento no es condición para ninguna compra. Pueden aplicar tarifas de mensajes y datos. Responde STOP para darte de baja o HELP para ayuda.',
+      links: '<a href="/es/terminos-sms" target="_blank" rel="noopener">Términos de SMS</a> · <a href="/es/privacidad" target="_blank" rel="noopener">Política de privacidad</a>' }
+  };
+  var consentCss = false;
+  function consent(box, lang) {
+    var c = CONSENT[lang] || CONSENT.en, input = null;
+    if (box) {
+      if (!consentCss) {
+        consentCss = true;
+        var st = d.createElement('style');
+        st.textContent = '.pr-sms{display:flex;gap:12px;align-items:flex-start;text-align:left;font-size:12px;line-height:1.5;opacity:.85;cursor:pointer;margin:2px 0}' +
+          '.pr-sms input{flex:none;width:18px!important;height:18px;margin:2px 0 0!important;padding:0!important;accent-color:#D1FF13;cursor:pointer}' +
+          '.pr-sms b{display:block;font-size:13px;font-weight:600;opacity:1;margin-bottom:2px}.pr-sms a{color:inherit;text-decoration:underline;text-underline-offset:2px}';
+        d.head.appendChild(st);
+      }
+      box.innerHTML = '<label class="pr-sms"><input type="checkbox" value="yes" /><span><b>' + c.label + '</b>' + c.text + ' ' + c.links + '</span></label>';
+      input = box.querySelector('input');
+    }
+    return {
+      checked: function () { return !!(input && input.checked); },
+      /* adds the consent record to the FormData sent to the Apps Script */
+      append: function (fd) {
+        var yes = !!(input && input.checked);
+        fd.append('sms_consent', yes ? 'yes' : 'no');
+        if (yes) { fd.append('sms_consent_text', c.label + ' ' + c.text); fd.append('sms_consent_v', CONSENT_V); fd.append('sms_consent_page', location.href); }
+      }
+    };
+  }
+
+  w.PRGuard = { check: check, mount: mount, consent: consent, phoneOk: phoneOk, tempEmail: tempEmail, socialOk: socialOk, URL_RX: URL_RX };
 })(window, document);

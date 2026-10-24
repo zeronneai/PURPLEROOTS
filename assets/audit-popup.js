@@ -52,6 +52,7 @@
   '.ap__cf:empty{display:none}.ap__go:hover{background:#FF8A3D;transform:translateY(-1px)}.ap__go[disabled]{opacity:.6;cursor:progress;transform:none}.ap__go svg{width:16px;height:16px}' +
   '.ap__foot{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;font-size:12px;color:rgba(244,241,236,.55)}' +
   '.ap__foot a,.ap__foot button{color:rgba(244,241,236,.72);background:none;border:0;padding:0;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}' +
+  '.ap label.pr-sms{font-size:12px;font-weight:400;letter-spacing:0;text-transform:none;color:rgba(244,241,236,.72)}.ap .pr-sms input{background:none;border:0;box-shadow:none}' +
   '.ap__err{grid-column:1/-1;margin:0;color:#FF8A80;font-weight:600;font-size:13px}' +
   '@media (max-width:560px){.ap{align-items:flex-end;padding:0}.ap__card{border-radius:24px 24px 0 0;max-height:92dvh;padding:28px 20px 22px}.ap__card::before{border-radius:24px 24px 0 0}.ap form{grid-template-columns:1fr}}' +
   '@media (prefers-reduced-motion:reduce){.ap__bg,.ap__card{transition:none}}' +
@@ -77,6 +78,7 @@
       '<div class="ap__f"><label for="ap-phone">' + T.phone + '</label><input id="ap-phone" name="phone" type="tel" autocomplete="tel" placeholder="' + T.phone_ph + '"></div>' +
       '<div class="ap__f ap__f--full"><label for="ap-acct">' + T.acct + '</label><input id="ap-acct" name="account" autocapitalize="off" autocomplete="off" placeholder="' + T.acct_ph + '"></div>' +
       '<div class="ap__f ap__f--full"><label for="ap-email">' + T.email + '</label><input id="ap-email" name="email" type="email" autocomplete="email" placeholder="' + T.email_ph + '"></div>' +
+      '<div class="ap__f ap__f--full ap__sms"></div>' +
       '<div class="ap__f ap__f--full ap__cf"></div>' +
       '<button class="ap__go" type="submit"><span>' + T.submit + '</span>' + arrow + '</button>' +
       '<div class="ap__foot"><span>' + T.privacy + '</span><span><a href="' + T.page + '">' + T.more + '</a> · <button type="button" data-ap-close>' + T.later + '</button></span></div>' +
@@ -96,6 +98,7 @@
     });
     root.querySelector('form').addEventListener('submit', submit);
     guard = w.PRGuard ? w.PRGuard.mount(root.querySelector('.ap__cf'), ES ? 'es' : 'en') : null;
+    sms = w.PRGuard && w.PRGuard.consent ? w.PRGuard.consent(root.querySelector('.ap__sms'), ES ? 'es' : 'en') : null;
   }
 
   function open() {
@@ -115,7 +118,7 @@
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
-  var guard = null;
+  var guard = null, sms = null;
   function submit(e) {
     e.preventDefault();
     var form = e.currentTarget, v = function (n) { return (form.elements[n].value || '').trim(); };
@@ -132,6 +135,7 @@
     var fd = new FormData();
     fd.append('form', 'popup'); fd.append('biz', ''); fd.append('social', acct); fd.append('msg', '');
     fd.append('k', 'pra26'); fd.append('t', String(Date.now() - (w.__apOpenedAt || 0))); fd.append('website', form.elements.website.value);
+    if (sms) sms.append(fd);
     fd.append('name', v('name'));
     fd.append('company', '- (' + acct + ')');
     fd.append('phone', v('phone'));

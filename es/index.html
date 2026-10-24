@@ -1238,7 +1238,7 @@
     </div>
     <p class="footer__word" id="footerWord" aria-label="Purple Roots">Purple Roots</p>
     <div class="footer__bar">
-      <p>&copy; 2026 Purple Roots Agency</p>
+      <p>&copy; 2026 Purple Roots Agency · <a href="/es/privacidad">Privacidad</a> · <a href="/es/terminos-sms">Términos de SMS</a></p>
       <p>El Paso · Las Cruces · Juárez · Estados Unidos</p>
     </div>
   </footer>
@@ -1270,6 +1270,7 @@
         <label class="field"><span>Teléfono</span><input type="tel" name="phone" required autocomplete="tel" placeholder="Número de teléfono" /></label>
         <label class="field"><span>Correo electrónico</span><input type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" /></label>
         <label class="field"><span>¿Qué quieres lograr?</span><textarea name="goal" rows="4" required placeholder="Cuéntanos qué quieres lograr"></textarea></label>
+        <div id="inquireSms"></div>
         <div class="cf-box" id="inquireCf"></div>
         <button class="btn btn--primary" type="submit"><span class="btn__label"><span data-t="Enviar solicitud">Enviar solicitud</span></span><svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button>
         <p class="form__note">Normalmente respondemos en un día hábil.</p>
@@ -1844,6 +1845,7 @@
       backdrop.addEventListener('click', closeDrawer);
       var ENDPOINT = 'https://script.google.com/macros/s/AKfycby_FcqUjJIuyfwG6ZnxvOLqeETVAW6NBGGya7YUYJfKe0I3FifQwPO8vGfwm3Vlhiov5g/exec';
       var guard = window.PRGuard ? window.PRGuard.mount(d.getElementById('inquireCf'), 'es') : null;
+      var sms = window.PRGuard && window.PRGuard.consent ? window.PRGuard.consent(d.getElementById('inquireSms'), 'es') : null;
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = form.querySelector('button[type="submit"]'), prev = form.querySelector('.form__error'); if (prev) prev.remove();
@@ -1860,7 +1862,7 @@
         if (window.PRGuard) { var gErr = window.PRGuard.check({ name: val('name'), biz: val('company'), email: val('email'), phone: val('phone'), msg: val('goal') }, 'es'); if (gErr) { showErr(gErr); return; } }
         var label = btn.querySelector('.btn__label > span'), was = label.textContent;
         btn.disabled = true; label.textContent = 'Enviando'; label.setAttribute('data-t', 'Enviando');
-        var fd = new FormData(form); fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now())));
+        var fd = new FormData(form); if (sms) sms.append(fd); fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now())));
         fd.append('form', 'contact'); fd.append('biz', val('company')); fd.append('msg', val('goal'));
         (guard ? guard.token() : Promise.resolve('')).then(function (tok) {
           if (guard && guard.enabled && !tok) { btn.disabled = false; label.textContent = was; label.setAttribute('data-t', was); showErr(guard.msg); throw 'nocf'; }

@@ -104,6 +104,7 @@ box-shadow:0 40px 80px -30px rgba(0,0,0,.7);transform:rotate(2deg)}
 form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
 .f{display:flex;flex-direction:column;gap:8px}.f--full{grid-column:1/-1}
 .f label{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(11,10,13,.72)}
+.f label.pr-sms{font-size:12px;font-weight:400;letter-spacing:0;text-transform:none;color:rgba(11,10,13,.72)}.f .pr-sms input{accent-color:#C2570C;box-shadow:none}
 .f input,.f textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid rgba(11,10,13,.16);border-radius:12px;padding:15px 16px;outline:none;transition:border-color .2s,box-shadow .2s}
 .f textarea{min-height:110px;resize:vertical}
 .f input:focus,.f textarea:focus{border-color:var(--lav-deep);box-shadow:0 0 0 4px rgba(255,138,61,.16)}
@@ -206,6 +207,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
           <div class="f"><label for="a-biz">Business name</label><input id="a-biz" name="company" autocomplete="organization" placeholder="Business name" /></div>
           <div class="f"><label for="a-email">Email</label><input id="a-email" type="email" name="email" autocomplete="email" placeholder="you@company.com" required /></div>
           <div class="f f--full"><label for="a-goal">Biggest challenge right now (optional)</label><textarea id="a-goal" name="challenge" placeholder="e.g. we post a lot but nobody buys"></textarea></div>
+          <div class="f f--full" id="smsBox"></div>
           <div class="f f--full cf-box" id="cfBox"></div>
           <div class="form-foot"><button class="btn" type="submit"><span class="lbl">Send my audit request</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button><p class="privacy">We only use your info to send your audit. No spam.</p></div>
         </form>
@@ -225,7 +227,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
 
   <footer class="foot">
     <span>Purple Roots Agency · El Paso, TX</span>
-    <div class="foot__links"><a href="/">Purple Roots</a><a href="/faq">FAQ</a><a href="https://www.instagram.com/purpleroots.agency" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/19152343655?text=I%20want%20my%20free%20social%20media%20audit" target="_blank" rel="noopener">WhatsApp</a></div>
+    <div class="foot__links"><a href="/">Purple Roots</a><a href="/faq">FAQ</a><a href="/privacy">Privacy</a><a href="/sms-terms">SMS Terms</a><a href="https://www.instagram.com/purpleroots.agency" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/19152343655?text=I%20want%20my%20free%20social%20media%20audit" target="_blank" rel="noopener">WhatsApp</a></div>
   </footer>
 
   <script>
@@ -243,6 +245,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
     var form = d.getElementById('auditForm');
     if (!form) return;
     var guard = window.PRGuard ? window.PRGuard.mount(d.getElementById('cfBox'), 'en') : null;
+    var sms = window.PRGuard && window.PRGuard.consent ? window.PRGuard.consent(d.getElementById('smsBox'), 'en') : null;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var prev = form.querySelector('.form__error'); if (prev) prev.remove();
@@ -267,6 +270,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
       var ig = v('instagram');
       var fd = new FormData();
       fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now()))); fd.append('website', form.elements.website.value);
+      if (sms) sms.append(fd);
       fd.append('form', 'audit'); fd.append('biz', v('company')); fd.append('social', ig); fd.append('msg', v('challenge'));
       fd.append('name', v('name'));
       fd.append('company', (v('company') || '-') + ' (' + ig + ')');
