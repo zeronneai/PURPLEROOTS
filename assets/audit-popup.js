@@ -6,24 +6,24 @@
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycby_FcqUjJIuyfwG6ZnxvOLqeETVAW6NBGGya7YUYJfKe0I3FifQwPO8vGfwm3Vlhiov5g/exec';
   var T = ES ? {
     eyebrow: 'Auditoría gratis', h: '¿Qué está frenando tu <em>marca</em>?',
-    sub: 'Envíanos tu cuenta y en 36 horas te mandamos una auditoría personalizada de tus redes y tu marca, con los cambios exactos que haríamos. Sin costo y sin compromiso.',
+    sub: 'Envíanos tu cuenta y en 24 horas te mandamos una auditoría personalizada de tus redes y tu marca, con los cambios exactos que haríamos. Sin costo y sin compromiso.',
     name: 'Tu nombre', name_ph: 'Nombre completo', acct: 'Tu red social principal (Instagram, TikTok, Facebook)', acct_ph: '@tumarca o link del perfil',
     email: 'Correo', email_ph: 'tu@empresa.com', phone: 'WhatsApp / teléfono', phone_ph: 'Número de teléfono',
     submit: 'Quiero mi auditoría gratis', sending: 'Enviando', later: 'Ahora no', close: 'Cerrar',
     privacy: 'Solo usamos tus datos para enviarte tu auditoría.', more: 'Ver qué incluye',
     err_fill: 'Completa tu nombre, red social, correo y teléfono.', err_send: 'Algo salió mal. Inténtalo de nuevo.',
-    ok_e: 'Solicitud recibida', ok_h: 'Tu auditoría <em>va en camino</em>.', ok_p: 'La recibirás en menos de 36 horas. Revisa tu correo y tu WhatsApp.',
-    prefix: 'SOLICITUD DE AUDITORÍA GRATIS (36h)', acct_k: 'Red social', badge: 'horas', page: '/es/audit'
+    ok_e: 'Solicitud recibida', ok_h: 'Tu auditoría <em>va en camino</em>.', ok_p: 'La recibirás en menos de 24 horas. Revisa tu correo y tu WhatsApp.',
+    prefix: 'SOLICITUD DE AUDITORÍA GRATIS (24h)', acct_k: 'Red social', badge: 'horas', page: '/es/audit'
   } : {
     eyebrow: 'Free audit', h: 'What’s holding your <em>brand</em> back?',
-    sub: 'Send us your account and in 36 hours we’ll send you a personalized audit of your social media and brand, with the exact changes we would make. No cost. No commitment.',
+    sub: 'Send us your account and in 24 hours we’ll send you a personalized audit of your social media and brand, with the exact changes we would make. No cost. No commitment.',
     name: 'Your name', name_ph: 'Full name', acct: 'Main social account (Instagram, TikTok, Facebook)', acct_ph: '@yourbrand or profile link',
     email: 'Email', email_ph: 'you@company.com', phone: 'WhatsApp / phone', phone_ph: 'Phone number',
     submit: 'Get my free audit', sending: 'Sending', later: 'Not now', close: 'Close',
     privacy: 'We only use your info to send your audit.', more: 'See what’s included',
     err_fill: 'Please fill in your name, social account, email and phone.', err_send: 'Something went wrong. Please try again.',
-    ok_e: 'Request received', ok_h: 'Your audit is <em>on its way</em>.', ok_p: 'You’ll get it within 36 hours. Keep an eye on your email and WhatsApp.',
-    prefix: 'FREE AUDIT REQUEST (36h)', acct_k: 'Social', badge: 'hours', page: '/audit'
+    ok_e: 'Request received', ok_h: 'Your audit is <em>on its way</em>.', ok_p: 'You’ll get it within 24 hours. Keep an eye on your email and WhatsApp.',
+    prefix: 'FREE AUDIT REQUEST (24h)', acct_k: 'Social', badge: 'hours', page: '/audit'
   };
 
   function store(kind, key, val) { try { var s = w[kind]; if (val === undefined) return s.getItem(key); s.setItem(key, val); } catch (e) { return null; } }
@@ -71,7 +71,7 @@
       '<p class="ap__e">' + T.eyebrow + '</p>' +
       '<h2 class="ap__h" id="apTitle">' + T.h + '</h2>' +
       '<p class="ap__p">' + T.sub + '</p>' +
-      '<div class="ap__badge"><b>36</b><span>' + T.badge + '</span></div>' +
+      '<div class="ap__badge"><b>24</b><span>' + T.badge + '</span></div>' +
       '<form novalidate>' + '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />' +
       '<div class="ap__f"><label for="ap-name">' + T.name + '</label><input id="ap-name" name="name" autocomplete="name" placeholder="' + T.name_ph + '"></div>' +
       '<div class="ap__f"><label for="ap-phone">' + T.phone + '</label><input id="ap-phone" name="phone" type="tel" autocomplete="tel" placeholder="' + T.phone_ph + '"></div>' +

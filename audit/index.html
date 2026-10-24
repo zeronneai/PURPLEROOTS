@@ -172,7 +172,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
         <p class="hero__cta-line rv">Tell us about your business below, and we will get to work.</p>
         <div class="hero__actions rv">
           <a class="btn btn--lav" href="#request">Get my free audit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-          <div class="badge"><span class="badge__n">36</span><span class="badge__t">hours to your audit</span></div>
+          <div class="badge"><span class="badge__n">24</span><span class="badge__t">hours to your audit</span></div>
         </div>
       </div>
       <div class="mock rv" aria-hidden="true">
@@ -272,7 +272,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
       fd.append('company', (v('company') || '-') + ' (' + ig + ')');
       fd.append('phone', v('phone'));
       fd.append('email', v('email'));
-      fd.append('goal', "FREE AUDIT REQUEST (36h)" + ' | ' + "Social" + ': ' + ig + (v('challenge') ? ' | ' + "Challenge" + ': ' + v('challenge') : '') + ' | Source: ' + location.pathname + location.search);
+      fd.append('goal', "FREE AUDIT REQUEST (24h)" + ' | ' + "Social" + ': ' + ig + (v('challenge') ? ' | ' + "Challenge" + ': ' + v('challenge') : '') + ' | Source: ' + location.pathname + location.search);
       var btn = form.querySelector('button[type="submit"]'), lbl = btn.querySelector('.lbl'), was = lbl.textContent;
       btn.disabled = true; lbl.textContent = "Sending";
       (guard ? guard.token() : Promise.resolve('')).then(function (tok) {
@@ -280,7 +280,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
         fd.append('cf', tok);
         return fetch("https://script.google.com/macros/s/AKfycby_FcqUjJIuyfwG6ZnxvOLqeETVAW6NBGGya7YUYJfKe0I3FifQwPO8vGfwm3Vlhiov5g/exec", { method: 'POST', mode: 'no-cors', body: fd });
       }).then(function () {
-        form.innerHTML = '<div class="done" role="status"><p class="eyebrow">' + "Request received" + '</p><h3>' + "Your audit is <em>on its way</em>." + '</h3><p>' + "Our team will review your account and send your audit within 36 hours. Keep an eye on your email and WhatsApp." + '</p><a class="btn" href="/">' + "Back to the site" + '</a></div>';
+        form.innerHTML = '<div class="done" role="status"><p class="eyebrow">' + "Request received" + '</p><h3>' + "Your audit is <em>on its way</em>." + '</h3><p>' + "Our team will review your account and send your audit within 24 hours. Keep an eye on your email and WhatsApp." + '</p><a class="btn" href="/">' + "Back to the site" + '</a></div>';
       }).catch(function (x) {
         if (x === 'nocf') return;
         btn.disabled = false; lbl.textContent = was;
