@@ -23,6 +23,7 @@ Spanish versions of each service page live under https://purpleroots.agency/es/
 - Video production: cinematic brand films, commercials, short-form video for Instagram, TikTok, and YouTube, and comedy content. Details: https://purpleroots.agency/video-production-el-paso
 - Social media and community: content calendars, posting, and community management. Details: https://purpleroots.agency/social-media-marketing-el-paso
 - Web design: websites and landing pages built to convert. Details: https://purpleroots.agency/web-design-el-paso
+- Software and web development: custom websites, web apps, e-commerce and product builders, payments and memberships (Stripe, Authorize.net), customer portals, admin dashboards and integrations, frontend and backend. Details: https://purpleroots.agency/software-development-el-paso
 - Business systems: employee backends and admin portals built on the client's own website domain
 - AI content: AI video and content for faster output and more testing
 - Paid amplification: Meta ads placed behind content that already works organically
@@ -39,6 +40,12 @@ Purple Roots follows an "attention first" method: (1) research the market, (2) e
 - Mark Davis (personal brand): 557,000 views and 402 inbound calls from one commercial
 - Chingon Cuh'ts (barbershop): 500,000 views from $100 in ad spend; record walk-ins and appointments
 - The agency states its content formula has generated 700M+ organic views across client work
+
+## Software built by Purple Roots
+
+- Torque Baseball (El Paso baseball and softball academy, torquebaseball.us): membership and payments platform with recurring Stripe billing, digital waivers, QR check-in in real time, events and RSVPs, and an owner dashboard; bilingual EN/ES public site
+- Tippin' Cowgirl (El Paso Hat Bar, tippincowgirl.com): online store with a visual custom hat builder, live pricing and Stripe checkout
+- Molon Labe Firearms (licensed firearms dealer in El Paso, molonlabeguns.com): showroom and sales platform with a first-person intro game, 21+ age gate, inventory and limited drops, Authorize.net payments and an owner admin portal
 
 ## Ideal client
 

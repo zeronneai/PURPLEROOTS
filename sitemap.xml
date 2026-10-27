@@ -118,6 +118,15 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://purpleroots.agency/software-development-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/software-development-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/desarrollo-de-software-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/software-development-el-paso" />
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://purpleroots.agency/es/diseno-web-el-paso</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/web-design-el-paso" />
     <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/diseno-web-el-paso" />
@@ -130,4 +139,13 @@
   <url><loc>https://purpleroots.agency/sms-terms</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://purpleroots.agency/es/privacidad</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://purpleroots.agency/es/terminos-sms</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url>
+    <loc>https://purpleroots.agency/es/desarrollo-de-software-el-paso</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purpleroots.agency/software-development-el-paso" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/desarrollo-de-software-el-paso" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/software-development-el-paso" />
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
