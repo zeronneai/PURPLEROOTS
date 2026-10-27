@@ -10,7 +10,7 @@
   <link rel="alternate" hreflang="es" href="https://purpleroots.agency/es/desarrollo-de-software-el-paso" />
   <link rel="alternate" hreflang="x-default" href="https://purpleroots.agency/software-development-el-paso" />
   <meta name="robots" content="index, follow, max-video-preview:-1, max-image-preview:large" />
-  <meta name="theme-color" content="#0B0A0D" />
+  <meta name="theme-color" content="#F4F1EC" />
   <meta name="geo.region" content="US-TX" />
   <meta name="geo.placename" content="El Paso" />
   <meta name="geo.position" content="31.76195;-106.49009" />
@@ -168,6 +168,24 @@ box-shadow:0 40px 80px -30px rgba(0,0,0,.7);transform:rotate(2deg)}
 .proj .link{color:#D1FF13}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .sec__lead{color:var(--bone-70);max-width:62ch;margin:-28px 0 48px;font-size:1.05rem}
+
+/* light theme, like the bone sections of the home page */
+:root{--ink:#F4F1EC;--ink-2:#FFFFFF;--ink-3:#ECE8E1;--bone:#0B0A0D;--bone-70:rgba(11,10,13,.7);--bone-50:rgba(11,10,13,.52);--line:rgba(11,10,13,.12);--lav:#C2570C;--lav-deep:#C2570C}
+.nav{background:rgba(244,241,236,.86)}
+.nav__logo img{filter:invert(1)}
+.btn,.btn--lav,.nav__cta{color:#0B0A0D}
+.btn--lav:hover,.nav__cta:hover{background:#FF8A3D;color:#0B0A0D}
+.hero::before{background:radial-gradient(closest-side,rgba(255,159,69,.22),rgba(255,138,61,.05) 55%,transparent 72%)}
+.step__n{color:#0B0A0D}
+.final__free a,.proj .link{color:#0B0A0D;text-decoration-color:#D1FF13;text-decoration-thickness:3px}
+.proj__media{background:#fff;border:1px solid var(--line);box-shadow:0 30px 70px -40px rgba(11,10,13,.35)}
+.proj__f li::before{box-shadow:0 0 0 2px #0B0A0D}
+.stack li{background:#fff}
+.item{background:#fff}
+.sec--tint{background:#ECE8E1}
+.more__a{background:#fff}.more__a:hover{background:#fff;border-color:#0B0A0D}
+.foot{background:#0B0A0D;border-top:0}.foot a,.foot span,.foot strong{color:rgba(244,241,236,.72)}.foot a:hover{color:#F4F1EC}.foot__nap strong{color:#F4F1EC}
+
 @media (max-width:1024px){.grid3{grid-template-columns:repeat(2,1fr)}.proj,.proj:nth-child(even){grid-template-columns:1fr}.proj:nth-child(even) .proj__media{order:0}}
 @media (max-width:560px){.grid3{grid-template-columns:1fr}}
 </style>
