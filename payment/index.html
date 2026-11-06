@@ -134,7 +134,7 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
 
   <script>
   (function () {
-    var LANG = 'en', T = {"e_min": "Please enter a valid amount.", "e_name": "Please enter your name.", "e_biz": "Please enter your business name.", "e_email": "Please enter a valid email.", "e_net": "We could not start the payment. Please try again or message us on WhatsApp.", "ok_p": "Thank you. Your receipt is on its way to", "paying": "Paying"}, MIN = 750;
+    var LANG = 'en', T = {"e_min": "Please enter a valid amount.", "e_name": "Please enter your name.", "e_biz": "Please enter your business name.", "e_email": "Please enter a valid email.", "e_net": "We could not start the payment. Please try again or message us on WhatsApp.", "ok_p": "Thank you. Your receipt is on its way to", "paying": "Paying"}, MIN = 1; /* the real minimum is checked on the server */
     var d = document, form = d.getElementById('payForm'), amt = d.getElementById('amount'), err = d.getElementById('payErr'), btn = d.getElementById('payBtn');
     var mod = d.getElementById('mod'), box = d.getElementById('checkout'), done = d.getElementById('done');
     var stripeP = null, checkout = null;
@@ -193,20 +193,21 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
       if (!name) { err.textContent = T.e_name; form.elements.name.focus(); return; }
       if (!form.elements.business.value.trim()) { err.textContent = T.e_biz; form.elements.business.focus(); return; }
       if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { err.textContent = T.e_email; form.elements.email.focus(); return; }
-      btn.disabled = true; openMod(a);
+      btn.disabled = true;
       var payload = { amount: a, name: name, business: form.elements.business.value.trim(), email: email, memo: form.elements.memo.value.trim(), website: form.elements.website.value, lang: LANG };
-      loadStripe().then(function (stripe) {
-        var fetchClientSecret = function () {
-          return fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-            .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.clientSecret) throw new Error(j.error || T.e_net); return j.clientSecret; }); });
-        };
-        var opts = { fetchClientSecret: fetchClientSecret, onComplete: function () { showDone(email); } };
+      // 1) create the session first, so any error (amount, email...) shows on the form
+      var secretP = fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.clientSecret) { var x = new Error(j.error || T.e_net); x.form = true; throw x; } return j.clientSecret; }); });
+      Promise.all([secretP, loadStripe()]).then(function (r) {
+        var secret = r[0], stripe = r[1];
+        openMod(a);
+        var opts = { fetchClientSecret: function () { return Promise.resolve(secret); }, onComplete: function () { showDone(email); } };
         var make = stripe.createEmbeddedCheckoutPage || stripe.initEmbeddedCheckout;
         return make.call(stripe, opts);
       }).then(function (c) {
         checkout = c; box.innerHTML = ''; c.mount('#checkout');
       }).catch(function (e) {
-        closeMod(); err.textContent = (e && e.message && e.message !== 'no key' && !/Failed to fetch|NetworkError/i.test(e.message)) ? e.message : T.e_net;
+        closeMod(); err.textContent = (e && e.form) ? e.message : T.e_net;
       });
     });
 

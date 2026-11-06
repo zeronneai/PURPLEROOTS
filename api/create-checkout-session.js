@@ -3,7 +3,8 @@
 // bank transfer (ACH) show up based on what is turned on in the Stripe Dashboard.
 const { stripe } = require('./_stripe');
 
-const MIN_USD = 750;
+// Minimum is 750. For a quick live test you can set PAYMENT_MIN_USD=1 in Vercel, then remove it.
+// min is read per request below
 const MAX_USD = 100000;
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 const clean = (s, n) => String(s || '').replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
@@ -28,7 +29,8 @@ module.exports = async function (req, res) {
     if (!name) return res.status(400).json({ error: msg.name });
     if (!business) return res.status(400).json({ error: msg.biz });
     if (!EMAIL_RX.test(email)) return res.status(400).json({ error: msg.email });
-    if (!(amount >= MIN_USD)) return res.status(400).json({ error: msg.min });
+    const min = Math.max(1, Number(process.env.PAYMENT_MIN_USD) || 750);
+    if (!(amount >= min)) return res.status(400).json({ error: msg.min });
     if (amount > MAX_USD) return res.status(400).json({ error: msg.max });
 
     const host = req.headers['x-forwarded-host'] || req.headers.host;
