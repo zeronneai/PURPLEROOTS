@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Make a Payment | Purple Roots Agency</title>
+  <meta name="description" content="Pay Purple Roots Agency securely by card, Apple Pay, Google Pay or bank transfer." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#F4F1EC" />
+  <link rel="canonical" href="https://purpleroots.agency/payment" />
+  <link rel="icon" type="image/png" sizes="48x48" href="https://res.cloudinary.com/dsprn0ew4/image/upload/c_pad,w_48,h_48,b_white,f_png,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/dsprn0ew4/image/upload/c_pad,w_180,h_180,b_white,f_png,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://js.stripe.com" />
+  <style>
+:root{--ink:#0B0A0D;--bone:#F4F1EC;--paper:#FFFFFF;--line:rgba(11,10,13,.12);--mute:rgba(11,10,13,.6);--lime:#D1FF13;--orange:#C2570C;--glow:#FF9F45;
+--f-d:"Inter Tight",system-ui,sans-serif;--f-b:"Inter",system-ui,sans-serif;--f-s:"Instrument Serif",Georgia,serif;--pad:clamp(20px,4vw,56px)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bone);color:var(--ink);font-family:var(--f-b);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 var(--pad);border-bottom:1px solid var(--line)}
+.nav img{display:block;height:24px;width:auto}
+.nav__r{display:flex;gap:18px;align-items:center;font-size:13px;font-weight:600}
+.nav__r a{text-decoration:none}.nav__lang{color:var(--orange);letter-spacing:.14em}
+main{flex:1;position:relative;overflow:hidden;padding:clamp(40px,8vh,90px) var(--pad) clamp(56px,9vh,100px)}
+main::before{content:"";position:absolute;width:900px;height:900px;border-radius:50%;right:-260px;top:-360px;pointer-events:none;
+ background:radial-gradient(closest-side,rgba(255,159,69,.22),rgba(255,138,61,.05) 55%,transparent 72%)}
+.wrap{position:relative;max-width:1080px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(32px,6vw,90px);align-items:start}
+.wrap{grid-template-rows:auto 1fr;row-gap:0}.card{grid-column:2;grid-row:1 / span 2}.extra{grid-column:1;grid-row:2}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:0 0 16px}
+h1{font-family:var(--f-d);font-weight:800;letter-spacing:-.045em;line-height:.95;font-size:clamp(3rem,7vw,5.6rem);margin:0 0 20px}
+h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.01em;color:var(--orange)}
+.lead{font-size:1.08rem;color:var(--mute);max-width:40ch;margin:0 0 28px}
+.methods{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px;padding:0;list-style:none}
+.methods li{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:600}
+.secure{display:flex;gap:10px;font-size:13px;color:var(--mute);max-width:42ch}
+.secure svg{flex:none;width:18px;height:18px;margin-top:2px}
+.help{margin-top:22px;font-size:13px;color:var(--mute)}.help a{color:var(--ink);font-weight:600;text-decoration-color:var(--lime);text-decoration-thickness:3px;text-underline-offset:3px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(22px,3vw,34px);box-shadow:0 40px 80px -50px rgba(11,10,13,.45)}
+.amt{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:22px}
+.amt label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.amt__row{display:flex;align-items:baseline;justify-content:center;margin:14px 0 6px;font-family:var(--f-d);font-weight:800;letter-spacing:-.05em;line-height:1}
+.amt__row span{font-size:clamp(2.6rem,6vw,3.6rem);color:var(--mute);margin-right:4px}
+.amt__row input{width:100%;max-width:7.2ch;border:0;outline:0;background:none;font:inherit;font-size:clamp(3.6rem,9vw,5.4rem);color:var(--ink);text-align:left;padding:0;caret-color:var(--orange)}
+.amt__row input::placeholder{color:rgba(11,10,13,.22)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+.chips button{border:1px solid var(--line);background:var(--bone);border-radius:999px;padding:8px 14px;font:600 13px var(--f-b);color:var(--ink);cursor:pointer;transition:background .2s,border-color .2s}
+.chips button:hover,.chips button[aria-pressed="true"]{background:var(--lime);border-color:var(--ink)}
+.f{margin:0 0 16px}
+.f label{display:block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 8px}
+.f label small{text-transform:none;letter-spacing:0;font-weight:500;margin-left:6px;opacity:.8}
+.f input{width:100%;border:1px solid var(--line);background:var(--bone);border-radius:12px;padding:14px 16px;font:500 16px var(--f-b);color:var(--ink);outline:0;transition:border-color .2s,box-shadow .2s}
+.f input:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(209,255,19,.55);background:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.err{min-height:20px;font-size:13.5px;color:#B42318;margin:4px 0 12px;font-weight:500}
+.btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:18px 26px;background:var(--lime);color:var(--ink);
+ font:700 16px var(--f-b);cursor:pointer;box-shadow:0 14px 30px -14px rgba(130,160,0,.9);transition:transform .25s,background .25s}
+.btn:hover{background:#FF8A3D}.btn:active{transform:scale(.98)}.btn[disabled]{opacity:.55;cursor:wait}
+.btn svg{width:18px;height:18px}
+.foot{padding:22px var(--pad);border-top:1px solid var(--line);font-size:12px;color:var(--mute);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+.foot a{text-decoration:none}
+/* modal */
+.mod{position:fixed;inset:0;z-index:100;display:none;align-items:flex-start;justify-content:center;padding:clamp(12px,4vh,48px) 12px;background:rgba(11,10,13,.55);backdrop-filter:blur(6px);overflow-y:auto}
+.mod.on{display:flex}
+.mod__box{position:relative;width:100%;max-width:560px;background:#fff;border-radius:22px;box-shadow:0 50px 100px -30px rgba(0,0,0,.6);animation:pop .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.mod__head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.mod__head p{margin:0;font-size:13px;color:var(--mute)}.mod__head b{display:block;font-family:var(--f-d);font-size:1.5rem;letter-spacing:-.03em;color:var(--ink)}
+.mod__x{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bone);cursor:pointer;font-size:20px;line-height:1;color:var(--ink)}
+#checkout{min-height:420px;padding:6px 4px 10px}
+.mod__load{display:flex;align-items:center;justify-content:center;gap:12px;min-height:320px;color:var(--mute);font-size:14px}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid rgba(11,10,13,.12);border-top-color:var(--ink);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.done{display:none;text-align:center;padding:44px 28px 34px}
+.done.on{display:block}
+.done i{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:var(--lime);border:2px solid var(--ink)}
+.done i svg{width:28px;height:28px}
+.done h2{font-family:var(--f-d);font-weight:800;letter-spacing:-.04em;font-size:2rem;margin:0 0 10px}
+.done p{color:var(--mute);margin:0 auto 10px;max-width:38ch}
+.done .btn{max-width:220px;margin:22px auto 0}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;row-gap:28px}.card,.extra{grid-column:1;grid-row:auto}.lead{max-width:none;margin-bottom:0}}
+@media (max-width:520px){.two{grid-template-columns:1fr}.nav__r .hide-s{display:none}}
+</style>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" aria-label="Purple Roots"><img src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_black,f_auto,q_auto,h_120/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" width="120" height="24" /></a>
+    <div class="nav__r"><a class="nav__lang" href="/es/pago">ES</a><a class="hide-s" href="https://wa.me/19152343655" target="_blank" rel="noopener">WhatsApp</a></div>
+  </nav>
+  <main>
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Purple Roots · Payments</p>
+        <h1>Make a <em>payment.</em></h1>
+        <p class="lead">Enter the amount, add your details and pay right here. Secure checkout powered by Stripe.</p>
+      </div>
+      <form class="card" id="payForm" novalidate>
+        <div class="amt">
+          <label for="amount"><span>Amount</span><span>Minimum $750</span></label>
+          <div class="amt__row"><span>$</span><input id="amount" name="amount" inputmode="decimal" autocomplete="off" placeholder="750" aria-describedby="payErr" /></div>
+          <div class="chips"><button type="button" data-v="750" aria-pressed="false">$750</button><button type="button" data-v="1500" aria-pressed="false">$1,500</button><button type="button" data-v="2500" aria-pressed="false">$2,500</button><button type="button" data-v="5000" aria-pressed="false">$5,000</button></div>
+        </div>
+        <div class="two">
+          <div class="f"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required /></div>
+          <div class="f"><label for="business">Business name<small>Optional</small></label><input id="business" name="business" autocomplete="organization" /></div>
+        </div>
+        <div class="f"><label for="email">Email for your receipt</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+        <div class="f"><label for="memo">What is this payment for?</label><input id="memo" name="memo" placeholder="Invoice number, project or month" maxlength="140" /></div>
+        <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off" /></div>
+        <p class="err" id="payErr" role="alert"></p>
+        <button class="btn" type="submit" id="payBtn">Continue to payment <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </form>
+      <div class="extra">
+        <ul class="methods"><li>Card</li><li>Apple Pay</li><li>Google Pay</li><li>Bank transfer (ACH)</li></ul>
+        <p class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Payments are processed by Stripe. We never see or store your card or bank details.</span></p>
+        <p class="help">Questions about a payment? <a href="https://wa.me/19152343655" target="_blank" rel="noopener">Message us on WhatsApp</a></p>
+      </div>
+    </div>
+  </main>
+  <footer class="foot"><span>Purple Roots Agency · WestStar Tower, El Paso, TX</span><span><a href="/privacy">Privacy</a></span></footer>
+
+  <div class="mod" id="mod" role="dialog" aria-modal="true" aria-labelledby="modAmt">
+    <div class="mod__box">
+      <div class="mod__head"><div><p>Paying to Purple Roots Agency</p><b id="modAmt">$0</b></div><button class="mod__x" type="button" id="modX" aria-label="Close">&times;</button></div>
+      <div id="checkout"><div class="mod__load"><span class="spin"></span>Loading secure checkout</div></div>
+      <div class="done" id="done"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0B0A0D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><h2>Payment received.</h2><p id="doneP"></p><p>If you paid by bank transfer, it can take up to 4 business days to clear. We will confirm when it lands.</p><button class="btn" type="button" id="doneBtn">Done</button></div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var LANG = 'en', T = {"e_min": "The minimum amount is $750.", "e_name": "Please enter your name.", "e_email": "Please enter a valid email.", "e_net": "We could not start the payment. Please try again or message us on WhatsApp.", "ok_p": "Thank you. Your receipt is on its way to", "paying": "Paying"}, MIN = 750;
+    var d = document, form = d.getElementById('payForm'), amt = d.getElementById('amount'), err = d.getElementById('payErr'), btn = d.getElementById('payBtn');
+    var mod = d.getElementById('mod'), box = d.getElementById('checkout'), done = d.getElementById('done');
+    var stripeP = null, checkout = null;
+    var fmt = function (n) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); };
+    var val = function () { var n = parseFloat(String(amt.value).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : Math.round(n * 100) / 100; };
+
+    amt.addEventListener('input', function () {
+      var v = amt.value.replace(/[^0-9.]/g, ''); var p = v.split('.'); if (p.length > 2) v = p[0] + '.' + p.slice(1).join('');
+      if (p[1] && p[1].length > 2) v = p[0] + '.' + p[1].slice(0, 2);
+      amt.value = v; err.textContent = '';
+      [].forEach.call(d.querySelectorAll('.chips button'), function (b) { b.setAttribute('aria-pressed', String(+b.dataset.v === val())); });
+    });
+    [].forEach.call(d.querySelectorAll('.chips button'), function (b) {
+      b.addEventListener('click', function () { amt.value = b.dataset.v; amt.dispatchEvent(new Event('input')); });
+    });
+
+    function loadStripe() {
+      if (stripeP) return stripeP;
+      stripeP = Promise.all([
+        fetch('/api/stripe-config').then(function (r) { return r.json(); }),
+        new Promise(function (res, rej) {
+          if (window.Stripe) return res();
+          var s = d.createElement('script'); s.src = 'https://js.stripe.com/dahlia/stripe.js'; s.onload = res; s.onerror = rej; d.head.appendChild(s);
+        })
+      ]).then(function (r) { if (!r[0].publishableKey) throw new Error('no key'); return window.Stripe(r[0].publishableKey); });
+      stripeP.catch(function () { stripeP = null; });
+      return stripeP;
+    }
+    // warm up while they type
+    form.addEventListener('focusin', function () { loadStripe(); }, { once: true });
+
+    function openMod(amount) {
+      d.getElementById('modAmt').textContent = fmt(amount);
+      box.style.display = ''; done.classList.remove('on');
+      mod.classList.add('on'); d.body.style.overflow = 'hidden';
+    }
+    function closeMod() {
+      mod.classList.remove('on'); d.body.style.overflow = '';
+      if (checkout) { try { checkout.destroy(); } catch (e) {} checkout = null; }
+      box.innerHTML = '<div class="mod__load"><span class="spin"></span>' + "Loading secure checkout" + '</div>';
+      btn.disabled = false;
+    }
+    function showDone(email) {
+      if (checkout) { try { checkout.destroy(); } catch (e) {} checkout = null; }
+      box.style.display = 'none'; d.getElementById('doneP').textContent = T.ok_p + ' ' + (email || '') + '.';
+      done.classList.add('on'); form.reset(); amt.dispatchEvent(new Event('input'));
+    }
+    d.getElementById('modX').addEventListener('click', closeMod);
+    d.getElementById('doneBtn').addEventListener('click', closeMod);
+    d.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && mod.classList.contains('on')) closeMod(); });
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault(); err.textContent = '';
+      var a = val(), name = form.elements.name.value.trim(), email = form.elements.email.value.trim();
+      if (!(a >= MIN)) { err.textContent = T.e_min; amt.focus(); return; }
+      if (!name) { err.textContent = T.e_name; form.elements.name.focus(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { err.textContent = T.e_email; form.elements.email.focus(); return; }
+      btn.disabled = true; openMod(a);
+      var payload = { amount: a, name: name, business: form.elements.business.value.trim(), email: email, memo: form.elements.memo.value.trim(), website: form.elements.website.value, lang: LANG };
+      loadStripe().then(function (stripe) {
+        var fetchClientSecret = function () {
+          return fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+            .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.clientSecret) throw new Error(j.error || T.e_net); return j.clientSecret; }); });
+        };
+        var opts = { fetchClientSecret: fetchClientSecret, onComplete: function () { showDone(email); } };
+        var make = stripe.createEmbeddedCheckoutPage || stripe.initEmbeddedCheckout;
+        return make.call(stripe, opts);
+      }).then(function (c) {
+        checkout = c; box.innerHTML = ''; c.mount('#checkout');
+      }).catch(function (e) {
+        closeMod(); err.textContent = (e && e.message && e.message !== 'no key' && !/Failed to fetch|NetworkError/i.test(e.message)) ? e.message : T.e_net;
+      });
+    });
+
+    // Back from a payment method that needed a redirect
+    var sid = new URLSearchParams(location.search).get('session_id');
+    if (sid) {
+      history.replaceState(null, '', location.pathname);
+      fetch('/api/checkout-status?session_id=' + encodeURIComponent(sid)).then(function (r) { return r.json(); }).then(function (s) {
+        if (s.status === 'complete') { d.getElementById('modAmt').textContent = s.amount ? fmt(s.amount / 100) : ''; mod.classList.add('on'); showDone(s.email); }
+      }).catch(function () {});
+    }
+  })();
+  </script>
+</body>
+</html>

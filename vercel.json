@@ -5,6 +5,12 @@
     { "source": "/llms.txt", "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }] }
   ],
   "redirects": [
+    { "source": "/pay", "destination": "/payment", "permanent": false },
+    { "source": "/payments", "destination": "/payment", "permanent": false },
+    { "source": "/pagar", "destination": "/es/pago", "permanent": false },
+    { "source": "/pago", "destination": "/es/pago", "permanent": false },
+    { "source": "/es/payment", "destination": "/es/pago", "permanent": false },
+
     { "source": "/about", "destination": "/#about", "permanent": true },
     { "source": "/about-us", "destination": "/#about", "permanent": true },
     { "source": "/aboutus", "destination": "/#about", "permanent": true },
