@@ -23,9 +23,10 @@ module.exports = async function (req, res) {
     const amount = Math.round(parseFloat(String(b.amount).replace(/[^0-9.]/g, '')) * 100) / 100;
 
     const msg = lang === 'es'
-      ? { name: 'Escribe tu nombre.', email: 'Escribe un correo válido.', min: 'El monto mínimo es $750.', max: 'Para montos mayores a $100,000 contáctanos.' }
-      : { name: 'Please enter your name.', email: 'Please enter a valid email.', min: 'The minimum amount is $750.', max: 'For amounts over $100,000 please contact us.' };
+      ? { name: 'Escribe tu nombre.', biz: 'Escribe el nombre de tu negocio.', email: 'Escribe un correo válido.', min: 'Escribe un monto válido.', max: 'Para montos mayores a $100,000 contáctanos.' }
+      : { name: 'Please enter your name.', biz: 'Please enter your business name.', email: 'Please enter a valid email.', min: 'Please enter a valid amount.', max: 'For amounts over $100,000 please contact us.' };
     if (!name) return res.status(400).json({ error: msg.name });
+    if (!business) return res.status(400).json({ error: msg.biz });
     if (!EMAIL_RX.test(email)) return res.status(400).json({ error: msg.email });
     if (!(amount >= MIN_USD)) return res.status(400).json({ error: msg.min });
     if (amount > MAX_USD) return res.status(400).json({ error: msg.max });

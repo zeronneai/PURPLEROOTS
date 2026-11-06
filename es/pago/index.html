@@ -101,13 +101,13 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
       </div>
       <form class="card" id="payForm" novalidate>
         <div class="amt">
-          <label for="amount"><span>Monto</span><span>Mínimo $750</span></label>
-          <div class="amt__row"><span>$</span><input id="amount" name="amount" inputmode="decimal" autocomplete="off" placeholder="750" aria-describedby="payErr" /></div>
+          <label for="amount"><span>Monto</span></label>
+          <div class="amt__row"><span>$</span><input id="amount" name="amount" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="payErr" /></div>
           <div class="chips"><button type="button" data-v="750" aria-pressed="false">$750</button><button type="button" data-v="1500" aria-pressed="false">$1,500</button><button type="button" data-v="2500" aria-pressed="false">$2,500</button><button type="button" data-v="5000" aria-pressed="false">$5,000</button></div>
         </div>
         <div class="two">
           <div class="f"><label for="name">Nombre completo</label><input id="name" name="name" autocomplete="name" required /></div>
-          <div class="f"><label for="business">Nombre del negocio<small>Opcional</small></label><input id="business" name="business" autocomplete="organization" /></div>
+          <div class="f"><label for="business">Nombre del negocio</label><input id="business" name="business" autocomplete="organization" required /></div>
         </div>
         <div class="f"><label for="email">Correo para tu recibo</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
         <div class="f"><label for="memo">¿Qué estás pagando?</label><input id="memo" name="memo" placeholder="Número de factura, proyecto o mes" maxlength="140" /></div>
@@ -134,7 +134,7 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
 
   <script>
   (function () {
-    var LANG = 'es', T = {"e_min": "El monto mínimo es $750.", "e_name": "Escribe tu nombre.", "e_email": "Escribe un correo válido.", "e_net": "No pudimos iniciar el pago. Inténtalo de nuevo o escríbenos por WhatsApp.", "ok_p": "Gracias. Tu recibo va en camino a", "paying": "Pagando"}, MIN = 750;
+    var LANG = 'es', T = {"e_min": "Escribe un monto válido.", "e_name": "Escribe tu nombre.", "e_biz": "Escribe el nombre de tu negocio.", "e_email": "Escribe un correo válido.", "e_net": "No pudimos iniciar el pago. Inténtalo de nuevo o escríbenos por WhatsApp.", "ok_p": "Gracias. Tu recibo va en camino a", "paying": "Pagando"}, MIN = 750;
     var d = document, form = d.getElementById('payForm'), amt = d.getElementById('amount'), err = d.getElementById('payErr'), btn = d.getElementById('payBtn');
     var mod = d.getElementById('mod'), box = d.getElementById('checkout'), done = d.getElementById('done');
     var stripeP = null, checkout = null;
@@ -191,6 +191,7 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
       var a = val(), name = form.elements.name.value.trim(), email = form.elements.email.value.trim();
       if (!(a >= MIN)) { err.textContent = T.e_min; amt.focus(); return; }
       if (!name) { err.textContent = T.e_name; form.elements.name.focus(); return; }
+      if (!form.elements.business.value.trim()) { err.textContent = T.e_biz; form.elements.business.focus(); return; }
       if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { err.textContent = T.e_email; form.elements.email.focus(); return; }
       btn.disabled = true; openMod(a);
       var payload = { amount: a, name: name, business: form.elements.business.value.trim(), email: email, memo: form.elements.memo.value.trim(), website: form.elements.website.value, lang: LANG };
