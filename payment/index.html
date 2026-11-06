@@ -63,18 +63,13 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
 .btn svg{width:18px;height:18px}
 .foot{padding:22px var(--pad);border-top:1px solid var(--line);font-size:12px;color:var(--mute);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 .foot a{text-decoration:none}
-/* modal */
-.mod{position:fixed;inset:0;z-index:100;display:none;align-items:flex-start;justify-content:center;padding:clamp(12px,4vh,48px) 12px;background:rgba(11,10,13,.55);backdrop-filter:blur(6px);overflow-y:auto}
-.mod.on{display:flex}
-.mod__box{position:relative;width:100%;max-width:560px;background:#fff;border-radius:22px;box-shadow:0 50px 100px -30px rgba(0,0,0,.6);animation:pop .35s cubic-bezier(.2,.8,.2,1)}
-@keyframes pop{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
-.mod__head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line)}
-.mod__head p{margin:0;font-size:13px;color:var(--mute)}.mod__head b{display:block;font-family:var(--f-d);font-size:1.5rem;letter-spacing:-.03em;color:var(--ink)}
-.mod__x{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bone);cursor:pointer;font-size:20px;line-height:1;color:var(--ink)}
-#checkout{min-height:420px;padding:6px 4px 10px}
-.mod__load{display:flex;align-items:center;justify-content:center;gap:12px;min-height:320px;color:var(--mute);font-size:14px}
-.spin{width:22px;height:22px;border-radius:50%;border:3px solid rgba(11,10,13,.12);border-top-color:var(--ink);animation:sp .8s linear infinite}
+.pay{border-top:1px solid var(--line);margin-top:6px;padding-top:20px}
+.pay h3{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 12px}
+#pe{min-height:120px}
+.pe__load{display:flex;align-items:center;gap:12px;color:var(--mute);font-size:14px;padding:18px 0}
+.spin{width:20px;height:20px;border-radius:50%;border:3px solid rgba(11,10,13,.12);border-top-color:var(--ink);animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+.btn .spin{border-color:rgba(11,10,13,.2);border-top-color:var(--ink)}
 .done{display:none;text-align:center;padding:44px 28px 34px}
 .done.on{display:block}
 .done i{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:var(--lime);border:2px solid var(--ink)}
@@ -97,7 +92,7 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
       <div>
         <p class="eyebrow">Purple Roots · Payments</p>
         <h1>Make a <em>payment.</em></h1>
-        <p class="lead">Enter the amount, add your details and pay right here. Secure checkout powered by Stripe.</p>
+        <p class="lead">Enter the amount, add your details and pay right here, all in one step. Secure checkout powered by Stripe.</p>
       </div>
       <form class="card" id="payForm" novalidate>
         <div class="amt">
@@ -112,8 +107,10 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
         <div class="f"><label for="email">Email for your receipt</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
         <div class="f"><label for="memo">What is this payment for?</label><input id="memo" name="memo" placeholder="Invoice number, project or month" maxlength="140" /></div>
         <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off" /></div>
+        <div class="pay"><h3>Payment method</h3><div id="pe"><div class="pe__load"><span class="spin"></span>Loading secure checkout</div></div></div>
         <p class="err" id="payErr" role="alert"></p>
-        <button class="btn" type="submit" id="payBtn">Continue to payment <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <button class="btn" type="submit" id="payBtn"><span id="btnTxt">Pay</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="done" id="done"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0B0A0D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><h2>Payment received.</h2><p id="doneP"></p><p>If you paid by bank transfer, it can take up to 4 business days to clear. We will confirm when it lands.</p><button class="btn" type="button" id="doneBtn">Make another payment</button></div>
       </form>
       <div class="extra">
         <ul class="methods"><li>Card</li><li>Apple Pay</li><li>Google Pay</li><li>Bank transfer (ACH)</li></ul>
@@ -124,20 +121,11 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
   </main>
   <footer class="foot"><span>Purple Roots Agency · WestStar Tower, El Paso, TX</span><span><a href="/privacy">Privacy</a></span></footer>
 
-  <div class="mod" id="mod" role="dialog" aria-modal="true" aria-labelledby="modAmt">
-    <div class="mod__box">
-      <div class="mod__head"><div><p>Paying to Purple Roots Agency</p><b id="modAmt">$0</b></div><button class="mod__x" type="button" id="modX" aria-label="Close">&times;</button></div>
-      <div id="checkout"><div class="mod__load"><span class="spin"></span>Loading secure checkout</div></div>
-      <div class="done" id="done"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0B0A0D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><h2>Payment received.</h2><p id="doneP"></p><p>If you paid by bank transfer, it can take up to 4 business days to clear. We will confirm when it lands.</p><button class="btn" type="button" id="doneBtn">Done</button></div>
-    </div>
-  </div>
-
   <script>
   (function () {
-    var LANG = 'en', T = {"e_min": "Please enter a valid amount.", "e_name": "Please enter your name.", "e_biz": "Please enter your business name.", "e_email": "Please enter a valid email.", "e_net": "We could not start the payment. Please try again or message us on WhatsApp.", "ok_p": "Thank you. Your receipt is on its way to", "paying": "Paying"}, MIN = 1; /* the real minimum is checked on the server */
+    var LANG = 'en', T = {"e_min": "Please enter a valid amount.", "e_name": "Please enter your name.", "e_biz": "Please enter your business name.", "e_email": "Please enter a valid email.", "e_net": "We could not process the payment. Please try again or message us on WhatsApp.", "ok_p": "Thank you. Your receipt is on its way to", "ok_p2": "Thank you. Your receipt is on its way to your email.", "btn": "Pay", "pe_off": "The payment form is not available right now. Please message us on WhatsApp.", "processing": "Processing"}, MIN = 1; /* the real minimum is checked on the server */
     var d = document, form = d.getElementById('payForm'), amt = d.getElementById('amount'), err = d.getElementById('payErr'), btn = d.getElementById('payBtn');
-    var mod = d.getElementById('mod'), box = d.getElementById('checkout'), done = d.getElementById('done');
-    var stripeP = null, checkout = null;
+    var done = d.getElementById('done');
     var fmt = function (n) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); };
     var val = function () { var n = parseFloat(String(amt.value).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : Math.round(n * 100) / 100; };
 
@@ -151,73 +139,93 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
       b.addEventListener('click', function () { amt.value = b.dataset.v; amt.dispatchEvent(new Event('input')); });
     });
 
-    function loadStripe() {
-      if (stripeP) return stripeP;
-      stripeP = Promise.all([
-        fetch('/api/stripe-config').then(function (r) { return r.json(); }),
-        new Promise(function (res, rej) {
-          if (window.Stripe) return res();
-          var s = d.createElement('script'); s.src = 'https://js.stripe.com/dahlia/stripe.js'; s.onload = res; s.onerror = rej; d.head.appendChild(s);
-        })
-      ]).then(function (r) { if (!r[0].publishableKey) throw new Error('no key'); return window.Stripe(r[0].publishableKey); });
-      stripeP.catch(function () { stripeP = null; });
-      return stripeP;
+    var stripe = null, elements = null, ready = false;
+    var cents = function (a) { return Math.round(a * 100); };
+    function label() {
+      var a = val();
+      d.getElementById('btnTxt').textContent = a > 0 ? T.btn + ' ' + fmt(a) : T.btn;
+      if (elements && a >= 1) { try { var p = elements.update({ amount: cents(a) }); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
     }
-    // warm up while they type
-    form.addEventListener('focusin', function () { loadStripe(); }, { once: true });
+    amt.addEventListener('input', label);
 
-    function openMod(amount) {
-      d.getElementById('modAmt').textContent = fmt(amount);
-      box.style.display = ''; done.classList.remove('on');
-      mod.classList.add('on'); d.body.style.overflow = 'hidden';
-    }
-    function closeMod() {
-      mod.classList.remove('on'); d.body.style.overflow = '';
-      if (checkout) { try { checkout.destroy(); } catch (e) {} checkout = null; }
-      box.innerHTML = '<div class="mod__load"><span class="spin"></span>' + "Loading secure checkout" + '</div>';
-      btn.disabled = false;
+    // Load Stripe and put the payment fields right inside the form
+    Promise.all([
+      fetch('/api/stripe-config').then(function (r) { return r.json(); }),
+      new Promise(function (res, rej) {
+        if (window.Stripe) return res();
+        var s = d.createElement('script'); s.src = 'https://js.stripe.com/dahlia/stripe.js'; s.onload = res; s.onerror = rej; d.head.appendChild(s);
+      })
+    ]).then(function (r) {
+      if (!r[0].publishableKey) throw new Error('no key');
+      stripe = window.Stripe(r[0].publishableKey);
+      elements = stripe.elements({
+        mode: 'payment', amount: cents(val() >= 1 ? val() : 750), currency: 'usd', locale: LANG,
+        fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap' }],
+        appearance: {
+          theme: 'stripe',
+          variables: { colorPrimary: '#0B0A0D', colorBackground: '#F4F1EC', colorText: '#0B0A0D', colorTextSecondary: 'rgba(11,10,13,.6)',
+            colorDanger: '#B42318', fontFamily: 'Inter, system-ui, sans-serif', fontSizeBase: '16px', borderRadius: '12px', spacingUnit: '4px' },
+          rules: {
+            '.Input': { border: '1px solid rgba(11,10,13,.12)', boxShadow: 'none', padding: '14px 16px' },
+            '.Input:focus': { border: '1px solid #0B0A0D', boxShadow: '0 0 0 4px rgba(209,255,19,.55)', backgroundColor: '#FFFFFF' },
+            '.Label': { fontSize: '12px', fontWeight: '600', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(11,10,13,.6)' },
+            '.Tab': { border: '1px solid rgba(11,10,13,.12)', backgroundColor: '#F4F1EC', boxShadow: 'none' },
+            '.Tab:hover': { borderColor: '#0B0A0D' },
+            '.Tab--selected, .Tab--selected:hover': { borderColor: '#0B0A0D', backgroundColor: '#FFFFFF', boxShadow: '0 0 0 3px #D1FF13' }
+          }
+        }
+      });
+      var pe = elements.create('payment', { layout: 'tabs', fields: { billingDetails: { name: 'never', email: 'never' } } });
+      d.getElementById('pe').innerHTML = '';
+      pe.mount('#pe');
+      pe.on('ready', function () { ready = true; });
+      label();
+    }).catch(function () {
+      d.getElementById('pe').innerHTML = '<p class="pe__load">' + T.pe_off + '</p>';
+    });
+
+    function busy(on) {
+      btn.disabled = on;
+      d.getElementById('btnTxt').innerHTML = on ? '<span class="spin" style="display:inline-block;vertical-align:-4px"></span> ' + T.processing : '';
+      if (!on) label();
     }
     function showDone(email) {
-      if (checkout) { try { checkout.destroy(); } catch (e) {} checkout = null; }
-      box.style.display = 'none'; d.getElementById('doneP').textContent = T.ok_p + ' ' + (email || '') + '.';
-      done.classList.add('on'); form.reset(); amt.dispatchEvent(new Event('input'));
+      [].forEach.call(form.children, function (c) { if (c.id !== 'done') c.style.display = 'none'; });
+      d.getElementById('doneP').textContent = email ? T.ok_p + ' ' + email + '.' : T.ok_p2;
+      done.classList.add('on'); form.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    d.getElementById('modX').addEventListener('click', closeMod);
-    d.getElementById('doneBtn').addEventListener('click', closeMod);
-    d.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && mod.classList.contains('on')) closeMod(); });
+    d.getElementById('doneBtn').addEventListener('click', function () { location.href = location.pathname; });
 
     form.addEventListener('submit', function (ev) {
       ev.preventDefault(); err.textContent = '';
-      var a = val(), name = form.elements.name.value.trim(), email = form.elements.email.value.trim();
-      if (!(a >= MIN)) { err.textContent = T.e_min; amt.focus(); return; }
+      var a = val(), name = form.elements.name.value.trim(), email = form.elements.email.value.trim(), biz = form.elements.business.value.trim();
+      if (!(a >= 1)) { err.textContent = T.e_min; amt.focus(); return; }
       if (!name) { err.textContent = T.e_name; form.elements.name.focus(); return; }
-      if (!form.elements.business.value.trim()) { err.textContent = T.e_biz; form.elements.business.focus(); return; }
+      if (!biz) { err.textContent = T.e_biz; form.elements.business.focus(); return; }
       if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { err.textContent = T.e_email; form.elements.email.focus(); return; }
-      btn.disabled = true;
-      var payload = { amount: a, name: name, business: form.elements.business.value.trim(), email: email, memo: form.elements.memo.value.trim(), website: form.elements.website.value, lang: LANG };
-      // 1) create the session first, so any error (amount, email...) shows on the form
-      var secretP = fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-        .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.clientSecret) { var x = new Error(j.error || T.e_net); x.form = true; throw x; } return j.clientSecret; }); });
-      Promise.all([secretP, loadStripe()]).then(function (r) {
-        var secret = r[0], stripe = r[1];
-        openMod(a);
-        var opts = { fetchClientSecret: function () { return Promise.resolve(secret); }, onComplete: function () { showDone(email); } };
-        var make = stripe.createEmbeddedCheckoutPage || stripe.initEmbeddedCheckout;
-        return make.call(stripe, opts);
-      }).then(function (c) {
-        checkout = c; box.innerHTML = ''; c.mount('#checkout');
-      }).catch(function (e) {
-        closeMod(); err.textContent = (e && e.form) ? e.message : T.e_net;
-      });
+      if (!stripe || !elements) { err.textContent = T.e_net; return; }
+      busy(true);
+      var fail = function (m) { busy(false); err.textContent = m || T.e_net; };
+      elements.submit().then(function (r) {
+        if (r && r.error) throw { form: true, message: r.error.message };
+        return fetch('/api/create-payment-intent', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: a, name: name, business: biz, email: email, memo: form.elements.memo.value.trim(), website: form.elements.website.value, lang: LANG }) })
+          .then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.clientSecret) throw { form: true, message: j.error }; return j.clientSecret; }); });
+      }).then(function (secret) {
+        return stripe.confirmPayment({ elements: elements, clientSecret: secret, redirect: 'if_required',
+          confirmParams: { return_url: location.origin + location.pathname, payment_method_data: { billing_details: { name: name, email: email } } } });
+      }).then(function (res) {
+        if (res.error) return fail(res.error.message);
+        var st = res.paymentIntent && res.paymentIntent.status;
+        if (st === 'succeeded' || st === 'processing') showDone(email); else fail();
+      }).catch(function (e) { fail(e && e.form ? e.message : null); });
     });
 
     // Back from a payment method that needed a redirect
-    var sid = new URLSearchParams(location.search).get('session_id');
-    if (sid) {
+    var q = new URLSearchParams(location.search), rs = q.get('redirect_status');
+    if (rs) {
       history.replaceState(null, '', location.pathname);
-      fetch('/api/checkout-status?session_id=' + encodeURIComponent(sid)).then(function (r) { return r.json(); }).then(function (s) {
-        if (s.status === 'complete') { d.getElementById('modAmt').textContent = s.amount ? fmt(s.amount / 100) : ''; mod.classList.add('on'); showDone(s.email); }
-      }).catch(function () {});
+      if (rs === 'succeeded' || rs === 'processing') showDone(''); else err.textContent = T.e_net;
     }
   })();
   </script>

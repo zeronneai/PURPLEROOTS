@@ -1,10 +1,8 @@
-// Creates an embedded Stripe Checkout Session for a one-time payment.
-// The client chooses the amount (minimum $750). Card, Apple Pay, Google Pay and
-// bank transfer (ACH) show up based on what is turned on in the Stripe Dashboard.
+// Creates a one-time PaymentIntent for the amount the client typed (minimum $750).
+// The card / Apple Pay / Google Pay / bank (ACH) fields live inside our own form (Stripe Payment Element),
+// so the customer never leaves purpleroots.agency/payment.
 const { stripe } = require('./_stripe');
 
-// Minimum is 750. For a quick live test you can set PAYMENT_MIN_USD=1 in Vercel, then remove it.
-// min is read per request below
 const MAX_USD = 100000;
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 const clean = (s, n) => String(s || '').replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
@@ -22,6 +20,8 @@ module.exports = async function (req, res) {
     const email = clean(b.email, 120).toLowerCase();
     const memo = clean(b.memo, 140);
     const amount = Math.round(parseFloat(String(b.amount).replace(/[^0-9.]/g, '')) * 100) / 100;
+    // Minimum is 750. For a quick live test you can set PAYMENT_MIN_USD=1 in Vercel, then remove it.
+    const min = Math.max(1, Number(process.env.PAYMENT_MIN_USD) || 750);
 
     const msg = lang === 'es'
       ? { name: 'Escribe tu nombre.', biz: 'Escribe el nombre de tu negocio.', email: 'Escribe un correo válido.', min: 'Escribe un monto válido.', max: 'Para montos mayores a $100,000 contáctanos.' }
@@ -29,31 +29,19 @@ module.exports = async function (req, res) {
     if (!name) return res.status(400).json({ error: msg.name });
     if (!business) return res.status(400).json({ error: msg.biz });
     if (!EMAIL_RX.test(email)) return res.status(400).json({ error: msg.email });
-    const min = Math.max(1, Number(process.env.PAYMENT_MIN_USD) || 750);
     if (!(amount >= min)) return res.status(400).json({ error: msg.min });
     if (amount > MAX_USD) return res.status(400).json({ error: msg.max });
 
-    const host = req.headers['x-forwarded-host'] || req.headers.host;
-    const base = (process.env.SITE_URL || ('https://' + host)).replace(/\/$/, '');
-    const page = lang === 'es' ? '/es/pago' : '/payment';
-    const label = business ? business + ' (' + name + ')' : name;
     const meta = { client_name: name, business: business, email: email, memo: memo, lang: lang, source: 'purpleroots.agency/payment' };
-
-    const session = await stripe('POST', '/checkout/sessions', {
-      ui_mode: 'embedded_page',
-      mode: 'payment',
-      submit_type: 'pay',
-      locale: lang,
-      customer_email: email,
-      customer_creation: 'always',
-      line_items: { 0: { quantity: 1, price_data: { currency: 'usd', unit_amount: Math.round(amount * 100),
-        product_data: { name: 'Purple Roots Agency', description: memo || (lang === 'es' ? 'Pago de servicios' : 'Payment for services') } } } },
-      payment_intent_data: { description: 'Purple Roots payment: ' + label + (memo ? ' | ' + memo : ''), metadata: meta },
-      metadata: meta,
-      redirect_on_completion: 'if_required',
-      return_url: base + page + '?session_id={CHECKOUT_SESSION_ID}'
+    const pi = await stripe('POST', '/payment_intents', {
+      amount: Math.round(amount * 100),
+      currency: 'usd',
+      automatic_payment_methods: { enabled: 'true' },
+      receipt_email: email,
+      description: 'Purple Roots payment: ' + business + ' (' + name + ')' + (memo ? ' | ' + memo : ''),
+      metadata: meta
     });
-    return res.status(200).json({ clientSecret: session.client_secret });
+    return res.status(200).json({ clientSecret: pi.client_secret });
   } catch (err) {
     return res.status(err.status || 500).json({ error: err.message || 'Something went wrong.' });
   }
