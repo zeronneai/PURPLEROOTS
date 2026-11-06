@@ -2,6 +2,7 @@
 // The card / Apple Pay / Google Pay / bank (ACH) fields live inside our own form (Stripe Payment Element),
 // so the customer never leaves purpleroots.agency/payment.
 const { stripe } = require('./_stripe');
+const fee = require('./_fee');
 
 const MAX_USD = 100000;
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
@@ -32,13 +33,15 @@ module.exports = async function (req, res) {
     if (!(amount >= min)) return res.status(400).json({ error: msg.min });
     if (amount > MAX_USD) return res.status(400).json({ error: msg.max });
 
-    const meta = { client_name: name, business: business, email: email, memo: memo, lang: lang, source: 'purpleroots.agency/payment' };
+    const total = fee.totalCents(amount);            // amount + service fee, in cents
+    const feeCents = total - Math.round(amount * 100);
+    const meta = { amount_before_fee: amount.toFixed(2), service_fee: (feeCents / 100).toFixed(2), service_fee_percent: String(fee.percent()), client_name: name, business: business, email: email, memo: memo, lang: lang, source: 'purpleroots.agency/payment' };
     const pi = await stripe('POST', '/payment_intents', {
-      amount: Math.round(amount * 100),
+      amount: total,
       currency: 'usd',
       automatic_payment_methods: { enabled: 'true' },
       receipt_email: email,
-      description: 'Purple Roots payment: ' + business + ' (' + name + ')' + (memo ? ' | ' + memo : ''),
+      description: 'Purple Roots payment: ' + business + ' (' + name + ')' + (memo ? ' | ' + memo : '') + ' | $' + amount.toFixed(2) + ' + ' + fee.percent() + '% service fee',
       metadata: meta
     });
     return res.status(200).json({ clientSecret: pi.client_secret });

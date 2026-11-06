@@ -64,6 +64,11 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
 .foot{padding:22px var(--pad);border-top:1px solid var(--line);font-size:12px;color:var(--mute);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 .foot a{text-decoration:none}
 .pay{border-top:1px solid var(--line);margin-top:6px;padding-top:20px}
+.sum{background:var(--bone);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:20px 0 18px;font-size:14.5px}
+.sum div{display:flex;justify-content:space-between;padding:3px 0;color:var(--mute)}
+.sum div b{font-weight:600;color:var(--ink)}
+.sum .tot{border-top:1px solid var(--line);margin-top:6px;padding-top:9px;color:var(--ink);font-weight:700;font-size:16px}
+.sum .tot b{font-family:var(--f-d);font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
 .pay h3{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 12px}
 #pe{min-height:120px}
 .pe__load{display:flex;align-items:center;gap:12px;color:var(--mute);font-size:14px;padding:18px 0}
@@ -108,6 +113,7 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
         <div class="f"><label for="memo">¿Qué estás pagando?</label><input id="memo" name="memo" placeholder="Número de factura, proyecto o mes" maxlength="140" /></div>
         <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off" /></div>
         <div class="pay"><h3>Método de pago</h3><div id="pe"><div class="pe__load"><span class="spin"></span>Cargando el pago seguro</div></div></div>
+        <div class="sum" id="sum" hidden><div><span>Monto</span><b id="sSub">$0</b></div><div><span>Cargo por servicio (<span id="sPct">5</span>%)</span><b id="sFee">$0</b></div><div class="tot"><span>Total</span><b id="sTot">$0</b></div></div>
         <p class="err" id="payErr" role="alert"></p>
         <button class="btn" type="submit" id="payBtn"><span id="btnTxt">Pagar</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         <div class="done" id="done"><i><svg viewBox="0 0 24 24" fill="none" stroke="#0B0A0D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><h2>Pago recibido.</h2><p id="doneP"></p><p>Si pagaste por transferencia bancaria, puede tardar hasta 4 días hábiles en reflejarse. Te confirmamos cuando llegue.</p><button class="btn" type="button" id="doneBtn">Hacer otro pago</button></div>
@@ -140,11 +146,18 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
     });
 
     var stripe = null, elements = null, ready = false;
+    var FEE = 5; /* % service fee, the real value comes from the server */
     var cents = function (a) { return Math.round(a * 100); };
+    var totalOf = function (a) { return Math.round(a * (100 + FEE)) / 100; };
     function label() {
-      var a = val();
-      d.getElementById('btnTxt').textContent = a > 0 ? T.btn + ' ' + fmt(a) : T.btn;
-      if (elements && a >= 1) { try { var p = elements.update({ amount: cents(a) }); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
+      var a = val(), tot = totalOf(a), sum = d.getElementById('sum');
+      sum.hidden = !(a > 0);
+      d.getElementById('sPct').textContent = FEE;
+      d.getElementById('sSub').textContent = fmt(a);
+      d.getElementById('sFee').textContent = fmt(Math.round((tot - a) * 100) / 100);
+      d.getElementById('sTot').textContent = fmt(tot);
+      d.getElementById('btnTxt').textContent = a > 0 ? T.btn + ' ' + fmt(tot) : T.btn;
+      if (elements && a >= 1) { try { var p = elements.update({ amount: cents(tot) }); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
     }
     amt.addEventListener('input', label);
 
@@ -157,9 +170,10 @@ h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.
       })
     ]).then(function (r) {
       if (!r[0].publishableKey) throw new Error('no key');
+      if (typeof r[0].feePercent === 'number') FEE = r[0].feePercent;
       stripe = window.Stripe(r[0].publishableKey);
       elements = stripe.elements({
-        mode: 'payment', amount: cents(val() >= 1 ? val() : 750), currency: 'usd', locale: LANG,
+        mode: 'payment', amount: cents(totalOf(val() >= 1 ? val() : 750)), currency: 'usd', locale: LANG,
         fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap' }],
         appearance: {
           theme: 'stripe',
