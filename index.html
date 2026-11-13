@@ -475,6 +475,7 @@
     .logo-btn.is-big img { height: clamp(62px, 6.4vw, 110px); }
     .logo-btn:hover img, .logo-btn:focus-visible img { filter: none; opacity: 1; transform: scale(1.06); }
     .logo-btn[disabled] { cursor: default; }
+    .marquee.is-baked .logo-btn img, .marquee.is-baked .logo-btn:hover img { filter: none; transition: none; transform: none; }
     @media (max-width: 760px) { .marquee { -webkit-mask-image: none; mask-image: none; } .marquee__track { animation-duration: 38s; } .marquee--rev .marquee__track { animation-duration: 44s; } .logo-btn { height: 96px; padding: 0 24px; } .logo-btn img { height: 44px; max-width: 170px; } .logo-btn.is-big img { height: 54px; } }
     .names { display: flex; align-items: center; flex: none; }
     .names span {
@@ -1551,6 +1552,19 @@
 
     /* ---------------- marquee: slows on hover, logos open the clip ---------------- */
     function initMarquee() {
+      // Phones: swap every logo for a pre-colored version (white / gray) so the moving rows
+      // don't apply a CSS filter to dozens of images; iOS Safari drops or flickers them otherwise.
+      if (window.matchMedia && matchMedia('(hover: none)').matches) {
+        $$('[data-marquee]').forEach(function (m) {
+          m.classList.add('is-baked');
+          $$('.logo-btn img', m).forEach(function (img) {
+            var raw = img.parentNode.classList.contains('is-raw'), src = img.getAttribute('src') || '';
+            if (/res\.cloudinary\.com/.test(src)) src = src.replace(/\/(v\d+\/)/, '/' + (raw ? 'e_grayscale' : 'e_colorize:100,co_white') + '/$1');
+            else src = src.replace('/assets/clients/logos/', '/assets/clients/logos/' + (raw ? 'gray/' : 'white/'));
+            img.setAttribute('src', src);
+          });
+        });
+      }
       $$('[data-marquee]').forEach(function (m) {
         var track = $('.marquee__track', m);
         var anim = track.getAnimations ? track.getAnimations()[0] : null;
