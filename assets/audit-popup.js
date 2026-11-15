@@ -141,6 +141,7 @@
     fd.append('phone', v('phone'));
     fd.append('email', v('email'));
     fd.append('goal', T.prefix + ' | ' + T.acct_k + ': ' + acct + ' | Source: popup ' + location.pathname);
+    if (w.PRTrack) w.PRTrack.append(fd);
     var btn = form.querySelector('.ap__go'), lbl = btn.querySelector('span'), was = lbl.textContent;
     btn.disabled = true; lbl.textContent = T.sending;
     (guard ? guard.token() : Promise.resolve('')).then(function (tok) {
@@ -148,6 +149,7 @@
       fd.append('cf', tok);
       return fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd });
     }).then(function () {
+      if (w.PRTrack) w.PRTrack.lead('popup');
       store('localStorage', 'pr_audit_done', '1');
       form.outerHTML = '<div role="status"><p class="ap__e">' + T.ok_e + '</p><h3 class="ap__h">' + T.ok_h + '</h3><p class="ap__p">' + T.ok_p + '</p>' +
         '<button class="ap__go" type="button" data-ap-close style="width:100%">' + T.close + '</button></div>';

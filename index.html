@@ -815,8 +815,11 @@
   <!-- Vercel Web Analytics -->
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Meta Pixel + lead attribution -->
+  <script src="/assets/track.js"></script>
 </head>
 <body>
+  <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1699397478369874&amp;ev=PageView&amp;noscript=1" /></noscript>
   <a class="skip" href="#main">Skip to content</a>
 
   <!-- Preloader (only rendered when html.is-loading; once per session) -->
@@ -1884,11 +1887,13 @@
         btn.disabled = true; label.textContent = 'Sending'; label.setAttribute('data-t', 'Sending');
         var fd = new FormData(form); if (sms) sms.append(fd); fd.append('k', 'pra26'); fd.append('t', String(Math.round(performance.now())));
         fd.append('form', 'contact'); fd.append('biz', val('company')); fd.append('msg', val('goal'));
+        if (window.PRTrack) window.PRTrack.append(fd);
         (guard ? guard.token() : Promise.resolve('')).then(function (tok) {
           if (guard && guard.enabled && !tok) { btn.disabled = false; label.textContent = was; label.setAttribute('data-t', was); showErr(guard.msg); throw 'nocf'; }
           fd.append('cf', tok);
           return fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd });
         }).then(function () {
+          if (window.PRTrack) window.PRTrack.lead('contact');
           inner.innerHTML = '<p class="eyebrow">Received</p><h2 class="drawer__title">Thanks, we\'ll be <em>in touch</em>.</h2>' +
             '<p class="drawer__sub">Your inquiry is on its way. We\'ll reach out shortly.</p>' +
             '<button type="button" class="btn btn--primary" id="inquireDone" style="margin-top:32px"><span class="btn__label"><span data-t="Close">Close</span></span></button>';
