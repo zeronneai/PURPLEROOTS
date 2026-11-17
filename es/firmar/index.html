@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firmar un documento | Purple Roots Agency</title>
+  <meta name="description" content="Sube un documento y fírmalo electrónicamente con Purple Roots Agency." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#F4F1EC" />
+  <link rel="canonical" href="https://purpleroots.agency/es/firmar" />
+  <link rel="icon" type="image/png" sizes="48x48" href="https://res.cloudinary.com/dsprn0ew4/image/upload/c_pad,w_48,h_48,b_white,f_png,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/dsprn0ew4/image/upload/c_pad,w_180,h_180,b_white,f_png,q_auto/v1785163587/ChatGPT_Image_Jul_27_2026_08_45_11_AM_eahyth.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Dancing+Script:wght@600&display=swap" rel="stylesheet" />
+  <style>
+:root{--ink:#0B0A0D;--bone:#F4F1EC;--paper:#FFFFFF;--line:rgba(11,10,13,.12);--mute:rgba(11,10,13,.6);--lime:#D1FF13;--orange:#C2570C;--glow:#FF9F45;
+--f-d:"Inter Tight",system-ui,sans-serif;--f-b:"Inter",system-ui,sans-serif;--f-s:"Instrument Serif",Georgia,serif;--pad:clamp(16px,4vw,56px)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bone);color:var(--ink);font-family:var(--f-b);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 var(--pad);border-bottom:1px solid var(--line)}
+.nav img{display:block;height:24px;width:auto}
+.nav__r{display:flex;gap:18px;align-items:center;font-size:13px;font-weight:600}
+.nav__r a{text-decoration:none}.nav__lang{color:var(--orange);letter-spacing:.14em}
+main{flex:1;position:relative;overflow:hidden;padding:clamp(36px,7vh,80px) var(--pad) clamp(56px,9vh,100px)}
+main::before{content:"";position:absolute;width:900px;height:900px;border-radius:50%;right:-260px;top:-360px;pointer-events:none;
+ background:radial-gradient(closest-side,rgba(255,159,69,.22),rgba(255,138,61,.05) 55%,transparent 72%)}
+.wrap{position:relative;max-width:820px;margin:0 auto}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:0 0 16px}
+h1{font-family:var(--f-d);font-weight:800;letter-spacing:-.045em;line-height:.95;font-size:clamp(2.7rem,7vw,5rem);margin:0 0 18px}
+h1 em{font-family:var(--f-s);font-weight:400;font-style:italic;letter-spacing:-.01em;color:var(--orange)}
+.lead{font-size:1.08rem;color:var(--mute);max-width:46ch;margin:0 0 30px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(18px,3vw,30px);box-shadow:0 40px 80px -60px rgba(11,10,13,.45);margin:0 0 16px}
+.card[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.step{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-family:var(--f-d);font-weight:800;letter-spacing:-.02em;font-size:1.2rem}
+.step i{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--lime);font:700 13px var(--f-b);font-style:normal}
+.drop{display:block;border:2px dashed rgba(11,10,13,.25);border-radius:18px;background:var(--bone);padding:34px 18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.drop:hover,.drop.on{border-color:var(--ink);background:#fff}
+.drop b{display:block;font-weight:600;font-size:1.02rem}.drop small{display:block;color:var(--mute);margin-top:6px;font-size:13px}
+.drop svg{width:30px;height:30px;margin-bottom:10px}
+.file{display:none;align-items:center;gap:12px;border:1px solid var(--line);border-radius:14px;background:var(--bone);padding:12px 14px;font-size:14.5px}
+.file.on{display:flex}.file span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.file small{color:var(--mute);font-weight:500;margin-left:8px}
+.lnk{border:0;background:none;padding:0;font:600 13.5px var(--f-b);color:var(--ink);cursor:pointer;text-decoration:underline;text-decoration-color:var(--lime);text-decoration-thickness:3px;text-underline-offset:3px}
+.f{margin:0 0 14px}
+.f label{display:block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 8px}
+.f label small{text-transform:none;letter-spacing:0;font-weight:500;margin-left:6px;opacity:.8}
+.f input{width:100%;border:1px solid var(--line);background:var(--bone);border-radius:12px;padding:14px 16px;font:500 16px var(--f-b);color:var(--ink);outline:0;transition:border-color .2s,box-shadow .2s}
+.f input:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(209,255,19,.55);background:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.tabs{display:flex;gap:8px;margin:0 0 12px}
+.tabs button,.tools button{border:1px solid var(--line);background:var(--bone);border-radius:999px;padding:9px 16px;font:600 13.5px var(--f-b);color:var(--ink);cursor:pointer;transition:background .2s,border-color .2s}
+.tabs button[aria-pressed="true"],.tools button[aria-pressed="true"]{background:var(--lime);border-color:var(--ink)}
+.pad{position:relative;border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}
+.pad canvas{display:block;width:100%;height:190px;touch-action:none;cursor:crosshair}
+.pad::after{content:"";position:absolute;left:24px;right:24px;bottom:46px;border-bottom:1.5px solid rgba(11,10,13,.18);pointer-events:none}
+.pad p{position:absolute;left:0;right:0;bottom:14px;margin:0;text-align:center;font-size:12.5px;color:var(--mute);pointer-events:none}
+.pad .lnk{position:absolute;right:14px;top:12px}
+.typed{display:none}.typed.on{display:block}.drawn.off{display:none}
+.typed__pv{border:1px solid var(--line);border-radius:16px;background:#fff;height:120px;display:grid;place-items:center;margin-top:12px;overflow:hidden;font-family:"Dancing Script",cursive;font-weight:600;font-size:clamp(2rem,7vw,3.2rem);color:#101a3a;white-space:nowrap;padding:0 16px}
+.hint{font-size:14px;color:var(--mute);margin:0 0 14px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0;margin:0 0 6px}
+.tools span{margin-left:auto;font-size:12.5px;color:var(--mute)}
+.doc{background:#E7E3DC;border-radius:16px;padding:clamp(8px,2vw,16px);display:grid;gap:clamp(8px,2vw,16px)}
+.pg{position:relative;background:#fff;box-shadow:0 6px 22px -10px rgba(11,10,13,.5);cursor:copy;user-select:none;-webkit-user-select:none;overflow:hidden}
+.pg canvas{display:block;width:100%;height:auto}
+.pg__n{position:absolute;right:8px;top:8px;font:600 10.5px var(--f-b);background:rgba(11,10,13,.55);color:#fff;border-radius:999px;padding:3px 9px;pointer-events:none}
+.it{position:absolute;border:1.5px dashed var(--orange);border-radius:6px;background:rgba(255,159,69,.10);cursor:grab;touch-action:none}
+.it:active{cursor:grabbing}
+.it img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.it__x,.it__r{position:absolute;width:26px;height:26px;border-radius:50%;border:2px solid #fff;display:grid;place-items:center;padding:0;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.it__x{left:-13px;top:-13px;background:var(--ink);color:#fff;font:700 14px/1 var(--f-b)}
+.it__r{right:-13px;bottom:-13px;background:var(--orange);cursor:nwse-resize;touch-action:none}
+.it__r::after{content:"";width:8px;height:8px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:translate(-1px,-1px)}
+.agree{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;margin:0 0 6px;cursor:pointer}
+.agree input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:#0B0A0D}
+.err{min-height:20px;font-size:13.5px;color:#B42318;margin:10px 0 12px;font-weight:500}
+.btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:18px 26px;background:var(--lime);color:var(--ink);
+ font:700 16px var(--f-b);cursor:pointer;box-shadow:0 14px 30px -14px rgba(130,160,0,.9);transition:transform .25s,background .25s;text-decoration:none}
+.btn:hover{background:#FF8A3D}.btn:active{transform:scale(.98)}.btn[disabled]{opacity:.55;cursor:wait}
+.btn svg{width:18px;height:18px}
+.btn--ghost{background:none;box-shadow:none;border:1px solid var(--line);margin-top:10px}.btn--ghost:hover{background:var(--bone)}
+.spin{width:20px;height:20px;border-radius:50%;border:3px solid rgba(11,10,13,.2);border-top-color:var(--ink);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.done{display:none;text-align:center;padding:36px 20px 26px}
+.done.on{display:block}
+.done i{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:var(--lime);border:2px solid var(--ink)}
+.done i svg{width:28px;height:28px}
+.done h2{font-family:var(--f-d);font-weight:800;letter-spacing:-.04em;font-size:2rem;margin:0 0 10px}
+.done p{color:var(--mute);margin:0 auto 10px;max-width:40ch}
+.done .btn{max-width:320px;margin:20px auto 0}
+.done .ref{font:600 12px var(--f-b);letter-spacing:.12em;color:var(--mute)}
+.secure{display:flex;gap:10px;font-size:13px;color:var(--mute);margin:22px 0 0}
+.secure svg{flex:none;width:18px;height:18px;margin-top:2px}
+.help{margin-top:14px;font-size:13px;color:var(--mute)}.help a{color:var(--ink);font-weight:600;text-decoration-color:var(--lime);text-decoration-thickness:3px;text-underline-offset:3px}
+.foot{padding:22px var(--pad);border-top:1px solid var(--line);font-size:12px;color:var(--mute);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+.foot a{text-decoration:none}
+@media (max-width:560px){.it__x,.it__r{width:22px;height:22px}.it__x{left:-11px;top:-11px}.it__r{right:-11px;bottom:-11px}.two{grid-template-columns:1fr}.nav__r .hide-s{display:none}.tools span{display:none}}
+</style>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Meta Pixel + lead attribution -->
+  <script src="/assets/track.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+</head>
+<body>
+  <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1699397478369874&amp;ev=PageView&amp;noscript=1" /></noscript>
+  <nav class="nav">
+    <a href="/es" aria-label="Purple Roots"><img src="https://res.cloudinary.com/dsprn0ew4/image/upload/e_colorize,co_black,f_auto,q_auto,h_120/v1785173262/ChatGPT_Image_Jul_27_2026_11_23_45_AM_m0hfjz.png" alt="Purple Roots" width="120" height="24" /></a>
+    <div class="nav__r"><a class="nav__lang" href="/sign">EN</a><a class="hide-s" href="https://wa.me/19152343655" target="_blank" rel="noopener">WhatsApp</a></div>
+  </nav>
+  <main>
+    <div class="wrap">
+      <p class="eyebrow">Purple Roots · Firma electrónica</p>
+      <h1>Firma un <em>documento.</em></h1>
+      <p class="lead">Sube tu documento, agrega tu firma y termina en un minuto. Recibes el PDF firmado al momento.</p>
+
+      <div id="flow">
+        <section class="card">
+          <h2 class="step"><i>1</i>Sube tu documento</h2>
+          <label class="drop" id="drop">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg>
+            <b>Arrastra tu archivo aquí o <u>elige un archivo</u></b><small>PDF, JPG o PNG, hasta 15 MB</small>
+            <input class="hp" id="fileIn" type="file" accept="application/pdf,image/jpeg,image/png,.pdf,.jpg,.jpeg,.png" />
+          </label>
+          <div class="file" id="fileRow"><span id="fileName"></span><button class="lnk" type="button" id="fileChange">Cambiar archivo</button></div>
+          <p class="err" id="errFile" role="alert" style="min-height:0;margin:8px 0 0"></p>
+        </section>
+
+        <section class="card" id="c2" aria-disabled="true">
+          <h2 class="step"><i>2</i>Tus datos</h2>
+          <div class="f"><label for="name">Nombre legal completo</label><input id="name" autocomplete="name" maxlength="80" /></div>
+          <div class="two">
+            <div class="f"><label for="email">Correo</label><input id="email" type="email" autocomplete="email" maxlength="120" /></div>
+            <div class="f"><label for="company">Nombre del negocio<small>opcional</small></label><input id="company" autocomplete="organization" maxlength="80" /></div>
+          </div>
+          <div class="hp" aria-hidden="true"><input id="website" tabindex="-1" autocomplete="off" /></div>
+        </section>
+
+        <section class="card" id="c3" aria-disabled="true">
+          <h2 class="step"><i>3</i>Crea tu firma</h2>
+          <div class="tabs"><button type="button" id="tabDraw" aria-pressed="true">Dibujar</button><button type="button" id="tabType" aria-pressed="false">Escribir</button></div>
+          <div class="drawn" id="drawn"><div class="pad"><canvas id="pad"></canvas><p>Firma aquí con tu dedo o con el mouse</p><button class="lnk" type="button" id="padClear">Borrar</button></div></div>
+          <div class="typed" id="typed"><div class="f" style="margin:0"><input id="typedIn" placeholder="Escribe tu nombre" maxlength="60" autocomplete="off" /></div><div class="typed__pv" id="typedPv"></div></div>
+        </section>
+
+        <section class="card" id="c4" aria-disabled="true">
+          <h2 class="step"><i>4</i>Colócala en el documento</h2>
+          <p class="hint">Elige qué agregar y toca el lugar en la página. Arrastra para mover y jala la esquina para cambiar el tamaño.</p>
+          <div class="tools" id="tools"><button type="button" data-t="sig" aria-pressed="true">Firma</button><button type="button" data-t="date" aria-pressed="false">Fecha</button><button type="button" data-t="name" aria-pressed="false">Nombre</button><span id="pgCount"></span></div>
+          <div class="doc" id="doc"></div>
+        </section>
+
+        <section class="card" id="c5" aria-disabled="true">
+          <label class="agree"><input type="checkbox" id="agree" /><span>Acepto firmar este documento de forma electrónica, y que mi firma electrónica tiene el mismo efecto legal que mi firma autógrafa.</span></label>
+          <p class="err" id="err" role="alert"></p>
+          <button class="btn" type="button" id="finish"><span id="finishTxt">Firmar y terminar</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </section>
+      </div>
+
+      <section class="card done" id="done">
+        <i><svg viewBox="0 0 24 24" fill="none" stroke="#0B0A0D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>
+        <h2>Documento firmado.</h2><p>Tu PDF firmado está listo. Guarda una copia.</p><p id="doneCopy"></p><p class="ref" id="doneRef"></p>
+        <a class="btn" id="dl" href="#" download>Descargar PDF firmado <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg></a>
+        <button class="btn btn--ghost" type="button" id="again">Firmar otro documento</button>
+      </section>
+
+      <p class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Tu documento se prepara en tu navegador. La copia firmada se envía únicamente a Purple Roots Agency.</span></p>
+      <p class="help">¿Necesitas ayuda para firmar? <a href="https://wa.me/19152343655" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
+    </div>
+  </main>
+  <footer class="foot"><span>Purple Roots Agency · WestStar Tower, El Paso, TX</span><span><a href="/es/privacidad">Privacidad</a></span></footer>
+  <script>
+  (function () {
+    /* Where the signed copy is sent. Paste the web app URL of the "PRA Sign" Apps Script here.
+       Empty = the signer still gets the PDF, but no copy is emailed. */
+    var COPY_ENDPOINT = '';
+    var T = {"lang": "es", "pad_hint": "Firma aquí con tu dedo o con el mouse", "pages": "páginas", "page": "Página", "finish": "Firmar y terminar", "working": "Preparando tu documento", "sent": "Se envió una copia a Purple Roots.", "notsent": "No pudimos enviar la copia a Purple Roots. Descarga el PDF y envíanoslo por WhatsApp.", "e_file": "Sube un archivo PDF, JPG o PNG.", "e_big": "Ese archivo pesa más de 15 MB.", "e_read": "No pudimos abrir ese archivo. Si el PDF tiene contraseña, quítasela e inténtalo de nuevo.", "e_name": "Escribe tu nombre legal completo.", "e_email": "Escribe un correo válido.", "e_sig": "Dibuja o escribe tu firma.", "e_place": "Toca el documento para colocar tu firma al menos una vez.", "e_consent": "Marca la casilla para aceptar firmar electrónicamente.", "e_fail": "Algo salió mal al firmar. Inténtalo de nuevo.", "c_title": "Certificado de firma", "c_doc": "Documento", "c_hash": "Huella del archivo original (SHA-256)", "c_signer": "Firmado por", "c_email": "Correo", "c_co": "Negocio", "c_when": "Fecha de firma", "c_ref": "Referencia", "c_dev": "Dispositivo", "c_pages": "Firma colocada en", "c_consent": "El firmante aceptó firmar este documento de forma electrónica.", "c_foot": "Firmado con la página de firma electrónica de Purple Roots Agency. purpleroots.agency", "c_sig": "Firma", "signed_sfx": "firmado"};
+    var MAX = 15 * 1024 * 1024, INK = '#101a3a';
+    var d = document, $ = function (id) { return d.getElementById(id); };
+    var st = { bytes: null, pdf: null, name: '', hash: '', pages: [], items: [], tool: 'sig', mode: 'draw', sig: null, drawn: false, busy: false, url: null };
+
+    function err(id, m) { $(id).textContent = m || ''; }
+    function enable(on) { ['c2', 'c3', 'c4', 'c5'].forEach(function (c) { $(c).setAttribute('aria-disabled', on ? 'false' : 'true'); }); }
+    function hex(buf) { return [].map.call(new Uint8Array(buf), function (b) { return ('0' + b.toString(16)).slice(-2); }).join(''); }
+    function kind(b) {
+      if (b[0] === 0x25 && b[1] === 0x50 && b[2] === 0x44 && b[3] === 0x46) return 'pdf';
+      if (b[0] === 0xFF && b[1] === 0xD8) return 'jpg';
+      if (b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4E && b[3] === 0x47) return 'png';
+      return '';
+    }
+
+    /* ---------- 1. file ---------- */
+    var drop = $('drop'), fileIn = $('fileIn');
+    ['dragenter', 'dragover'].forEach(function (e) { drop.addEventListener(e, function (ev) { ev.preventDefault(); drop.classList.add('on'); }); });
+    ['dragleave', 'drop'].forEach(function (e) { drop.addEventListener(e, function (ev) { ev.preventDefault(); drop.classList.remove('on'); }); });
+    drop.addEventListener('drop', function (ev) { var f = ev.dataTransfer && ev.dataTransfer.files[0]; if (f) load(f); });
+    fileIn.addEventListener('change', function () { if (fileIn.files[0]) load(fileIn.files[0]); fileIn.value = ''; });
+    $('fileChange').addEventListener('click', function () { fileIn.click(); });
+
+    function load(f) {
+      err('errFile'); err('err');
+      if (f.size > MAX) return err('errFile', T.e_big);
+      var rd = new FileReader();
+      rd.onerror = function () { err('errFile', T.e_read); };
+      rd.onload = function () {
+        var bytes = new Uint8Array(rd.result), k = kind(bytes);
+        if (!k) return err('errFile', T.e_file);
+        var p = k === 'pdf' ? Promise.resolve(bytes) : imageToPdf(bytes, k);
+        p.then(function (pdf) {
+          return crypto.subtle.digest('SHA-256', bytes).then(function (h) {
+            st.bytes = bytes; st.pdf = pdf; st.name = f.name || 'document.pdf'; st.hash = hex(h); st.items = [];
+            return render();
+          });
+        }).then(function () {
+          $('fileName').innerHTML = ''; $('fileName').textContent = st.name;
+          var sm = d.createElement('small'); sm.textContent = st.pages.length + ' ' + (st.pages.length === 1 ? T.page.toLowerCase() : T.pages); $('fileName').appendChild(sm);
+          drop.style.display = 'none'; $('fileRow').classList.add('on'); enable(true); sizePad();
+        }).catch(function (e) { console.error(e); st.pdf = null; enable(false); err('errFile', T.e_read); });
+      };
+      rd.readAsArrayBuffer(f);
+    }
+    function imageToPdf(bytes, k) {
+      return PDFLib.PDFDocument.create().then(function (doc) {
+        return (k === 'jpg' ? doc.embedJpg(bytes) : doc.embedPng(bytes)).then(function (img) {
+          var land = img.width > img.height, W = land ? 792 : 612, H = land ? 612 : 792;
+          var s = Math.min(W / img.width, H / img.height), w = img.width * s, h = img.height * s;
+          doc.addPage([W, H]).drawImage(img, { x: (W - w) / 2, y: (H - h) / 2, width: w, height: h });
+          return doc.save();
+        });
+      });
+    }
+
+    /* ---------- 4. document view ---------- */
+    function render() {
+      var box = $('doc'); box.innerHTML = ''; st.pages = [];
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      return pdfjsLib.getDocument({ data: st.pdf.slice() }).promise.then(function (pdf) {
+        $('pgCount').textContent = pdf.numPages + ' ' + (pdf.numPages === 1 ? T.page.toLowerCase() : T.pages);
+        var chain = Promise.resolve();
+        for (var n = 1; n <= pdf.numPages; n++) (function (n) {
+          chain = chain.then(function () { return pdf.getPage(n); }).then(function (page) {
+            var base = page.getViewport({ scale: 1 }), cssW = Math.min(box.clientWidth || 760, 1100) - 0;
+            var scale = Math.min(2.5, (cssW / base.width) * Math.min(2, window.devicePixelRatio || 1));
+            var vp = page.getViewport({ scale: scale }), cv = d.createElement('canvas');
+            cv.width = Math.round(vp.width); cv.height = Math.round(vp.height);
+            var el = d.createElement('div'); el.className = 'pg'; el.dataset.p = n - 1; el.appendChild(cv);
+            var tag = d.createElement('span'); tag.className = 'pg__n'; tag.textContent = T.page + ' ' + n; el.appendChild(tag);
+            box.appendChild(el); st.pages.push({ el: el, ratio: base.height / base.width });
+            el.addEventListener('click', function (ev) { if (ev.target === cv || ev.target === el) place(n - 1, ev); });
+            return page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+          });
+        })(n);
+        return chain;
+      });
+    }
+
+    /* ---------- 3. signature ---------- */
+    var pad = $('pad'), pctx = pad.getContext('2d'), last = null;
+    function sizePad() {
+      var r = pad.getBoundingClientRect(), dpr = Math.min(3, window.devicePixelRatio || 1);
+      if (!r.width || (pad.width === Math.round(r.width * dpr) && pad.height === Math.round(r.height * dpr))) return;
+      pad.width = Math.round(r.width * dpr); pad.height = Math.round(r.height * dpr); st.drawn = false; refreshSig();
+    }
+    function pt(ev) { var r = pad.getBoundingClientRect(); return { x: (ev.clientX - r.left) * pad.width / r.width, y: (ev.clientY - r.top) * pad.height / r.height }; }
+    pad.addEventListener('pointerdown', function (ev) {
+      ev.preventDefault(); pad.setPointerCapture(ev.pointerId); last = pt(ev);
+      pctx.fillStyle = INK; pctx.beginPath(); pctx.arc(last.x, last.y, pad.width / pad.getBoundingClientRect().width * 1.3, 0, 7); pctx.fill(); st.drawn = true;
+    });
+    pad.addEventListener('pointermove', function (ev) {
+      if (!last) return; var p = pt(ev), k = pad.width / pad.getBoundingClientRect().width;
+      pctx.strokeStyle = INK; pctx.lineWidth = 2.6 * k; pctx.lineCap = 'round'; pctx.lineJoin = 'round';
+      pctx.beginPath(); pctx.moveTo(last.x, last.y); pctx.lineTo(p.x, p.y); pctx.stroke(); last = p;
+    });
+    ['pointerup', 'pointercancel'].forEach(function (e) { pad.addEventListener(e, function () { if (last) { last = null; refreshSig(); } }); });
+    $('padClear').addEventListener('click', function () { pctx.clearRect(0, 0, pad.width, pad.height); st.drawn = false; refreshSig(); });
+    window.addEventListener('resize', function () { if (!st.drawn) sizePad(); });
+
+    function trim(cv) {
+      var w = cv.width, h = cv.height, a = cv.getContext('2d').getImageData(0, 0, w, h).data, x0 = w, y0 = h, x1 = -1, y1 = -1;
+      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) if (a[(y * w + x) * 4 + 3] > 8) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      if (x1 < 0) return null;
+      var m = 8; x0 = Math.max(0, x0 - m); y0 = Math.max(0, y0 - m); x1 = Math.min(w - 1, x1 + m); y1 = Math.min(h - 1, y1 + m);
+      var o = d.createElement('canvas'); o.width = x1 - x0 + 1; o.height = y1 - y0 + 1; o.getContext('2d').drawImage(cv, x0, y0, o.width, o.height, 0, 0, o.width, o.height);
+      return { url: o.toDataURL('image/png'), ratio: o.height / o.width };
+    }
+    function textImg(txt, font, color) {
+      var c = d.createElement('canvas'), x = c.getContext('2d'), size = 120; x.font = font.replace('SZ', size + 'px');
+      var w = Math.ceil(x.measureText(txt).width) + 40; c.width = w; c.height = Math.ceil(size * 1.5);
+      x = c.getContext('2d'); x.font = font.replace('SZ', size + 'px'); x.fillStyle = color; x.textBaseline = 'middle'; x.fillText(txt, 20, c.height / 2);
+      return trim(c);
+    }
+    function refreshSig() {
+      var v = $('typedIn').value.trim();
+      st.sig = st.mode === 'draw' ? (st.drawn ? trim(pad) : null) : (v ? textImg(v, '600 SZ "Dancing Script", cursive', INK) : null);
+      st.items.forEach(function (it) { if (it.type === 'sig' && st.sig) setImg(it, st.sig); });
+    }
+    function mode(m) {
+      st.mode = m; $('tabDraw').setAttribute('aria-pressed', String(m === 'draw')); $('tabType').setAttribute('aria-pressed', String(m === 'type'));
+      $('drawn').classList.toggle('off', m !== 'draw'); $('typed').classList.toggle('on', m === 'type');
+      if (m === 'type' && !$('typedIn').value) { $('typedIn').value = $('name').value.trim(); $('typedPv').textContent = $('typedIn').value; }
+      if (m === 'draw') sizePad();
+      refreshSig();
+    }
+    $('tabDraw').addEventListener('click', function () { mode('draw'); });
+    $('tabType').addEventListener('click', function () { mode('type'); });
+    $('typedIn').addEventListener('input', function () { $('typedPv').textContent = $('typedIn').value; refreshSig(); });
+    if (d.fonts && d.fonts.load) d.fonts.load('600 40px "Dancing Script"').then(function () { if (st.mode === 'type') refreshSig(); }).catch(function () {});
+
+    /* ---------- placing ---------- */
+    [].forEach.call($('tools').querySelectorAll('button'), function (b) {
+      b.addEventListener('click', function () { st.tool = b.dataset.t; [].forEach.call($('tools').querySelectorAll('button'), function (o) { o.setAttribute('aria-pressed', String(o === b)); }); });
+    });
+    function today() { return new Date().toLocaleDateString(T.lang === 'es' ? 'es-MX' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }); }
+    function imgFor(type) {
+      if (type === 'sig') return st.sig;
+      if (type === 'date') return textImg(today(), '600 SZ Inter, Arial, sans-serif', '#0B0A0D');
+      var n = $('name').value.trim(); return n ? textImg(n, '600 SZ Inter, Arial, sans-serif', '#0B0A0D') : null;
+    }
+    function setImg(it, im) { it.url = im.url; it.ratio = im.ratio; it.img.src = im.url; lay(it); }
+    function lay(it) {
+      var pg = st.pages[it.page], hf = it.w * it.ratio / pg.ratio;      /* height as a fraction of the page height */
+      it.w = Math.min(it.w, 1, pg.ratio / it.ratio); hf = it.w * it.ratio / pg.ratio;
+      it.x = Math.max(0, Math.min(1 - it.w, it.x)); it.y = Math.max(0, Math.min(1 - hf, it.y));
+      it.el.style.left = it.x * 100 + '%'; it.el.style.top = it.y * 100 + '%'; it.el.style.width = it.w * 100 + '%'; it.el.style.height = hf * 100 + '%';
+    }
+    function place(p, ev) {
+      err('err');
+      var type = st.tool, im = imgFor(type);
+      if (!im) { err('err', type === 'sig' ? T.e_sig : T.e_name); (type === 'sig' ? $('c3') : $('name')).scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+      var pg = st.pages[p], r = pg.el.getBoundingClientRect(), w = type === 'sig' ? .3 : type === 'date' ? .2 : .26;
+      w = Math.min(w, .16 * pg.ratio / im.ratio);                         /* keep tall signatures from covering the page */
+      var it = { type: type, page: p, w: w, ratio: im.ratio, x: (ev.clientX - r.left) / r.width - w / 2, y: 0 };
+      it.y = (ev.clientY - r.top) / r.height - (w * im.ratio / pg.ratio) / 2;
+      var el = d.createElement('div'); el.className = 'it'; it.el = el;
+      it.img = d.createElement('img'); it.img.alt = ''; el.appendChild(it.img);
+      var x = d.createElement('button'); x.type = 'button'; x.className = 'it__x'; x.setAttribute('aria-label', 'Remove'); x.textContent = '×'; el.appendChild(x);
+      var rz = d.createElement('button'); rz.type = 'button'; rz.className = 'it__r'; rz.setAttribute('aria-label', 'Resize'); el.appendChild(rz);
+      pg.el.appendChild(el); st.items.push(it); setImg(it, im);
+      x.addEventListener('click', function (e) { e.stopPropagation(); el.remove(); st.items.splice(st.items.indexOf(it), 1); });
+      drag(el, it, false); drag(rz, it, true);
+    }
+    function drag(h, it, resize) {
+      var s = null;
+      h.addEventListener('pointerdown', function (ev) {
+        if (!resize && ev.target !== it.el && ev.target !== it.img) return;
+        ev.preventDefault(); ev.stopPropagation(); h.setPointerCapture(ev.pointerId);
+        s = { cx: ev.clientX, cy: ev.clientY, x: it.x, y: it.y, w: it.w, r: st.pages[it.page].el.getBoundingClientRect() };
+      });
+      h.addEventListener('pointermove', function (ev) {
+        if (!s) return; var dx = (ev.clientX - s.cx) / s.r.width, dy = (ev.clientY - s.cy) / s.r.height;
+        if (resize) it.w = Math.max(.06, Math.min(1 - it.x, s.w + dx)); else { it.x = s.x + dx; it.y = s.y + dy; }
+        lay(it);
+      });
+      ['pointerup', 'pointercancel'].forEach(function (e) { h.addEventListener(e, function () { s = null; }); });
+      h.addEventListener('click', function (ev) { ev.stopPropagation(); });
+    }
+
+    /* ---------- finish ---------- */
+    function safe(s) { return String(s || '').replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, '-').replace(/[^\x20-\x7E¡-ÿ]/g, '?'); }
+    function b64(bytes) { var s = '', n = 0x8000; for (var i = 0; i < bytes.length; i += n) s += String.fromCharCode.apply(null, bytes.subarray(i, i + n)); return btoa(s); }
+    function build(info) {
+      var L = PDFLib;
+      return L.PDFDocument.load(st.pdf).then(function (doc) {
+        var cache = {}, chain = Promise.resolve();
+        st.items.forEach(function (it) {
+          chain = chain.then(function () { return cache[it.url] || (cache[it.url] = doc.embedPng(it.url)); }).then(function (png) {
+            var page = doc.getPage(it.page), rot = ((page.getRotation().angle % 360) + 360) % 360, b = page.getCropBox();
+            var sw = rot === 90 || rot === 270, dw = sw ? b.height : b.width, dh = sw ? b.width : b.height;
+            var u = it.x * dw, v = it.y * dh, w = it.w * dw, h = w * it.ratio, x, y;
+            if (rot === 90) { x = b.x + v + h; y = b.y + u; }
+            else if (rot === 180) { x = b.x + b.width - u; y = b.y + v + h; }
+            else if (rot === 270) { x = b.x + b.width - (v + h); y = b.y + b.height - u; }
+            else { x = b.x + u; y = b.y + b.height - (v + h); }
+            page.drawImage(png, { x: x, y: y, width: w, height: h, rotate: L.degrees(rot) });
+          });
+        });
+        return chain.then(function () { return Promise.all([doc.embedFont(L.StandardFonts.Helvetica), doc.embedFont(L.StandardFonts.HelveticaBold), st.sig ? doc.embedPng(st.sig.url) : null]); }).then(function (r) {
+          var f = r[0], fb = r[1], sg = r[2], pg = doc.addPage([612, 792]), ink = L.rgb(.043, .039, .051), mute = L.rgb(.42, .41, .43), y = 716;
+          pg.drawRectangle({ x: 0, y: 772, width: 612, height: 20, color: L.rgb(.82, 1, .075) });
+          pg.drawText('PURPLE ROOTS AGENCY', { x: 54, y: y + 22, size: 9, font: fb, color: L.rgb(.76, .34, .05) });
+          pg.drawText(safe(T.c_title), { x: 54, y: y - 12, size: 26, font: fb, color: ink }); y -= 62;
+          var pgs = {}; st.items.forEach(function (it) { if (it.type === 'sig') pgs[it.page + 1] = 1; });
+          var rows = [[T.c_doc, st.name], [T.c_signer, info.name], [T.c_email, info.email]];
+          if (info.company) rows.push([T.c_co, info.company]);
+          rows.push([T.c_when, info.when], [T.c_pages, T.page + ' ' + Object.keys(pgs).join(', ')], [T.c_ref, info.ref], [T.c_hash, st.hash], [T.c_dev, info.ua]);
+          rows.forEach(function (row) {
+            pg.drawText(safe(row[0]).toUpperCase(), { x: 54, y: y, size: 8, font: fb, color: mute }); y -= 15;
+            var words = safe(row[1]).split(' '), line = '', size = 11.5, out = [];
+            words.forEach(function (w) {
+              while (f.widthOfTextAtSize(w, size) > 500) { var k = w.length; while (k > 1 && f.widthOfTextAtSize(w.slice(0, k), size) > 500) k--; if (line) { out.push(line); line = ''; } out.push(w.slice(0, k)); w = w.slice(k); }
+              var t = line ? line + ' ' + w : w; if (f.widthOfTextAtSize(t, size) > 500) { out.push(line); line = w; } else line = t;
+            });
+            if (line) out.push(line);
+            out.slice(0, 3).forEach(function (l) { pg.drawText(l, { x: 54, y: y, size: size, font: f, color: ink }); y -= 15; });
+            y -= 11;
+          });
+          y -= 4; pg.drawText(safe(T.c_sig).toUpperCase(), { x: 54, y: y, size: 8, font: fb, color: mute });
+          if (sg) { var sh = Math.min(70, 240 * st.sig.ratio), sw2 = sh / st.sig.ratio; pg.drawImage(sg, { x: 54, y: y - 12 - sh, width: sw2, height: sh }); y -= 12 + sh; }
+          pg.drawLine({ start: { x: 54, y: y - 6 }, end: { x: 320, y: y - 6 }, thickness: .8, color: ink }); y -= 28;
+          pg.drawText(safe(T.c_consent), { x: 54, y: y, size: 10, font: f, color: ink });
+          pg.drawText(safe(T.c_foot), { x: 54, y: 40, size: 8.5, font: f, color: mute });
+          doc.setProducer('Purple Roots Agency e-signature'); doc.setModificationDate(new Date());
+          return doc.save();
+        });
+      });
+    }
+    $('finish').addEventListener('click', function () {
+      if (st.busy) return; err('err');
+      var name = $('name').value.trim(), email = $('email').value.trim(), company = $('company').value.trim();
+      if ($('website').value) return;
+      if (name.length < 3) { $('name').focus(); return err('err', T.e_name); }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { $('email').focus(); return err('err', T.e_email); }
+      refreshSig();
+      if (!st.sig) { $('c3').scrollIntoView({ behavior: 'smooth', block: 'center' }); return err('err', T.e_sig); }
+      if (!st.items.some(function (i) { return i.type === 'sig'; })) { $('c4').scrollIntoView({ behavior: 'smooth', block: 'start' }); return err('err', T.e_place); }
+      if (!$('agree').checked) return err('err', T.e_consent);
+      st.busy = true; var btn = $('finish'), now = new Date(), rnd = new Uint8Array(4); crypto.getRandomValues(rnd);
+      btn.disabled = true; $('finishTxt').textContent = T.working;
+      var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+      var info = { name: name, email: email, company: company, ua: navigator.userAgent, ref: 'PR-' + now.toISOString().slice(0, 10).replace(/-/g, '') + '-' + hex(rnd).toUpperCase(),
+        when: now.toLocaleString(T.lang === 'es' ? 'es-MX' : 'en-US', { dateStyle: 'long', timeStyle: 'long' }) + (tz ? ' (' + tz + ')' : '') + ' / UTC ' + now.toISOString() };
+      build(info).then(function (out) {
+        var base = st.name.replace(/\.[a-z0-9]{2,5}$/i, '').replace(/[^\w.\- ()]+/g, '_').slice(0, 80) || 'document', fname = base + '-' + T.signed_sfx + '.pdf';
+        if (st.url) URL.revokeObjectURL(st.url);
+        st.url = URL.createObjectURL(new Blob([out], { type: 'application/pdf' }));
+        $('dl').href = st.url; $('dl').setAttribute('download', fname); $('doneRef').textContent = info.ref; $('doneCopy').textContent = '';
+        $('flow').style.display = 'none'; $('done').classList.add('on'); $('done').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (!COPY_ENDPOINT) return;
+        return fetch(COPY_ENDPOINT, { method: 'POST', body: JSON.stringify({ name: name, email: email, company: company, file: fname, original: st.name, ref: info.ref, when: info.when, hash: st.hash, lang: T.lang, page: location.href, pdf: b64(out) }) })
+          .then(function (r) { return r.json(); }).then(function (j) { $('doneCopy').textContent = j && j.ok ? T.sent : T.notsent; })
+          .catch(function () { $('doneCopy').textContent = T.notsent; });
+      }).catch(function (e) { console.error(e); err('err', T.e_fail); }).then(function () { st.busy = false; btn.disabled = false; $('finishTxt').textContent = T.finish; });
+    });
+    $('again').addEventListener('click', function () { location.reload(); });
+  })();
+
+  </script>
+</body>
+</html>

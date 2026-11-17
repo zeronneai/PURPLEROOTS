@@ -11,6 +11,14 @@
     { "source": "/pago", "destination": "/es/pago", "permanent": false },
     { "source": "/es/payment", "destination": "/es/pago", "permanent": false },
 
+    { "source": "/docusign", "destination": "/sign", "permanent": false },
+    { "source": "/esign", "destination": "/sign", "permanent": false },
+    { "source": "/signature", "destination": "/sign", "permanent": false },
+    { "source": "/firmar", "destination": "/es/firmar", "permanent": false },
+    { "source": "/firma", "destination": "/es/firmar", "permanent": false },
+    { "source": "/es/sign", "destination": "/es/firmar", "permanent": false },
+    { "source": "/es/firma", "destination": "/es/firmar", "permanent": false },
+
     { "source": "/about", "destination": "/#about", "permanent": true },
     { "source": "/about-us", "destination": "/#about", "permanent": true },
     { "source": "/aboutus", "destination": "/#about", "permanent": true },
