@@ -162,11 +162,12 @@
     });
   }
 
-  /* open once the preloader is gone, plus a short beat */
+  /* open 45 seconds after the preloader is gone, so visitors can read first */
+  var OPEN_DELAY = 45000;
   function whenReady(cb) {
     var t0 = Date.now();
     (function check() {
-      if (!html.classList.contains('is-loading') || Date.now() - t0 > 6000) setTimeout(cb, 1500);
+      if (!html.classList.contains('is-loading') || Date.now() - t0 > 6000) setTimeout(cb, OPEN_DELAY);
       else setTimeout(check, 200);
     })();
   }
