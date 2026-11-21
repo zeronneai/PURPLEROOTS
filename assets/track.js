@@ -1,5 +1,7 @@
 /* Purple Roots tracking: Meta Pixel base code + first-touch lead attribution.
-   Loaded in the <head> of every page. Forms call PRTrack.append(fd) before sending and PRTrack.lead(name) after. */
+   Loaded in the <head> of every page. Forms call PRTrack.append(fd) before sending and PRTrack.lead(name) after.
+   Each lead goes to Meta twice with the same event_id: from the browser (pixel) and from the server (/api/meta-capi),
+   so Meta counts it once even when the browser blocks the pixel. */
 (function (w, d) {
   var PIXEL_ID = '1699397478369874';
 
@@ -60,6 +62,9 @@
   }
   get(); // record the first touch as soon as any page loads
 
+  var last = {};
+  function cookie(n) { var m = d.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
+
   w.PRTrack = {
     get: get,
     summary: function () { return summary(get()); },
@@ -71,8 +76,21 @@
         fd.append('lead_source', source(a));
         var line = summary(a), g = fd.get('goal');
         if (typeof g === 'string') fd.set('goal', g + ' | ' + line);
+        var pick = function (k) { var x = fd.get(k); return typeof x === 'string' ? x : ''; };
+        last = { name: pick('name'), email: pick('email'), phone: pick('phone') };
       } catch (e) {}
     },
-    lead: function (name) { try { w.fbq('track', 'Lead', { content_name: name || 'form' }); } catch (e) {} }
+    lead: function (name) {
+      var id = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10), cn = name || 'form';
+      try { w.fbq('track', 'Lead', { content_name: cn }, { eventID: id }); } catch (e) {}
+      try {
+        var a = get(), fbc = cookie('_fbc');
+        if (!fbc && a.fbclid) fbc = 'fb.1.' + (Date.parse(a.first_seen) || Date.now()) + '.' + a.fbclid;
+        var body = { event_id: id, content_name: cn, url: location.href.split('#')[0], fbp: cookie('_fbp'), fbc: fbc,
+          name: last.name, email: last.email, phone: last.phone };
+        fetch('/api/meta-capi', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).catch(function () {});
+      } catch (e) {}
+      last = {};
+    }
   };
 })(window, document);
